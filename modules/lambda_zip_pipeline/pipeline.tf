@@ -45,7 +45,7 @@ resource "aws_codepipeline" "codepipeline" {
       version          = "1"
 
       configuration = {
-        ProjectName = aws_codebuild_project.build.name
+        ProjectName = module.build_artifact_step.name
       }
     }
   }

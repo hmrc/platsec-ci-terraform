@@ -45,7 +45,7 @@ data "aws_iam_policy_document" "codepipeline_policy" {
     ]
 
     resources = [
-      aws_codebuild_project.build.arn,
+      module.build_artifact_step.arn,
       module.lambda-deployment-step-development.arn,
       module.lambda-deployment-step-production.arn
     ]
@@ -123,7 +123,8 @@ data "aws_iam_policy_document" "build_core" {
       "s3:GetBucketVersioning",
     ]
     resources = [
-      "${aws_s3_bucket.codepipeline_bucket.arn}/*/source_out/*"
+      "${aws_s3_bucket.codepipeline_bucket.arn}/*/source_out/*",
+      "${aws_s3_bucket.codepipeline_bucket.arn}/*/build_outp/*"
     ]
   }
 }
@@ -157,13 +158,4 @@ resource "aws_iam_policy" "store_artifacts" {
   lifecycle {
     create_before_destroy = true
   }
-}
-
-resource "aws_iam_role" "build" {
-  name               = "${local.full_name}-build"
-  assume_role_policy = data.aws_iam_policy_document.codebuild_assume_role.json
-  managed_policy_arns = [
-    aws_iam_policy.build_core.arn,
-    aws_iam_policy.store_artifacts.arn
-  ]
 }
