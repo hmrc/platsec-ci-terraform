@@ -32,9 +32,6 @@ module "test_ci" {
   source                = "./modules/ci_pipeline"
   name_prefix           = module.label.id
   github_connection_arn = module.ci-common.github_connection_arn
-  kms_key_arn           = module.ci-common.kms_key_arn
-  s3_bucket_name        = module.ci-common.s3_bucket.bucket
-  s3_bucket_arn         = module.ci-common.s3_bucket.arn
 
   pipeline_name = "${module.label.stage}-test-pipeline"
   src_org       = "cob16"

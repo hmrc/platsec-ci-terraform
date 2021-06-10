@@ -3,11 +3,11 @@ resource "aws_codepipeline" "codepipeline" {
   role_arn = aws_iam_role.codepipeline_role.arn
 
   artifact_store {
-    location = var.s3_bucket_name
+    location = aws_s3_bucket.codepipeline_bucket.bucket
     type     = "S3"
 
     encryption_key {
-      id   = var.kms_key_arn
+      id   = aws_kms_key.s3kmskey.arn
       type = "KMS"
     }
   }
@@ -27,7 +27,7 @@ resource "aws_codepipeline" "codepipeline" {
       configuration = {
         ConnectionArn    = var.github_connection_arn
         FullRepositoryId = "${var.src_org}/${var.src_repo}"
-        BranchName       = "main"
+        BranchName       = var.branch
       }
     }
   }
