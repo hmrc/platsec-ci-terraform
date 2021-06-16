@@ -1,5 +1,5 @@
 resource "aws_codebuild_project" "deploy" {
-  name          = "${var.name_prefix}-lambda-deploy"
+  name          = "${var.name_prefix}-docker-deploy"
   build_timeout = 5
 
   service_role = aws_iam_role.deploy.arn
@@ -9,6 +9,16 @@ resource "aws_codebuild_project" "deploy" {
     image                       = "aws/codebuild/standard:5.0"
     type                        = "LINUX_CONTAINER"
     image_pull_credentials_type = "CODEBUILD"
+    privileged_mode             = true
+
+    environment_variable {
+      name  = "ECR_URL"
+      value = var.ecr_url
+    }
+    environment_variable {
+      name  = "LAMBDA_ARN"
+      value = var.lambda_arn
+    }
   }
 
   logs_config {
@@ -23,9 +33,7 @@ resource "aws_codebuild_project" "deploy" {
   }
 
   source {
-    type = "CODEPIPELINE"
-    buildspec = templatefile("${path.module}/templates/buildspec-deploy.yaml.tpl", {
-      function_arn : var.lambda_arn
-    })
+    type      = "CODEPIPELINE"
+    buildspec = file("${path.module}/templates/buildspec-deploy.yaml")
   }
 }
