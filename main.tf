@@ -6,11 +6,7 @@ terraform {
     }
   }
 
-  backend "s3" {
-    region = "Please run 'make init' first"
-    key    = "Please run 'make init' first"
-    bucket = "Please run 'make init' first"
-  }
+  backend "local" {}
 }
 
 provider "aws" {
@@ -69,8 +65,21 @@ resource "aws_iam_role" "iam_for_lambda" {
 EOF
 }
 
+data "archive_file" "dummy_lambda_payload" {
+  type        = "zip"
+  output_path = "${path.root}/dummy_lambda_payload.zip"
+
+  source {
+    filename = "run.py"
+    content  = <<-EOT
+      def lambda_handler(event, lambda_context):
+        print(event)
+    EOT
+  }
+}
+
 resource "aws_lambda_function" "example" {
-  filename      = "dummy_lambda_payload.zip"
+  filename      = data.archive_file.dummy_lambda_payload.output_path
   function_name = "${module.label.id}-example-lambda"
   role          = aws_iam_role.iam_for_lambda.arn
   runtime       = "python3.8"
