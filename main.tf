@@ -6,7 +6,11 @@ terraform {
     }
   }
 
-  backend "local" {}
+  backend "s3" {
+    key    = "platsec-ci/v1"
+    bucket = "\n-------------------------\nPlease read the README.md first 📖\n------------------------"
+    region = "\n-------------------------\nPlease read the README.md first 📖\n------------------------"
+  }
 }
 
 provider "aws" {
