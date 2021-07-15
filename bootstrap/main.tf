@@ -23,12 +23,6 @@ provider "aws" {
   region = "eu-west-2"
 }
 
-variable "boostrap_name" {
-  description = "name that resources will be given (usually the name of the aws account)"
-  type        = string
-  default     = "platsec-ci"
-}
-
 locals {
   backend_content = <<-EOT
     bucket = "${aws_s3_bucket.s3_bucket.bucket}"
@@ -38,7 +32,7 @@ locals {
 }
 
 resource "aws_secretsmanager_secret" "backend" {
-  name       = "backend.hcl"
+  name = "backend.hcl"
   kms_key_id = aws_kms_key.terraform_key.key_id
 }
 
