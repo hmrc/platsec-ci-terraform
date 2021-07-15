@@ -32,7 +32,7 @@ locals {
 }
 
 resource "aws_secretsmanager_secret" "backend" {
-  name = "backend.hcl"
+  name       = "backend.hcl"
   kms_key_id = aws_kms_key.terraform_key.key_id
 }
 
