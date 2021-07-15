@@ -27,3 +27,7 @@ override.tf.json
 
 # Include tfplan files to ignore the plan output of command: terraform plan -out=tfplan
 # example: *tfplan*
+
+dummy_lambda_payload.zip
+.terraform_state_config
+backend.hcl

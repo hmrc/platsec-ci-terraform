@@ -15,5 +15,3 @@ module "docker_deployment_development" {
   ecr_arn               = var.ecr_arn
   ecr_url               = var.ecr_url
 }
-
-
