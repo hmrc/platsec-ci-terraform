@@ -1,4 +1,3 @@
-
 data "aws_iam_policy_document" "codebuild_assume_role" {
   statement {
     principals {

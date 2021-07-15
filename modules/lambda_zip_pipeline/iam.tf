@@ -98,7 +98,7 @@ data "aws_iam_policy_document" "build_core" {
     actions = [
       "logs:CreateLogGroup",
       "logs:CreateLogStream",
-      "logs:PutLogEvents"
+      "logs:PutLogEvents",
     ]
     resources = ["*"]
   }
@@ -124,7 +124,7 @@ data "aws_iam_policy_document" "build_core" {
     ]
     resources = [
       "${aws_s3_bucket.codepipeline_bucket.arn}/*/source_out/*",
-      "${aws_s3_bucket.codepipeline_bucket.arn}/*/build_outp/*"
+      "${aws_s3_bucket.codepipeline_bucket.arn}/*/build_outp/*",
     ]
   }
 }
@@ -133,7 +133,7 @@ data "aws_iam_policy_document" "store_artifacts" {
   statement {
     actions = [
       "s3:PutObjectAcl",
-      "s3:PutObject"
+      "s3:PutObject",
     ]
     resources = [
       "${aws_s3_bucket.codepipeline_bucket.arn}*build_outp/*"
