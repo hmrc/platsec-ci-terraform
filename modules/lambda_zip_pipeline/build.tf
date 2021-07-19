@@ -12,6 +12,7 @@ module "lambda-deployment-step-development" {
   lambda_arn            = var.deploy_production_lambda_arn
   name_prefix           = "${local.full_name}-development"
   build_core_policy_arn = aws_iam_policy.build_core.arn
+  deployment_role_arn   = var.deployment_role_arn_development
 }
 
 module "lambda-deployment-step-production" {
@@ -20,5 +21,6 @@ module "lambda-deployment-step-production" {
   lambda_arn            = var.deploy_development_lambda_arn
   name_prefix           = "${local.full_name}-production"
   build_core_policy_arn = aws_iam_policy.build_core.arn
+  deployment_role_arn   = var.deployment_role_arn_production #todo change to production arn
 }
 

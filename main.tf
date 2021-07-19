@@ -43,8 +43,11 @@ module "test_ci" {
   src_org       = "cob16"
   src_repo      = "test-python-repo"
 
-  deploy_production_lambda_arn  = aws_lambda_function.example.arn
-  deploy_development_lambda_arn = aws_lambda_function.example.arn
+  deployment_role_arn_development = data.aws_secretsmanager_secret_version.deployment_role_arn_sandbox.secret_string #todo fix to dev
+  deploy_development_lambda_arn   = aws_lambda_function.example.arn
+
+  deployment_role_arn_production = data.aws_secretsmanager_secret_version.deployment_role_arn_sandbox.secret_string #todo fix to prod!
+  deploy_production_lambda_arn   = aws_lambda_function.example.arn
 }
 
 
