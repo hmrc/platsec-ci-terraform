@@ -32,31 +32,20 @@ variable "github_connection_arn" {
   }
 }
 
-variable "ecr_arn" {
-  type = string
-  validation {
-    condition     = can(regex("^arn:aws:ecr:", var.ecr_arn))
-    error_message = "Arn must be given and should start with 'arn:aws:ecr:'."
-  }
-}
-
-variable "ecr_url" {
+variable "lambda_function_name" {
   type = string
 }
 
-variable "deploy_production_lambda_arn" {
-  type = string
-  validation {
-    condition     = can(regex("^arn:aws:lambda:", var.deploy_production_lambda_arn))
-    error_message = "Arn must be given and should start with 'arn:aws:lambda:'."
-  }
+variable "target_region" {
+  type        = string
+  default     = "eu-west-2"
+  description = "The region that lambdas will be deployed into"
 }
 
-variable "deploy_development_lambda_arn" {
-  type = string
-  validation {
-    condition     = can(regex("^arn:aws:lambda:", var.deploy_development_lambda_arn))
-    error_message = "Arn must be given and should start with 'arn:aws:lambda:'."
-  }
+variable "development_deploy" {
+  type = object({
+    account_id          = number,
+    deployment_role_arn = string,
+  })
 }
 

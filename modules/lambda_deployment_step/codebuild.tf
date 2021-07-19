@@ -9,6 +9,11 @@ resource "aws_codebuild_project" "deploy" {
     image                       = "aws/codebuild/standard:latest"
     type                        = "LINUX_CONTAINER"
     image_pull_credentials_type = "CODEBUILD"
+
+    environment_variable {
+      name  = "DEPLOYMENT_ROLE_ARN"
+      value = var.deployment_role_arn
+    }
   }
 
   logs_config {

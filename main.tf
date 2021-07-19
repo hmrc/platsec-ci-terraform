@@ -35,64 +35,20 @@ module "ci-common" {
 }
 
 module "test_ci" {
-  source                = "./modules/lambda_zip_pipeline"
+  source                = "./modules/lambda_docker_pipeline"
   name_prefix           = module.label.id
   github_connection_arn = module.ci-common.github_connection_arn
 
-  pipeline_name = "${module.label.stage}-test-pipeline"
-  src_org       = "cob16"
-  src_repo      = "test-python-repo"
+  pipeline_name         = "prowler-worker"
+  src_org               = "hmrc"
+  src_repo              = "platsec-prowler-lambda-worker"
+  branch                = "add_buildspec"
+  docker_build_required = true
 
-  deployment_role_arn_development = data.aws_secretsmanager_secret_version.deployment_role_arn_sandbox.secret_string #todo fix to dev
-  deploy_development_lambda_arn   = aws_lambda_function.example.arn
+  lambda_function_name = "platsec_lambda_prowler_scanner"
 
-  deployment_role_arn_production = data.aws_secretsmanager_secret_version.deployment_role_arn_sandbox.secret_string #todo fix to prod!
-  deploy_production_lambda_arn   = aws_lambda_function.example.arn
-}
-
-
-#todo remove placeholder resources
-resource "aws_iam_role" "iam_for_lambda" {
-  name = "${module.label.id}-example-lambda"
-
-  assume_role_policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Action": "sts:AssumeRole",
-      "Principal": {
-        "Service": "lambda.amazonaws.com"
-      },
-      "Effect": "Allow",
-      "Sid": ""
-    }
-  ]
-}
-EOF
-}
-
-data "archive_file" "dummy_lambda_payload" {
-  type        = "zip"
-  output_path = "${path.root}/dummy_lambda_payload.zip"
-
-  source {
-    filename = "run.py"
-    content  = <<-EOT
-      def lambda_handler(event, lambda_context):
-        print(event)
-    EOT
+  development_deploy = {
+    account_id : tonumber(data.aws_secretsmanager_secret_version.sandbox_account_id.secret_string)
+    deployment_role_arn : data.aws_secretsmanager_secret_version.deployment_role_arn_sandbox.secret_string
   }
-}
-
-resource "aws_lambda_function" "example" {
-  filename      = data.archive_file.dummy_lambda_payload.output_path
-  function_name = "${module.label.id}-example-lambda"
-  role          = aws_iam_role.iam_for_lambda.arn
-  runtime       = "python3.8"
-  handler       = "run.lambda_handler"
-}
-
-resource "aws_ecr_repository" "example" {
-  name = module.label.id
 }

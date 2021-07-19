@@ -30,4 +30,12 @@ variable "lambda_arn" {
   }
 }
 
+variable "deployment_role_arn" {
+  type = string
+  validation {
+    condition     = can(regex("^arn:aws:", var.deployment_role_arn))
+    error_message = "Must be role arn."
+  }
+}
+
 
