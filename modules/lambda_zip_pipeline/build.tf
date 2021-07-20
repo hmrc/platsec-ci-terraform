@@ -9,9 +9,8 @@ module "build_artifact_step" {
 module "lambda-deployment-step-development" {
   source = "../lambda_deployment_step"
 
-  lambda_arn            = "arn:aws:lambda:${var.target_region}.:${var.development_deploy.account_id}:function:${var.lambda_function_name}"
+  lambda_arn            = "arn:aws:lambda:${var.target_region}:${var.development_deploy.account_id}:function:${var.lambda_function_name}"
   name_prefix           = "${local.full_name}-development"
   build_core_policy_arn = aws_iam_policy.build_core.arn
   deployment_role_arn   = var.development_deploy.deployment_role_arn
 }
-
