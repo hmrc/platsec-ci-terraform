@@ -12,7 +12,7 @@ phases:
       - echo "Import completed on $(date)"
       - echo "Will tag new image with ${CODEBUILD_BUILD_NUMBER}-${COMMIT_ID}"
       - export NEW_IMAGE_TAG="${CODEBUILD_BUILD_NUMBER}-${COMMIT_ID}"
-      - docker tag container-release:local "${REMOTE_DOCKER_TAG}" "${ECR_URL}:${NEW_IMAGE_TAG}"
+      - docker tag container-release:local "${ECR_URL}:${NEW_IMAGE_TAG}"
       - echo "Pushing container image ${NEW_IMAGE_TAG}"
       - docker push "${ECR_URL}:${NEW_IMAGE_TAG}"
       - echo "Push completed on $(date)"
