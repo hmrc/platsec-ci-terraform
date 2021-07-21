@@ -29,15 +29,15 @@ module "label" {
   name      = "platsec-ci"
 }
 
-module "ci-common" {
+module "ci_common" {
   source      = "./modules/ci_common"
   name_prefix = module.label.id
 }
 
-module "test_ci" {
+module "prowler_worker" {
   source                = "./modules/lambda_docker_pipeline"
   name_prefix           = module.label.id
-  github_connection_arn = module.ci-common.github_connection_arn
+  github_connection_arn = module.ci_common.github_connection_arn
 
   pipeline_name         = "prowler-worker"
   src_org               = "hmrc"
@@ -46,8 +46,9 @@ module "test_ci" {
   docker_build_required = true
 
   lambda_function_name = "platsec_lambda_prowler_scanner"
+  ecr_name             = "platsec-prowler"
 
-  development_deploy = {
+  sandbox_deploy = {
     account_id : tonumber(data.aws_secretsmanager_secret_version.sandbox_account_id.secret_string)
     deployment_role_arn : data.aws_secretsmanager_secret_version.deployment_role_arn_sandbox.secret_string
   }
