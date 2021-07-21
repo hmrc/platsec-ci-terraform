@@ -29,7 +29,7 @@ resource "aws_codebuild_project" "deploy" {
 
   source {
     type = "CODEPIPELINE"
-    buildspec = templatefile("${path.module}/templates/buildspec-deploy.yaml.tpl", {
+    buildspec = templatefile("${path.module}/templates/buildspec-deploy.yaml", {
       function_arn : var.lambda_arn
     })
   }

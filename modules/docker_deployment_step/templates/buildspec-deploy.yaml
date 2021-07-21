@@ -1,32 +1,35 @@
 version: 0.2
 
+env:
+  shell: bash
+
 phases:
   pre_build:
     commands:
-      - echo "Logging in to Amazon ECR..."
+      - echo -n "Logging in to Amazon ECR..."
       - aws ecr get-login-password --region "${AWS_DEFAULT_REGION}" | docker login --username AWS --password-stdin "${ECR_URL}"
   build:
     commands:
-      - echo "Import started on $(date)"
       - docker load -i docker.tar
-      - echo "Import completed on $(date)"
-      - echo "Will tag new image with ${CODEBUILD_BUILD_NUMBER}-${COMMIT_ID}"
       - export NEW_IMAGE_TAG="${CODEBUILD_BUILD_NUMBER}-${COMMIT_ID}"
       - docker tag container-release:local "${ECR_URL}:${NEW_IMAGE_TAG}"
-      - echo "Pushing container image ${NEW_IMAGE_TAG}"
       - docker push "${ECR_URL}:${NEW_IMAGE_TAG}"
-      - echo "Push completed on $(date)"
   post_build:
     commands:
-      - echo "Deploying new container image to lambda ${NEW_IMAGE_TAG}"
-      # https://aws.amazon.com/premiumsupport/knowledge-center/codebuild-temporary-credentials-docker/
-      - TEMP_ROLE='aws sts assume-role --role-arn ${DEPLOYMENT_ROLE_ARN} --role-session-name test'
-      - export TEMP_ROLE
-      - export AWS_ACCESS_KEY_ID=$(echo "${TEMP_ROLE}" | jq -r '.Credentials.AccessKeyId')
-      - export AWS_SECRET_ACCESS_KEY=$(echo "${TEMP_ROLE}" | jq -r '.Credentials.SecretAccessKey')
-      - export AWS_SESSION_TOKEN=$(echo "${TEMP_ROLE}" | jq -r '.Credentials.SessionToken')
-      - >
-        aws lambda update-function-code
-        --function-name "${LAMBDA_ARN}"
-        --image-uri "${ECR_URL}:${NEW_IMAGE_TAG}"
-        --publish
+      - |
+        STS="$( \
+          aws sts assume-role \
+          --role-arn "${DEPLOYMENT_ROLE_ARN}" \
+          --role-session-name "${CODEBUILD_BUILD_ID%:*}-${CODEBUILD_BUILD_NUMBER}" \
+          --query "Credentials" \
+          )"
+      - aws configure set profile.docker-deployment.aws_access_key_id "$(jq -r '.AccessKeyId' <<<"${STS}")"
+      - aws configure set profile.docker-deployment.aws_secret_access_key "$(jq -r '.SecretAccessKey' <<<"${STS}")"
+      - aws configure set profile.docker-deployment.aws_session_token "$(jq -r '.SessionToken' <<<"${STS}")"
+      - echo -n "Deploying new container image to lambda ${NEW_IMAGE_TAG}"
+      - |
+        aws lambda update-function-code \
+          --function-name "${LAMBDA_ARN}" \
+          --image-uri "${ECR_URL}:${NEW_IMAGE_TAG}" \
+          --publish \
+          --profile docker-deployment
