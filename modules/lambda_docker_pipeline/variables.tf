@@ -36,6 +36,10 @@ variable "lambda_function_name" {
   type = string
 }
 
+variable "ecr_name" {
+  type = string
+}
+
 variable "target_region" {
   type        = string
   default     = "eu-west-2"

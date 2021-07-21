@@ -11,8 +11,7 @@ module "docker_deployment_development" {
 
   name_prefix           = "${local.full_name}-development"
   build_core_policy_arn = aws_iam_policy.build_core.arn
-  lambda_arn            = "arn:aws:lambda:${var.target_region}:${var.development_deploy.account_id}:function:${var.lambda_function_name}"
-  ecr_arn               = aws_ecr_repository.lambda.arn
-  ecr_url               = aws_ecr_repository.lambda.repository_url
-  deployment_role_arn   = var.development_deploy.deployment_role_arn
+  lambda_arn            = "arn:aws:lambda:${var.target_region}:${var.sandbox_deploy.account_id}:function:${var.lambda_function_name}"
+  ecr_url               = "${var.sandbox_deploy.account_id}.dkr.ecr.${var.target_region}.amazonaws.com/${var.ecr_name}"
+  deployment_role_arn   = var.sandbox_deploy.deployment_role_arn
 }

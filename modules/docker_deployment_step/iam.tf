@@ -16,26 +16,6 @@ data "aws_iam_policy_document" "deploy" {
     actions   = ["sts:AssumeRole"]
     resources = [var.deployment_role_arn]
   }
-
-  statement {
-    actions = [
-      "ecr:GetAuthorizationToken",
-    ]
-    resources = ["*"]
-  }
-
-  statement {
-    actions = [
-      "ecr:BatchCheckLayerAvailability",
-      "ecr:CompleteLayerUpload",
-      "ecr:InitiateLayerUpload",
-      "ecr:PutImage",
-      "ecr:UploadLayerPart"
-    ]
-    resources = [
-      var.ecr_arn
-    ]
-  }
 }
 
 resource "aws_iam_policy" "deploy" {
