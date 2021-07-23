@@ -43,7 +43,7 @@ variable "target_region" {
 }
 
 
-variable "sandbox_deploy" {
+variable "development_deploy" {
   type = object({
     account_id          = number,
     deployment_role_arn = string,

@@ -48,8 +48,8 @@ module "prowler_worker" {
   lambda_function_name = "platsec_lambda_prowler_scanner"
   ecr_name             = "platsec-prowler"
 
-  sandbox_deploy = {
-    account_id : tonumber(data.aws_secretsmanager_secret_version.sandbox_account_id.secret_string)
-    deployment_role_arn : data.aws_secretsmanager_secret_version.sandbox_deployment_role_arn.secret_string
+  development_deploy = {
+    account_id : tonumber(data.aws_secretsmanager_secret_version.development_account_id.secret_string)
+    deployment_role_arn : data.aws_secretsmanager_secret_version.development_deployment_role_arn.secret_string
   }
 }

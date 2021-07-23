@@ -46,7 +46,7 @@ variable "target_region" {
   description = "The region that lambdas will be deployed into"
 }
 
-variable "sandbox_deploy" {
+variable "development_deploy" {
   type = object({
     account_id          = number,
     deployment_role_arn = string,

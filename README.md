@@ -1,12 +1,11 @@
-
 # platsec-ci-terraform
 
-This repo holds opensource modules that are used for a codepipline release
+This repo holds OpenSource modules that are used for a CodePipeline release
 
 In the main.tf file there are examples for different methods of lambda
 deployment
 
-1. Zipfile deployments
+1. ZIP file deployments
 2. Container image deployments (for more complex lambdas)
 
 ## Docker deploy pipeline
@@ -31,7 +30,7 @@ resource "aws_lambda_function" "docker" {
 }
 ```
 
-# Running locally
+## Running locally
 
 You will need to get the backend config file to run plans and applies locally
 
