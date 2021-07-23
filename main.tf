@@ -58,7 +58,7 @@ module "prowler_worker" {
   pipeline_name         = "prowler-worker"
   src_org               = "hmrc"
   src_repo              = "platsec-prowler-lambda-worker"
-  branch                = "add_buildspec"
+  branch                = "master"
   docker_build_required = true
 
   lambda_function_name = "platsec_lambda_prowler_scanner"
