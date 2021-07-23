@@ -74,45 +74,45 @@ resource "aws_codepipeline" "codepipeline" {
     }
   }
 
-  //  stage {
-  //    name = "Approve_Production"
-  //
-  //    action {
-  //      name     = "Approve_Production"
-  //      category = "Approval"
-  //      owner    = "AWS"
-  //      provider = "Manual"
-  //      version  = "1"
-  //
-  //      configuration = {
-  //        ExternalEntityLink : "https://github.com/${var.src_org}/${var.src_repo}/commit/#{SourceVariables.CommitId}"
-  //        CustomData : "#{SourceVariables.CommitMessage}"
-  //      }
-  //    }
-  //  }
-  //
-  //  stage {
-  //    name = "Production"
-  //
-  //    action {
-  //      name            = "Deploy_Production"
-  //      category        = "Build"
-  //      owner           = "AWS"
-  //      provider        = "CodeBuild"
-  //      input_artifacts = ["build_output"]
-  //      version         = "1"
-  //
-  //      configuration = {
-  //        ProjectName = module.docker_deployment_production.name
-  //        EnvironmentVariables = jsonencode([
-  //          {
-  //            name  = "COMMIT_ID"
-  //            value = "#{SourceVariables.CommitId}"
-  //            type  = "PLAINTEXT"
-  //          }
-  //        ])
-  //      }
-  //
-  //    }
-  //  }
+  stage {
+    name = "Approve_Production"
+
+    action {
+      name     = "Approve_Production"
+      category = "Approval"
+      owner    = "AWS"
+      provider = "Manual"
+      version  = "1"
+
+      configuration = {
+        ExternalEntityLink : "https://github.com/${var.src_org}/${var.src_repo}/commit/#{SourceVariables.CommitId}"
+        CustomData : "#{SourceVariables.CommitMessage}"
+      }
+    }
+  }
+
+  stage {
+    name = "Production"
+
+    action {
+      name            = "Deploy_Production"
+      category        = "Build"
+      owner           = "AWS"
+      provider        = "CodeBuild"
+      input_artifacts = ["build_output"]
+      version         = "1"
+
+      configuration = {
+        ProjectName = module.docker_deployment_production.name
+        EnvironmentVariables = jsonencode([
+          {
+            name  = "COMMIT_ID"
+            value = "#{SourceVariables.CommitId}"
+            type  = "PLAINTEXT"
+          }
+        ])
+      }
+
+    }
+  }
 }

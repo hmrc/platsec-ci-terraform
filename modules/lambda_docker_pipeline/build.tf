@@ -15,3 +15,12 @@ module "docker_deployment_development" {
   ecr_url               = "${var.development_deploy.account_id}.dkr.ecr.${var.target_region}.amazonaws.com/${var.ecr_name}"
   deployment_role_arn   = var.development_deploy.deployment_role_arn
 }
+module "docker_deployment_production" {
+  source = "../docker_deployment_step"
+
+  name_prefix           = "${local.full_name}-production"
+  build_core_policy_arn = aws_iam_policy.build_core.arn
+  lambda_arn            = "arn:aws:lambda:${var.target_region}:${var.production_deploy.account_id}:function:${var.lambda_function_name}"
+  ecr_url               = "${var.production_deploy.account_id}.dkr.ecr.${var.target_region}.amazonaws.com/${var.ecr_name}"
+  deployment_role_arn   = var.production_deploy.deployment_role_arn
+}

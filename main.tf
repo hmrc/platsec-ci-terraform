@@ -52,4 +52,10 @@ module "prowler_worker" {
     account_id : tonumber(data.aws_secretsmanager_secret_version.development_account_id.secret_string)
     deployment_role_arn : data.aws_secretsmanager_secret_version.development_deployment_role_arn.secret_string
   }
+
+  production_deploy = {
+    account_id : tonumber(data.aws_secretsmanager_secret_version.production_account_id.secret_string)
+    deployment_role_arn : data.aws_secretsmanager_secret_version.production_deployment_role_arn.secret_string
+  }
+
 }

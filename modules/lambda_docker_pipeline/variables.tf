@@ -52,3 +52,10 @@ variable "development_deploy" {
     deployment_role_arn = string,
   })
 }
+
+variable "production_deploy" {
+  type = object({
+    account_id          = number,
+    deployment_role_arn = string,
+  })
+}
