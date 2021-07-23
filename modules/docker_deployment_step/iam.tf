@@ -32,6 +32,6 @@ resource "aws_iam_role" "deploy" {
   assume_role_policy = data.aws_iam_policy_document.codebuild_assume_role.json
   managed_policy_arns = [
     var.build_core_policy_arn,
-    aws_iam_policy.deploy.arn
+    aws_iam_policy.deploy.arn,
   ]
 }

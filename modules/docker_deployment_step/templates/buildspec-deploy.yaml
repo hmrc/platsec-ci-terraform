@@ -6,8 +6,6 @@ env:
 phases:
   pre_build:
     commands:
-      # TODO check if we can assume cross account role for this build without
-      # dance bellow
       - |
         STS="$( \
           aws sts assume-role \

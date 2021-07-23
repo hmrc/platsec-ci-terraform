@@ -19,7 +19,23 @@ provider "aws" {
     tags = module.label.tags
   }
 }
+locals {
+  accounts = {
+    sandbox : {
+      id : tonumber(data.aws_secretsmanager_secret_version.sandbox_account_id.secret_string)
+      deployment_role_arn : data.aws_secretsmanager_secret_version.sandbox_deployment_role_arn.secret_string
+    }
+    development : {
+      id : tonumber(data.aws_secretsmanager_secret_version.development_account_id.secret_string)
+      deployment_role_arn : data.aws_secretsmanager_secret_version.development_deployment_role_arn.secret_string
+    }
 
+    production : {
+      id : tonumber(data.aws_secretsmanager_secret_version.production_account_id.secret_string)
+      deployment_role_arn : data.aws_secretsmanager_secret_version.production_deployment_role_arn.secret_string
+    }
+  }
+}
 module "label" {
   source  = "cloudposse/label/null"
   version = "0.24.1"
@@ -48,14 +64,5 @@ module "prowler_worker" {
   lambda_function_name = "platsec_lambda_prowler_scanner"
   ecr_name             = "platsec-prowler"
 
-  development_deploy = {
-    account_id : tonumber(data.aws_secretsmanager_secret_version.development_account_id.secret_string)
-    deployment_role_arn : data.aws_secretsmanager_secret_version.development_deployment_role_arn.secret_string
-  }
-
-  production_deploy = {
-    account_id : tonumber(data.aws_secretsmanager_secret_version.production_account_id.secret_string)
-    deployment_role_arn : data.aws_secretsmanager_secret_version.production_deployment_role_arn.secret_string
-  }
-
+  accounts = local.accounts
 }
