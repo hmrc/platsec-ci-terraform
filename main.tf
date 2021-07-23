@@ -50,6 +50,6 @@ module "prowler_worker" {
 
   sandbox_deploy = {
     account_id : tonumber(data.aws_secretsmanager_secret_version.sandbox_account_id.secret_string)
-    deployment_role_arn : data.aws_secretsmanager_secret_version.deployment_role_arn_sandbox.secret_string
+    deployment_role_arn : data.aws_secretsmanager_secret_version.sandbox_deployment_role_arn.secret_string
   }
 }
