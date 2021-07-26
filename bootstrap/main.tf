@@ -2,8 +2,8 @@ terraform {
   required_version = ">=1.0.2"
 
   backend "s3" {
+    key    = "bootstrap/v1"
     bucket = "\n-------------------------\nPlease read the README.md first 📖\n------------------------"
-    key    = "\n-------------------------\nPlease read the README.md first 📖\n------------------------"
     region = "\n-------------------------\nPlease read the README.md first 📖\n------------------------"
   }
 
@@ -26,8 +26,8 @@ provider "aws" {
 locals {
   backend_content = <<-EOT
     bucket = "${aws_s3_bucket.s3_bucket.bucket}"
-    key = "bootstrap/v1"
     region = "eu-west-2"
+    dynamodb_table = "${aws_dynamodb_table.terraform_state_lock.name}"
   EOT
 }
 
@@ -42,6 +42,6 @@ resource "aws_secretsmanager_secret_version" "backend" {
 }
 
 resource "local_file" "backend" {
-  filename = "backend.hcl"
+  filename = "../backend.hcl"
   content  = local.backend_content
 }

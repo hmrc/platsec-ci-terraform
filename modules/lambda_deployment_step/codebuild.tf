@@ -9,6 +9,11 @@ resource "aws_codebuild_project" "deploy" {
     image                       = "aws/codebuild/standard:5.0"
     type                        = "LINUX_CONTAINER"
     image_pull_credentials_type = "CODEBUILD"
+
+    environment_variable {
+      name  = "DEPLOYMENT_ROLE_ARN"
+      value = var.deployment_role_arn
+    }
   }
 
   logs_config {
@@ -24,7 +29,7 @@ resource "aws_codebuild_project" "deploy" {
 
   source {
     type = "CODEPIPELINE"
-    buildspec = templatefile("${path.module}/templates/buildspec-deploy.yaml.tpl", {
+    buildspec = templatefile("${path.module}/templates/buildspec-deploy.yaml", {
       function_arn : var.lambda_arn
     })
   }

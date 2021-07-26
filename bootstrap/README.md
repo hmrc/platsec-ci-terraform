@@ -8,7 +8,7 @@ In order to allow changes, the state of the bootstrap is managed with the follow
 - comment out the `backend "s3" {}` block in the [main.tf](./main.tf) file
 - run `terraform init` and `terraform apply`
 - uncomment the `backend "s3" {}` block
-- now you can run `terraform init -backend-config=backend.hcl` to move the state to the bucket you just created
+- now you can run `terraform init -backend-config="$(git rev-parse --show-toplevel)/backend.hcl"` to move the state to the bucket you just created
 - done ✅
 
 ## For successive runs
@@ -20,9 +20,9 @@ In order to allow changes, the state of the bootstrap is managed with the follow
       --secret-id "backend.hcl" \
       --query="SecretString" \
       --output=text \
-      > backend.hcl
+      > "$(git rev-parse --show-toplevel)/backend.hcl"
     ```
 
-- then run: `terraform init -backend-config=backend.hcl`
+- then run: `terraform init -backend-config=../backend.hcl`
 - you are now free to make changes e.g. `terraform apply`
 - done ✅

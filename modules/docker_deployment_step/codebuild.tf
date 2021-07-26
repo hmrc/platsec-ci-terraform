@@ -19,6 +19,10 @@ resource "aws_codebuild_project" "deploy" {
       name  = "LAMBDA_ARN"
       value = var.lambda_arn
     }
+    environment_variable {
+      name  = "DEPLOYMENT_ROLE_ARN"
+      value = var.deployment_role_arn
+    }
   }
 
   logs_config {

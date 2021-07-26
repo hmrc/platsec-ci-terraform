@@ -1,0 +1,24 @@
+version: 0.2
+
+env:
+  shell: bash
+
+phases:
+  build:
+    commands:
+      - |
+        STS="$( \
+          aws sts assume-role \
+          --role-arn "${DEPLOYMENT_ROLE_ARN}" \
+          --role-session-name "${CODEBUILD_BUILD_ID%:*}-${CODEBUILD_BUILD_NUMBER}" \
+          --query "Credentials" \
+          )"
+      - aws configure set profile.zip-deployment.aws_access_key_id "$(jq -r '.AccessKeyId' <<<"${STS}")"
+      - aws configure set profile.zip-deployment.aws_secret_access_key "$(jq -r '.SecretAccessKey' <<<"${STS}")"
+      - aws configure set profile.zip-deployment.aws_session_token "$(jq -r '.SessionToken' <<<"${STS}")"
+      - |
+        aws lambda update-function-code \
+          --function-name ${function_arn} \
+          --zip-file fileb://distributable_lambda.zip \
+          --publish \
+          --profile zip-deployment

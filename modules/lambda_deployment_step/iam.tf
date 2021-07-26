@@ -1,4 +1,3 @@
-
 data "aws_iam_policy_document" "codebuild_assume_role" {
   statement {
     principals {
@@ -13,8 +12,8 @@ data "aws_iam_policy_document" "codebuild_assume_role" {
 
 data "aws_iam_policy_document" "deploy" {
   statement {
-    actions   = ["lambda:UpdateFunctionCode"]
-    resources = [var.lambda_arn]
+    actions   = ["sts:AssumeRole"]
+    resources = [var.deployment_role_arn]
   }
 }
 

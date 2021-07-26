@@ -47,6 +47,7 @@ data "aws_iam_policy_document" "codepipeline_policy" {
     resources = [
       module.build_artifact_step.arn,
       module.docker_deployment_development.arn,
+      module.docker_deployment_production.arn,
     ]
   }
 

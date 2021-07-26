@@ -1,26 +1,39 @@
 version: 0.2
 
+env:
+  shell: bash
+
 phases:
   pre_build:
     commands:
-      - echo Logging in to Amazon ECR...
-      - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $ECR_URL
+      - |
+        STS="$( \
+          aws sts assume-role \
+          --role-arn "${DEPLOYMENT_ROLE_ARN}" \
+          --role-session-name "${CODEBUILD_BUILD_ID%:*}-${CODEBUILD_BUILD_NUMBER}" \
+          --query "Credentials" \
+          )"
+      - aws configure set profile.docker-deployment.aws_access_key_id "$(jq -r '.AccessKeyId' <<<"${STS}")"
+      - aws configure set profile.docker-deployment.aws_secret_access_key "$(jq -r '.SecretAccessKey' <<<"${STS}")"
+      - aws configure set profile.docker-deployment.aws_session_token "$(jq -r '.SessionToken' <<<"${STS}")"
+      - echo -n "Logging in to Amazon ECR..."
+      - |
+        aws ecr get-login-password \
+          --profile docker-deployment \
+          --region "${AWS_DEFAULT_REGION}" \
+          | docker login --username AWS --password-stdin "${ECR_URL}"
   build:
     commands:
-      - echo import started on `date`
       - docker load -i docker.tar
-      - echo import completed on `date`
-      - echo Will tag new image with "${CODEBUILD_BUILD_NUMBER}-${COMMIT_ID}"
       - export NEW_IMAGE_TAG="${CODEBUILD_BUILD_NUMBER}-${COMMIT_ID}"
-      - docker tag platsec/prowler:local $REMOTE_DOCKER_TAG "${ECR_URL}:${NEW_IMAGE_TAG}"
-      - echo Pushing container image "${NEW_IMAGE_TAG}"
+      - docker tag container-release:local "${ECR_URL}:${NEW_IMAGE_TAG}"
       - docker push "${ECR_URL}:${NEW_IMAGE_TAG}"
-      - echo push completed on `date`
   post_build:
     commands:
-      - echo deploying new container image to lambda "${NEW_IMAGE_TAG}"
-      - >
-        aws lambda update-function-code
-        --function-name ${LAMBDA_ARN}
-        --image-uri "${ECR_URL}:${NEW_IMAGE_TAG}"
-        --publish
+      - echo -n "Deploying new container image to lambda ${NEW_IMAGE_TAG}"
+      - |
+        aws lambda update-function-code \
+          --function-name "${LAMBDA_ARN}" \
+          --image-uri "${ECR_URL}:${NEW_IMAGE_TAG}" \
+          --publish \
+          --profile docker-deployment
