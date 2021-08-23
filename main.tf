@@ -22,17 +22,17 @@ provider "aws" {
 locals {
   accounts = {
     sandbox : {
-      id : tonumber(data.aws_secretsmanager_secret_version.sandbox_account_id.secret_string)
-      deployment_role_arn : data.aws_secretsmanager_secret_version.sandbox_deployment_role_arn.secret_string
+      id : nonsensitive(tonumber(data.aws_secretsmanager_secret_version.sandbox_account_id.secret_string))
+      deployment_role_arn : nonsensitive(data.aws_secretsmanager_secret_version.sandbox_deployment_role_arn.secret_string)
     }
     development : {
-      id : tonumber(data.aws_secretsmanager_secret_version.development_account_id.secret_string)
-      deployment_role_arn : data.aws_secretsmanager_secret_version.development_deployment_role_arn.secret_string
+      id : nonsensitive(tonumber(data.aws_secretsmanager_secret_version.development_account_id.secret_string))
+      deployment_role_arn : nonsensitive(data.aws_secretsmanager_secret_version.development_deployment_role_arn.secret_string)
     }
 
     production : {
-      id : tonumber(data.aws_secretsmanager_secret_version.production_account_id.secret_string)
-      deployment_role_arn : data.aws_secretsmanager_secret_version.production_deployment_role_arn.secret_string
+      id : nonsensitive(tonumber(data.aws_secretsmanager_secret_version.production_account_id.secret_string))
+      deployment_role_arn : nonsensitive(data.aws_secretsmanager_secret_version.production_deployment_role_arn.secret_string)
     }
   }
 }
@@ -56,13 +56,28 @@ module "prowler_worker" {
   github_connection_arn = module.ci_common.github_connection_arn
 
   pipeline_name         = "prowler-worker"
-  src_org               = "hmrc"
   src_repo              = "platsec-prowler-lambda-worker"
   branch                = "master"
   docker_build_required = true
 
   lambda_function_name = "platsec_lambda_prowler_scanner"
   ecr_name             = "platsec-prowler"
+
+  accounts = local.accounts
+}
+
+
+module "cloudtrail_monitoring" {
+  source                = "./modules/lambda_zip_pipeline"
+  name_prefix           = module.label.id
+  github_connection_arn = module.ci_common.github_connection_arn
+
+  pipeline_name         = "cloudtrail-monitoring"
+  src_repo              = "platsec-cloudtrail-monitoring"
+  branch                = "master"
+  docker_build_required = true
+
+  lambda_function_name = "platsec_cloudtrail_monitoring"
 
   accounts = local.accounts
 }

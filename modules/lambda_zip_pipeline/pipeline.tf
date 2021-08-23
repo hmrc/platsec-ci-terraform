@@ -1,3 +1,7 @@
+data "aws_secretsmanager_secret_version" "github_token" {
+  secret_id = "/service_accounts/github_api_token"
+}
+
 resource "aws_codepipeline" "codepipeline" {
   name     = var.pipeline_name
   role_arn = aws_iam_role.codepipeline_role.arn
@@ -18,16 +22,17 @@ resource "aws_codepipeline" "codepipeline" {
     action {
       name             = "Source"
       category         = "Source"
-      owner            = "AWS"
-      provider         = "CodeStarSourceConnection"
-      namespace        = "SourceVariables"
+      owner            = "ThirdParty"
+      provider         = "GitHub"
       version          = "1"
       output_artifacts = ["source_output"]
 
       configuration = {
-        ConnectionArn    = var.github_connection_arn
-        FullRepositoryId = "${var.src_org}/${var.src_repo}"
-        BranchName       = var.branch
+        Owner                = var.src_org
+        Repo                 = var.src_repo
+        PollForSourceChanges = false
+        Branch               = var.branch
+        OAuthToken           = data.aws_secretsmanager_secret_version.github_token.secret_string
       }
     }
   }
@@ -68,37 +73,38 @@ resource "aws_codepipeline" "codepipeline" {
   }
 
 
-  //  stage {
-  //    name = "Approve_Production"
-  //
-  //    action {
-  //      name     = "Approve_Production"
-  //      category = "Approval"
-  //      owner    = "AWS"
-  //      provider = "Manual"
-  //      version  = "1"
-  //
-  //      configuration = {
-  //        ExternalEntityLink : "https://github.com/${var.src_org}/${var.src_repo}/commit/#{SourceVariables.CommitId}"
-  //        CustomData : "#{SourceVariables.CommitMessage}"
-  //      }
-  //    }
-  //  }
+  stage {
+    name = "Approve_Production"
 
-  //  stage {
-  //    name = "Production"
-  //
-  //    action {
-  //      name            = "Deploy_Production"
-  //      category        = "Build"
-  //      owner           = "AWS"
-  //      provider        = "CodeBuild"
-  //      input_artifacts = ["build_output"]
-  //      version         = "1"
-  //
-  //      configuration = {
-  //        ProjectName = module.lambda-deployment-step-development.name
-  //      }
-  //    }
-  //  }
+    action {
+      name     = "Approve_Production"
+      category = "Approval"
+      owner    = "AWS"
+      provider = "Manual"
+      version  = "1"
+
+      configuration = {
+        # this is only supported for source v2 actions (CodeStarSourceConnection)
+        # ExternalEntityLink : "https://github.com/${var.src_org}/${var.src_repo}/commit/#{SourceVariables.CommitId}"
+        # CustomData : "#{SourceVariables.CommitMessage}"
+      }
+    }
+  }
+
+  stage {
+    name = "Production"
+
+    action {
+      name            = "Deploy_Production"
+      category        = "Build"
+      owner           = "AWS"
+      provider        = "CodeBuild"
+      input_artifacts = ["build_output"]
+      version         = "1"
+
+      configuration = {
+        ProjectName = module.lambda-deployment-step-production.name
+      }
+    }
+  }
 }

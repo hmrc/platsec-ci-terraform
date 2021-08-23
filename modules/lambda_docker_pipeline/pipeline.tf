@@ -1,5 +1,5 @@
 resource "aws_codepipeline" "codepipeline" {
-  name     = "${terraform.workspace}-${var.pipeline_name}"
+  name     = var.pipeline_name
   role_arn = aws_iam_role.codepipeline_role.arn
 
   artifact_store {

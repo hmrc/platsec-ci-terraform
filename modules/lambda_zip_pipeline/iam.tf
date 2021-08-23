@@ -47,7 +47,7 @@ data "aws_iam_policy_document" "codepipeline_policy" {
     resources = [
       module.build_artifact_step.arn,
       module.lambda-deployment-step-development.arn,
-      //      module.lambda-deployment-step-production.arn #todo
+      module.lambda-deployment-step-production.arn
     ]
   }
 
