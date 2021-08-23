@@ -30,16 +30,6 @@ data "aws_iam_policy_document" "codepipeline_policy" {
   statement {
     effect = "Allow"
     actions = [
-      "codestar-connections:UseConnection"
-    ]
-    resources = [
-      var.github_connection_arn
-    ]
-  }
-
-  statement {
-    effect = "Allow"
-    actions = [
       "codebuild:BatchGetBuilds",
       "codebuild:StartBuild"
     ]

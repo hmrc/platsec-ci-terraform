@@ -9,7 +9,7 @@ variable "branch" {
 
 variable "docker_build_required" {
   type    = bool
-  default = false
+  default = true
 }
 
 variable "pipeline_name" {
@@ -23,14 +23,6 @@ variable "src_org" {
 
 variable "src_repo" {
   type = string
-}
-
-variable "github_connection_arn" {
-  type = string
-  validation {
-    condition     = can(regex("^arn:aws:", var.github_connection_arn))
-    error_message = "Arn must be given and should start with 'arn:aws:'."
-  }
 }
 
 variable "lambda_function_name" {

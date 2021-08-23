@@ -55,10 +55,9 @@ module "prowler_worker" {
   name_prefix           = module.label.id
   github_connection_arn = module.ci_common.github_connection_arn
 
-  pipeline_name         = "prowler-worker"
-  src_repo              = "platsec-prowler-lambda-worker"
-  branch                = "master"
-  docker_build_required = true
+  pipeline_name = "prowler-worker"
+  src_repo      = "platsec-prowler-lambda-worker"
+  branch        = "master"
 
   lambda_function_name = "platsec_lambda_prowler_scanner"
   ecr_name             = "platsec-prowler"
@@ -68,14 +67,12 @@ module "prowler_worker" {
 
 
 module "cloudtrail_monitoring" {
-  source                = "./modules/lambda_zip_pipeline"
-  name_prefix           = module.label.id
-  github_connection_arn = module.ci_common.github_connection_arn
+  source      = "./modules/lambda_zip_pipeline"
+  name_prefix = module.label.id
 
-  pipeline_name         = "cloudtrail-monitoring"
-  src_repo              = "platsec-cloudtrail-monitoring"
-  branch                = "master"
-  docker_build_required = true
+  pipeline_name = "cloudtrail-monitoring"
+  src_repo      = "platsec-cloudtrail-monitoring"
+  branch        = "master"
 
   lambda_function_name = "platsec_cloudtrail_monitoring"
 

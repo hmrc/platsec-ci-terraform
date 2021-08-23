@@ -7,11 +7,6 @@ variable "branch" {
   default = "main"
 }
 
-variable "docker_build_required" {
-  type    = bool
-  default = false
-}
-
 variable "pipeline_name" {
   type = string
 }
