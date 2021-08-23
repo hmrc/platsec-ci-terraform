@@ -10,13 +10,12 @@ phases:
         STS="$( \
           aws sts assume-role \
           --role-arn "${DEPLOYMENT_ROLE_ARN}" \
-          --role-session-name "${CODEBUILD_BUILD_ID%:*}-${CODEBUILD_BUILD_NUMBER}" \
+          --role-session-name "${CODEBUILD_INITIATOR#*/}-${CODEBUILD_BUILD_NUMBER}" \
           --query "Credentials" \
           )"
       - aws configure set profile.docker-deployment.aws_access_key_id "$(jq -r '.AccessKeyId' <<<"${STS}")"
       - aws configure set profile.docker-deployment.aws_secret_access_key "$(jq -r '.SecretAccessKey' <<<"${STS}")"
       - aws configure set profile.docker-deployment.aws_session_token "$(jq -r '.SessionToken' <<<"${STS}")"
-      - echo -n "Logging in to Amazon ECR..."
       - |
         aws ecr get-login-password \
           --profile docker-deployment \
@@ -30,7 +29,6 @@ phases:
       - docker push "${ECR_URL}:${NEW_IMAGE_TAG}"
   post_build:
     commands:
-      - echo -n "Deploying new container image to lambda ${NEW_IMAGE_TAG}"
       - |
         aws lambda update-function-code \
           --function-name "${LAMBDA_ARN}" \

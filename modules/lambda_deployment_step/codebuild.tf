@@ -14,6 +14,10 @@ resource "aws_codebuild_project" "deploy" {
       name  = "DEPLOYMENT_ROLE_ARN"
       value = var.deployment_role_arn
     }
+    environment_variable {
+      name  = "LAMBDA_ARN"
+      value = var.lambda_arn
+    }
   }
 
   logs_config {
@@ -26,11 +30,8 @@ resource "aws_codebuild_project" "deploy" {
   artifacts {
     type = "CODEPIPELINE"
   }
-
   source {
-    type = "CODEPIPELINE"
-    buildspec = templatefile("${path.module}/templates/buildspec-deploy.yaml", {
-      function_arn : var.lambda_arn
-    })
+    type      = "CODEPIPELINE"
+    buildspec = file("${path.module}/assets/buildspec-deploy.yaml")
   }
 }

@@ -17,7 +17,8 @@ variable "pipeline_name" {
 }
 
 variable "src_org" {
-  type = string
+  type    = string
+  default = "hmrc"
 }
 
 variable "src_repo" {

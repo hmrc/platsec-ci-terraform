@@ -38,6 +38,6 @@ resource "aws_codebuild_project" "deploy" {
 
   source {
     type      = "CODEPIPELINE"
-    buildspec = file("${path.module}/templates/buildspec-deploy.yaml")
+    buildspec = file("${path.module}/assets/buildspec-deploy.yaml")
   }
 }
