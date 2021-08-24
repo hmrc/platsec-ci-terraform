@@ -53,7 +53,7 @@ module "ci_common" {
 module "prowler_worker" {
   source                = "./modules/lambda_docker_pipeline"
   name_prefix           = module.label.id
-  github_connection_arn = module.ci_common.github_connection_arn
+  github_connection_arn = module.ci_common.source_v2_github_connection_arn
 
   pipeline_name = "prowler-worker"
   src_repo      = "platsec-prowler-lambda-worker"
@@ -76,5 +76,6 @@ module "cloudtrail_monitoring" {
 
   lambda_function_name = "platsec_cloudtrail_monitoring"
 
-  accounts = local.accounts
+  source_v1_oauth_token = module.ci_common.source_v1_oauth_token
+  accounts              = local.accounts
 }

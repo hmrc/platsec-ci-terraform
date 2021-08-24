@@ -1,7 +1,3 @@
-data "aws_secretsmanager_secret_version" "github_token" {
-  secret_id = "/service_accounts/github_api_token"
-}
-
 resource "aws_codepipeline" "codepipeline" {
   name     = var.pipeline_name
   role_arn = aws_iam_role.codepipeline_role.arn
@@ -32,7 +28,7 @@ resource "aws_codepipeline" "codepipeline" {
         Repo                 = var.src_repo
         PollForSourceChanges = false
         Branch               = var.branch
-        OAuthToken           = data.aws_secretsmanager_secret_version.github_token.secret_string
+        OAuthToken           = var.source_v1_oauth_token
       }
     }
   }
