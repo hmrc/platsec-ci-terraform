@@ -1,18 +1,6 @@
-resource "aws_security_group" "endpoints" {
-  vpc_id = module.vpc.vpc_id
-
-  name = "${var.name_prefix}-endpoints"
-
-  ingress {
-    from_port   = 0
-    protocol    = "-1"
-    to_port     = 0
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-}
-
 data "aws_region" "current" {}
 
+# S3 for downloading source code
 resource "aws_vpc_endpoint" "s3" {
   vpc_id       = module.vpc.vpc_id
   service_name = "com.amazonaws.${data.aws_region.current.name}.s3"
@@ -22,13 +10,14 @@ resource "aws_vpc_endpoint" "s3" {
   }
 }
 
+# CloudWatch Logs to be able to see agent logs in CodeBuild
 resource "aws_vpc_endpoint" "cloudwatch_logs" {
   vpc_id            = module.vpc.vpc_id
   service_name      = "com.amazonaws.${data.aws_region.current.name}.logs"
   vpc_endpoint_type = "Interface"
 
   security_group_ids = [
-    aws_security_group.endpoints.id,
+    aws_security_group.aws_interface_endpoints.id,
   ]
 
   subnet_ids = module.vpc.private_subnets

@@ -1,16 +1,23 @@
-resource "aws_security_group_rule" "allow_tls" {
-  security_group_id        = module.artifactory_endpoint_connector.security_group_id
-  description              = "Traffic from ci to artifactory"
-  type                     = "ingress"
-  from_port                = 443
-  to_port                  = 443
-  protocol                 = "tcp"
-  source_security_group_id = aws_security_group.ci_no_internet.id
+resource "aws_security_group" "aws_interface_endpoints" {
+  name   = "${var.name_prefix}-aws-interface-endpoints"
+  vpc_id = module.vpc.vpc_id
+  ingress {
+    from_port   = 0
+    protocol    = "-1"
+    to_port     = 0
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 }
 
-resource "aws_security_group" "ci_internet" {
-  name_prefix = "${var.name_prefix}-with-internet"
-
+resource "aws_security_group" "ci_agent_to_internet" {
+  name_prefix = "${var.name_prefix}-agent-to-internet"
+  vpc_id      = module.vpc.vpc_id
+  egress {
+    from_port   = 80
+    protocol    = "tcp"
+    to_port     = 80
+    cidr_blocks = ["0.0.0.0/0"]
+  }
   egress {
     from_port   = 443
     protocol    = "tcp"
@@ -19,12 +26,12 @@ resource "aws_security_group" "ci_internet" {
   }
 }
 
-resource "aws_security_group" "ci_endpoints" {
-  name_prefix = "${var.name_prefix}-endpoints"
+resource "aws_security_group" "ci_agent_to_endpoints" {
+  name_prefix = "${var.name_prefix}-agent-to-endpoints"
   vpc_id      = module.vpc.vpc_id
 
   egress {
-    description     = "Traffic from ci to Artifactory"
+    description     = "Traffic to MDTP Artifactory"
     from_port       = 443
     protocol        = "tcp"
     to_port         = 443
@@ -32,7 +39,7 @@ resource "aws_security_group" "ci_endpoints" {
   }
 
   egress {
-    description     = "Traffic to aws endpoints"
+    description     = "Traffic to AWS Gateway Endpoints"
     from_port       = 443
     protocol        = "tcp"
     to_port         = 443
@@ -40,12 +47,20 @@ resource "aws_security_group" "ci_endpoints" {
   }
 
   egress {
-    description     = "Traffic to interface endpoints"
+    description     = "Traffic to AWS Interface Endpoints"
     from_port       = 443
     protocol        = "tcp"
     to_port         = 443
-    security_groups = [aws_security_group.endpoints.id]
+    security_groups = [aws_security_group.aws_interface_endpoints.id]
   }
 }
 
-
+resource "aws_security_group_rule" "ci_agents_to_artifactory" {
+  security_group_id        = module.artifactory_endpoint_connector.security_group_id
+  description              = "Traffic from CI to Artifactory Endpoint"
+  type                     = "ingress"
+  from_port                = 443
+  to_port                  = 443
+  protocol                 = "tcp"
+  source_security_group_id = aws_security_group.ci_agent_to_endpoints.id
+}
