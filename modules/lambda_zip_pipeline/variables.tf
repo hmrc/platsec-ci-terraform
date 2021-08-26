@@ -25,6 +25,15 @@ variable "src_repo" {
   type = string
 }
 
+variable "vpc_config" {
+  type = object({
+    private_subnet_ids   = list(string),
+    private_subnet_arns  = list(string),
+    ci_security_group_id = string,
+    vpc_id               = string
+  })
+}
+
 variable "lambda_function_name" {
   type = string
 }
@@ -55,3 +64,4 @@ variable "accounts" {
     }),
   })
 }
+

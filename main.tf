@@ -19,6 +19,13 @@ provider "aws" {
     tags = module.label.tags
   }
 }
+
+# https://github.com/terraform-aws-modules/terraform-aws-vpc/issues/625
+provider "aws" {
+  alias  = "no-default-tags"
+  region = "eu-west-2"
+}
+
 locals {
   accounts = {
     sandbox : {
@@ -36,6 +43,7 @@ locals {
     }
   }
 }
+
 module "label" {
   source  = "cloudposse/label/null"
   version = "0.24.1"
@@ -43,6 +51,15 @@ module "label" {
   namespace = "mdtp"
   stage     = terraform.workspace
   name      = "platsec-ci"
+}
+
+module "networking" {
+  providers = {
+    aws.no-default-tags = aws.no-default-tags
+  }
+
+  name_prefix = module.label.id
+  source      = "./modules/networking"
 }
 
 module "github" {
@@ -62,7 +79,8 @@ module "prowler_worker" {
   lambda_function_name = "platsec_lambda_prowler_scanner"
   ecr_name             = "platsec-prowler"
 
-  accounts = local.accounts
+  accounts   = local.accounts
+  vpc_config = module.networking.vpc_config
 }
 
 
@@ -78,4 +96,5 @@ module "cloudtrail_monitoring" {
 
   source_v1_oauth_token = module.github.source_v1_oauth_token
   accounts              = local.accounts
+  vpc_config            = module.networking.vpc_config
 }

@@ -4,6 +4,7 @@ module "build_artifact_step" {
   build_core_policy_arn = aws_iam_policy.build_core.arn
   name_prefix           = local.full_name
   s3_bucket_arn         = aws_s3_bucket.codepipeline_bucket.arn
+  vpc_config            = var.vpc_config
 }
 
 module "lambda-deployment-step-development" {

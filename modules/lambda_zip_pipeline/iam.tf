@@ -83,7 +83,44 @@ data "aws_iam_policy_document" "codebuild_assume_role" {
   }
 }
 
+data "aws_caller_identity" "current" {}
+
+data "aws_region" "current" {}
+
 data "aws_iam_policy_document" "build_core" {
+  statement {
+    sid = "VpcNetworking"
+    actions = [
+      "ec2:CreateNetworkInterface",
+      "ec2:DescribeDhcpOptions",
+      "ec2:DescribeNetworkInterfaces",
+      "ec2:DeleteNetworkInterface",
+      "ec2:DescribeSubnets",
+      "ec2:DescribeSecurityGroups",
+      "ec2:DescribeVpcs"
+    ]
+    resources = ["*"]
+  }
+
+  statement {
+    actions = [
+      "ec2:CreateNetworkInterfacePermission"
+    ]
+    resources = [
+      "arn:aws:ec2:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:network-interface/*"
+    ]
+    condition {
+      test     = "StringEquals"
+      variable = "ec2:Subnet"
+      values   = var.vpc_config.private_subnet_arns
+    }
+    condition {
+      test     = "StringEquals"
+      variable = "ec2:AuthorizedService"
+      values   = ["codebuild.amazonaws.com"]
+    }
+  }
+
   statement {
     actions = [
       "logs:CreateLogGroup",
