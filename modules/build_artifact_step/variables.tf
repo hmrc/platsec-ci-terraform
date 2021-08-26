@@ -3,11 +3,14 @@ variable "name_prefix" {
 }
 variable "vpc_config" {
   type = object({
-    private_subnet_ids   = list(string),
-    private_subnet_arns  = list(string),
-    ci_security_group_id = string,
-    vpc_id               = string
+    private_subnet_ids  = list(string),
+    private_subnet_arns = list(string),
+    vpc_id              = string,
   })
+}
+
+variable "agent_security_group_ids" {
+  type = list(string)
 }
 
 variable "docker_required" {

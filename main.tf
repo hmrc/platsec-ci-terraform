@@ -79,8 +79,10 @@ module "prowler_worker" {
   lambda_function_name = "platsec_lambda_prowler_scanner"
   ecr_name             = "platsec-prowler"
 
-  accounts   = local.accounts
-  vpc_config = module.networking.vpc_config
+  accounts                    = local.accounts
+  vpc_config                  = module.networking.vpc_config
+  ci_agent_to_internet_sg_id  = module.networking.ci_agent_to_internet_sg_id
+  ci_agent_to_endpoints_sg_id = module.networking.ci_agent_to_endpoints_sg_id
 }
 
 
@@ -94,7 +96,9 @@ module "cloudtrail_monitoring" {
 
   lambda_function_name = "platsec_cloudtrail_monitoring"
 
-  source_v1_oauth_token = module.github.source_v1_oauth_token
-  accounts              = local.accounts
-  vpc_config            = module.networking.vpc_config
+  source_v1_oauth_token       = module.github.source_v1_oauth_token
+  accounts                    = local.accounts
+  vpc_config                  = module.networking.vpc_config
+  ci_agent_to_internet_sg_id  = module.networking.ci_agent_to_internet_sg_id
+  ci_agent_to_endpoints_sg_id = module.networking.ci_agent_to_endpoints_sg_id
 }
