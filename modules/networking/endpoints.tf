@@ -1,5 +1,21 @@
 data "aws_region" "current" {}
 
+module "artifactory_endpoint_connector" {
+  source = "git@github.com:hmrc/mdtp-build.git//terraform/modules/service_endpoint_connector?ref=v0.12"
+
+  security_group_name = "${var.name_prefix}-artifactory-endpoint"
+  vpc_id              = module.vpc.vpc_id
+  service_name        = local.live_artifactory_endpoint_name
+  subnet_ids          = module.vpc.private_subnets
+
+  subdomains = [
+    "artefacts",
+    "dockerhub",
+    "pythonpips",
+  ]
+  top_level_domain = "tax.service.gov.uk"
+}
+
 # CloudWatch Logs to be able to see agent logs in CodeBuild
 resource "aws_vpc_endpoint" "cloudwatch_logs" {
   vpc_id            = module.vpc.vpc_id
@@ -103,18 +119,3 @@ resource "aws_vpc_endpoint" "sts" {
   }
 }
 
-module "artifactory_endpoint_connector" {
-  source = "git@github.com:hmrc/mdtp-build.git//terraform/modules/service_endpoint_connector?ref=v0.12"
-
-  security_group_name = "${var.name_prefix}-artifactory-endpoint"
-  vpc_id              = module.vpc.vpc_id
-  service_name        = local.live_artifactory_endpoint_name
-  subnet_ids          = module.vpc.private_subnets
-
-  subdomains = [
-    "artefacts",
-    "dockerhub",
-    "pythonpips",
-  ]
-  top_level_domain = "tax.service.gov.uk"
-}
