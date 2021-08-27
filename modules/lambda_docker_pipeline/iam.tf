@@ -45,9 +45,7 @@ data "aws_iam_policy_document" "codepipeline_policy" {
     ]
 
     resources = [
-      module.build_artifact_step.arn,
-      module.docker_deployment_development.arn,
-      module.docker_deployment_production.arn,
+      "arn:aws:codebuild:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:project/${local.full_name}*"
     ]
   }
 
