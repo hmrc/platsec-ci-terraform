@@ -2,6 +2,18 @@ variable "name_prefix" {
   type = string
 }
 
+variable "vpc_config" {
+  type = object({
+    private_subnet_ids  = list(string),
+    private_subnet_arns = list(string),
+    vpc_id              = string,
+  })
+}
+
+variable "agent_security_group_ids" {
+  type = list(string)
+}
+
 variable "build_core_policy_arn" {
   type = string
   validation {

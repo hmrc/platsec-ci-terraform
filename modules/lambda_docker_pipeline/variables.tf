@@ -42,6 +42,21 @@ variable "target_region" {
   description = "The region that lambdas will be deployed into"
 }
 
+variable "vpc_config" {
+  type = object({
+    private_subnet_ids  = list(string),
+    private_subnet_arns = list(string),
+    vpc_id              = string,
+  })
+}
+
+variable "ci_agent_to_internet_sg_id" {
+  type = string
+}
+variable "ci_agent_to_endpoints_sg_id" {
+  type = string
+}
+
 variable "accounts" {
   type = object({
     sandbox = object({

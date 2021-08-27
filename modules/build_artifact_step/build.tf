@@ -5,6 +5,12 @@ resource "aws_codebuild_project" "build" {
 
   service_role = aws_iam_role.build.arn
 
+  vpc_config {
+    security_group_ids = var.agent_security_group_ids
+    subnets            = var.vpc_config.private_subnet_ids
+    vpc_id             = var.vpc_config.vpc_id
+  }
+
   cache {
     type  = "LOCAL"
     modes = var.docker_required ? ["LOCAL_DOCKER_LAYER_CACHE", "LOCAL_SOURCE_CACHE"] : ["LOCAL_SOURCE_CACHE"]
@@ -16,6 +22,18 @@ resource "aws_codebuild_project" "build" {
     type                        = "LINUX_CONTAINER"
     image_pull_credentials_type = "CODEBUILD"
     privileged_mode             = var.docker_required
+
+    environment_variable {
+      type  = "SECRETS_MANAGER"
+      name  = "ARTIFACTORY_TOKEN"
+      value = local.artifactory_token_secret
+    }
+
+    environment_variable {
+      type  = "SECRETS_MANAGER"
+      name  = "ARTIFACTORY_USERNAME"
+      value = local.artifactory_username
+    }
   }
 
   logs_config {
