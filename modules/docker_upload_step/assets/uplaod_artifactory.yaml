@@ -10,6 +10,6 @@ phases:
   build:
     commands:
       - docker load -i docker.tar
-      - export NEW_IMAGE_TAG="${CODEBUILD_BUILD_NUMBER}-${COMMIT_ID}"
+      - export NEW_IMAGE_TAG="${CODEBUILD_BUILD_NUMBER}-${CODEBUILD_RESOLVED_SOURCE_VERSION}"
       - docker tag container-release:local "${REPO_URL}:${NEW_IMAGE_TAG}"
       - docker push "${REPO_URL}:${NEW_IMAGE_TAG}"
