@@ -177,6 +177,36 @@ resource "aws_iam_policy" "build_core" {
   }
 }
 
+locals {
+  artifactory_secret_manager_names = {
+    token : "/artifactory/live/ci-token"
+    username : "/artifactory/live/ci-username"
+  }
+}
+
+data "aws_iam_policy_document" "get_artifactory_credentials" {
+  statement {
+    actions = [
+      "secretsmanager:GetResourcePolicy",
+      "secretsmanager:GetSecretValue",
+      "secretsmanager:DescribeSecret",
+      "secretsmanager:ListSecretVersionIds"
+    ]
+    resources = [
+      "arn:aws:secretsmanager:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:secret:${local.artifactory_secret_manager_names.token}*",
+      "arn:aws:secretsmanager:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:secret:${local.artifactory_secret_manager_names.username}*",
+    ]
+  }
+}
+
+resource "aws_iam_policy" "get_artifactory_credentials" {
+  name_prefix = "${local.full_name}-artifactory-creds"
+  policy      = data.aws_iam_policy_document.get_artifactory_credentials.json
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
 
 resource "aws_iam_policy" "store_artifacts" {
   name_prefix = "${local.full_name}-build-store-artifacts"

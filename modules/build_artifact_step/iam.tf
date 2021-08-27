@@ -10,11 +10,6 @@ data "aws_iam_policy_document" "codebuild_assume_role" {
   }
 }
 
-locals {
-  artifactory_token_secret = "/artifactory/live/ci-token"
-  artifactory_username     = "/artifactory/live/ci-username"
-}
-
 data "aws_caller_identity" "current" {}
 
 data "aws_region" "current" {}
@@ -27,18 +22,6 @@ data "aws_iam_policy_document" "build" {
     ]
     resources = [
       "${var.s3_bucket_arn}*build_outp/*"
-    ]
-  }
-  statement {
-    actions = [
-      "secretsmanager:GetResourcePolicy",
-      "secretsmanager:GetSecretValue",
-      "secretsmanager:DescribeSecret",
-      "secretsmanager:ListSecretVersionIds"
-    ]
-    resources = [
-      "arn:aws:secretsmanager:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:secret:${local.artifactory_token_secret}*",
-      "arn:aws:secretsmanager:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:secret:${local.artifactory_username}*",
     ]
   }
 }
@@ -55,8 +38,8 @@ resource "aws_iam_policy" "store_artifacts" {
 resource "aws_iam_role" "build" {
   name               = "${var.name_prefix}-build-artifact"
   assume_role_policy = data.aws_iam_policy_document.codebuild_assume_role.json
-  managed_policy_arns = [
-    var.build_core_policy_arn,
-    aws_iam_policy.store_artifacts.arn
-  ]
+  managed_policy_arns = concat(
+    [aws_iam_policy.store_artifacts.arn],
+    var.policy_arns
+  )
 }

@@ -13,6 +13,13 @@ variable "agent_security_group_ids" {
   type = list(string)
 }
 
+variable "artifactory_secret_manager_names" {
+  type = object({
+    token    = string,
+    username = string,
+  })
+}
+
 variable "docker_required" {
   type = bool
 }
@@ -25,10 +32,6 @@ variable "s3_bucket_arn" {
   }
 }
 
-variable "build_core_policy_arn" {
-  type = string
-  validation {
-    condition     = can(regex("^arn:aws:iam:", var.build_core_policy_arn))
-    error_message = "Arn must be given and should start with 'arn:aws:iam:'."
-  }
+variable "policy_arns" {
+  type = list(string)
 }

@@ -26,13 +26,12 @@ resource "aws_codebuild_project" "build" {
     environment_variable {
       type  = "SECRETS_MANAGER"
       name  = "ARTIFACTORY_TOKEN"
-      value = local.artifactory_token_secret
+      value = var.artifactory_secret_manager_names.token
     }
-
     environment_variable {
       type  = "SECRETS_MANAGER"
       name  = "ARTIFACTORY_USERNAME"
-      value = local.artifactory_username
+      value = var.artifactory_secret_manager_names.username
     }
   }
 
