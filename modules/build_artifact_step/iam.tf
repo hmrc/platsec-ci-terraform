@@ -10,7 +10,16 @@ data "aws_iam_policy_document" "codebuild_assume_role" {
   }
 }
 
-data "aws_iam_policy_document" "store_artifacts" {
+locals {
+  artifactory_token_secret = "/artifactory/live/ci-token"
+  artifactory_username     = "/artifactory/live/ci-username"
+}
+
+data "aws_caller_identity" "current" {}
+
+data "aws_region" "current" {}
+
+data "aws_iam_policy_document" "build" {
   statement {
     actions = [
       "s3:PutObjectAcl",
@@ -20,10 +29,23 @@ data "aws_iam_policy_document" "store_artifacts" {
       "${var.s3_bucket_arn}*build_outp/*"
     ]
   }
+  statement {
+    actions = [
+      "secretsmanager:GetResourcePolicy",
+      "secretsmanager:GetSecretValue",
+      "secretsmanager:DescribeSecret",
+      "secretsmanager:ListSecretVersionIds"
+    ]
+    resources = [
+      "arn:aws:secretsmanager:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:secret:${local.artifactory_token_secret}*",
+      "arn:aws:secretsmanager:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:secret:${local.artifactory_username}*",
+    ]
+  }
 }
+
 resource "aws_iam_policy" "store_artifacts" {
   name_prefix = "${var.name_prefix}-codebuild-store-artifacts"
-  policy      = data.aws_iam_policy_document.store_artifacts.json
+  policy      = data.aws_iam_policy_document.build.json
 
   lifecycle {
     create_before_destroy = true

@@ -22,6 +22,18 @@ resource "aws_codebuild_project" "build" {
     type                        = "LINUX_CONTAINER"
     image_pull_credentials_type = "CODEBUILD"
     privileged_mode             = var.docker_required
+
+    environment_variable {
+      type  = "SECRETS_MANAGER"
+      name  = "ARTIFACTORY_TOKEN"
+      value = local.artifactory_token_secret
+    }
+
+    environment_variable {
+      type  = "SECRETS_MANAGER"
+      name  = "ARTIFACTORY_USERNAME"
+      value = local.artifactory_username
+    }
   }
 
   logs_config {
