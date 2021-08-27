@@ -20,6 +20,7 @@ resource "aws_codepipeline" "codepipeline" {
       category         = "Source"
       owner            = "ThirdParty"
       provider         = "GitHub"
+      namespace        = "SourceVariables"
       version          = "1"
       output_artifacts = ["source_output"]
 
@@ -47,6 +48,13 @@ resource "aws_codepipeline" "codepipeline" {
 
       configuration = {
         ProjectName = module.build_artifact_step.name
+        EnvironmentVariables = jsonencode([
+          {
+            name  = "COMMIT_ID"
+            value = "#{SourceVariables.CommitId}"
+            type  = "PLAINTEXT"
+          }
+        ])
       }
     }
   }

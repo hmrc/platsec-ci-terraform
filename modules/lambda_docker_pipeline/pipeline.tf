@@ -46,6 +46,13 @@ resource "aws_codepipeline" "codepipeline" {
 
       configuration = {
         ProjectName = module.build_artifact_step.name
+        EnvironmentVariables = jsonencode([
+          {
+            name  = "COMMIT_ID"
+            value = "#{SourceVariables.CommitId}"
+            type  = "PLAINTEXT"
+          }
+        ])
       }
     }
   }
@@ -83,6 +90,13 @@ resource "aws_codepipeline" "codepipeline" {
 
       configuration = {
         ProjectName = module.docker_upload_artifactory_step.name
+        EnvironmentVariables = jsonencode([
+          {
+            name  = "COMMIT_ID"
+            value = "#{SourceVariables.CommitId}"
+            type  = "PLAINTEXT"
+          }
+        ])
       }
     }
   }
