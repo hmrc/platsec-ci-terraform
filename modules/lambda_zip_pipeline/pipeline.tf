@@ -88,9 +88,8 @@ resource "aws_codepipeline" "codepipeline" {
       version  = "1"
 
       configuration = {
-        # this is only supported for source v2 actions (CodeStarSourceConnection)
-        # ExternalEntityLink : "https://github.com/${var.src_org}/${var.src_repo}/commit/#{SourceVariables.CommitId}"
-        # CustomData : "#{SourceVariables.CommitMessage}"
+        ExternalEntityLink : "https://github.com/${var.src_org}/${var.src_repo}/commit/#{SourceVariables.CommitId}"
+        CustomData : "#{SourceVariables.CommitMessage}"
       }
     }
   }
