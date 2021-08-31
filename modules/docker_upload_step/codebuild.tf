@@ -45,6 +45,6 @@ resource "aws_codebuild_project" "deploy" {
 
   source {
     type      = "CODEPIPELINE"
-    buildspec = file("${path.module}/assets/uplaod_artifactory.yaml")
+    buildspec = file("${path.module}/assets/upload_artifactory.yaml")
   }
 }
