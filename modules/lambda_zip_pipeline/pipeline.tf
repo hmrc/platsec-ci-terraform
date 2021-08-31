@@ -71,7 +71,7 @@ resource "aws_codepipeline" "codepipeline" {
       version         = "1"
 
       configuration = {
-        ProjectName = module.lambda-deployment-step-development.name
+        ProjectName = module.zip-deployment-step-development.name
       }
     }
   }
@@ -106,7 +106,7 @@ resource "aws_codepipeline" "codepipeline" {
       version         = "1"
 
       configuration = {
-        ProjectName = module.lambda-deployment-step-production.name
+        ProjectName = module.zip-deployment-step-production.name
       }
     }
   }

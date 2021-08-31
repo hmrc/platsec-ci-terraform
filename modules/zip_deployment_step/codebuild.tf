@@ -1,5 +1,5 @@
 resource "aws_codebuild_project" "deploy" {
-  name          = "${var.name_prefix}-lambda-deploy"
+  name          = "${var.name_prefix}-zip-deploy"
   build_timeout = 5
 
   service_role = aws_iam_role.deploy.arn

@@ -11,8 +11,8 @@ module "build_artifact_step" {
   artifactory_secret_manager_names = local.artifactory_secret_manager_names
 }
 
-module "lambda-deployment-step-development" {
-  source = "../lambda_deployment_step"
+module "zip-deployment-step-development" {
+  source = "../zip_deployment_step"
 
   lambda_arn            = "arn:aws:lambda:${var.target_region}:${var.accounts.development.id}:function:${var.lambda_function_name}"
   name_prefix           = "${local.full_name}-development"
@@ -23,8 +23,8 @@ module "lambda-deployment-step-development" {
   agent_security_group_ids = [var.ci_agent_to_endpoints_sg_id]
 }
 
-module "lambda-deployment-step-production" {
-  source = "../lambda_deployment_step"
+module "zip-deployment-step-production" {
+  source = "../zip_deployment_step"
 
   lambda_arn            = "arn:aws:lambda:${var.target_region}:${var.accounts.production.id}:function:${var.lambda_function_name}"
   name_prefix           = "${local.full_name}-production"
