@@ -1,8 +1,8 @@
-resource "aws_codebuild_project" "deploy" {
-  name          = "${var.name_prefix}-docker-deploy"
+resource "aws_codebuild_project" "upload" {
+  name          = "${var.name_prefix}-docker-upload"
   build_timeout = 5
 
-  service_role = aws_iam_role.deploy.arn
+  service_role = aws_iam_role.upload.arn
 
   vpc_config {
     security_group_ids = var.agent_security_group_ids
