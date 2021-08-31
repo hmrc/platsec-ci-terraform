@@ -21,7 +21,7 @@ data "aws_iam_policy_document" "build" {
       "s3:PutObject"
     ]
     resources = [
-      "${var.s3_bucket_arn}*build_outp/*"
+      "${var.s3_bucket_arn}/*/build_outp/*"
     ]
   }
 }

@@ -172,7 +172,7 @@ data "aws_iam_policy_document" "store_artifacts" {
       "s3:PutObject",
     ]
     resources = [
-      "${aws_s3_bucket.codepipeline_bucket.arn}*build_outp/*"
+      "${aws_s3_bucket.codepipeline_bucket.arn}/*/build_outp/*"
     ]
   }
 }
