@@ -11,6 +11,17 @@ module "build_artifact_step" {
   artifactory_secret_manager_names = local.artifactory_secret_manager_names
 }
 
+module "zip_upload_artifactory_step" {
+  source       = "../zip_upload_step"
+  name_prefix  = "${local.full_name}-artifactory"
+  package_name = var.src_repo
+  policy_arns  = [aws_iam_policy.build_core.arn, aws_iam_policy.get_artifactory_credentials.arn]
+
+  artifactory_secret_manager_names = local.artifactory_secret_manager_names
+  vpc_config                       = var.vpc_config
+  agent_security_group_ids         = [var.ci_agent_to_endpoints_sg_id]
+}
+
 module "zip-deployment-step-development" {
   source = "../zip_deployment_step"
 

@@ -74,6 +74,26 @@ resource "aws_codepipeline" "codepipeline" {
         ProjectName = module.zip-deployment-step-development.name
       }
     }
+
+    action {
+      name            = "Upload_to_Artifactory"
+      category        = "Build"
+      owner           = "AWS"
+      provider        = "CodeBuild"
+      input_artifacts = ["build_output"]
+      version         = "1"
+
+      configuration = {
+        ProjectName = module.zip_upload_artifactory_step.name
+        EnvironmentVariables = jsonencode([
+          {
+            name  = "COMMIT_ID"
+            value = "#{SourceVariables.CommitId}"
+            type  = "PLAINTEXT"
+          }
+        ])
+      }
+    }
   }
 
 
