@@ -16,7 +16,7 @@ terraform {
 }
 
 provider "github" {
-  token = var.source_v1_oauth_token
+  token = var.github_token
   owner = var.src_org
 }
 
