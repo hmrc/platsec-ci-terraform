@@ -25,9 +25,7 @@ resource "aws_vpc_endpoint" "cloudwatch_logs" {
   security_group_ids = [
     aws_security_group.aws_interface_endpoints.id,
   ]
-
-  subnet_ids = module.vpc.private_subnets
-
+  subnet_ids          = module.vpc.private_subnets
   private_dns_enabled = true
 
   tags = {
@@ -44,15 +42,31 @@ resource "aws_vpc_endpoint" "ecr_api" {
   security_group_ids = [
     aws_security_group.aws_interface_endpoints.id,
   ]
-
-  subnet_ids = module.vpc.private_subnets
-
+  subnet_ids          = module.vpc.private_subnets
   private_dns_enabled = true
 
   tags = {
     Name : "${var.name_prefix}-ecr-api"
   }
 }
+
+# ECR for Docker Registry API
+resource "aws_vpc_endpoint" "secretsmanager" {
+  vpc_id            = module.vpc.vpc_id
+  service_name      = "com.amazonaws.${data.aws_region.current.name}.secretsmanager"
+  vpc_endpoint_type = "Interface"
+
+  security_group_ids = [
+    aws_security_group.aws_interface_endpoints.id,
+  ]
+  subnet_ids          = module.vpc.private_subnets
+  private_dns_enabled = true
+
+  tags = {
+    Name : "${var.name_prefix}-secretsmanager"
+  }
+}
+
 
 # ECR for Docker Registry API
 resource "aws_vpc_endpoint" "ecr_dkr" {
@@ -63,9 +77,7 @@ resource "aws_vpc_endpoint" "ecr_dkr" {
   security_group_ids = [
     aws_security_group.aws_interface_endpoints.id,
   ]
-
-  subnet_ids = module.vpc.private_subnets
-
+  subnet_ids          = module.vpc.private_subnets
   private_dns_enabled = true
 
   tags = {
@@ -81,9 +93,7 @@ resource "aws_vpc_endpoint" "lambda" {
   security_group_ids = [
     aws_security_group.aws_interface_endpoints.id,
   ]
-
-  subnet_ids = module.vpc.private_subnets
-
+  subnet_ids          = module.vpc.private_subnets
   private_dns_enabled = true
 
   tags = {
@@ -109,9 +119,7 @@ resource "aws_vpc_endpoint" "sts" {
   security_group_ids = [
     aws_security_group.aws_interface_endpoints.id,
   ]
-
-  subnet_ids = module.vpc.private_subnets
-
+  subnet_ids          = module.vpc.private_subnets
   private_dns_enabled = true
 
   tags = {

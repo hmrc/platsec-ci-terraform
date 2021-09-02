@@ -62,19 +62,14 @@ module "networking" {
   source      = "./modules/networking"
 }
 
-module "github" {
-  source      = "./modules/github"
-  name_prefix = module.label.id
-}
-
 module "prowler_worker" {
-  source                = "./modules/lambda_docker_pipeline"
-  name_prefix           = module.label.id
-  github_connection_arn = module.github.source_v2_github_connection_arn
+  source      = "./modules/lambda_docker_pipeline"
+  name_prefix = module.label.id
 
   pipeline_name = "prowler-worker"
   src_repo      = "platsec-prowler-lambda-worker"
   branch        = "master"
+  github_token  = data.aws_secretsmanager_secret_version.github_token.secret_string
 
   lambda_function_name = "platsec_lambda_prowler_scanner"
   ecr_name             = "platsec-prowler"
@@ -93,10 +88,10 @@ module "cloudtrail_monitoring" {
   pipeline_name = "cloudtrail-monitoring"
   src_repo      = "platsec-cloudtrail-monitoring"
   branch        = "master"
+  github_token  = data.aws_secretsmanager_secret_version.github_token.secret_string
 
   lambda_function_name = "platsec_cloudtrail_monitoring"
 
-  source_v1_oauth_token       = module.github.source_v1_oauth_token
   accounts                    = local.accounts
   vpc_config                  = module.networking.vpc_config
   ci_agent_to_internet_sg_id  = module.networking.ci_agent_to_internet_sg_id

@@ -14,20 +14,21 @@ resource "aws_codepipeline" "codepipeline" {
 
   stage {
     name = "Source"
-
     action {
       name             = "Source"
       category         = "Source"
-      owner            = "AWS"
-      provider         = "CodeStarSourceConnection"
+      owner            = "ThirdParty"
+      provider         = "GitHub"
       namespace        = "SourceVariables"
       version          = "1"
       output_artifacts = ["source_output"]
 
       configuration = {
-        ConnectionArn    = var.github_connection_arn
-        FullRepositoryId = "${var.src_org}/${var.src_repo}"
-        BranchName       = var.branch
+        Owner                = var.src_org
+        Repo                 = var.src_repo
+        PollForSourceChanges = false
+        Branch               = var.branch
+        OAuthToken           = var.github_token
       }
     }
   }
@@ -46,6 +47,13 @@ resource "aws_codepipeline" "codepipeline" {
 
       configuration = {
         ProjectName = module.build_artifact_step.name
+        EnvironmentVariables = jsonencode([
+          {
+            name  = "COMMIT_ID"
+            value = "#{SourceVariables.CommitId}"
+            type  = "PLAINTEXT"
+          }
+        ])
       }
     }
   }
@@ -63,6 +71,26 @@ resource "aws_codepipeline" "codepipeline" {
 
       configuration = {
         ProjectName = module.docker_deployment_development.name
+        EnvironmentVariables = jsonencode([
+          {
+            name  = "COMMIT_ID"
+            value = "#{SourceVariables.CommitId}"
+            type  = "PLAINTEXT"
+          }
+        ])
+      }
+    }
+
+    action {
+      name            = "Upload_to_Artifactory"
+      category        = "Build"
+      owner           = "AWS"
+      provider        = "CodeBuild"
+      input_artifacts = ["build_output"]
+      version         = "1"
+
+      configuration = {
+        ProjectName = module.docker_upload_artifactory_step.name
         EnvironmentVariables = jsonencode([
           {
             name  = "COMMIT_ID"

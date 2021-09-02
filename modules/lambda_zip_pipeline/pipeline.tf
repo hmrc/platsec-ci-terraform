@@ -20,6 +20,7 @@ resource "aws_codepipeline" "codepipeline" {
       category         = "Source"
       owner            = "ThirdParty"
       provider         = "GitHub"
+      namespace        = "SourceVariables"
       version          = "1"
       output_artifacts = ["source_output"]
 
@@ -28,7 +29,7 @@ resource "aws_codepipeline" "codepipeline" {
         Repo                 = var.src_repo
         PollForSourceChanges = false
         Branch               = var.branch
-        OAuthToken           = var.source_v1_oauth_token
+        OAuthToken           = var.github_token
       }
     }
   }
@@ -47,6 +48,13 @@ resource "aws_codepipeline" "codepipeline" {
 
       configuration = {
         ProjectName = module.build_artifact_step.name
+        EnvironmentVariables = jsonencode([
+          {
+            name  = "COMMIT_ID"
+            value = "#{SourceVariables.CommitId}"
+            type  = "PLAINTEXT"
+          }
+        ])
       }
     }
   }
@@ -63,7 +71,27 @@ resource "aws_codepipeline" "codepipeline" {
       version         = "1"
 
       configuration = {
-        ProjectName = module.lambda-deployment-step-development.name
+        ProjectName = module.zip-deployment-step-development.name
+      }
+    }
+
+    action {
+      name            = "Upload_to_Artifactory"
+      category        = "Build"
+      owner           = "AWS"
+      provider        = "CodeBuild"
+      input_artifacts = ["build_output"]
+      version         = "1"
+
+      configuration = {
+        ProjectName = module.zip_upload_artifactory_step.name
+        EnvironmentVariables = jsonencode([
+          {
+            name  = "COMMIT_ID"
+            value = "#{SourceVariables.CommitId}"
+            type  = "PLAINTEXT"
+          }
+        ])
       }
     }
   }
@@ -80,9 +108,8 @@ resource "aws_codepipeline" "codepipeline" {
       version  = "1"
 
       configuration = {
-        # this is only supported for source v2 actions (CodeStarSourceConnection)
-        # ExternalEntityLink : "https://github.com/${var.src_org}/${var.src_repo}/commit/#{SourceVariables.CommitId}"
-        # CustomData : "#{SourceVariables.CommitMessage}"
+        ExternalEntityLink : "https://github.com/${var.src_org}/${var.src_repo}/commit/#{SourceVariables.CommitId}"
+        CustomData : "#{SourceVariables.CommitMessage}"
       }
     }
   }
@@ -99,7 +126,7 @@ resource "aws_codepipeline" "codepipeline" {
       version         = "1"
 
       configuration = {
-        ProjectName = module.lambda-deployment-step-production.name
+        ProjectName = module.zip-deployment-step-production.name
       }
     }
   }

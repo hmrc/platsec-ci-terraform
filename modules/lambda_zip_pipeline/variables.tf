@@ -50,7 +50,7 @@ variable "target_region" {
   description = "The region that lambdas will be deployed into"
 }
 
-variable "source_v1_oauth_token" {
+variable "github_token" {
   type = string
 }
 

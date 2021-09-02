@@ -20,12 +20,8 @@ variable "src_repo" {
   type = string
 }
 
-variable "github_connection_arn" {
+variable "github_token" {
   type = string
-  validation {
-    condition     = can(regex("^arn:aws:", var.github_connection_arn))
-    error_message = "Arn must be given and should start with 'arn:aws:'."
-  }
 }
 
 variable "lambda_function_name" {

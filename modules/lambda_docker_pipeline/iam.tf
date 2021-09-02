@@ -30,24 +30,12 @@ data "aws_iam_policy_document" "codepipeline_policy" {
   statement {
     effect = "Allow"
     actions = [
-      "codestar-connections:UseConnection"
-    ]
-    resources = [
-      var.github_connection_arn
-    ]
-  }
-
-  statement {
-    effect = "Allow"
-    actions = [
       "codebuild:BatchGetBuilds",
       "codebuild:StartBuild"
     ]
 
     resources = [
-      module.build_artifact_step.arn,
-      module.docker_deployment_development.arn,
-      module.docker_deployment_production.arn,
+      "arn:aws:codebuild:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:project/${local.full_name}*"
     ]
   }
 
@@ -136,7 +124,7 @@ data "aws_iam_policy_document" "build_core" {
     actions = [
       "logs:CreateLogGroup",
       "logs:CreateLogStream",
-      "logs:PutLogEvents"
+      "logs:PutLogEvents",
     ]
     resources = ["*"]
   }
@@ -162,7 +150,7 @@ data "aws_iam_policy_document" "build_core" {
     ]
     resources = [
       "${aws_s3_bucket.codepipeline_bucket.arn}/*/source_out/*",
-      "${aws_s3_bucket.codepipeline_bucket.arn}/*/build_outp/*"
+      "${aws_s3_bucket.codepipeline_bucket.arn}/*/build_outp/*",
     ]
   }
 }
@@ -171,10 +159,10 @@ data "aws_iam_policy_document" "store_artifacts" {
   statement {
     actions = [
       "s3:PutObjectAcl",
-      "s3:PutObject"
+      "s3:PutObject",
     ]
     resources = [
-      "${aws_s3_bucket.codepipeline_bucket.arn}*build_outp/*"
+      "${aws_s3_bucket.codepipeline_bucket.arn}/*/build_outp/*"
     ]
   }
 }
@@ -188,6 +176,36 @@ resource "aws_iam_policy" "build_core" {
   }
 }
 
+locals {
+  artifactory_secret_manager_names = {
+    token : "/artifactory/live/ci-token"
+    username : "/artifactory/live/ci-username"
+  }
+}
+
+data "aws_iam_policy_document" "get_artifactory_credentials" {
+  statement {
+    actions = [
+      "secretsmanager:GetResourcePolicy",
+      "secretsmanager:GetSecretValue",
+      "secretsmanager:DescribeSecret",
+      "secretsmanager:ListSecretVersionIds"
+    ]
+    resources = [
+      "arn:aws:secretsmanager:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:secret:${local.artifactory_secret_manager_names.token}*",
+      "arn:aws:secretsmanager:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:secret:${local.artifactory_secret_manager_names.username}*",
+    ]
+  }
+}
+
+resource "aws_iam_policy" "get_artifactory_credentials" {
+  name_prefix = "${local.full_name}-artifactory-creds"
+  policy      = data.aws_iam_policy_document.get_artifactory_credentials.json
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
 
 resource "aws_iam_policy" "store_artifacts" {
   name_prefix = "${local.full_name}-build-store-artifacts"
