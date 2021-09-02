@@ -8,7 +8,35 @@ deployment as:
 1. ZIP file
 2. Docker image
 
+>If you are using Docker Hub as a source of your base image or using Docker Hub
+for build purpose, it may hit API limits. To avoid this please use our
+Artifactory proxy eg. instead of Docker image `python` you can use
+`dockerhub.tax.service.gov.uk/python` in your `FROM` directive in a Dockerfile.
+
 ## ZIP deploy pipeline
+
+### CodeBuild Buildspec
+
+To be able to use this pipeline you need to supply `buildspec.yml` in the root
+of your repo which will be used by CI to build the artefact. The artefact needs
+to be saved in the root of the repo as `lambda.zip`.
+
+For example this buildspec will use `Makefile` to run all tests, then build
+lambda package and finally save it as artifact `lambda.zip`.
+
+```yaml
+version: 0.2
+phases:
+  build:
+    commands:
+      - make test
+      - make lambda-package
+artifacts:
+  files:
+    - lambda.zip
+```
+
+### Terraform
 
 In your Terraform you will need to ignore changes in Lambda ZIP that the
 pipeline makes. Otherwise your deployments will be reverted next time your
@@ -35,6 +63,33 @@ resource "aws_lambda_function" "lambda_function" {
 ```
 
 ## Docker deploy pipeline
+
+### CodeBuild Buildspec
+
+To be able to use this pipeline you need to supply `buildspec.yml` in the root
+of your repo which will be used by CI to build the artefact. There are a few
+requirements for Docker image:
+
+1. tagged as `container-release:local`
+2. saved as `docker.tar` in the root of the repo and reference it as an artifact
+
+```yaml
+version: 0.2
+phases:
+  build:
+    commands:
+      - make test
+      - make container-release
+      - docker save -o docker.tar container-release:local
+artifacts:
+  files:
+    - docker.tar
+```
+
+This buildspec will use `Makefile` to run all tests, then build Docker image and
+finally save it `docker.tar`.
+
+### Terraform
 
 In your Terraform you will need to ignore changes of `image_uri` which is now
 managed by this pipeline. Otherwise your deployments will be reverted next time
