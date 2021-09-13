@@ -68,7 +68,7 @@ module "prowler_worker" {
 
   pipeline_name = "prowler-worker"
   src_repo      = "platsec-prowler-lambda-worker"
-  branch        = "master"
+  branch        = "main"
   github_token  = data.aws_secretsmanager_secret_version.github_token.secret_string
 
   lambda_function_name = "platsec_lambda_prowler_scanner"
@@ -87,7 +87,7 @@ module "cloudtrail_monitoring" {
 
   pipeline_name = "cloudtrail-monitoring"
   src_repo      = "platsec-cloudtrail-monitoring"
-  branch        = "master"
+  branch        = "main"
   github_token  = data.aws_secretsmanager_secret_version.github_token.secret_string
 
   lambda_function_name = "platsec_cloudtrail_monitoring"
