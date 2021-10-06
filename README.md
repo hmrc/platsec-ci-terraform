@@ -123,6 +123,7 @@ You will need to get the backend config file to run plans and applies locally
     ```
 
 - then run: `terraform init -backend-config="$(git rev-parse --show-toplevel)/backend.hcl"`
+- You can switch Terraform workspaces to test your changes in isolation with: `terraform workspace list` and `terraform workspace select foo`
 - you are now free to make changes e.g. `terraform apply`
 - done ✅
 

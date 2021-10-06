@@ -80,6 +80,25 @@ module "prowler_worker" {
   ci_agent_to_endpoints_sg_id = module.networking.ci_agent_to_endpoints_sg_id
 }
 
+module "aws_scanner" {
+  source      = "./modules/lambda_docker_pipeline"
+  name_prefix = module.label.id
+
+  pipeline_name = "aws-scanner"
+  src_repo      = "platsec-aws-scanner"
+  branch        = "main"
+
+
+  lambda_function_name = "platsec_aws_scanner_lambda"
+  ecr_name             = "platsec-aws-scanner"
+
+  accounts                    = local.accounts
+  vpc_config                  = module.networking.vpc_config
+  ci_agent_to_internet_sg_id  = module.networking.ci_agent_to_internet_sg_id
+  ci_agent_to_endpoints_sg_id = module.networking.ci_agent_to_endpoints_sg_id
+  github_token                = data.aws_secretsmanager_secret_version.github_token.secret_string
+}
+
 
 module "cloudtrail_monitoring" {
   source      = "./modules/lambda_zip_pipeline"
