@@ -62,6 +62,23 @@ module "networking" {
   source      = "./modules/networking"
 }
 
+module "compliance_dataviz" {
+  source      = "./modules/ecs_docker_pipeline"
+  name_prefix = module.label.id
+
+  pipeline_name = "compliance-dataviz"
+  src_repo      = "platsec-compliance-dataviz"
+  branch        = "main"
+  github_token  = data.aws_secretsmanager_secret_version.github_token.secret_string
+
+  ecr_name             = "compliance-dataviz"
+
+  accounts                    = local.accounts
+  vpc_config                  = module.networking.vpc_config
+  ci_agent_to_internet_sg_id  = module.networking.ci_agent_to_internet_sg_id
+  ci_agent_to_endpoints_sg_id = module.networking.ci_agent_to_endpoints_sg_id
+}
+
 module "prowler_worker" {
   source      = "./modules/lambda_docker_pipeline"
   name_prefix = module.label.id
