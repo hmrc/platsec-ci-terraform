@@ -99,6 +99,24 @@ module "aws_scanner" {
   github_token                = data.aws_secretsmanager_secret_version.github_token.secret_string
 }
 
+module "compliance_alerting" {
+  source      = "./modules/lambda_docker_pipeline"
+  name_prefix = module.label.id
+
+  pipeline_name = "compliance-alerting"
+  src_repo      = "platsec-compliance-alerting"
+  branch        = "main"
+
+
+  lambda_function_name = "platsec_compliance_alerting_lambda"
+  ecr_name             = "platsec-compliance-alerting"
+
+  accounts                    = local.accounts
+  vpc_config                  = module.networking.vpc_config
+  ci_agent_to_internet_sg_id  = module.networking.ci_agent_to_internet_sg_id
+  ci_agent_to_endpoints_sg_id = module.networking.ci_agent_to_endpoints_sg_id
+  github_token                = data.aws_secretsmanager_secret_version.github_token.secret_string
+}
 
 module "cloudtrail_monitoring" {
   source      = "./modules/lambda_zip_pipeline"
