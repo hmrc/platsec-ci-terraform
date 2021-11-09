@@ -116,3 +116,22 @@ module "cloudtrail_monitoring" {
   ci_agent_to_internet_sg_id  = module.networking.ci_agent_to_internet_sg_id
   ci_agent_to_endpoints_sg_id = module.networking.ci_agent_to_endpoints_sg_id
 }
+
+module "github_webhook_report" {
+  source      = "./modules/lambda_docker_pipeline"
+  name_prefix = module.label.id
+
+  pipeline_name = "github-webhook-report"
+  src_repo      = "github-webhook-report-lambda"
+  branch        = "main"
+
+
+  lambda_function_name = "github_webhook_report_lambda"
+  ecr_name             = "github-webhook-report"
+
+  accounts                    = local.accounts
+  vpc_config                  = module.networking.vpc_config
+  ci_agent_to_internet_sg_id  = module.networking.ci_agent_to_internet_sg_id
+  ci_agent_to_endpoints_sg_id = module.networking.ci_agent_to_endpoints_sg_id
+  github_token                = data.aws_secretsmanager_secret_version.github_token.secret_string
+}
