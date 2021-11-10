@@ -32,6 +32,10 @@ variable "ecr_name" {
   type = string
 }
 
+variable "upload_to_artifactory" {
+  default = true
+}
+
 variable "target_region" {
   type        = string
   default     = "eu-west-2"

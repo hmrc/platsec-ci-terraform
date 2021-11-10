@@ -103,6 +103,8 @@ module "compliance_alerting" {
   source      = "./modules/lambda_docker_pipeline"
   name_prefix = module.label.id
 
+  upload_to_artifactory = false
+
   pipeline_name = "compliance-alerting"
   src_repo      = "platsec-compliance-alerting"
   branch        = "main"

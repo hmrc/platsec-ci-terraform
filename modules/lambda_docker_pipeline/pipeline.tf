@@ -81,23 +81,27 @@ resource "aws_codepipeline" "codepipeline" {
       }
     }
 
-    action {
-      name            = "Upload_to_Artifactory"
-      category        = "Build"
-      owner           = "AWS"
-      provider        = "CodeBuild"
-      input_artifacts = ["build_output"]
-      version         = "1"
+    dynamic "action" {
+      for_each = var.upload_to_artifactory ? toset(["Upload"]) : toset([])
 
-      configuration = {
-        ProjectName = module.docker_upload_artifactory_step.name
-        EnvironmentVariables = jsonencode([
-          {
-            name  = "COMMIT_ID"
-            value = "#{SourceVariables.CommitId}"
-            type  = "PLAINTEXT"
-          }
-        ])
+      content {
+        name            = "Upload_to_Artifactory"
+        category        = "Build"
+        owner           = "AWS"
+        provider        = "CodeBuild"
+        input_artifacts = ["build_output"]
+        version         = "1"
+
+        configuration = {
+          ProjectName = module.docker_upload_artifactory_step.name
+          EnvironmentVariables = jsonencode([
+            {
+              name  = "COMMIT_ID"
+              value = "#{SourceVariables.CommitId}"
+              type  = "PLAINTEXT"
+            }
+          ])
+        }
       }
     }
   }
