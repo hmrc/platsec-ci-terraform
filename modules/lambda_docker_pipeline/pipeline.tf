@@ -59,10 +59,10 @@ resource "aws_codepipeline" "codepipeline" {
   }
 
   stage {
-    name = "Development"
+    name = "Upload_Development"
 
     action {
-      name            = "Deploy_Development"
+      name            = "Upload_to_Ecr_development"
       category        = "Build"
       owner           = "AWS"
       provider        = "CodeBuild"
@@ -70,7 +70,7 @@ resource "aws_codepipeline" "codepipeline" {
       version         = "1"
 
       configuration = {
-        ProjectName = module.docker_deployment_development.name
+        ProjectName = module.upload_to_ecr_development.name
         EnvironmentVariables = jsonencode([
           {
             name  = "COMMIT_ID"
@@ -103,6 +103,31 @@ resource "aws_codepipeline" "codepipeline" {
   }
 
   stage {
+    name = "Deploy_Development"
+
+    action {
+      name            = "Deploy_Development"
+      category        = "Build"
+      owner           = "AWS"
+      provider        = "CodeBuild"
+      input_artifacts = ["build_output"]
+      version         = "1"
+
+      configuration = {
+        ProjectName = module.docker_deployment_development.name
+        EnvironmentVariables = jsonencode([
+          {
+            name  = "COMMIT_ID"
+            value = "#{SourceVariables.CommitId}"
+            type  = "PLAINTEXT"
+          }
+        ])
+      }
+    }
+  }
+
+
+  stage {
     name = "Approve_Production"
 
     action {
@@ -120,7 +145,32 @@ resource "aws_codepipeline" "codepipeline" {
   }
 
   stage {
-    name = "Production"
+    name = "Upload_Production"
+
+    action {
+      name            = "Upload_to_Ecr_production"
+      category        = "Build"
+      owner           = "AWS"
+      provider        = "CodeBuild"
+      input_artifacts = ["build_output"]
+      version         = "1"
+
+      configuration = {
+        ProjectName = module.upload_to_ecr_production.name
+        EnvironmentVariables = jsonencode([
+          {
+            name  = "COMMIT_ID"
+            value = "#{SourceVariables.CommitId}"
+            type  = "PLAINTEXT"
+          }
+        ])
+      }
+
+    }
+  }
+
+  stage {
+    name = "Deploy_Production"
 
     action {
       name            = "Deploy_Production"
