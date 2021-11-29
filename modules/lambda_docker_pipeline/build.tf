@@ -11,8 +11,8 @@ module "build_artifact_step" {
   artifactory_secret_manager_names = local.artifactory_secret_manager_names
 }
 
-module "docker_upload_artifactory_step" {
-  source           = "../docker_upload_step"
+module "upload_to_artifactory_step" {
+  source           = "../upload_to_artifactory_step"
   name_prefix      = "${local.full_name}-artifactory"
   docker_repo_name = var.src_repo
   policy_arns      = [aws_iam_policy.build_core.arn, aws_iam_policy.get_artifactory_credentials.arn]

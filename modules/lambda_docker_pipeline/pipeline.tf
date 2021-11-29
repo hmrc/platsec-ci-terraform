@@ -90,7 +90,7 @@ resource "aws_codepipeline" "codepipeline" {
       version         = "1"
 
       configuration = {
-        ProjectName = module.docker_upload_artifactory_step.name
+        ProjectName = module.upload_to_artifactory_step.name
         EnvironmentVariables = jsonencode([
           {
             name  = "COMMIT_ID"

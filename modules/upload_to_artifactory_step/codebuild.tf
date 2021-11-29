@@ -1,5 +1,5 @@
 resource "aws_codebuild_project" "upload" {
-  name          = "${var.name_prefix}-docker-upload"
+  name          = "${var.name_prefix}-upload-to-artifactory"
   build_timeout = 5
 
   service_role = aws_iam_role.upload.arn
@@ -45,6 +45,6 @@ resource "aws_codebuild_project" "upload" {
 
   source {
     type      = "CODEPIPELINE"
-    buildspec = file("${path.module}/assets/upload_artifactory.yaml")
+    buildspec = file("${path.module}/assets/upload-to-artifactory.yaml")
   }
 }
