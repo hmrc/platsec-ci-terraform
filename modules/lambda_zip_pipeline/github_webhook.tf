@@ -6,7 +6,7 @@ resource "random_password" "webhook" {
 }
 
 resource "aws_codepipeline_webhook" "default" {
-  name            = "${local.full_name}-source-${var.src_repo}"
+  name            = "${local.pipeline}-source-${var.src_repo}"
   authentication  = "GITHUB_HMAC"
   target_action   = "Source"
   target_pipeline = aws_codepipeline.codepipeline.name

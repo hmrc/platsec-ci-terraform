@@ -35,7 +35,7 @@ data "aws_iam_policy_document" "codepipeline_policy" {
     ]
 
     resources = [
-      "arn:aws:codebuild:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:project/${local.full_name}*"
+      "arn:aws:codebuild:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:project/${local.pipeline}*"
     ]
   }
 
@@ -55,18 +55,28 @@ data "aws_iam_policy_document" "codepipeline_policy" {
 }
 
 resource "aws_iam_policy" "codepipeline_policy" {
-  name_prefix = "${local.full_name}-codepipeline"
+  name_prefix = substr(local.pipeline, 0, 32)
+  description = "${local.pipeline} CodePipeline"
   policy      = data.aws_iam_policy_document.codepipeline_policy.json
 
   lifecycle {
     create_before_destroy = true
   }
+
+  tags = {
+    Pipeline = local.pipeline
+  }
 }
 
 resource "aws_iam_role" "codepipeline_role" {
-  name                = "${local.full_name}-codepipeline"
+  name_prefix         = substr(local.pipeline, 0, 32)
+  description         = "${local.pipeline} CodePipeline"
   assume_role_policy  = data.aws_iam_policy_document.codepipeline_assume_role.json
   managed_policy_arns = [aws_iam_policy.codepipeline_policy.arn]
+
+  tags = {
+    Pipeline = local.pipeline
+  }
 }
 
 data "aws_iam_policy_document" "codebuild_assume_role" {
@@ -167,11 +177,16 @@ data "aws_iam_policy_document" "store_artifacts" {
 }
 
 resource "aws_iam_policy" "build_core" {
-  name_prefix = "${local.full_name}-build-core"
+  name_prefix = substr(local.pipeline, 0, 32)
+  description = "${local.pipeline} build"
   policy      = data.aws_iam_policy_document.build_core.json
 
   lifecycle {
     create_before_destroy = true
+  }
+
+  tags = {
+    Pipeline = local.pipeline
   }
 }
 
@@ -198,19 +213,29 @@ data "aws_iam_policy_document" "get_artifactory_credentials" {
 }
 
 resource "aws_iam_policy" "get_artifactory_credentials" {
-  name_prefix = "${local.full_name}-artifactory-creds"
+  name_prefix = substr(local.pipeline, 0, 32)
+  description = "${local.pipeline} get artifactory credentials"
   policy      = data.aws_iam_policy_document.get_artifactory_credentials.json
 
   lifecycle {
     create_before_destroy = true
   }
+
+  tags = {
+    Pipeline = local.pipeline
+  }
 }
 
 resource "aws_iam_policy" "store_artifacts" {
-  name_prefix = "${local.full_name}-build-store-artifacts"
+  name_prefix = substr(local.pipeline, 0, 32)
+  description = "${local.pipeline} store artefacts"
   policy      = data.aws_iam_policy_document.store_artifacts.json
 
   lifecycle {
     create_before_destroy = true
+  }
+
+  tags = {
+    Pipeline = local.pipeline
   }
 }

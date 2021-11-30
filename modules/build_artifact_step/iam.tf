@@ -27,19 +27,30 @@ data "aws_iam_policy_document" "build" {
 }
 
 resource "aws_iam_policy" "store_artifacts" {
-  name_prefix = "${var.name_prefix}-codebuild-store-artifacts"
-  policy      = data.aws_iam_policy_document.build.json
+  name_prefix = substr(var.step_name, 0, 32)
+  description = "${var.step_name} store artefacts"
+
+  policy = data.aws_iam_policy_document.build.json
 
   lifecycle {
     create_before_destroy = true
   }
+
+  tags = {
+    Step = var.step_name
+  }
 }
 
 resource "aws_iam_role" "build" {
-  name               = "${var.name_prefix}-build-artifact"
+  name_prefix        = substr(var.step_name, 0, 32)
+  description        = "${var.step_name} build"
   assume_role_policy = data.aws_iam_policy_document.codebuild_assume_role.json
   managed_policy_arns = concat(
     [aws_iam_policy.store_artifacts.arn],
     var.policy_arns
   )
+
+  tags = {
+    Step = var.step_name
+  }
 }

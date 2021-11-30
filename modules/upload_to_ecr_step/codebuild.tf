@@ -1,5 +1,5 @@
 resource "aws_codebuild_project" "deploy" {
-  name          = "${var.name_prefix}-upload-to-ecr"
+  name          = var.step_name
   build_timeout = 5
 
   service_role = aws_iam_role.deploy.arn
@@ -28,8 +28,8 @@ resource "aws_codebuild_project" "deploy" {
 
   logs_config {
     cloudwatch_logs {
-      group_name  = var.name_prefix
-      stream_name = var.name_prefix
+      group_name  = var.step_name
+      stream_name = var.step_name
     }
   }
 
