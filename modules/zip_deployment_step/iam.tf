@@ -18,19 +18,29 @@ data "aws_iam_policy_document" "deploy" {
 }
 
 resource "aws_iam_policy" "deploy" {
-  name_prefix = "${var.name_prefix}-deploy"
+  name_prefix = substr(var.step_name, 0, 32)
+  description = "${var.step_name} deploy"
   policy      = data.aws_iam_policy_document.deploy.json
 
   lifecycle {
     create_before_destroy = true
   }
+
+  tags = {
+    Step = var.step_name
+  }
 }
 
 resource "aws_iam_role" "deploy" {
-  name               = "${var.name_prefix}-deploy"
+  name_prefix        = substr(var.step_name, 0, 32)
+  description        = "${var.step_name} deploy"
   assume_role_policy = data.aws_iam_policy_document.codebuild_assume_role.json
   managed_policy_arns = [
     var.build_core_policy_arn,
     aws_iam_policy.deploy.arn
   ]
+
+  tags = {
+    Step = var.step_name
+  }
 }

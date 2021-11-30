@@ -21,5 +21,6 @@ provider "github" {
 }
 
 locals {
-  full_name = "${var.name_prefix}-${var.pipeline_name}"
+  is_live  = terraform.workspace == "live"
+  pipeline = local.is_live ? var.pipeline_name : "${terraform.workspace}-${var.pipeline_name}"
 }

@@ -1,5 +1,5 @@
 resource "aws_codepipeline" "codepipeline" {
-  name     = var.pipeline_name
+  name     = local.pipeline
   role_arn = aws_iam_role.codepipeline_role.arn
 
   artifact_store {
@@ -59,7 +59,51 @@ resource "aws_codepipeline" "codepipeline" {
   }
 
   stage {
-    name = "Development"
+    name = "Upload_Development"
+
+    action {
+      name            = "Upload_to_Ecr_development"
+      category        = "Build"
+      owner           = "AWS"
+      provider        = "CodeBuild"
+      input_artifacts = ["build_output"]
+      version         = "1"
+
+      configuration = {
+        ProjectName = module.upload_to_ecr_development.name
+        EnvironmentVariables = jsonencode([
+          {
+            name  = "COMMIT_ID"
+            value = "#{SourceVariables.CommitId}"
+            type  = "PLAINTEXT"
+          }
+        ])
+      }
+    }
+
+    action {
+      name            = "Upload_to_Artifactory"
+      category        = "Build"
+      owner           = "AWS"
+      provider        = "CodeBuild"
+      input_artifacts = ["build_output"]
+      version         = "1"
+
+      configuration = {
+        ProjectName = module.upload_to_artifactory_step.name
+        EnvironmentVariables = jsonencode([
+          {
+            name  = "COMMIT_ID"
+            value = "#{SourceVariables.CommitId}"
+            type  = "PLAINTEXT"
+          }
+        ])
+      }
+    }
+  }
+
+  stage {
+    name = "Deploy_Development"
 
     action {
       name            = "Deploy_Development"
@@ -80,67 +124,82 @@ resource "aws_codepipeline" "codepipeline" {
         ])
       }
     }
+  }
 
-    action {
-      name            = "Upload_to_Artifactory"
-      category        = "Build"
-      owner           = "AWS"
-      provider        = "CodeBuild"
-      input_artifacts = ["build_output"]
-      version         = "1"
+  dynamic "stage" {
+    for_each = local.is_live ? toset(["Approve_Production"]) : toset([])
+    content {
+      name = stage.value
 
-      configuration = {
-        ProjectName = module.docker_upload_artifactory_step.name
-        EnvironmentVariables = jsonencode([
-          {
-            name  = "COMMIT_ID"
-            value = "#{SourceVariables.CommitId}"
-            type  = "PLAINTEXT"
-          }
-        ])
+      action {
+        name     = stage.value
+        category = "Approval"
+        owner    = "AWS"
+        provider = "Manual"
+        version  = "1"
+
+        configuration = {
+          ExternalEntityLink : "https://github.com/${var.src_org}/${var.src_repo}/commit/#{SourceVariables.CommitId}"
+          CustomData : "#{SourceVariables.CommitMessage}"
+        }
       }
     }
   }
 
-  stage {
-    name = "Approve_Production"
+  dynamic "stage" {
+    for_each = local.is_live ? toset(["Upload_Production"]) : toset([])
 
-    action {
-      name     = "Approve_Production"
-      category = "Approval"
-      owner    = "AWS"
-      provider = "Manual"
-      version  = "1"
+    content {
+      name = stage.value
 
-      configuration = {
-        ExternalEntityLink : "https://github.com/${var.src_org}/${var.src_repo}/commit/#{SourceVariables.CommitId}"
-        CustomData : "#{SourceVariables.CommitMessage}"
+      action {
+        name            = "Upload_to_Ecr_production"
+        category        = "Build"
+        owner           = "AWS"
+        provider        = "CodeBuild"
+        input_artifacts = ["build_output"]
+        version         = "1"
+
+        configuration = {
+          ProjectName = module.upload_to_ecr_production.name
+          EnvironmentVariables = jsonencode([
+            {
+              name  = "COMMIT_ID"
+              value = "#{SourceVariables.CommitId}"
+              type  = "PLAINTEXT"
+            }
+          ])
+        }
       }
     }
   }
 
-  stage {
-    name = "Production"
+  dynamic "stage" {
+    for_each = local.is_live ? toset(["Deploy_Production"]) : toset([])
 
-    action {
-      name            = "Deploy_Production"
-      category        = "Build"
-      owner           = "AWS"
-      provider        = "CodeBuild"
-      input_artifacts = ["build_output"]
-      version         = "1"
+    content {
+      name = stage.value
 
-      configuration = {
-        ProjectName = module.docker_deployment_production.name
-        EnvironmentVariables = jsonencode([
-          {
-            name  = "COMMIT_ID"
-            value = "#{SourceVariables.CommitId}"
-            type  = "PLAINTEXT"
-          }
-        ])
+      action {
+        name            = stage.value
+        category        = "Build"
+        owner           = "AWS"
+        provider        = "CodeBuild"
+        input_artifacts = ["build_output"]
+        version         = "1"
+
+        configuration = {
+          ProjectName = module.docker_deployment_production.name
+          EnvironmentVariables = jsonencode([
+            {
+              name  = "COMMIT_ID"
+              value = "#{SourceVariables.CommitId}"
+              type  = "PLAINTEXT"
+            }
+          ])
+        }
+
       }
-
     }
   }
 }

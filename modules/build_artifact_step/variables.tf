@@ -1,6 +1,7 @@
-variable "name_prefix" {
+variable "step_name" {
   type = string
 }
+
 variable "vpc_config" {
   type = object({
     private_subnet_ids  = list(string),

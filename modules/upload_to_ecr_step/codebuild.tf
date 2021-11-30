@@ -1,8 +1,8 @@
-resource "aws_codebuild_project" "upload" {
-  name          = "${var.name_prefix}-docker-upload"
+resource "aws_codebuild_project" "deploy" {
+  name          = var.step_name
   build_timeout = 5
 
-  service_role = aws_iam_role.upload.arn
+  service_role = aws_iam_role.deploy.arn
 
   vpc_config {
     security_group_ids = var.agent_security_group_ids
@@ -17,25 +17,19 @@ resource "aws_codebuild_project" "upload" {
     privileged_mode             = true
 
     environment_variable {
-      name  = "REPO_URL"
-      value = "artefacts.tax.service.gov.uk/${var.docker_repo_name}"
+      name  = "ECR_URL"
+      value = var.ecr_url
     }
     environment_variable {
-      type  = "SECRETS_MANAGER"
-      name  = "ARTIFACTORY_TOKEN"
-      value = var.artifactory_secret_manager_names.token
-    }
-    environment_variable {
-      type  = "SECRETS_MANAGER"
-      name  = "ARTIFACTORY_USERNAME"
-      value = var.artifactory_secret_manager_names.username
+      name  = "DEPLOYMENT_ROLE_ARN"
+      value = var.deployment_role_arn
     }
   }
 
   logs_config {
     cloudwatch_logs {
-      group_name  = var.name_prefix
-      stream_name = var.name_prefix
+      group_name  = var.step_name
+      stream_name = var.step_name
     }
   }
 
@@ -45,6 +39,6 @@ resource "aws_codebuild_project" "upload" {
 
   source {
     type      = "CODEPIPELINE"
-    buildspec = file("${path.module}/assets/upload_artifactory.yaml")
+    buildspec = file("${path.module}/assets/upload-to-ecr.yaml")
   }
 }

@@ -27,6 +27,8 @@ provider "aws" {
 }
 
 locals {
+  is_live = terraform.workspace == "live"
+
   accounts = {
     sandbox : {
       id : nonsensitive(tonumber(data.aws_secretsmanager_secret_version.sandbox_account_id.secret_string))
@@ -53,18 +55,8 @@ module "label" {
   name      = "platsec-ci"
 }
 
-module "networking" {
-  providers = {
-    aws.no-default-tags = aws.no-default-tags
-  }
-
-  name_prefix = module.label.id
-  source      = "./modules/networking"
-}
-
 module "prowler_worker" {
-  source      = "./modules/lambda_docker_pipeline"
-  name_prefix = module.label.id
+  source = "./modules/lambda_docker_pipeline"
 
   pipeline_name = "prowler-worker"
   src_repo      = "platsec-prowler-lambda-worker"
@@ -75,14 +67,13 @@ module "prowler_worker" {
   ecr_name             = "platsec-prowler"
 
   accounts                    = local.accounts
-  vpc_config                  = module.networking.vpc_config
-  ci_agent_to_internet_sg_id  = module.networking.ci_agent_to_internet_sg_id
-  ci_agent_to_endpoints_sg_id = module.networking.ci_agent_to_endpoints_sg_id
+  vpc_config                  = local.vpc_config
+  ci_agent_to_internet_sg_id  = local.ci_agent_to_internet_sg_id
+  ci_agent_to_endpoints_sg_id = local.ci_agent_to_endpoints_sg_id
 }
 
 module "aws_scanner" {
-  source      = "./modules/lambda_docker_pipeline"
-  name_prefix = module.label.id
+  source = "./modules/lambda_docker_pipeline"
 
   pipeline_name = "aws-scanner"
   src_repo      = "platsec-aws-scanner"
@@ -93,15 +84,14 @@ module "aws_scanner" {
   ecr_name             = "platsec-aws-scanner"
 
   accounts                    = local.accounts
-  vpc_config                  = module.networking.vpc_config
-  ci_agent_to_internet_sg_id  = module.networking.ci_agent_to_internet_sg_id
-  ci_agent_to_endpoints_sg_id = module.networking.ci_agent_to_endpoints_sg_id
+  vpc_config                  = local.vpc_config
+  ci_agent_to_internet_sg_id  = local.ci_agent_to_internet_sg_id
+  ci_agent_to_endpoints_sg_id = local.ci_agent_to_endpoints_sg_id
   github_token                = data.aws_secretsmanager_secret_version.github_token.secret_string
 }
 
 module "compliance_alerting" {
-  source      = "./modules/lambda_docker_pipeline"
-  name_prefix = module.label.id
+  source = "./modules/lambda_docker_pipeline"
 
   pipeline_name = "compliance-alerting"
   src_repo      = "platsec-compliance-alerting"
@@ -112,15 +102,14 @@ module "compliance_alerting" {
   ecr_name             = "platsec-compliance-alerting"
 
   accounts                    = local.accounts
-  vpc_config                  = module.networking.vpc_config
-  ci_agent_to_internet_sg_id  = module.networking.ci_agent_to_internet_sg_id
-  ci_agent_to_endpoints_sg_id = module.networking.ci_agent_to_endpoints_sg_id
+  vpc_config                  = local.vpc_config
+  ci_agent_to_internet_sg_id  = local.ci_agent_to_internet_sg_id
+  ci_agent_to_endpoints_sg_id = local.ci_agent_to_endpoints_sg_id
   github_token                = data.aws_secretsmanager_secret_version.github_token.secret_string
 }
 
 module "cloudtrail_monitoring" {
-  source      = "./modules/lambda_zip_pipeline"
-  name_prefix = module.label.id
+  source = "./modules/lambda_zip_pipeline"
 
   pipeline_name = "cloudtrail-monitoring"
   src_repo      = "platsec-cloudtrail-monitoring"
@@ -130,14 +119,13 @@ module "cloudtrail_monitoring" {
   lambda_function_name = "platsec_cloudtrail_monitoring"
 
   accounts                    = local.accounts
-  vpc_config                  = module.networking.vpc_config
-  ci_agent_to_internet_sg_id  = module.networking.ci_agent_to_internet_sg_id
-  ci_agent_to_endpoints_sg_id = module.networking.ci_agent_to_endpoints_sg_id
+  vpc_config                  = local.vpc_config
+  ci_agent_to_internet_sg_id  = local.ci_agent_to_internet_sg_id
+  ci_agent_to_endpoints_sg_id = local.ci_agent_to_endpoints_sg_id
 }
 
 module "github_webhook_report" {
-  source      = "./modules/lambda_docker_pipeline"
-  name_prefix = module.label.id
+  source = "./modules/lambda_docker_pipeline"
 
   pipeline_name = "github-webhook-report"
   src_repo      = "github-webhook-report-lambda"
@@ -148,8 +136,9 @@ module "github_webhook_report" {
   ecr_name             = "github-webhook-report"
 
   accounts                    = local.accounts
-  vpc_config                  = module.networking.vpc_config
-  ci_agent_to_internet_sg_id  = module.networking.ci_agent_to_internet_sg_id
-  ci_agent_to_endpoints_sg_id = module.networking.ci_agent_to_endpoints_sg_id
+  vpc_config                  = local.vpc_config
+  ci_agent_to_internet_sg_id  = local.ci_agent_to_internet_sg_id
+  ci_agent_to_endpoints_sg_id = local.ci_agent_to_endpoints_sg_id
   github_token                = data.aws_secretsmanager_secret_version.github_token.secret_string
 }
+

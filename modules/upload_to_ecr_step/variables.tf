@@ -26,14 +26,6 @@ variable "ecr_url" {
   type = string
 }
 
-variable "lambda_arn" {
-  type = string
-  validation {
-    condition     = can(regex("^arn:aws:lambda:", var.lambda_arn))
-    error_message = "Arn must be given and should start with 'arn:aws:lambda:'."
-  }
-}
-
 variable "deployment_role_arn" {
   type = string
   validation {

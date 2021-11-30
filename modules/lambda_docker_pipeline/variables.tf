@@ -1,7 +1,3 @@
-variable "name_prefix" {
-  type = string
-}
-
 variable "branch" {
   type    = string
   default = "main"
