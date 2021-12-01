@@ -4,7 +4,7 @@ module "build_artifact_step" {
   docker_required = var.docker_build_required
   policy_arns     = [aws_iam_policy.build_core.arn, aws_iam_policy.get_artifactory_credentials.arn]
   step_name       = "${local.pipeline}-build"
-  s3_bucket_arn   = aws_s3_bucket.codepipeline_bucket.arn
+  s3_bucket_arn   = module.pipeline_bucket.bucket_arn
 
   vpc_config                       = var.vpc_config
   agent_security_group_ids         = [var.ci_agent_to_endpoints_sg_id, var.ci_agent_to_internet_sg_id]

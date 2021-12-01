@@ -3,11 +3,11 @@ resource "aws_codepipeline" "codepipeline" {
   role_arn = aws_iam_role.codepipeline_role.arn
 
   artifact_store {
-    location = aws_s3_bucket.codepipeline_bucket.bucket
+    location = module.pipeline_bucket.bucket_id
     type     = "S3"
 
     encryption_key {
-      id   = aws_kms_key.s3kmskey.arn
+      id   = module.pipeline_bucket.kms_key_arn
       type = "KMS"
     }
   }
