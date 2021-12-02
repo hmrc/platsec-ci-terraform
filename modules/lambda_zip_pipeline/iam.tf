@@ -23,7 +23,7 @@ data "aws_iam_policy_document" "codepipeline_policy" {
       "s3:GetBucketVersioning"
     ]
     resources = [
-      "${aws_s3_bucket.codepipeline_bucket.arn}/*/source_out/*"
+      "${module.pipeline_bucket.bucket_arn}/*/source_out/*"
     ]
   }
 
@@ -49,7 +49,7 @@ data "aws_iam_policy_document" "codepipeline_policy" {
       "kms:Decrypt",
     ]
     resources = [
-      aws_kms_key.s3kmskey.arn
+      module.pipeline_bucket.kms_key_arn
     ]
   }
 }
@@ -147,7 +147,7 @@ data "aws_iam_policy_document" "build_core" {
       "kms:DescribeKey",
     ]
     resources = [
-      aws_kms_key.s3kmskey.arn
+      module.pipeline_bucket.kms_key_arn
     ]
   }
 
@@ -158,8 +158,8 @@ data "aws_iam_policy_document" "build_core" {
       "s3:GetBucketVersioning",
     ]
     resources = [
-      "${aws_s3_bucket.codepipeline_bucket.arn}/*/source_out/*",
-      "${aws_s3_bucket.codepipeline_bucket.arn}/*/build_outp/*",
+      "${module.pipeline_bucket.bucket_arn}/*/source_out/*",
+      "${module.pipeline_bucket.bucket_arn}/*/build_outp/*",
     ]
   }
 }
@@ -171,7 +171,7 @@ data "aws_iam_policy_document" "store_artifacts" {
       "s3:PutObject",
     ]
     resources = [
-      "${aws_s3_bucket.codepipeline_bucket.arn}/*/build_outp/*"
+      "${module.pipeline_bucket.bucket_arn}/*/build_outp/*"
     ]
   }
 }

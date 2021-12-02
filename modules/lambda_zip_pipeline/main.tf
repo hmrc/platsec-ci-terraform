@@ -22,5 +22,7 @@ provider "github" {
 
 locals {
   is_live  = terraform.workspace == "live"
-  pipeline = local.is_live ? var.pipeline_name : "${terraform.workspace}-${var.pipeline_name}"
+  prefix   = local.is_live ? "" : "${terraform.workspace}-"
+  pipeline = "${local.prefix}${var.pipeline_name}"
+  build_id = "${local.prefix}#{SourceVariables.CommitId}-#{Timestamp.BUILD_TIMESTAMP}"
 }

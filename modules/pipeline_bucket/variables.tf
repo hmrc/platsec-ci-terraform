@@ -1,0 +1,3 @@
+variable "pipeline" {
+  type = string
+}

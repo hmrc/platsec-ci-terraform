@@ -3,11 +3,11 @@ resource "aws_codepipeline" "codepipeline" {
   role_arn = aws_iam_role.codepipeline_role.arn
 
   artifact_store {
-    location = aws_s3_bucket.codepipeline_bucket.bucket
+    location = module.pipeline_bucket.bucket_id
     type     = "S3"
 
     encryption_key {
-      id   = aws_kms_key.s3kmskey.arn
+      id   = module.pipeline_bucket.kms_key_arn
       type = "KMS"
     }
   }
@@ -57,6 +57,20 @@ resource "aws_codepipeline" "codepipeline" {
         ])
       }
     }
+
+    action {
+      name            = "Create_Timestamp"
+      category        = "Build"
+      owner           = "AWS"
+      provider        = "CodeBuild"
+      input_artifacts = ["source_output"]
+      version         = "1"
+      namespace       = "Timestamp"
+
+      configuration = {
+        ProjectName = module.build_timestamp_step.name
+      }
+    }
   }
 
   stage {
@@ -87,8 +101,8 @@ resource "aws_codepipeline" "codepipeline" {
         ProjectName = module.zip_upload_artifactory_step.name
         EnvironmentVariables = jsonencode([
           {
-            name  = "COMMIT_ID"
-            value = "#{SourceVariables.CommitId}"
+            name  = "BUILD_ID"
+            value = local.build_id
             type  = "PLAINTEXT"
           }
         ])
