@@ -50,7 +50,6 @@ resource "aws_vpc_endpoint" "ecr_api" {
   }
 }
 
-# ECR for Docker Registry API
 resource "aws_vpc_endpoint" "secretsmanager" {
   vpc_id            = module.vpc.vpc_id
   service_name      = "com.amazonaws.${data.aws_region.current.name}.secretsmanager"
@@ -98,6 +97,22 @@ resource "aws_vpc_endpoint" "lambda" {
 
   tags = {
     Name : "${var.name_prefix}-lambda"
+  }
+}
+
+resource "aws_vpc_endpoint" "ecs" {
+  vpc_id            = module.vpc.vpc_id
+  service_name      = "com.amazonaws.${data.aws_region.current.name}.ecs"
+  vpc_endpoint_type = "Interface"
+
+  security_group_ids = [
+    aws_security_group.aws_interface_endpoints.id,
+  ]
+  subnet_ids          = module.vpc.private_subnets
+  private_dns_enabled = true
+
+  tags = {
+    Name : "${var.name_prefix}-ecs"
   }
 }
 
