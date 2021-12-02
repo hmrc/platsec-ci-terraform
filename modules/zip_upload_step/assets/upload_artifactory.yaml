@@ -6,9 +6,8 @@ env:
 phases:
   build:
     commands:
-      - DATE="$(date --utc '+%Y-%m-%d--%H-%M-%S-%Z')" # eg. 2021-08-31--14-58-27-UTC
       - |
         curl -X PUT --location \
           --data-binary @dist/lambda.zip \
           --header "Authorization: Bearer ${ARTIFACTORY_TOKEN}" \
-          "${ARTEFACT_URL}/${PACKAGE_NAME}/${PACKAGE_NAME}-${DATE}-${COMMIT_ID}.zip"
+          "${ARTEFACT_URL}/${PACKAGE_NAME}/${PACKAGE_NAME}-${BUILD_ID}.zip"

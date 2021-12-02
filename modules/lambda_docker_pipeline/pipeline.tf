@@ -56,6 +56,20 @@ resource "aws_codepipeline" "codepipeline" {
         ])
       }
     }
+
+    action {
+      name            = "Create_Timestamp"
+      category        = "Build"
+      owner           = "AWS"
+      provider        = "CodeBuild"
+      input_artifacts = ["source_output"]
+      version         = "1"
+      namespace       = "Timestamp"
+
+      configuration = {
+        ProjectName = module.build_timestamp_step.name
+      }
+    }
   }
 
   stage {
@@ -73,8 +87,8 @@ resource "aws_codepipeline" "codepipeline" {
         ProjectName = module.upload_to_ecr_development.name
         EnvironmentVariables = jsonencode([
           {
-            name  = "COMMIT_ID"
-            value = "#{SourceVariables.CommitId}"
+            name  = "IMAGE_TAG"
+            value = local.build_id
             type  = "PLAINTEXT"
           }
         ])
@@ -93,8 +107,8 @@ resource "aws_codepipeline" "codepipeline" {
         ProjectName = module.upload_to_artifactory_step.name
         EnvironmentVariables = jsonencode([
           {
-            name  = "COMMIT_ID"
-            value = "#{SourceVariables.CommitId}"
+            name  = "IMAGE_TAG"
+            value = local.build_id
             type  = "PLAINTEXT"
           }
         ])
@@ -117,8 +131,8 @@ resource "aws_codepipeline" "codepipeline" {
         ProjectName = module.docker_deployment_development.name
         EnvironmentVariables = jsonencode([
           {
-            name  = "COMMIT_ID"
-            value = "#{SourceVariables.CommitId}"
+            name  = "IMAGE_TAG"
+            value = local.build_id
             type  = "PLAINTEXT"
           }
         ])
@@ -164,8 +178,8 @@ resource "aws_codepipeline" "codepipeline" {
           ProjectName = module.upload_to_ecr_production.name
           EnvironmentVariables = jsonencode([
             {
-              name  = "COMMIT_ID"
-              value = "#{SourceVariables.CommitId}"
+              name  = "IMAGE_TAG"
+              value = local.build_id
               type  = "PLAINTEXT"
             }
           ])
@@ -192,8 +206,8 @@ resource "aws_codepipeline" "codepipeline" {
           ProjectName = module.docker_deployment_production.name
           EnvironmentVariables = jsonencode([
             {
-              name  = "COMMIT_ID"
-              value = "#{SourceVariables.CommitId}"
+              name  = "IMAGE_TAG"
+              value = local.build_id
               type  = "PLAINTEXT"
             }
           ])
