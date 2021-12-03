@@ -37,7 +37,7 @@ module "zip-deployment-step-development" {
   lambda_arn            = "arn:aws:lambda:${var.target_region}:${var.accounts.development.id}:function:${var.lambda_function_name}"
   step_name             = "${local.pipeline}-development"
   build_core_policy_arn = aws_iam_policy.build_core.arn
-  deployment_role_arn   = var.accounts.development.deployment_role_arn
+  deployment_role_arn   = var.accounts.development.role_arns["lambda-deploy"]
 
   vpc_config               = var.vpc_config
   agent_security_group_ids = [var.ci_agent_to_endpoints_sg_id]
@@ -49,7 +49,7 @@ module "zip-deployment-step-production" {
   lambda_arn            = "arn:aws:lambda:${var.target_region}:${var.accounts.production.id}:function:${var.lambda_function_name}"
   step_name             = "${local.pipeline}-production"
   build_core_policy_arn = aws_iam_policy.build_core.arn
-  deployment_role_arn   = var.accounts.production.deployment_role_arn
+  deployment_role_arn   = var.accounts.production.role_arns["lambda-deploy"]
 
   vpc_config               = var.vpc_config
   agent_security_group_ids = [var.ci_agent_to_endpoints_sg_id]

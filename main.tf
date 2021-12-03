@@ -27,21 +27,22 @@ provider "aws" {
 }
 
 locals {
-  is_live = terraform.workspace == "live"
+  is_live    = terraform.workspace == "live"
+  step_roles = toset(["lambda-deploy", "ecr-upload", "ecs-task-update"])
 
   accounts = {
     sandbox : {
       id : nonsensitive(tonumber(data.aws_secretsmanager_secret_version.sandbox_account_id.secret_string))
-      deployment_role_arn : nonsensitive(data.aws_secretsmanager_secret_version.sandbox_deployment_role_arn.secret_string)
+      role_arns : { for role, secret in data.aws_secretsmanager_secret_version.sandbox_role_arn : role => nonsensitive(secret.secret_string) }
     }
     development : {
       id : nonsensitive(tonumber(data.aws_secretsmanager_secret_version.development_account_id.secret_string))
-      deployment_role_arn : nonsensitive(data.aws_secretsmanager_secret_version.development_deployment_role_arn.secret_string)
+      role_arns : { for role, secret in data.aws_secretsmanager_secret_version.development_role_arn : role => nonsensitive(secret.secret_string) }
     }
 
     production : {
       id : nonsensitive(tonumber(data.aws_secretsmanager_secret_version.production_account_id.secret_string))
-      deployment_role_arn : nonsensitive(data.aws_secretsmanager_secret_version.production_deployment_role_arn.secret_string)
+      role_arns : { for role, secret in data.aws_secretsmanager_secret_version.production_role_arn : role => nonsensitive(secret.secret_string) }
     }
   }
 }
@@ -134,6 +135,25 @@ module "github_webhook_report" {
 
   lambda_function_name = "github_webhook_report_lambda"
   ecr_name             = "github-webhook-report"
+
+  accounts                    = local.accounts
+  vpc_config                  = local.vpc_config
+  ci_agent_to_internet_sg_id  = local.ci_agent_to_internet_sg_id
+  ci_agent_to_endpoints_sg_id = local.ci_agent_to_endpoints_sg_id
+  github_token                = data.aws_secretsmanager_secret_version.github_token.secret_string
+}
+
+module "compliance_dataviz" {
+  source = "modules/ecs_task_pipeline"
+
+  pipeline_name = "compliance-dataviz"
+  src_repo      = "platsec-compliance-dataviz"
+  branch        = "main"
+
+  ecr_name     = "platsec-compliance-dataviz"
+  cluster_name = "security_reports_frontend"
+  service_name = "compliance_dataviz"
+  task_name    = "compliance_dataviz_task"
 
   accounts                    = local.accounts
   vpc_config                  = local.vpc_config

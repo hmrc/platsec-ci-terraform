@@ -53,16 +53,16 @@ variable "github_token" {
 variable "accounts" {
   type = object({
     sandbox = object({
-      id                  = number,
-      deployment_role_arn = string,
+      id        = number,
+      role_arns = map(string),
     }),
     development = object({
-      id                  = number,
-      deployment_role_arn = string,
+      id        = number,
+      role_arns = map(string),
     }),
     production = object({
-      id                  = number,
-      deployment_role_arn = string,
+      id        = number,
+      role_arns = map(string),
     }),
   })
 }
