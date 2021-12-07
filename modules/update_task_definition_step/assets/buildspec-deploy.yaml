@@ -1,0 +1,35 @@
+version: 0.2
+
+env:
+  shell: bash
+
+phases:
+  pre_build:
+    commands:
+      - |
+        STS="$( \
+          aws sts assume-role \
+          --role-arn "${DEPLOYMENT_ROLE_ARN}" \
+          --role-session-name "${CODEBUILD_INITIATOR#*/}-${CODEBUILD_BUILD_NUMBER}" \
+          --query "Credentials" \
+          )"
+      - aws configure set profile.update-task.aws_access_key_id "$(jq -r '.AccessKeyId' <<<"${STS}")"
+      - aws configure set profile.update-task.aws_secret_access_key "$(jq -r '.SecretAccessKey' <<<"${STS}")"
+      - aws configure set profile.update-task.aws_session_token "$(jq -r '.SessionToken' <<<"${STS}")"
+  build:
+    commands:
+      - export NEW_IMAGE="${ECR_URL}:${IMAGE_TAG}"
+      - |
+        export TASK_DEFINTION=$(aws ecs describe-task-definition --profile update-task --task-definition "${TASK_NAME}" \
+          --query '{  containerDefinitions: taskDefinition.containerDefinitions,
+                      family: taskDefinition.family,
+                      taskRoleArn: taskDefinition.taskRoleArn,
+                      executionRoleArn: taskDefinition.executionRoleArn,
+                      networkMode: taskDefinition.networkMode,
+                      volumes: taskDefinition.volumes,
+                      placementConstraints: taskDefinition.placementConstraints,
+                      requiresCompatibilities: taskDefinition.requiresCompatibilities,
+                      cpu: taskDefinition.cpu,
+                      memory: taskDefinition.memory}' | jq '.containerDefinitions[0].image|="'${NEW_IMAGE}\")
+      - aws ecs register-task-definition --profile update-task --family "${TASK_NAME}" --cli-input-json "${TASK_DEFINTION}"
+      - aws ecs update-service --profile update-task --cluster "${CLUSTER_NAME}" --service "${SERVICE_NAME}" --task-definition ${TASK_NAME}

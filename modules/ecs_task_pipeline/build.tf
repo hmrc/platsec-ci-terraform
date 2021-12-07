@@ -44,13 +44,15 @@ module "upload_to_ecr_development" {
 }
 
 module "docker_deployment_development" {
-  source = "../docker_deployment_step"
+  source = "../update_task_definition_step"
 
   step_name             = "${local.pipeline}-deploy-development"
   build_core_policy_arn = aws_iam_policy.build_core.arn
-  lambda_arn            = "arn:aws:lambda:${var.target_region}:${var.accounts.development.id}:function:${var.lambda_function_name}"
+  deployment_role_arn   = var.accounts.development.role_arns["ecs-task-update"]
   ecr_url               = "${var.accounts.development.id}.dkr.ecr.${var.target_region}.amazonaws.com/${var.ecr_name}"
-  deployment_role_arn   = var.accounts.development.role_arns["lambda-deploy"]
+  task_name             = var.task_name
+  service_name          = var.service_name
+  cluster_name          = var.cluster_name
 
   vpc_config               = var.vpc_config
   agent_security_group_ids = [var.ci_agent_to_endpoints_sg_id]
@@ -69,13 +71,15 @@ module "upload_to_ecr_production" {
 }
 
 module "docker_deployment_production" {
-  source = "../docker_deployment_step"
+  source = "../update_task_definition_step"
 
   step_name             = "${local.pipeline}-deploy-production"
   build_core_policy_arn = aws_iam_policy.build_core.arn
-  lambda_arn            = "arn:aws:lambda:${var.target_region}:${var.accounts.production.id}:function:${var.lambda_function_name}"
+  deployment_role_arn   = var.accounts.production.role_arns["ecs-task-update"]
   ecr_url               = "${var.accounts.production.id}.dkr.ecr.${var.target_region}.amazonaws.com/${var.ecr_name}"
-  deployment_role_arn   = var.accounts.production.role_arns["lambda-deploy"]
+  task_name             = var.task_name
+  service_name          = var.service_name
+  cluster_name          = var.cluster_name
 
   vpc_config               = var.vpc_config
   agent_security_group_ids = [var.ci_agent_to_endpoints_sg_id]

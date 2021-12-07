@@ -20,11 +20,19 @@ variable "github_token" {
   type = string
 }
 
-variable "lambda_function_name" {
+variable "ecr_name" {
   type = string
 }
 
-variable "ecr_name" {
+variable "task_name" {
+  type = string
+}
+
+variable "service_name" {
+  type = string
+}
+
+variable "cluster_name" {
   type = string
 }
 
