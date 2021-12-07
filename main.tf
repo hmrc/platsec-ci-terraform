@@ -144,7 +144,7 @@ module "github_webhook_report" {
 }
 
 module "compliance_dataviz" {
-  source = "modules/ecs_task_pipeline"
+  source = "./modules/ecs_task_pipeline"
 
   pipeline_name = "compliance-dataviz"
   src_repo      = "platsec-compliance-dataviz"
