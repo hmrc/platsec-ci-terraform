@@ -52,14 +52,6 @@ data "aws_iam_policy_document" "codepipeline_policy" {
       module.pipeline_bucket.kms_key_arn
     ]
   }
-
-  statement {
-    effect = "Allow"
-    actions = [
-      "iam:GetRole",
-      "iam:PassRole",
-    ]
-  }
 }
 
 resource "aws_iam_policy" "codepipeline_policy" {
