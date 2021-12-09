@@ -162,3 +162,37 @@ module "compliance_dataviz" {
   github_token                = data.aws_secretsmanager_secret_version.github_token.secret_string
 }
 
+module "sandbox_aws_nuke" {
+  source = "./modules/sandbox_lambda_docker_pipeline"
+
+  pipeline_name = "sandbox-aws-nuke"
+  src_repo      = "platsec-aws-nuke-lambda"
+  branch        = "main"
+
+  lambda_function_name = "go-nuke"
+  ecr_name             = "go-nuke"
+
+  accounts                    = local.accounts
+  vpc_config                  = local.vpc_config
+  ci_agent_to_internet_sg_id  = local.ci_agent_to_internet_sg_id
+  ci_agent_to_endpoints_sg_id = local.ci_agent_to_endpoints_sg_id
+  github_token                = data.aws_secretsmanager_secret_version.github_token.secret_string
+}
+
+module "sandbox_compliance_alerting" {
+  source = "./modules/sandbox_lambda_docker_pipeline"
+
+  pipeline_name = "sandbox-compliance-alerting"
+  src_repo      = "platsec-compliance-alerting"
+  branch        = "sandbox"
+
+
+  lambda_function_name = "platsec_compliance_alerting_lambda"
+  ecr_name             = "platsec-compliance-alerting"
+
+  accounts                    = local.accounts
+  vpc_config                  = local.vpc_config
+  ci_agent_to_internet_sg_id  = local.ci_agent_to_internet_sg_id
+  ci_agent_to_endpoints_sg_id = local.ci_agent_to_endpoints_sg_id
+  github_token                = data.aws_secretsmanager_secret_version.github_token.secret_string
+}

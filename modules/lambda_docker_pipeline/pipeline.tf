@@ -1,13 +1,13 @@
 resource "aws_codepipeline" "codepipeline" {
-  name     = local.pipeline
-  role_arn = aws_iam_role.codepipeline_role.arn
+  name     = module.common.pipeline_name
+  role_arn = module.common.codepipeline_role_arn
 
   artifact_store {
-    location = module.pipeline_bucket.bucket_id
+    location = module.common.bucket_id
     type     = "S3"
 
     encryption_key {
-      id   = module.pipeline_bucket.kms_key_arn
+      id   = module.common.kms_key_arn
       type = "KMS"
     }
   }
@@ -88,7 +88,7 @@ resource "aws_codepipeline" "codepipeline" {
         EnvironmentVariables = jsonencode([
           {
             name  = "IMAGE_TAG"
-            value = local.build_id
+            value = module.common.build_id
             type  = "PLAINTEXT"
           }
         ])
@@ -108,7 +108,7 @@ resource "aws_codepipeline" "codepipeline" {
         EnvironmentVariables = jsonencode([
           {
             name  = "IMAGE_TAG"
-            value = local.build_id
+            value = module.common.build_id
             type  = "PLAINTEXT"
           }
         ])
@@ -132,7 +132,7 @@ resource "aws_codepipeline" "codepipeline" {
         EnvironmentVariables = jsonencode([
           {
             name  = "IMAGE_TAG"
-            value = local.build_id
+            value = module.common.build_id
             type  = "PLAINTEXT"
           }
         ])
@@ -141,7 +141,7 @@ resource "aws_codepipeline" "codepipeline" {
   }
 
   dynamic "stage" {
-    for_each = local.is_live ? toset(["Approve_Production"]) : toset([])
+    for_each = module.common.is_live ? toset(["Approve_Production"]) : toset([])
     content {
       name = stage.value
 
@@ -161,7 +161,7 @@ resource "aws_codepipeline" "codepipeline" {
   }
 
   dynamic "stage" {
-    for_each = local.is_live ? toset(["Upload_Production"]) : toset([])
+    for_each = module.common.is_live ? toset(["Upload_Production"]) : toset([])
 
     content {
       name = stage.value
@@ -179,7 +179,7 @@ resource "aws_codepipeline" "codepipeline" {
           EnvironmentVariables = jsonencode([
             {
               name  = "IMAGE_TAG"
-              value = local.build_id
+              value = module.common.build_id
               type  = "PLAINTEXT"
             }
           ])
@@ -189,7 +189,7 @@ resource "aws_codepipeline" "codepipeline" {
   }
 
   dynamic "stage" {
-    for_each = local.is_live ? toset(["Deploy_Production"]) : toset([])
+    for_each = module.common.is_live ? toset(["Deploy_Production"]) : toset([])
 
     content {
       name = stage.value
@@ -207,7 +207,7 @@ resource "aws_codepipeline" "codepipeline" {
           EnvironmentVariables = jsonencode([
             {
               name  = "IMAGE_TAG"
-              value = local.build_id
+              value = module.common.build_id
               type  = "PLAINTEXT"
             }
           ])

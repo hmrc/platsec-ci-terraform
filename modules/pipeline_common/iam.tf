@@ -23,7 +23,7 @@ data "aws_iam_policy_document" "codepipeline_policy" {
       "s3:GetBucketVersioning"
     ]
     resources = [
-      "${module.pipeline_bucket.bucket_arn}/*/source_out/*"
+      "${aws_s3_bucket.codepipeline_bucket.arn}/*/source_out/*"
     ]
   }
 
@@ -35,7 +35,7 @@ data "aws_iam_policy_document" "codepipeline_policy" {
     ]
 
     resources = [
-      "arn:aws:codebuild:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:project/${local.pipeline}*"
+      "arn:aws:codebuild:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:project/${local.pipeline_name}*"
     ]
   }
 
@@ -49,14 +49,14 @@ data "aws_iam_policy_document" "codepipeline_policy" {
       "kms:Decrypt",
     ]
     resources = [
-      module.pipeline_bucket.kms_key_arn
+      aws_kms_key.codepipeline_bucket.arn
     ]
   }
 }
 
 resource "aws_iam_policy" "codepipeline_policy" {
-  name_prefix = substr(local.pipeline, 0, 32)
-  description = "${local.pipeline} CodePipeline"
+  name_prefix = substr(local.pipeline_name, 0, 32)
+  description = "${local.pipeline_name} CodePipeline"
   policy      = data.aws_iam_policy_document.codepipeline_policy.json
 
   lifecycle {
@@ -64,18 +64,18 @@ resource "aws_iam_policy" "codepipeline_policy" {
   }
 
   tags = {
-    Pipeline = local.pipeline
+    Pipeline = local.pipeline_name
   }
 }
 
 resource "aws_iam_role" "codepipeline_role" {
-  name_prefix         = substr(local.pipeline, 0, 32)
-  description         = "${local.pipeline} CodePipeline"
+  name_prefix         = substr(local.pipeline_name, 0, 32)
+  description         = "${local.pipeline_name} CodePipeline"
   assume_role_policy  = data.aws_iam_policy_document.codepipeline_assume_role.json
   managed_policy_arns = [aws_iam_policy.codepipeline_policy.arn]
 
   tags = {
-    Pipeline = local.pipeline
+    Pipeline = local.pipeline_name
   }
 }
 
@@ -96,6 +96,7 @@ data "aws_caller_identity" "current" {}
 data "aws_region" "current" {}
 
 data "aws_iam_policy_document" "build_core" {
+
   statement {
     sid = "VpcNetworking"
     actions = [
@@ -147,7 +148,7 @@ data "aws_iam_policy_document" "build_core" {
       "kms:DescribeKey",
     ]
     resources = [
-      module.pipeline_bucket.kms_key_arn
+      aws_kms_key.codepipeline_bucket.arn
     ]
   }
 
@@ -158,8 +159,8 @@ data "aws_iam_policy_document" "build_core" {
       "s3:GetBucketVersioning",
     ]
     resources = [
-      "${module.pipeline_bucket.bucket_arn}/*/source_out/*",
-      "${module.pipeline_bucket.bucket_arn}/*/build_outp/*",
+      "${aws_s3_bucket.codepipeline_bucket.arn}/*/source_out/*",
+      "${aws_s3_bucket.codepipeline_bucket.arn}/*/build_outp/*",
     ]
   }
 }
@@ -171,14 +172,14 @@ data "aws_iam_policy_document" "store_artifacts" {
       "s3:PutObject",
     ]
     resources = [
-      "${module.pipeline_bucket.bucket_arn}/*/build_outp/*"
+      "${aws_s3_bucket.codepipeline_bucket.arn}/*/build_outp/*"
     ]
   }
 }
 
 resource "aws_iam_policy" "build_core" {
-  name_prefix = substr(local.pipeline, 0, 32)
-  description = "${local.pipeline} build"
+  name_prefix = substr(local.pipeline_name, 0, 32)
+  description = "${local.pipeline_name} build"
   policy      = data.aws_iam_policy_document.build_core.json
 
   lifecycle {
@@ -186,16 +187,11 @@ resource "aws_iam_policy" "build_core" {
   }
 
   tags = {
-    Pipeline = local.pipeline
+    Pipeline = local.pipeline_name
   }
 }
 
-locals {
-  artifactory_secret_manager_names = {
-    token : "/artifactory/live/ci-token"
-    username : "/artifactory/live/ci-username"
-  }
-}
+
 
 data "aws_iam_policy_document" "get_artifactory_credentials" {
   statement {
@@ -213,8 +209,8 @@ data "aws_iam_policy_document" "get_artifactory_credentials" {
 }
 
 resource "aws_iam_policy" "get_artifactory_credentials" {
-  name_prefix = substr(local.pipeline, 0, 32)
-  description = "${local.pipeline} get artifactory credentials"
+  name_prefix = substr(local.pipeline_name, 0, 32)
+  description = "${local.pipeline_name} get artifactory credentials"
   policy      = data.aws_iam_policy_document.get_artifactory_credentials.json
 
   lifecycle {
@@ -222,13 +218,13 @@ resource "aws_iam_policy" "get_artifactory_credentials" {
   }
 
   tags = {
-    Pipeline = local.pipeline
+    Pipeline = local.pipeline_name
   }
 }
 
 resource "aws_iam_policy" "store_artifacts" {
-  name_prefix = substr(local.pipeline, 0, 32)
-  description = "${local.pipeline} store artefacts"
+  name_prefix = substr(local.pipeline_name, 0, 32)
+  description = "${local.pipeline_name} store artefacts"
   policy      = data.aws_iam_policy_document.store_artifacts.json
 
   lifecycle {
@@ -236,6 +232,6 @@ resource "aws_iam_policy" "store_artifacts" {
   }
 
   tags = {
-    Pipeline = local.pipeline
+    Pipeline = local.pipeline_name
   }
 }

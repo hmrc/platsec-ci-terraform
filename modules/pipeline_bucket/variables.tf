@@ -1,3 +1,0 @@
-variable "pipeline" {
-  type = string
-}

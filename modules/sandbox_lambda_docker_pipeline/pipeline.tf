@@ -14,7 +14,6 @@ resource "aws_codepipeline" "codepipeline" {
 
   stage {
     name = "Source"
-
     action {
       name             = "Source"
       category         = "Source"
@@ -74,10 +73,10 @@ resource "aws_codepipeline" "codepipeline" {
   }
 
   stage {
-    name = "Development"
+    name = "Upload_Sandbox"
 
     action {
-      name            = "Deploy_Development"
+      name            = "Upload_to_Ecr_Sandbox"
       category        = "Build"
       owner           = "AWS"
       provider        = "CodeBuild"
@@ -85,23 +84,10 @@ resource "aws_codepipeline" "codepipeline" {
       version         = "1"
 
       configuration = {
-        ProjectName = module.zip-deployment-step-development.name
-      }
-    }
-
-    action {
-      name            = "Upload_to_Artifactory"
-      category        = "Build"
-      owner           = "AWS"
-      provider        = "CodeBuild"
-      input_artifacts = ["build_output"]
-      version         = "1"
-
-      configuration = {
-        ProjectName = module.zip_upload_artifactory_step.name
+        ProjectName = module.upload_to_ecr_sandbox.name
         EnvironmentVariables = jsonencode([
           {
-            name  = "BUILD_ID"
+            name  = "IMAGE_TAG"
             value = module.common.build_id
             type  = "PLAINTEXT"
           }
@@ -110,45 +96,28 @@ resource "aws_codepipeline" "codepipeline" {
     }
   }
 
+  stage {
+    name = "Deploy_Sandbox"
 
-  dynamic "stage" {
-    for_each = module.common.is_live ? toset(["Approve_Production"]) : toset([])
-    content {
-      name = stage.value
+    action {
+      name            = "Deploy_Sandbox"
+      category        = "Build"
+      owner           = "AWS"
+      provider        = "CodeBuild"
+      input_artifacts = ["build_output"]
+      version         = "1"
 
-      action {
-        name     = stage.value
-        category = "Approval"
-        owner    = "AWS"
-        provider = "Manual"
-        version  = "1"
-
-        configuration = {
-          ExternalEntityLink : "https://github.com/${var.src_org}/${var.src_repo}/commit/#{SourceVariables.CommitId}"
-          CustomData : "#{SourceVariables.CommitMessage}"
-        }
+      configuration = {
+        ProjectName = module.docker_deployment_sandbox.name
+        EnvironmentVariables = jsonencode([
+          {
+            name  = "IMAGE_TAG"
+            value = module.common.build_id
+            type  = "PLAINTEXT"
+          }
+        ])
       }
     }
   }
 
-  dynamic "stage" {
-    for_each = module.common.is_live ? toset(["Deploy_Production"]) : toset([])
-
-    content {
-      name = stage.value
-
-      action {
-        name            = stage.value
-        category        = "Build"
-        owner           = "AWS"
-        provider        = "CodeBuild"
-        input_artifacts = ["build_output"]
-        version         = "1"
-
-        configuration = {
-          ProjectName = module.zip-deployment-step-production.name
-        }
-      }
-    }
-  }
 }
