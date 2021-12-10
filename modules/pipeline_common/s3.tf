@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "codepipeline_bucket" {
-  bucket_prefix = "ci-${substr(var.pipeline, 0, 32)}"
+  bucket_prefix = "ci-${substr(local.pipeline_name, 0, 32)}"
   acl           = "private"
 
   force_destroy = true
@@ -7,7 +7,7 @@ resource "aws_s3_bucket" "codepipeline_bucket" {
   server_side_encryption_configuration {
     rule {
       apply_server_side_encryption_by_default {
-        kms_master_key_id = aws_kms_key.s3kmskey.arn
+        kms_master_key_id = aws_kms_key.codepipeline_bucket.arn
         sse_algorithm     = "aws:kms"
       }
     }
@@ -28,7 +28,7 @@ resource "aws_s3_bucket" "codepipeline_bucket" {
   }
 
   tags = {
-    Pipeline = var.pipeline
+    Pipeline = local.pipeline_name
   }
 }
 
@@ -40,9 +40,9 @@ resource "aws_s3_bucket_public_access_block" "codepipeline_bucket" {
   restrict_public_buckets = true
 }
 
-resource "aws_kms_key" "s3kmskey" {}
+resource "aws_kms_key" "codepipeline_bucket" {}
 
-resource "aws_kms_alias" "s3kmskey" {
-  target_key_id = aws_kms_key.s3kmskey.key_id
-  name          = "alias/ci-${var.pipeline}"
+resource "aws_kms_alias" "codepipeline_bucket" {
+  target_key_id = aws_kms_key.codepipeline_bucket.key_id
+  name          = "alias/ci-${local.pipeline_name}"
 }

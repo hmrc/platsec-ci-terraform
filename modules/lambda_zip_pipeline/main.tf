@@ -20,9 +20,11 @@ provider "github" {
   owner = var.src_org
 }
 
-locals {
-  is_live  = terraform.workspace == "live"
-  prefix   = local.is_live ? "" : "${terraform.workspace}-"
-  pipeline = "${local.prefix}${var.pipeline_name}"
-  build_id = "${local.prefix}#{SourceVariables.CommitId}-#{Timestamp.BUILD_TIMESTAMP}"
+module "common" {
+  source       = "../pipeline_common"
+  pipeline     = var.pipeline_name
+  src_org      = var.src_org
+  src_repo     = var.src_repo
+  github_token = var.github_token
+  vpc_config   = var.vpc_config
 }
