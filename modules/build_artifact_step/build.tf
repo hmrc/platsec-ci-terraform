@@ -1,7 +1,7 @@
 resource "aws_codebuild_project" "build" {
   name          = var.step_name
   description   = "For ${var.step_name}"
-  build_timeout = 10
+  build_timeout = var.timeout_in_minutes
 
   service_role = aws_iam_role.build.arn
 
@@ -33,6 +33,25 @@ resource "aws_codebuild_project" "build" {
       name  = "ARTIFACTORY_USERNAME"
       value = var.artifactory_secret_manager_names.username
     }
+
+    dynamic "environment_variable" {
+      for_each = var.step_assume_roles
+      content {
+        type  = "PLAINTEXT"
+        name  = environment_variable.key
+        value = environment_variable.value
+      }
+    }
+
+    dynamic "environment_variable" {
+      for_each = var.step_environment_variables
+      content {
+        type  = environment_variable.value.type
+        name  = environment_variable.value.name
+        value = environment_variable.value.value
+      }
+    }
+
   }
 
   logs_config {
