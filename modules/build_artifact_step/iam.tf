@@ -42,15 +42,34 @@ resource "aws_iam_policy" "store_artifacts" {
 }
 
 resource "aws_iam_role" "build" {
-  name_prefix        = substr(var.step_name, 0, 32)
-  description        = "${var.step_name} build"
-  assume_role_policy = data.aws_iam_policy_document.codebuild_assume_role.json
-  managed_policy_arns = concat(
-    [aws_iam_policy.store_artifacts.arn],
-    var.policy_arns
-  )
+  name_prefix         = substr(var.step_name, 0, 32)
+  description         = "${var.step_name} build"
+  assume_role_policy  = data.aws_iam_policy_document.codebuild_assume_role.json
+  managed_policy_arns = local.managed_policy_arns
 
   tags = {
     Step = var.step_name
   }
+}
+
+data "aws_iam_policy_document" "step_assume_roles" {
+  count = length(var.step_assume_roles) == 0 ? 0 : 1
+  statement {
+    actions = [
+      "sts:AssumeRole"
+    ]
+    resources = values(var.step_assume_roles)
+  }
+}
+
+resource "aws_iam_policy" "step_assume_roles" {
+  count       = length(var.step_assume_roles) == 0 ? 0 : 1
+  name_prefix = substr(var.step_name, 0, 32)
+  policy      = data.aws_iam_policy_document.step_assume_roles[0].json
+  description = "${var.step_name} step assume roles"
+}
+
+locals {
+  default_policy_arns = concat([aws_iam_policy.store_artifacts.arn], var.policy_arns)
+  managed_policy_arns = length(var.step_assume_roles) == 0 ? local.default_policy_arns : concat(local.default_policy_arns, [aws_iam_policy.step_assume_roles[0].arn])
 }

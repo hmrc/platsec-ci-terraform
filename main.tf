@@ -28,7 +28,7 @@ provider "aws" {
 
 locals {
   is_live    = terraform.workspace == "live"
-  step_roles = toset(["lambda-deploy", "ecr-upload", "ecs-task-update"])
+  step_roles = toset(["lambda-deploy", "ecr-upload", "ecs-task-update", "terraform-provisioner"])
 
   accounts = {
     sandbox : {
@@ -189,6 +189,21 @@ module "sandbox_compliance_alerting" {
 
   lambda_function_name = "platsec_compliance_alerting_lambda"
   ecr_name             = "platsec-compliance-alerting"
+
+  accounts                    = local.accounts
+  vpc_config                  = local.vpc_config
+  ci_agent_to_internet_sg_id  = local.ci_agent_to_internet_sg_id
+  ci_agent_to_endpoints_sg_id = local.ci_agent_to_endpoints_sg_id
+  github_token                = data.aws_secretsmanager_secret_version.github_token.secret_string
+}
+
+module "s3_terraform_module_pipeline" {
+  source = "./modules/terraform_module_pipeline"
+
+  pipeline_name = "s3-bucket-terraform-module"
+  src_repo      = "s3-bucket-terraform-module"
+  branch        = "PSEC-1408-Add-Spec"
+
 
   accounts                    = local.accounts
   vpc_config                  = local.vpc_config

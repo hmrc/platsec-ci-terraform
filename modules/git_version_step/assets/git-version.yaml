@@ -1,0 +1,11 @@
+version: 0.2
+
+env:
+  shell: bash
+  exported-variables:
+    - SEMANTIC_VERSION
+
+phases:
+  build:
+    commands:
+      - export SEMANTIC_VERSION=$(docker run --rm  dockerhub.tax.service.gov.uk/gittools/gitversion:${DOCKER_IMAGE_TAG} /url ${REPOSITORY_URL} /b ${BRANCH} | jq '.SemVer')

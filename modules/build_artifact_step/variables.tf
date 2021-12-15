@@ -36,3 +36,18 @@ variable "s3_bucket_arn" {
 variable "policy_arns" {
   type = list(string)
 }
+
+variable "step_environment_variables" {
+  type    = list(map(string))
+  default = []
+}
+
+variable "step_assume_roles" {
+  type        = map(string)
+  default     = {}
+  description = "map of environment variable to role arn for use within the build"
+}
+
+variable "timeout_in_minutes" {
+  default = 10
+}
