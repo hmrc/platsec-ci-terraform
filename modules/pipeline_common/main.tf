@@ -30,4 +30,3 @@ locals {
     username : "/artifactory/live/ci-username"
   }
 }
-

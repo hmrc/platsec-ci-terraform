@@ -55,7 +55,7 @@ module "label" {
   stage     = terraform.workspace
   name      = "platsec-ci"
 }
-
+/*
 module "prowler_worker" {
   source = "./modules/lambda_docker_pipeline"
 
@@ -178,7 +178,7 @@ module "sandbox_aws_nuke" {
   ci_agent_to_endpoints_sg_id = local.ci_agent_to_endpoints_sg_id
   github_token                = data.aws_secretsmanager_secret_version.github_token.secret_string
 }
-
+*/
 module "sandbox_compliance_alerting" {
   source = "./modules/sandbox_lambda_docker_pipeline"
 
