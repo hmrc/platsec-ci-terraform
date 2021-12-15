@@ -202,7 +202,7 @@ module "s3_terraform_module_pipeline" {
 
   pipeline_name = "s3-bucket-terraform-module"
   src_repo      = "s3-bucket-terraform-module"
-  branch        = "PSEC-1408-Add-Spec"
+  branch        = "main"
 
 
   accounts                    = local.accounts
