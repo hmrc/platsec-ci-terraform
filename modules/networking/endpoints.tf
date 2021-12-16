@@ -143,8 +143,15 @@ resource "aws_vpc_endpoint" "sts" {
 }
 
 resource "aws_vpc_endpoint" "execute_api" {
-  vpc_id       = module.vpc.vpc_id
-  service_name = "com.amazonaws.${data.aws_region.current.name}.execute-api"
+  vpc_id            = module.vpc.vpc_id
+  service_name      = "com.amazonaws.${data.aws_region.current.name}.execute-api"
+  vpc_endpoint_type = "Interface"
+
+  security_group_ids = [
+    aws_security_group.aws_interface_endpoints.id,
+  ]
+  subnet_ids          = module.vpc.private_subnets
+  private_dns_enabled = true
 
   tags = {
     Name : "${var.name_prefix}-execute-api"
