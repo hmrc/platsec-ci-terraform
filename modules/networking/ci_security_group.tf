@@ -45,7 +45,7 @@ resource "aws_security_group" "ci_agent_to_endpoints" {
     from_port       = 443
     protocol        = "tcp"
     to_port         = 443
-    prefix_list_ids = [aws_vpc_endpoint.s3.prefix_list_id]
+    prefix_list_ids = [aws_vpc_endpoint.s3.prefix_list_id, aws_vpc_endpoint.execute_api.prefix_list_id]
   }
 
   egress {

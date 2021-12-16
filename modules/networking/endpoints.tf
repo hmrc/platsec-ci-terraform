@@ -142,3 +142,11 @@ resource "aws_vpc_endpoint" "sts" {
   }
 }
 
+resource "aws_vpc_endpoint" "execute_api" {
+  vpc_id       = module.vpc.vpc_id
+  service_name = "com.amazonaws.${data.aws_region.current.name}.execute-api"
+
+  tags = {
+    Name : "${var.name_prefix}-execute-api"
+  }
+}
