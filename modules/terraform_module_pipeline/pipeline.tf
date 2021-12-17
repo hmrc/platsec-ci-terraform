@@ -71,4 +71,33 @@ resource "aws_codepipeline" "codepipeline" {
       }
     }
   }
+
+  stage {
+    name = "Tag"
+
+    action {
+      name            = "Tag"
+      category        = "Build"
+      owner           = "AWS"
+      provider        = "CodeBuild"
+      input_artifacts = ["source_output"]
+      version         = "1"
+
+      configuration = {
+        ProjectName = module.git_tag_step.name
+        EnvironmentVariables = jsonencode([
+          {
+            name  = "COMMIT_ID"
+            value = "#{SourceVariables.CommitId}"
+            type  = "PLAINTEXT"
+          },
+          {
+            name  = "TAG"
+            value = "#{GitVersion.SEMANTIC_VERSION}"
+            type  = "PLAINTEXT"
+          }
+        ])
+      }
+    }
+  }
 }

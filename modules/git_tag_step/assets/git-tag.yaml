@@ -1,0 +1,30 @@
+version: 0.2
+
+env:
+  shell: bash
+
+phases:
+  build:
+    commands:
+      - set -euo pipefail
+      - >
+        status=$(jq --null-input
+        --arg repository_name "${REPOSITORY_NAME}"
+        --arg commit_sha "${COMMIT_ID}"
+        --arg version "${TAG}"
+        --arg ev ${USE_RELEASE_VERSION_EXPLICITLY}
+        '{"repository_name": $repository_name,
+        "commit_sha": $commit_sha,
+        "release_version": $version,
+        "release_name": $version,
+        "use_release_version_explicitly": $ev
+        }' | curl
+        -s
+        -w "%{http_code}"
+        -o /dev/null
+        -H "Content-Type: application/json"
+        -X POST
+        -d "$(</dev/stdin)"
+        ${API_ENDPOINT}/v1/CreateGitTag)
+      - echo $status
+      - test "$status" -eq 200
