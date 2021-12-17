@@ -24,7 +24,7 @@ resource "aws_codebuild_project" "git_tag" {
     environment_variable {
       type  = "PLAINTEXT"
       name  = "USE_RELEASE_VERSION_EXPLICITLY"
-      value = var.use_release_version_explicitly
+      value = var.use_release_version_explicitly ? "true" : "false"
     }
     environment_variable {
       type  = "PLAINTEXT"

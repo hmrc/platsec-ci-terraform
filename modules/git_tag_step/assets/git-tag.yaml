@@ -12,7 +12,7 @@ phases:
         --arg repository_name "${REPOSITORY_NAME}"
         --arg commit_sha "${COMMIT_ID}"
         --arg version "${TAG}"
-        --arg ev ${USE_RELEASE_VERSION_EXPLICITLY}
+        --argjson ev ${USE_RELEASE_VERSION_EXPLICITLY}
         '{"repository_name": $repository_name,
         "commit_sha": $commit_sha,
         "release_version": $version,
