@@ -8,7 +8,7 @@ phases:
     commands:
       - set -euo pipefail
       - >
-        status=$(jq --null-input
+        jq --null-input
         --arg repository_name "${REPOSITORY_NAME}"
         --arg commit_sha "${COMMIT_ID}"
         --arg version "${TAG}"
@@ -18,13 +18,17 @@ phases:
         "release_version": $version,
         "release_name": $version,
         "use_release_version_explicitly": $ev
-        }' | curl
+        }' | tee payload.json
+      - >
+        status=$( curl
         -s
         -w "%{http_code}"
-        -o /dev/null
+        -o output.json
         -H "Content-Type: application/json"
         -X POST
-        -d "$(</dev/stdin)"
-        ${API_ENDPOINT}/v1/CreateGitTag)
-      - echo $status
+        --data-binary @payload.json
+        ${API_ENDPOINT}/v1/CreateGitTag )
+      - jq '.' output.json
+      - echo "http status=$status"
       - test "$status" -eq 200
+      - test "$(jq '.success' output.json)" = "true"
