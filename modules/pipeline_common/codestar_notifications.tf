@@ -9,9 +9,5 @@ resource "aws_codestarnotifications_notification_rule" "ua_platsec_compliance_al
 
   target {
     address = "arn:aws:sns:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:platsec_compliance_alerting_failure_topic"
-#    data.aws_sns_topic.platsec_compliance_alerting_failure_topic.arn
   }
-
-#  depends_on = [data.aws_sns_topic.platsec_compliance_alerting_failure_topic.arn]
-
 }

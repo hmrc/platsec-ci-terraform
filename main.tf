@@ -72,7 +72,7 @@ module "prowler_worker" {
   ci_agent_to_internet_sg_id  = local.ci_agent_to_internet_sg_id
   ci_agent_to_endpoints_sg_id = local.ci_agent_to_endpoints_sg_id
 }
-
+https://signin.aws.amazon.com/switchrole?account=987972305662&roleName=RoleSecurityEngineer&displayName=platsec-ci/SecurityEngineer
 module "aws_scanner" {
   source = "./modules/lambda_docker_pipeline"
 
