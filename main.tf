@@ -184,7 +184,7 @@ module "sandbox_compliance_alerting" {
 
   pipeline_name = "sandbox-compliance-alerting"
   src_repo      = "platsec-compliance-alerting"
-  branch        = "sandbox"
+  branch        = "fail_sandbox"
 
 
   lambda_function_name = "platsec_compliance_alerting_lambda"
