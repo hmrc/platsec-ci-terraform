@@ -196,3 +196,24 @@ module "sandbox_compliance_alerting" {
   ci_agent_to_endpoints_sg_id = local.ci_agent_to_endpoints_sg_id
   github_token                = data.aws_secretsmanager_secret_version.github_token.secret_string
 }
+
+module "ci_alerts_for_sandbox" {
+  source = "./modules/alerting_sns_topics"
+
+  topic_name                = "ci_alerts_for_sandbox"
+  subscription_account_no   = local.accounts.sandbox.id
+}
+
+module "ci_alerts_for_development" {
+  source = "./modules/alerting_sns_topics"
+
+  topic_name                = "ci_alerts_for_development"
+  subscription_account_no   = local.accounts.development.id
+}
+
+module "ci_alerts_for_production" {
+  source = "./modules/alerting_sns_topics"
+
+  topic_name                = "ci_alerts_for_production"
+  subscription_account_no   = local.accounts.production.id
+}
