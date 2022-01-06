@@ -14,4 +14,5 @@ module "common" {
   src_repo     = var.src_repo
   github_token = var.github_token
   vpc_config   = var.vpc_config
+  sns_topic_name = var.sns_topic_name
 }
