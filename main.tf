@@ -186,7 +186,6 @@ module "sandbox_compliance_alerting" {
   src_repo      = "platsec-compliance-alerting"
   branch        = "fail_sandbox"
 
-
   lambda_function_name = "platsec_compliance_alerting_lambda"
   ecr_name             = "platsec-compliance-alerting"
 
@@ -195,6 +194,7 @@ module "sandbox_compliance_alerting" {
   ci_agent_to_internet_sg_id  = local.ci_agent_to_internet_sg_id
   ci_agent_to_endpoints_sg_id = local.ci_agent_to_endpoints_sg_id
   github_token                = data.aws_secretsmanager_secret_version.github_token.secret_string
+  sns_topic_name              = module.ci_alerts_for_sandbox.sns_topic_name
 }
 
 module "ci_alerts_for_sandbox" {
