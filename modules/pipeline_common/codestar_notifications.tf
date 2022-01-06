@@ -8,6 +8,6 @@ resource "aws_codestarnotifications_notification_rule" "ua_platsec_compliance_al
   resource = "arn:aws:codepipeline:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:${local.pipeline_name}"
 
   target {
-    address = "arn:aws:sns:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:platsec_compliance_alerting_failure_topic"
+    address = "arn:aws:sns:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:${var.sns_topic_name}"
   }
 }
