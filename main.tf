@@ -211,25 +211,26 @@ module "s3_terraform_module_pipeline" {
   ci_agent_to_internet_sg_id  = local.ci_agent_to_internet_sg_id
   ci_agent_to_endpoints_sg_id = local.ci_agent_to_endpoints_sg_id
   github_token                = data.aws_secretsmanager_secret_version.github_token.secret_string
+  sns_topic_name              = module.ci_alerts_for_sandbox.sns_topic_name
 }
 
 module "ci_alerts_for_sandbox" {
   source = "./modules/alerting_sns_topics"
 
-  topic_name              = "ci_alerts_for_sandbox"
-  subscription_account_no = local.accounts.sandbox.id
+  topic_name                = "ci_alerts_for_sandbox"
+  subscription_account_no   = local.accounts.sandbox.id
 }
 
 module "ci_alerts_for_development" {
   source = "./modules/alerting_sns_topics"
 
-  topic_name              = "ci_alerts_for_development"
-  subscription_account_no = local.accounts.development.id
+  topic_name                = "ci_alerts_for_development"
+  subscription_account_no   = local.accounts.development.id
 }
 
 module "ci_alerts_for_production" {
   source = "./modules/alerting_sns_topics"
 
-  topic_name              = "ci_alerts_for_production"
-  subscription_account_no = local.accounts.production.id
+  topic_name                = "ci_alerts_for_production"
+  subscription_account_no   = local.accounts.production.id
 }
