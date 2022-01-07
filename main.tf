@@ -187,7 +187,6 @@ module "sandbox_compliance_alerting" {
   src_repo      = "platsec-compliance-alerting"
   branch        = "sandbox"
 
-
   lambda_function_name = "platsec_compliance_alerting_lambda"
   ecr_name             = "platsec-compliance-alerting"
 
