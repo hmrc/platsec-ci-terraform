@@ -22,3 +22,8 @@ variable "vpc_config" {
     vpc_id              = string,
   })
 }
+
+variable "sns_topic_arn" {
+  type    = string
+  default = null
+}
