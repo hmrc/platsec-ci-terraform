@@ -55,7 +55,7 @@ module "label" {
   stage     = terraform.workspace
   name      = "platsec-ci"
 }
-/*
+
 module "prowler_worker" {
   source = "./modules/lambda_docker_pipeline"
 
@@ -72,7 +72,7 @@ module "prowler_worker" {
   ci_agent_to_internet_sg_id  = local.ci_agent_to_internet_sg_id
   ci_agent_to_endpoints_sg_id = local.ci_agent_to_endpoints_sg_id
 }
-https://signin.aws.amazon.com/switchrole?account=987972305662&roleName=RoleSecurityEngineer&displayName=platsec-ci/SecurityEngineer
+
 module "aws_scanner" {
   source = "./modules/lambda_docker_pipeline"
 
@@ -177,14 +177,16 @@ module "sandbox_aws_nuke" {
   ci_agent_to_internet_sg_id  = local.ci_agent_to_internet_sg_id
   ci_agent_to_endpoints_sg_id = local.ci_agent_to_endpoints_sg_id
   github_token                = data.aws_secretsmanager_secret_version.github_token.secret_string
+  sns_topic_name              = module.ci_alerts_for_sandbox.sns_topic_name
 }
-*/
+
 module "sandbox_compliance_alerting" {
   source = "./modules/sandbox_lambda_docker_pipeline"
 
   pipeline_name = "sandbox-compliance-alerting"
   src_repo      = "platsec-compliance-alerting"
-  branch        = "fail_sandbox"
+  branch        = "sandbox"
+
 
   lambda_function_name = "platsec_compliance_alerting_lambda"
   ecr_name             = "platsec-compliance-alerting"
@@ -204,10 +206,30 @@ module "s3_terraform_module_pipeline" {
   src_repo      = "s3-bucket-terraform-module"
   branch        = "main"
 
-
   accounts                    = local.accounts
   vpc_config                  = local.vpc_config
   ci_agent_to_internet_sg_id  = local.ci_agent_to_internet_sg_id
   ci_agent_to_endpoints_sg_id = local.ci_agent_to_endpoints_sg_id
   github_token                = data.aws_secretsmanager_secret_version.github_token.secret_string
+}
+
+module "ci_alerts_for_sandbox" {
+  source = "./modules/alerting_sns_topics"
+
+  topic_name              = "ci_alerts_for_sandbox"
+  subscription_account_no = local.accounts.sandbox.id
+}
+
+module "ci_alerts_for_development" {
+  source = "./modules/alerting_sns_topics"
+
+  topic_name              = "ci_alerts_for_development"
+  subscription_account_no = local.accounts.development.id
+}
+
+module "ci_alerts_for_production" {
+  source = "./modules/alerting_sns_topics"
+
+  topic_name              = "ci_alerts_for_production"
+  subscription_account_no = local.accounts.production.id
 }
