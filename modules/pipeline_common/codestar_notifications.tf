@@ -1,4 +1,6 @@
 resource "aws_codestarnotifications_notification_rule" "failed_codepipeline" {
+  count = var.sns_topic_arn == null ? 0 : 1
+
   detail_type    = "FULL"
   event_type_ids = [
     "codepipeline-pipeline-pipeline-execution-failed"
