@@ -66,6 +66,7 @@ variable "accounts" {
   })
 }
 
-variable "sns_topic_name" {
+variable "sns_topic_arn" {
   type = string
+  default = null
 }
