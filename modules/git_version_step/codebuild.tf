@@ -23,6 +23,11 @@ resource "aws_codebuild_project" "git_version" {
     }
     environment_variable {
       type  = "PLAINTEXT"
+      name  = "REPOSITORY_NAME"
+      value = var.repository_name
+    }
+    environment_variable {
+      type  = "PLAINTEXT"
       name  = "BRANCH"
       value = var.branch
     }

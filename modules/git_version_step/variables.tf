@@ -23,6 +23,11 @@ variable "repository_url" {
   description = "full url to public repository"
 }
 
+variable "repository_name" {
+  type        = string
+  description = "the simple name of the repository"
+}
+
 variable "branch" {
   type = string
 }
