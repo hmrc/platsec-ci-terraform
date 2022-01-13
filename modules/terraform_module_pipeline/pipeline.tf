@@ -68,6 +68,13 @@ resource "aws_codepipeline" "codepipeline" {
 
       configuration = {
         ProjectName = module.git_version_step.name
+        EnvironmentVariables = jsonencode([
+          {
+            name  = "COMMIT_ID"
+            value = "#{SourceVariables.CommitId}"
+            type  = "PLAINTEXT"
+          }
+        ])
       }
     }
   }

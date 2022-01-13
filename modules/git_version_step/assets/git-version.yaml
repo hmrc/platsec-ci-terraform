@@ -8,4 +8,11 @@ env:
 phases:
   build:
     commands:
-      - export SEMANTIC_VERSION=$(docker run --rm  dockerhub.tax.service.gov.uk/gittools/gitversion:${DOCKER_IMAGE_TAG} /url ${REPOSITORY_URL} /b ${BRANCH} | jq -r '.SemVer')
+      - >
+        export SEMANTIC_VERSION=$(
+        docker run --rm  dockerhub.tax.service.gov.uk/gittools/gitversion:${DOCKER_IMAGE_TAG}
+        /config /tmp/${REPOSITORY_NAME}/GitVersion.yml
+        /url ${REPOSITORY_URL}
+        /b ${BRANCH}
+        /c ${COMMIT_ID}
+        | jq -r '.SemVer')

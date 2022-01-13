@@ -16,9 +16,10 @@ module "build_artifact_step" {
 module "git_version_step" {
   source = "../git_version_step"
 
-  step_name      = "${module.common.pipeline_name}-git-version"
-  repository_url = "https://github.com/${var.src_org}/${var.src_repo}"
-  branch         = var.branch
+  step_name       = "${module.common.pipeline_name}-git-version"
+  repository_url  = "https://github.com/${var.src_org}/${var.src_repo}"
+  branch          = var.branch
+  repository_name = var.src_repo
 
   vpc_config               = var.vpc_config
   agent_security_group_ids = [var.ci_agent_to_endpoints_sg_id, var.ci_agent_to_internet_sg_id]
