@@ -147,8 +147,23 @@ module "sandbox_compliance_alerting" {
 module "s3_terraform_module_pipeline" {
   source = "./modules/terraform_module_pipeline"
 
-  pipeline_name = "s3-bucket-terraform-module"
-  src_repo      = "s3-bucket-terraform-module"
+  pipeline_name = "terraform-aws-s3-bucket-core"
+  src_repo      = "terraform-aws-s3-bucket-core"
+  branch        = "main"
+
+  accounts                    = local.accounts
+  vpc_config                  = local.vpc_config
+  ci_agent_to_internet_sg_id  = local.ci_agent_to_internet_sg_id
+  ci_agent_to_endpoints_sg_id = local.ci_agent_to_endpoints_sg_id
+  github_token                = data.aws_secretsmanager_secret_version.github_token.secret_string
+  sns_topic_arn               = module.ci_alerts_for_production.sns_topic_arn
+}
+
+module "s3_terraform_module_pipeline" {
+  source = "./modules/terraform_module_pipeline"
+
+  pipeline_name = "terraform-aws-s3-bucket-standard"
+  src_repo      = "terraform-aws-s3-bucket-standard"
   branch        = "main"
 
   accounts                    = local.accounts
