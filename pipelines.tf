@@ -144,7 +144,7 @@ module "sandbox_compliance_alerting" {
   sns_topic_arn               = module.ci_alerts_for_production.sns_topic_arn
 }
 
-module "s3_terraform_module_pipeline" {
+module "tf-s3-bucket-core" {
   source = "./modules/terraform_module_pipeline"
 
   pipeline_name = "terraform-aws-s3-bucket-core"
@@ -159,7 +159,7 @@ module "s3_terraform_module_pipeline" {
   sns_topic_arn               = module.ci_alerts_for_production.sns_topic_arn
 }
 
-module "s3_terraform_module_pipeline" {
+module "tf-s3-bucket-standard" {
   source = "./modules/terraform_module_pipeline"
 
   pipeline_name = "terraform-aws-s3-bucket-standard"
