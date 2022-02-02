@@ -166,6 +166,8 @@ module "tf-s3-bucket-standard" {
   src_repo      = "terraform-aws-s3-bucket-standard"
   branch        = "main"
 
+  test_timeout_in_minutes = 25
+
   accounts                    = local.accounts
   vpc_config                  = local.vpc_config
   ci_agent_to_internet_sg_id  = local.ci_agent_to_internet_sg_id
