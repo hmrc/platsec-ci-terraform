@@ -3,7 +3,7 @@ module "build_artifact_step" {
 
   docker_required    = true
   step_name          = "${module.common.pipeline_name}-build"
-  timeout_in_minutes = 15
+  timeout_in_minutes = var.test_timeout_in_minutes
 
   s3_bucket_arn                    = module.common.bucket_arn
   vpc_config                       = var.vpc_config

@@ -62,3 +62,7 @@ variable "sns_topic_arn" {
   type = string
   default = null
 }
+
+variable "test_timeout_in_minutes" {
+  default = 15
+}
