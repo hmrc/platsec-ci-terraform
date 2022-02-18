@@ -73,5 +73,4 @@ variable "sns_topic_arn" {
 
 variable "access_log_bucket_id" {
   type = string
-
 }

@@ -66,3 +66,7 @@ variable "sns_topic_arn" {
 variable "test_timeout_in_minutes" {
   default = 15
 }
+
+variable "access_log_bucket_id" {
+  type = string
+}
