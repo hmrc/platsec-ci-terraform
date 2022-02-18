@@ -5,10 +5,10 @@ locals {
 }
 
 module "access_logs" {
-  source        = "hmrc/s3-bucket-core/aws"
-  version       = "0.1.1"
-  bucket_name   = var.bucket_name
-  force_destroy = false
+  source         = "hmrc/s3-bucket-core/aws"
+  version        = "0.1.1"
+  bucket_name    = var.bucket_name
+  force_destroy  = false
   kms_key_policy = null
 
   data_expiry      = "90-days"

@@ -148,7 +148,7 @@ data "aws_iam_policy_document" "build_core" {
       "kms:DescribeKey",
     ]
     resources = [
-       module.codepipeline_bucket.kms_key_arn
+      module.codepipeline_bucket.kms_key_arn
     ]
   }
 
