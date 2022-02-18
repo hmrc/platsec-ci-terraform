@@ -27,3 +27,9 @@ variable "sns_topic_arn" {
   type    = string
   default = null
 }
+
+variable "access_log_bucket_id" {
+  description = "The name of the access log bucket"
+  type = string
+#  nullable = false
+}

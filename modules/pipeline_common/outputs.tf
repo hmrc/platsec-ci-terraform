@@ -1,13 +1,13 @@
 output "bucket_id" {
-  value = aws_s3_bucket.codepipeline_bucket.id
+  value = module.codepipeline_bucket.id
 }
 
 output "bucket_arn" {
-  value = aws_s3_bucket.codepipeline_bucket.arn
+  value = module.codepipeline_bucket.arn
 }
 
 output "kms_key_arn" {
-  value = aws_kms_key.codepipeline_bucket.arn
+  value = module.codepipeline_bucket.kms_key_arn
 }
 
 output "artifactory_secret_manager_names" {

@@ -7,6 +7,11 @@ terraform {
   }
 }
 
+locals {
+  is_live = terraform.workspace == "live"
+  prefix  = local.is_live ? "platsec-ci-" : "platsec-${terraform.workspace}-"
+}
+
 module "common" {
   source       = "../pipeline_common"
   pipeline     = var.pipeline_name
@@ -15,4 +20,5 @@ module "common" {
   github_token = var.github_token
   vpc_config   = var.vpc_config
   sns_topic_arn = var.sns_topic_arn
+  access_log_bucket_id = "${local.prefix}access-logs"
 }
