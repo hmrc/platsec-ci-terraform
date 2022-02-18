@@ -20,5 +20,5 @@ module "common" {
   github_token = var.github_token
   vpc_config   = var.vpc_config
   sns_topic_arn = var.sns_topic_arn
-  access_log_bucket_id = "${local.prefix}access-logs"
+  access_log_bucket_id = var.access_log_bucket_id
 }

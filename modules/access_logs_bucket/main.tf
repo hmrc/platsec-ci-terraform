@@ -14,7 +14,7 @@ module "access_logs" {
   data_expiry      = "90-days"
   data_sensitivity = "low"
 
-  log_bucket_id = ""
+  log_bucket_id = var.bucket_name
 }
 
 #data "aws_iam_policy_document" "kms" {

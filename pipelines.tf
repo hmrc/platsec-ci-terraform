@@ -14,6 +14,7 @@ module "prowler_worker" {
   ci_agent_to_internet_sg_id  = local.ci_agent_to_internet_sg_id
   ci_agent_to_endpoints_sg_id = local.ci_agent_to_endpoints_sg_id
   sns_topic_arn               = module.ci_alerts_for_production.sns_topic_arn
+  access_log_bucket_id        = module.access_logs.bucket_id
 }
 
 #module "aws_scanner" {
