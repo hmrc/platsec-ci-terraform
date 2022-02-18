@@ -17,24 +17,6 @@ module "access_logs" {
   log_bucket_id = var.bucket_name
 }
 
-#data "aws_iam_policy_document" "kms" {
-#  statement {
-#    sid = "Allow-IAM"
-#    effect = "Allow"
-#    actions = [
-#      "kms:*"
-#    ]
-#    resources = [
-#      "*"
-#    ]
-#    principals {
-#      identifiers = ["arn:aws:iam::${var.account_id}:root"]
-#      type        = "AWS"
-#    }
-#
-#  }
-#}
-
 resource "aws_s3_bucket_policy" "access_logs" {
   bucket     = module.access_logs.id
   policy     = data.aws_iam_policy_document.access_logs.json
