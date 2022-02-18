@@ -15,7 +15,7 @@ resource "aws_sns_topic_policy" "sns_topic_policy" {
 
 data "aws_iam_policy_document" "sns_topic_policy_doc" {
   statement {
-    sid = "CodestarPublish"
+    sid     = "CodestarPublish"
     actions = ["sns:Publish"]
 
     principals {
@@ -32,7 +32,7 @@ data "aws_iam_policy_document" "sns_topic_policy_doc" {
     sid = "SnsTopicSubscriptionCondition"
 
     principals {
-      type = "AWS"
+      type        = "AWS"
       identifiers = ["*"]
     }
 
@@ -47,7 +47,7 @@ data "aws_iam_policy_document" "sns_topic_policy_doc" {
     condition {
       test     = "StringLike"
       variable = "SNS:Endpoint"
-      values = [ "*@digital.hmrc.gov.uk"]
+      values   = ["*@digital.hmrc.gov.uk"]
     }
   }
 
@@ -55,7 +55,7 @@ data "aws_iam_policy_document" "sns_topic_policy_doc" {
     sid = "AllowSubscriptionsFromOtherAccounts"
 
     principals {
-      type        = "AWS"
+      type = "AWS"
       identifiers = [
         "arn:aws:iam::${var.subscription_account_no}:root"
       ]
@@ -68,6 +68,6 @@ data "aws_iam_policy_document" "sns_topic_policy_doc" {
 
     effect = "Allow"
 
-    resources = [ aws_sns_topic.sns_topic.arn ]
+    resources = [aws_sns_topic.sns_topic.arn]
   }
 }

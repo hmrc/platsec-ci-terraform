@@ -68,6 +68,10 @@ variable "accounts" {
 }
 
 variable "sns_topic_arn" {
-  type = string
+  type    = string
   default = null
+}
+
+variable "access_log_bucket_id" {
+  type = string
 }

@@ -1,5 +1,5 @@
 resource "aws_codestarnotifications_notification_rule" "failed_codepipeline" {
-  detail_type    = "FULL"
+  detail_type = "FULL"
   event_type_ids = [
     "codepipeline-pipeline-pipeline-execution-failed"
   ]
