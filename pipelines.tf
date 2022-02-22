@@ -15,6 +15,7 @@ module "prowler_worker" {
   ci_agent_to_endpoints_sg_id = local.ci_agent_to_endpoints_sg_id
   sns_topic_arn               = module.ci_alerts_for_production.sns_topic_arn
   access_log_bucket_id        = local.access_log_bucket_id
+  admin_role                  = local.tf_admin_role
 }
 
 module "aws_scanner" {
@@ -34,6 +35,7 @@ module "aws_scanner" {
   github_token                = data.aws_secretsmanager_secret_version.github_token.secret_string
   sns_topic_arn               = module.ci_alerts_for_production.sns_topic_arn
   access_log_bucket_id        = local.access_log_bucket_id
+  admin_role                  = local.tf_admin_role
 }
 
 module "compliance_alerting" {
@@ -54,6 +56,7 @@ module "compliance_alerting" {
   github_token                = data.aws_secretsmanager_secret_version.github_token.secret_string
   sns_topic_arn               = module.ci_alerts_for_production.sns_topic_arn
   access_log_bucket_id        = local.access_log_bucket_id
+  admin_role                  = local.tf_admin_role
 }
 
 module "cloudtrail_monitoring" {
@@ -72,6 +75,7 @@ module "cloudtrail_monitoring" {
   ci_agent_to_endpoints_sg_id = local.ci_agent_to_endpoints_sg_id
   sns_topic_arn               = module.ci_alerts_for_production.sns_topic_arn
   access_log_bucket_id        = local.access_log_bucket_id
+  admin_role                  = local.tf_admin_role
 }
 
 module "github_webhook_report" {
@@ -91,6 +95,7 @@ module "github_webhook_report" {
   github_token                = data.aws_secretsmanager_secret_version.github_token.secret_string
   sns_topic_arn               = module.ci_alerts_for_production.sns_topic_arn
   access_log_bucket_id        = local.access_log_bucket_id
+  admin_role                  = local.tf_admin_role
 }
 
 module "compliance_dataviz" {
@@ -112,6 +117,7 @@ module "compliance_dataviz" {
   github_token                = data.aws_secretsmanager_secret_version.github_token.secret_string
   sns_topic_arn               = module.ci_alerts_for_production.sns_topic_arn
   access_log_bucket_id        = local.access_log_bucket_id
+  admin_role                  = local.tf_admin_role
 }
 
 module "sandbox_aws_nuke" {
@@ -131,6 +137,7 @@ module "sandbox_aws_nuke" {
   github_token                = data.aws_secretsmanager_secret_version.github_token.secret_string
   sns_topic_arn               = module.ci_alerts_for_production.sns_topic_arn
   access_log_bucket_id        = local.access_log_bucket_id
+  admin_role                  = local.tf_admin_role
 }
 
 module "sandbox_compliance_alerting" {
@@ -150,6 +157,7 @@ module "sandbox_compliance_alerting" {
   github_token                = data.aws_secretsmanager_secret_version.github_token.secret_string
   sns_topic_arn               = module.ci_alerts_for_production.sns_topic_arn
   access_log_bucket_id        = local.access_log_bucket_id
+  admin_role                  = local.tf_admin_role
 }
 
 module "tf-s3-bucket-core" {
@@ -166,6 +174,7 @@ module "tf-s3-bucket-core" {
   github_token                = data.aws_secretsmanager_secret_version.github_token.secret_string
   sns_topic_arn               = module.ci_alerts_for_production.sns_topic_arn
   access_log_bucket_id        = local.access_log_bucket_id
+  admin_role                  = local.tf_admin_role
 }
 
 module "tf-s3-bucket-standard" {
@@ -184,4 +193,5 @@ module "tf-s3-bucket-standard" {
   github_token                = data.aws_secretsmanager_secret_version.github_token.secret_string
   sns_topic_arn               = module.ci_alerts_for_production.sns_topic_arn
   access_log_bucket_id        = local.access_log_bucket_id
+  admin_role                  = local.tf_admin_role
 }

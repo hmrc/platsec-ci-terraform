@@ -47,6 +47,8 @@ locals {
       role_arns : { for role, secret in data.aws_secretsmanager_secret_version.production_role_arn : role => nonsensitive(secret.secret_string) }
     }
   }
+
+  tf_admin_role = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleTerraformProvisioner"
 }
 
 module "label" {

@@ -70,3 +70,8 @@ variable "test_timeout_in_minutes" {
 variable "access_log_bucket_id" {
   type = string
 }
+
+variable "admin_role" {
+  description = "The role for bucket policy admin"
+  type        = string
+}
