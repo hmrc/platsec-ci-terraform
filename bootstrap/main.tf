@@ -25,7 +25,7 @@ provider "aws" {
 
 locals {
   backend_content = <<-EOT
-    bucket = "${aws_s3_bucket.s3_bucket.bucket}"
+    bucket = "${module.state_bucket.id}"
     region = "eu-west-2"
     dynamodb_table = "${aws_dynamodb_table.terraform_state_lock.name}"
   EOT
