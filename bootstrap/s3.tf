@@ -6,50 +6,26 @@ module "access_logs" {
 
 data "aws_caller_identity" "current" {}
 
-resource "aws_s3_bucket" "s3_bucket" {
-  bucket_prefix = var.boostrap_name
-  acl           = "private"
+data "aws_secretsmanager_secret_version" "s3_state_bucket_name" {
+  secret_id = "/terraform/platsec-ci-state-bucket-name"
+}
 
-  versioning {
-    enabled = true
-  }
+locals {
+  tf_provisioner_role = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleTerraformProvisioner"
+}
 
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        kms_master_key_id = aws_kms_key.terraform_key.key_id
-        sse_algorithm     = "aws:kms"
-      }
-    }
-  }
+module "state_bucket" {
+  source        = "hmrc/s3-bucket-standard/aws"
+  version       = "0.1.2"
+  bucket_name   = nonsensitive(data.aws_secretsmanager_secret_version.s3_state_bucket_name.secret_string)
+  force_destroy = false
 
-  tags = {
-    data_sensitivity = "high"
-    allow_delete     = false
-  }
+  list_roles          = [local.tf_provisioner_role]
+  read_roles          = [local.tf_provisioner_role]
+  write_roles         = [local.tf_provisioner_role]
 
-  lifecycle_rule {
-    id                                     = "AbortIncompleteMultipartUpload"
-    enabled                                = true
-    abort_incomplete_multipart_upload_days = 7
-  }
+  data_expiry      = "10-years"
+  data_sensitivity = "high"
 
-  lifecycle_rule {
-    id      = "version_expiration"
-    enabled = true
-
-    # If versioning is set, expire all non-current at 90 days
-    noncurrent_version_expiration {
-      days = 90
-    }
-  }
-
-  logging {
-    target_bucket = module.access_logs.bucket_id
-    target_prefix = "${data.aws_caller_identity.current.account_id}/${var.boostrap_name}-state-bucket/"
-  }
-
-  lifecycle {
-    prevent_destroy = true
-  }
+  log_bucket_id = module.access_logs.bucket_id
 }
