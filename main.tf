@@ -2,7 +2,7 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 3.0"
+      version = "~> 3.71"
     }
   }
 
@@ -27,9 +27,10 @@ provider "aws" {
 }
 
 locals {
-  is_live    = terraform.workspace == "live"
-  prefix     = local.is_live ? "platsec-ci-" : "platsec-${terraform.workspace}-"
-  step_roles = toset(["lambda-deploy", "ecr-upload", "ecs-task-update", "terraform-provisioner"])
+  is_live              = terraform.workspace == "live"
+  prefix               = local.is_live ? "platsec-ci-" : "platsec-${terraform.workspace}-"
+  step_roles           = toset(["lambda-deploy", "ecr-upload", "ecs-task-update", "terraform-provisioner"])
+  access_log_bucket_id = nonsensitive(data.aws_secretsmanager_secret_version.s3_access_logs_bucket_name.secret_string)
 
   accounts = {
     sandbox : {
@@ -76,10 +77,4 @@ module "ci_alerts_for_production" {
 
   topic_name              = "ci_alerts_for_production"
   subscription_account_no = local.accounts.production.id
-}
-
-module "access_logs" {
-  source      = "./modules/access_logs_bucket"
-  account_id  = data.aws_caller_identity.current.id
-  bucket_name = "${local.prefix}access-logs"
 }

@@ -1,3 +1,11 @@
+module "access_logs" {
+  source             = "../modules/access_logs_bucket"
+  account_id         = data.aws_caller_identity.current.id
+  bucket_name_prefix = var.boostrap_name
+}
+
+data "aws_caller_identity" "current" {}
+
 resource "aws_s3_bucket" "s3_bucket" {
   bucket_prefix = var.boostrap_name
   acl           = "private"
@@ -34,6 +42,11 @@ resource "aws_s3_bucket" "s3_bucket" {
     noncurrent_version_expiration {
       days = 90
     }
+  }
+
+  logging {
+    target_bucket = module.access_logs.bucket_id
+    target_prefix = "${data.aws_caller_identity.current.account_id}/${var.boostrap_name}-state-bucket/"
   }
 
   lifecycle {

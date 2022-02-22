@@ -14,7 +14,7 @@ module "prowler_worker" {
   ci_agent_to_internet_sg_id  = local.ci_agent_to_internet_sg_id
   ci_agent_to_endpoints_sg_id = local.ci_agent_to_endpoints_sg_id
   sns_topic_arn               = module.ci_alerts_for_production.sns_topic_arn
-  access_log_bucket_id        = module.access_logs.bucket_id
+  access_log_bucket_id        = local.access_log_bucket_id
 }
 
 module "aws_scanner" {
@@ -33,7 +33,7 @@ module "aws_scanner" {
   ci_agent_to_endpoints_sg_id = local.ci_agent_to_endpoints_sg_id
   github_token                = data.aws_secretsmanager_secret_version.github_token.secret_string
   sns_topic_arn               = module.ci_alerts_for_production.sns_topic_arn
-  access_log_bucket_id        = module.access_logs.bucket_id
+  access_log_bucket_id        = local.access_log_bucket_id
 }
 
 module "compliance_alerting" {
@@ -53,7 +53,7 @@ module "compliance_alerting" {
   ci_agent_to_endpoints_sg_id = local.ci_agent_to_endpoints_sg_id
   github_token                = data.aws_secretsmanager_secret_version.github_token.secret_string
   sns_topic_arn               = module.ci_alerts_for_production.sns_topic_arn
-  access_log_bucket_id        = module.access_logs.bucket_id
+  access_log_bucket_id        = local.access_log_bucket_id
 }
 
 module "cloudtrail_monitoring" {
@@ -71,7 +71,7 @@ module "cloudtrail_monitoring" {
   ci_agent_to_internet_sg_id  = local.ci_agent_to_internet_sg_id
   ci_agent_to_endpoints_sg_id = local.ci_agent_to_endpoints_sg_id
   sns_topic_arn               = module.ci_alerts_for_production.sns_topic_arn
-  access_log_bucket_id        = module.access_logs.bucket_id
+  access_log_bucket_id        = local.access_log_bucket_id
 }
 
 module "github_webhook_report" {
@@ -90,7 +90,7 @@ module "github_webhook_report" {
   ci_agent_to_endpoints_sg_id = local.ci_agent_to_endpoints_sg_id
   github_token                = data.aws_secretsmanager_secret_version.github_token.secret_string
   sns_topic_arn               = module.ci_alerts_for_production.sns_topic_arn
-  access_log_bucket_id        = module.access_logs.bucket_id
+  access_log_bucket_id        = local.access_log_bucket_id
 }
 
 module "compliance_dataviz" {
@@ -111,7 +111,7 @@ module "compliance_dataviz" {
   ci_agent_to_endpoints_sg_id = local.ci_agent_to_endpoints_sg_id
   github_token                = data.aws_secretsmanager_secret_version.github_token.secret_string
   sns_topic_arn               = module.ci_alerts_for_production.sns_topic_arn
-  access_log_bucket_id        = module.access_logs.bucket_id
+  access_log_bucket_id        = local.access_log_bucket_id
 }
 
 module "sandbox_aws_nuke" {
@@ -130,7 +130,7 @@ module "sandbox_aws_nuke" {
   ci_agent_to_endpoints_sg_id = local.ci_agent_to_endpoints_sg_id
   github_token                = data.aws_secretsmanager_secret_version.github_token.secret_string
   sns_topic_arn               = module.ci_alerts_for_production.sns_topic_arn
-  access_log_bucket_id        = module.access_logs.bucket_id
+  access_log_bucket_id        = local.access_log_bucket_id
 }
 
 module "sandbox_compliance_alerting" {
@@ -149,7 +149,7 @@ module "sandbox_compliance_alerting" {
   ci_agent_to_endpoints_sg_id = local.ci_agent_to_endpoints_sg_id
   github_token                = data.aws_secretsmanager_secret_version.github_token.secret_string
   sns_topic_arn               = module.ci_alerts_for_production.sns_topic_arn
-  access_log_bucket_id        = module.access_logs.bucket_id
+  access_log_bucket_id        = local.access_log_bucket_id
 }
 
 module "tf-s3-bucket-core" {
@@ -165,7 +165,7 @@ module "tf-s3-bucket-core" {
   ci_agent_to_endpoints_sg_id = local.ci_agent_to_endpoints_sg_id
   github_token                = data.aws_secretsmanager_secret_version.github_token.secret_string
   sns_topic_arn               = module.ci_alerts_for_production.sns_topic_arn
-  access_log_bucket_id        = module.access_logs.bucket_id
+  access_log_bucket_id        = local.access_log_bucket_id
 }
 
 module "tf-s3-bucket-standard" {
@@ -183,5 +183,5 @@ module "tf-s3-bucket-standard" {
   ci_agent_to_endpoints_sg_id = local.ci_agent_to_endpoints_sg_id
   github_token                = data.aws_secretsmanager_secret_version.github_token.secret_string
   sns_topic_arn               = module.ci_alerts_for_production.sns_topic_arn
-  access_log_bucket_id        = module.access_logs.bucket_id
+  access_log_bucket_id        = local.access_log_bucket_id
 }
