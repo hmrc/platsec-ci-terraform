@@ -2,6 +2,10 @@ data "aws_secretsmanager_secret_version" "sandbox_account_id" {
   secret_id = "platsec-sandbox-account-id"
 }
 
+data "aws_secretsmanager_secret_version" "s3_access_logs_bucket_name" {
+  secret_id = "/terraform/platsec-ci-logging-bucket-name"
+}
+
 data "aws_secretsmanager_secret_version" "sandbox_role_arn" {
   for_each  = local.step_roles
   secret_id = "arn:aws:secretsmanager:eu-west-2:${data.aws_secretsmanager_secret_version.sandbox_account_id.secret_string}:secret:/shared/ci-${each.value}-role-arn"
