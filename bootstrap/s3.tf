@@ -20,9 +20,9 @@ module "state_bucket" {
   bucket_name   = nonsensitive(data.aws_secretsmanager_secret_version.s3_state_bucket_name.secret_string)
   force_destroy = false
 
-  list_roles          = [local.tf_provisioner_role]
-  read_roles          = [local.tf_provisioner_role]
-  write_roles         = [local.tf_provisioner_role]
+  list_roles  = [local.tf_provisioner_role]
+  read_roles  = [local.tf_provisioner_role]
+  write_roles = [local.tf_provisioner_role]
 
   data_expiry      = "10-years"
   data_sensitivity = "high"
