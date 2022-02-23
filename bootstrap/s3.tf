@@ -47,7 +47,7 @@ module "cf_templates_bucket" {
   metadata_read_roles = local.tmp_all_roles
 
   data_expiry      = "90-days"
-  data_sensitivity = "low"
+  data_sensitivity = "high"
 
   log_bucket_id = module.access_logs.bucket_id
 }
