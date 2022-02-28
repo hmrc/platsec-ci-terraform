@@ -21,7 +21,7 @@ locals {
 
 module "state_bucket" {
   source        = "hmrc/s3-bucket-standard/aws"
-  version       = "0.1.2"
+  version       = "1.0.0"
   bucket_name   = nonsensitive(data.aws_secretsmanager_secret_version.s3_state_bucket_name.secret_string)
   force_destroy = false
 
@@ -29,7 +29,7 @@ module "state_bucket" {
   read_roles  = [local.tf_provisioner_role]
   write_roles = [local.tf_provisioner_role]
 
-  data_expiry      = "10-years"
+  data_expiry      = "forever-config-only"
   data_sensitivity = "high"
 
   log_bucket_id = module.access_logs.bucket_id
@@ -47,7 +47,7 @@ module "cf_templates_bucket" {
   metadata_read_roles = local.tmp_all_roles
 
   data_expiry      = "90-days"
-  data_sensitivity = "high"
+  data_sensitivity = "low"
 
   log_bucket_id = module.access_logs.bucket_id
 }
