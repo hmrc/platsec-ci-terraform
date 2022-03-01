@@ -2,6 +2,12 @@ locals {
   logs_access_roles = [
     "arn:aws:iam::${var.account_id}:role/RoleSecurityEngineer",
   ]
+
+  access_log_bucket_id = nonsensitive(data.aws_secretsmanager_secret_version.s3_access_logs_bucket_name.secret_string)
+}
+
+data "aws_secretsmanager_secret_version" "s3_access_logs_bucket_name" {
+  secret_id = "/terraform/platsec-ci-logging-bucket-name"
 }
 
 resource "aws_secretsmanager_secret" "bucket_name" {
@@ -62,6 +68,11 @@ resource "aws_s3_bucket" "access_logs" {
     noncurrent_version_expiration {
       days = 90
     }
+  }
+
+  logging {
+    target_bucket = local.access_log_bucket_id
+    target_prefix = "${var.account_id}/${local.access_log_bucket_id}/"
   }
 
 }
