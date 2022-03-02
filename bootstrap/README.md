@@ -5,7 +5,8 @@ In order to allow changes, the state of the bootstrap is managed with the follow
 
 ## For first time run
 
-- create a secrets manager entry with the state bucket name you want under the name `/terraform/platsec-ci-logging-bucket-name`
+- create a secrets manager entry with the state bucket name you want under the name `/terraform/platsec-ci-state-bucket-name`
+- create a secrets manager entry with the logging bucket name you want under the name `/terraform/platsec-ci-logging-bucket-name`
 - comment out the `backend "s3" {}` block in the [main.tf](./main.tf) file
 - run `terraform init` and `terraform apply`
 - uncomment the `backend "s3" {}` block
