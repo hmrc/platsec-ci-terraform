@@ -4,19 +4,10 @@ locals {
   ]
 }
 
-resource "aws_secretsmanager_secret" "bucket_name" {
-  name = "/terraform/${var.bucket_name_prefix}-logging-bucket-name"
-}
-
-resource "aws_secretsmanager_secret_version" "bucket_name" {
-  secret_id     = aws_secretsmanager_secret.bucket_name.id
-  secret_string = aws_s3_bucket.access_logs.bucket
-}
-
 # we do not use the module 'hmrc/s3-bucket-core/aws' here as it enforces kms encryption.
 # This is incompatible with s3 access logging https://docs.aws.amazon.com/AmazonS3/latest/userguide/enable-server-access-logging.html
 resource "aws_s3_bucket" "access_logs" {
-  bucket_prefix = "${var.bucket_name_prefix}-access-logs"
+  bucket = var.bucket_name
 
   lifecycle {
     ignore_changes = [acl] # acls are ignored due to object ownership controls
@@ -38,7 +29,7 @@ resource "aws_s3_bucket" "access_logs" {
   }
 
   tags = {
-    Name             = var.bucket_name_prefix
+    Name             = var.bucket_name
     Environment      = terraform.workspace
     allow_delete     = "false"
     data_sensitivity = "low"
@@ -64,6 +55,10 @@ resource "aws_s3_bucket" "access_logs" {
     }
   }
 
+  logging {
+    target_bucket = var.bucket_name
+    target_prefix = "${var.account_id}/${var.bucket_name}/"
+  }
 }
 
 resource "aws_s3_bucket_ownership_controls" "access_logs" {
