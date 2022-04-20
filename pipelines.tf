@@ -64,7 +64,7 @@ module "cloudtrail_monitoring" {
 
   pipeline_name = "cloudtrail-monitoring"
   src_repo      = "platsec-cloudtrail-monitoring"
-  branch        = "PSEC_1524_SCP_alerts"
+  branch        = "main"
   github_token  = data.aws_secretsmanager_secret_version.github_token.secret_string
 
   lambda_function_name = "platsec_cloudtrail_monitoring"
