@@ -9,55 +9,52 @@ locals {
 resource "aws_s3_bucket" "access_logs" {
   bucket = var.bucket_name
 
-  lifecycle {
-    ignore_changes = [acl] # acls are ignored due to object ownership controls
-  }
-
-  versioning {
-    enabled = false
-  }
-
   force_destroy = false
 
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        kms_master_key_id = ""
-        sse_algorithm     = "AES256"
-      }
-    }
-  }
-
   tags = {
-    Name             = var.bucket_name
-    Environment      = terraform.workspace
-    allow_delete     = "false"
-    data_sensitivity = "low"
-    data_expiry      = "90-days"
+    Name                        = var.bucket_name
+    Environment                 = terraform.workspace
+    allow_delete                = "false"
+    data_sensitivity            = "low"
+    data_expiry                 = "90-days"
+    ignore_access_logging_check = true
   }
 
-  lifecycle_rule {
-    id                                     = "AbortIncompleteMultipartUpload"
-    enabled                                = true
-    abort_incomplete_multipart_upload_days = 7
+  # lifecycle_rule {
+  #   id                                     = "AbortIncompleteMultipartUpload"
+  #   enabled                                = true
+  #   abort_incomplete_multipart_upload_days = 7
+  # }
+
+  # lifecycle_rule {
+  #   id      = "Expiration days"
+  #   enabled = true
+
+  #   expiration {
+  #     days = 90
+  #   }
+
+  #   noncurrent_version_expiration {
+  #     days = 90
+  #   }
+  # }
+}
+
+resource "aws_s3_bucket_versioning" "access_logs" {
+  bucket = aws_s3_bucket.access_logs.id
+  versioning_configuration {
+    status = "Enabled"
   }
+}
 
-  lifecycle_rule {
-    id      = "Expiration days"
-    enabled = true
+resource "aws_s3_bucket_server_side_encryption_configuration" "access_logs" {
+  bucket = aws_s3_bucket.access_logs.id
 
-    expiration {
-      days = 90
+  rule {
+    apply_server_side_encryption_by_default {
+      kms_master_key_id = ""
+      sse_algorithm     = "AES256"
     }
-
-    noncurrent_version_expiration {
-      days = 90
-    }
-  }
-
-  logging {
-    target_bucket = var.bucket_name
-    target_prefix = "${var.account_id}/${var.bucket_name}/"
   }
 }
 
@@ -76,6 +73,30 @@ resource "aws_s3_bucket_public_access_block" "access_logs" {
   ignore_public_acls      = true
   restrict_public_buckets = true
   depends_on              = [aws_s3_bucket.access_logs]
+}
+
+resource "aws_s3_bucket_lifecycle_configuration" "access_logs" {
+  bucket = aws_s3_bucket.access_logs.id
+  rule {
+    id     = "AbortIncompleteMultipartUpload"
+    status = "Enabled"
+    abort_incomplete_multipart_upload {
+      days_after_initiation = 7
+    }
+  }
+
+  rule {
+    id     = "Expiration days"
+    status = "Enabled"
+
+    expiration {
+      days = 90
+    }
+
+    noncurrent_version_expiration {
+      noncurrent_days = 90
+    }
+  }
 }
 
 resource "aws_s3_bucket_policy" "access_logs" {
@@ -165,5 +186,3 @@ data "aws_iam_policy_document" "access_logs" {
     }
   }
 }
-
-
