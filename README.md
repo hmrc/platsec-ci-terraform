@@ -127,6 +127,16 @@ You will need to get the backend config file to run plans and applies locally
 - you are now free to make changes e.g. `terraform apply`
 - done ✅
 
+## CI/CD pipeline
+
+### Where can I find a CI/CD pipeline for this code base?
+
+* No PR build job yet
+* No deployment pipeline job yet
+
+### How is the CI/CD pipeline configured?
+N/A
+
 ## License
 
 This code is open source software licensed under the [Apache 2.0 License]("http://www.apache.org/licenses/LICENSE-2.0.html").
