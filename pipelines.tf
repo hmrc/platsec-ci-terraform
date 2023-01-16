@@ -58,6 +58,26 @@ module "cloudtrail_monitoring" {
   admin_role                  = local.tf_admin_role
 }
 
+module "github_admin_report" {
+  source = "./modules/lambda_docker_pipeline"
+
+  pipeline_name = "github-admin-report"
+  src_repo      = "github-admin-report-lambda"
+  branch        = "main"
+
+  lambda_function_name = "github_admin_report_lambda"
+  ecr_name             = "github-admin-report"
+
+  accounts                    = local.accounts
+  vpc_config                  = local.vpc_config
+  ci_agent_to_internet_sg_id  = local.ci_agent_to_internet_sg_id
+  ci_agent_to_endpoints_sg_id = local.ci_agent_to_endpoints_sg_id
+  github_token                = data.aws_secretsmanager_secret_version.github_token.secret_string
+  sns_topic_arn               = module.ci_alerts_for_production.sns_topic_arn
+  access_log_bucket_id        = local.access_log_bucket_id
+  admin_role                  = local.tf_admin_role
+}
+
 module "github_webhook_report" {
   source = "./modules/lambda_docker_pipeline"
 
