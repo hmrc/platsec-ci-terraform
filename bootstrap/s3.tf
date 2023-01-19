@@ -18,9 +18,9 @@ locals {
 }
 
 module "access_logs" {
-  source             = "../modules/access_logs_bucket"
-  account_id         = data.aws_caller_identity.current.id
-  bucket_name        = nonsensitive(data.aws_secretsmanager_secret_version.s3_logging_bucket_name.secret_string)
+  source      = "../modules/access_logs_bucket"
+  account_id  = data.aws_caller_identity.current.id
+  bucket_name = nonsensitive(data.aws_secretsmanager_secret_version.s3_logging_bucket_name.secret_string)
 }
 
 module "state_bucket" {

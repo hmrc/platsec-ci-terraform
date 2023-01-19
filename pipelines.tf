@@ -39,6 +39,25 @@ module "compliance_alerting" {
   admin_role                  = local.tf_admin_role
 }
 
+module "bitwarden_manager" {
+  source = "./modules/lambda_docker_pipeline"
+
+  pipeline_name = "bitwarden-manager"
+  src_repo      = "bitwarden-manager"
+
+  lambda_function_name = "bitwarden_manager_lambda"
+  ecr_name             = "bitwarden_manager"
+
+  accounts                    = local.accounts
+  vpc_config                  = local.vpc_config
+  ci_agent_to_internet_sg_id  = local.ci_agent_to_internet_sg_id
+  ci_agent_to_endpoints_sg_id = local.ci_agent_to_endpoints_sg_id
+  github_token                = data.aws_secretsmanager_secret_version.github_token.secret_string
+  sns_topic_arn               = module.ci_alerts_for_production.sns_topic_arn
+  access_log_bucket_id        = local.access_log_bucket_id
+  admin_role                  = local.tf_admin_role
+}
+
 module "cloudtrail_monitoring" {
   source = "./modules/lambda_zip_pipeline"
 
