@@ -1,0 +1,17 @@
+version: 0.2
+
+env:
+  shell: bash
+
+phases:
+  pre_build:
+    commands:
+      - |
+        aws ecr get-login-password \
+          --region "${AWS_DEFAULT_REGION}" \
+          | docker login --username AWS --password-stdin "${ECR_URL}"
+  build:
+    commands:
+      - docker load -i docker.tar
+      - docker tag container-release:local "${ECR_URL}:${IMAGE_TAG}"
+      - docker push "${ECR_URL}:${IMAGE_TAG}"

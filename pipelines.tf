@@ -6,7 +6,8 @@ module "aws_scanner" {
   branch        = "main"
 
   lambda_function_name = "platsec_aws_scanner_lambda"
-  ecr_name             = "platsec-aws-scanner"
+  ecr_arn              = module.aws_scanner_repository.arn
+  ecr_url              = module.aws_scanner_repository.url
 
   accounts                    = local.accounts
   vpc_config                  = local.vpc_config
@@ -27,7 +28,8 @@ module "compliance_alerting" {
 
 
   lambda_function_name = "platsec_compliance_alerting_lambda"
-  ecr_name             = "platsec-compliance-alerting"
+  ecr_arn              = module.compliance_alerting_repository.arn
+  ecr_url              = module.compliance_alerting_repository.url
 
   accounts                    = local.accounts
   vpc_config                  = local.vpc_config
@@ -46,7 +48,8 @@ module "bitwarden_manager" {
   src_repo      = "bitwarden-manager"
 
   lambda_function_name = "bitwarden_manager_lambda"
-  ecr_name             = "bitwarden_manager"
+  ecr_url              = module.bitwarden_manager_repository.url
+  ecr_arn              = module.bitwarden_manager_repository.arn
 
   accounts                    = local.accounts
   vpc_config                  = local.vpc_config
@@ -85,7 +88,8 @@ module "github_admin_report" {
   branch        = "main"
 
   lambda_function_name = "github_admin_report_lambda"
-  ecr_name             = "github-admin-report"
+  ecr_arn              = module.github_admin_report_repository.arn
+  ecr_url              = module.github_admin_report_repository.url
 
   accounts                    = local.accounts
   vpc_config                  = local.vpc_config
@@ -105,7 +109,8 @@ module "github_webhook_report" {
   branch        = "main"
 
   lambda_function_name = "github_webhook_report_lambda"
-  ecr_name             = "github-webhook-report"
+  ecr_arn              = module.github_webhook_report_repository.arn
+  ecr_url              = module.github_webhook_report_repository.url
 
   accounts                    = local.accounts
   vpc_config                  = local.vpc_config
