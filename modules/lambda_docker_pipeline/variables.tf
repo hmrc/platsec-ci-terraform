@@ -24,7 +24,11 @@ variable "lambda_function_name" {
   type = string
 }
 
-variable "ecr_name" {
+variable "ecr_url" {
+  type = string
+}
+
+variable "ecr_arn" {
   type = string
 }
 

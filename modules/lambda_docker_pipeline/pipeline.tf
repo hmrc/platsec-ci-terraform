@@ -73,10 +73,10 @@ resource "aws_codepipeline" "codepipeline" {
   }
 
   stage {
-    name = "Upload_Development"
+    name = "Upload_Image"
 
     action {
-      name            = "Upload_to_Ecr_development"
+      name            = "Upload_To_ECR"
       category        = "Build"
       owner           = "AWS"
       provider        = "CodeBuild"
@@ -96,7 +96,7 @@ resource "aws_codepipeline" "codepipeline" {
     }
 
     action {
-      name            = "Upload_to_Artifactory"
+      name            = "Upload_To_Artifactory"
       category        = "Build"
       owner           = "AWS"
       provider        = "CodeBuild"
@@ -155,34 +155,6 @@ resource "aws_codepipeline" "codepipeline" {
         configuration = {
           ExternalEntityLink : "https://github.com/${var.src_org}/${var.src_repo}/commit/#{SourceVariables.CommitId}"
           CustomData : "#{SourceVariables.CommitMessage}"
-        }
-      }
-    }
-  }
-
-  dynamic "stage" {
-    for_each = module.common.is_live ? toset(["Upload_Production"]) : toset([])
-
-    content {
-      name = stage.value
-
-      action {
-        name            = "Upload_to_Ecr_production"
-        category        = "Build"
-        owner           = "AWS"
-        provider        = "CodeBuild"
-        input_artifacts = ["build_output"]
-        version         = "1"
-
-        configuration = {
-          ProjectName = module.upload_to_ecr_production.name
-          EnvironmentVariables = jsonencode([
-            {
-              name  = "IMAGE_TAG"
-              value = module.common.build_id
-              type  = "PLAINTEXT"
-            }
-          ])
         }
       }
     }

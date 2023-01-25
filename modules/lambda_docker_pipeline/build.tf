@@ -31,13 +31,13 @@ module "upload_to_artifactory_step" {
   agent_security_group_ids         = [var.ci_agent_to_endpoints_sg_id]
 }
 
-module "upload_to_ecr_development" {
-  source = "../upload_to_ecr_step"
+module "upload_to_ecr_step" {
+  source = "../upload_to_ci_ecr_step"
 
-  step_name             = "${module.common.pipeline_name}-ecr-development"
+  step_name             = "${module.common.pipeline_name}-ecr"
   build_core_policy_arn = module.common.policy_build_core_arn
-  ecr_url               = "${var.accounts.development.id}.dkr.ecr.${var.target_region}.amazonaws.com/${var.ecr_name}"
-  deployment_role_arn   = var.accounts.development.role_arns["ecr-upload"]
+  ecr_url               = var.ecr_url
+  ecr_arn               = var.ecr_arn
 
   vpc_config               = var.vpc_config
   agent_security_group_ids = [var.ci_agent_to_endpoints_sg_id]
@@ -49,20 +49,8 @@ module "docker_deployment_development" {
   step_name             = "${module.common.pipeline_name}-deploy-development"
   build_core_policy_arn = module.common.policy_build_core_arn
   lambda_arn            = "arn:aws:lambda:${var.target_region}:${var.accounts.development.id}:function:${var.lambda_function_name}"
-  ecr_url               = "${var.accounts.development.id}.dkr.ecr.${var.target_region}.amazonaws.com/${var.ecr_name}"
+  ecr_url               = var.ecr_url
   deployment_role_arn   = var.accounts.development.role_arns["lambda-deploy"]
-
-  vpc_config               = var.vpc_config
-  agent_security_group_ids = [var.ci_agent_to_endpoints_sg_id]
-}
-
-module "upload_to_ecr_production" {
-  source = "../upload_to_ecr_step"
-
-  step_name             = "${module.common.pipeline_name}-ecr-production"
-  build_core_policy_arn = module.common.policy_build_core_arn
-  ecr_url               = "${var.accounts.production.id}.dkr.ecr.${var.target_region}.amazonaws.com/${var.ecr_name}"
-  deployment_role_arn   = var.accounts.production.role_arns["ecr-upload"]
 
   vpc_config               = var.vpc_config
   agent_security_group_ids = [var.ci_agent_to_endpoints_sg_id]
@@ -74,7 +62,7 @@ module "docker_deployment_production" {
   step_name             = "${module.common.pipeline_name}-deploy-production"
   build_core_policy_arn = module.common.policy_build_core_arn
   lambda_arn            = "arn:aws:lambda:${var.target_region}:${var.accounts.production.id}:function:${var.lambda_function_name}"
-  ecr_url               = "${var.accounts.production.id}.dkr.ecr.${var.target_region}.amazonaws.com/${var.ecr_name}"
+  ecr_url               = var.ecr_url
   deployment_role_arn   = var.accounts.production.role_arns["lambda-deploy"]
 
   vpc_config               = var.vpc_config
