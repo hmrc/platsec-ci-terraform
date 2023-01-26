@@ -20,13 +20,13 @@ module "build_timestamp_step" {
   agent_security_group_ids = [var.ci_agent_to_endpoints_sg_id]
 }
 
-module "upload_to_ecr_sandbox" {
-  source = "../upload_to_ecr_step"
+module "upload_to_ecr" {
+  source = "../upload_to_ci_ecr_step"
 
-  step_name             = "${module.common.pipeline_name}-ecr-sandbox"
+  step_name             = "${module.common.pipeline_name}-ecr"
   build_core_policy_arn = module.common.policy_build_core_arn
-  ecr_url               = "${var.accounts.sandbox.id}.dkr.ecr.${var.target_region}.amazonaws.com/${var.ecr_name}"
-  deployment_role_arn   = var.accounts.sandbox.role_arns["ecr-upload"]
+  ecr_url               = var.ecr_url
+  ecr_arn               = var.ecr_arn
 
   vpc_config               = var.vpc_config
   agent_security_group_ids = [var.ci_agent_to_endpoints_sg_id]
@@ -38,7 +38,7 @@ module "docker_deployment_sandbox" {
   step_name             = "${module.common.pipeline_name}-deploy-sandbox"
   build_core_policy_arn = module.common.policy_build_core_arn
   lambda_arn            = "arn:aws:lambda:${var.target_region}:${var.accounts.sandbox.id}:function:${var.lambda_function_name}"
-  ecr_url               = "${var.accounts.sandbox.id}.dkr.ecr.${var.target_region}.amazonaws.com/${var.ecr_name}"
+  ecr_url               = var.ecr_url
   deployment_role_arn   = var.accounts.sandbox.role_arns["lambda-deploy"]
 
   vpc_config               = var.vpc_config
