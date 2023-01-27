@@ -152,7 +152,8 @@ module "sandbox_aws_nuke" {
   branch        = "main"
 
   lambda_function_name = "go-nuke"
-  ecr_name             = "go-nuke"
+  ecr_arn              = module.go_nuke_repository.arn
+  ecr_url              = module.go_nuke_repository.url
 
   accounts                    = local.accounts
   vpc_config                  = local.vpc_config
@@ -172,7 +173,8 @@ module "sandbox_compliance_alerting" {
   branch        = "sandbox"
 
   lambda_function_name = "platsec_compliance_alerting_lambda"
-  ecr_name             = "platsec-compliance-alerting"
+  ecr_arn              = module.compliance_alerting_repository.arn
+  ecr_url              = module.compliance_alerting_repository.url
 
   accounts                    = local.accounts
   vpc_config                  = local.vpc_config

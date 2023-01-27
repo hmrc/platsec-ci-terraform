@@ -84,7 +84,7 @@ resource "aws_codepipeline" "codepipeline" {
       version         = "1"
 
       configuration = {
-        ProjectName = module.upload_to_ecr_sandbox.name
+        ProjectName = module.upload_to_ecr.name
         EnvironmentVariables = jsonencode([
           {
             name  = "IMAGE_TAG"
