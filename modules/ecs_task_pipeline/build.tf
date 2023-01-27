@@ -31,14 +31,13 @@ module "upload_to_artifactory_step" {
   agent_security_group_ids         = [var.ci_agent_to_endpoints_sg_id]
 }
 
-module "upload_to_ecr_development" {
-  source = "../upload_to_ecr_step"
+module "upload_to_ecr" {
+  source = "../upload_to_ci_ecr_step"
 
-  step_name             = "${module.common.pipeline_name}-ecr-development"
-  build_core_policy_arn = module.common.policy_build_core_arn
-  ecr_url               = "${var.accounts.development.id}.dkr.ecr.${var.target_region}.amazonaws.com/${var.ecr_name}"
-  deployment_role_arn   = var.accounts.development.role_arns["ecr-upload"]
-
+  step_name                = "${module.common.pipeline_name}-ecr"
+  build_core_policy_arn    = module.common.policy_build_core_arn
+  ecr_url                  = var.ecr_url
+  ecr_arn                  = var.ecr_arn
   vpc_config               = var.vpc_config
   agent_security_group_ids = [var.ci_agent_to_endpoints_sg_id]
 }
@@ -49,22 +48,10 @@ module "docker_deployment_development" {
   step_name             = "${module.common.pipeline_name}-deploy-development"
   build_core_policy_arn = module.common.policy_build_core_arn
   deployment_role_arn   = var.accounts.development.role_arns["ecs-task-update"]
-  ecr_url               = "${var.accounts.development.id}.dkr.ecr.${var.target_region}.amazonaws.com/${var.ecr_name}"
+  ecr_url               = var.ecr_url
   task_name             = var.task_name
   service_name          = var.service_name
   cluster_name          = var.cluster_name
-
-  vpc_config               = var.vpc_config
-  agent_security_group_ids = [var.ci_agent_to_endpoints_sg_id]
-}
-
-module "upload_to_ecr_production" {
-  source = "../upload_to_ecr_step"
-
-  step_name             = "${module.common.pipeline_name}-ecr-production"
-  build_core_policy_arn = module.common.policy_build_core_arn
-  ecr_url               = "${var.accounts.production.id}.dkr.ecr.${var.target_region}.amazonaws.com/${var.ecr_name}"
-  deployment_role_arn   = var.accounts.production.role_arns["ecr-upload"]
 
   vpc_config               = var.vpc_config
   agent_security_group_ids = [var.ci_agent_to_endpoints_sg_id]
@@ -76,7 +63,7 @@ module "docker_deployment_production" {
   step_name             = "${module.common.pipeline_name}-deploy-production"
   build_core_policy_arn = module.common.policy_build_core_arn
   deployment_role_arn   = var.accounts.production.role_arns["ecs-task-update"]
-  ecr_url               = "${var.accounts.production.id}.dkr.ecr.${var.target_region}.amazonaws.com/${var.ecr_name}"
+  ecr_url               = var.ecr_url
   task_name             = var.task_name
   service_name          = var.service_name
   cluster_name          = var.cluster_name

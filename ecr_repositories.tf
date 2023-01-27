@@ -36,6 +36,14 @@ module "github_webhook_report_repository" {
 module "go_nuke_repository" {
   source = "./modules/ecr_repository"
 
-  repository_name            = "go-nuke-repository"
+  repository_name            = "go-nuke"
   allow_read_account_id_list = [local.accounts.sandbox.id]
 }
+
+module "security_reports_frontend_repository" {
+  source = "./modules/ecr_repository"
+
+  repository_name            = "security-reports-frontend"
+  allow_read_account_id_list = local.all_account_ids
+}
+
