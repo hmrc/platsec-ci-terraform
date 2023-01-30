@@ -122,17 +122,18 @@ module "github_webhook_report" {
   admin_role                  = local.tf_admin_role
 }
 
-module "compliance_dataviz" {
+module "security_reports_frontend" {
   source = "./modules/ecs_task_pipeline"
 
   pipeline_name = "compliance-dataviz"
   src_repo      = "platsec-compliance-dataviz"
   branch        = "main"
 
-  ecr_name     = "platsec-compliance-dataviz"
   cluster_name = "security_reports_frontend"
   service_name = "compliance_dataviz"
   task_name    = "compliance_dataviz_task"
+  ecr_url      = module.security_reports_frontend_repository.url
+  ecr_arn      = module.security_reports_frontend_repository.arn
 
   accounts                    = local.accounts
   vpc_config                  = local.vpc_config

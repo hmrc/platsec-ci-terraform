@@ -20,7 +20,11 @@ variable "github_token" {
   type = string
 }
 
-variable "ecr_name" {
+variable "ecr_url" {
+  type = string
+}
+
+variable "ecr_arn" {
   type = string
 }
 
