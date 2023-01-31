@@ -4,7 +4,7 @@ module "platsec_terraform_pr_builder" {
 
   docker_required       = true
   project_name          = "platsec-terraform-pr-builder"
-  access_logs_bucket_id = data.aws_secretsmanager_secret_version.s3_access_logs_bucket_name.value
+  access_logs_bucket_id = data.aws_secretsmanager_secret_version.s3_access_logs_bucket_name.secret_string
 
   project_assume_roles = {
     "SANDBOX_TERRAFORM_PROVISIONER_ROLE_ARN"     = local.accounts.sandbox.role_arns["terraform-provisioner"]
