@@ -1,7 +1,7 @@
 data "aws_region" "current" {}
 
 module "artifactory_endpoint_connector" {
-  source = "git@github.com:hmrc/mdtp-build.git//terraform/modules/service_endpoint_connector?ref=v0.12"
+  source = "../service_endpoint_connector"
 
   security_group_name = "${var.name_prefix}-artifactory-endpoint"
   vpc_id              = module.vpc.vpc_id
@@ -14,6 +14,9 @@ module "artifactory_endpoint_connector" {
     "pythonpips",
   ]
   top_level_domain = "tax.service.gov.uk"
+  tags = {
+    Purpose : "${var.name_prefix}-artifactory-endpoint-connector"
+  }
 }
 
 # CloudWatch Logs to be able to see agent logs in CodeBuild
