@@ -1,6 +1,6 @@
 variable "pipeline_name" {
   type    = string
-  default = "terraform-pipeline"
+  default = "platsec-terraform-pipeline"
 }
 
 variable "src_org" {
