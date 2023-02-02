@@ -2,6 +2,8 @@ version: 0.2
 
 env:
   shell: bash
+  secrets-manager:
+    GITHUB_API_TOKEN: "/service_accounts/github_api_token"
 
 phases:
   build:
