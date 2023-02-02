@@ -1,0 +1,11 @@
+version: 0.2
+
+env:
+  shell: bash
+
+phases:
+  build:
+    commands:
+      - make all-checks
+      - scripts/run.sh validate-main development
+      - scripts/run.sh plan development

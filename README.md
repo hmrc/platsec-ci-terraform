@@ -110,22 +110,17 @@ resource "aws_lambda_function" "docker" {
 
 ## Running locally
 
-You will need to get the backend config file to run plans and applies locally
+### Plan
 
-- run:
+```
+make plan
+```
 
-    ```bash
-    AWS_PAGER="" aws secretsmanager get-secret-value \
-      --secret-id "backend.hcl" \
-      --query="SecretString" \
-      --output=text \
-      > "$(git rev-parse --show-toplevel)/backend.hcl"
-    ```
+### Apply
 
-- then run: `terraform init -backend-config="$(git rev-parse --show-toplevel)/backend.hcl"`
-- You can switch Terraform workspaces to test your changes in isolation with: `terraform workspace list` and `terraform workspace select foo`
-- you are now free to make changes e.g. `terraform apply`
-- done ✅
+```
+make apply
+```
 
 ## CI/CD pipeline
 
