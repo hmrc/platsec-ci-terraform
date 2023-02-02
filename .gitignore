@@ -32,3 +32,4 @@ dummy_lambda_payload.zip
 .terraform_state_config
 backend.hcl
 .idea/
+tmp/
