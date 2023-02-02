@@ -28,6 +28,11 @@ variable "project_assume_roles" {
   description = "map of environment variable to role arn for use within the build"
 }
 
+variable "admin_role" {
+  type        = string
+  description = "IAM role for automation in the host account"
+}
+
 variable "timeout_in_minutes" {
   default = 15
 }

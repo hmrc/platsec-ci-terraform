@@ -5,7 +5,7 @@ locals {
 
 module "pr_builder_bucket" {
   source         = "hmrc/s3-bucket-core/aws"
-  version        = "1.0.0"
+  version        = "1.2.0"
   bucket_name    = local.bucket_name
   force_destroy  = true
   kms_key_policy = null
@@ -73,7 +73,7 @@ data "aws_iam_policy_document" "bucket_policy" {
     condition {
       test     = "StringNotLike"
       variable = "aws:PrincipalArn"
-      values   = [for k, v in var.project_assume_roles : v]
+      values   = [var.admin_role]
     }
   }
 }
