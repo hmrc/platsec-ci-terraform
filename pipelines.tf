@@ -222,3 +222,29 @@ module "tf-s3-bucket-standard" {
   access_log_bucket_id        = local.access_log_bucket_id
   admin_role                  = local.tf_admin_role
 }
+
+module "platsec-terraform-pipeline" {
+
+  source = "./modules/platsec_terraform_pipeline"
+
+  vpc_config                  = local.vpc_config
+  ci_agent_to_internet_sg_id  = local.ci_agent_to_internet_sg_id
+  ci_agent_to_endpoints_sg_id = local.ci_agent_to_endpoints_sg_id
+  github_token                = data.aws_secretsmanager_secret_version.github_token.secret_string
+  sns_topic_arn               = module.ci_alerts_for_production.sns_topic_arn
+  access_log_bucket_id        = local.access_log_bucket_id
+  admin_role                  = local.tf_admin_role
+
+  step_assume_roles = [
+    {
+      sandbox = { "TERRAFORM_PROVISIONER_ROLE_ARN" = local.accounts.sandbox.role_arns["terraform-provisioner"] }
+    },
+    {
+      development = { "TERRAFORM_PROVISIONER_ROLE_ARN" = local.accounts.development.role_arns["terraform-provisioner"] }
+    },
+    {
+      production = { "TERRAFORM_PROVISIONER_ROLE_ARN" = local.accounts.production.role_arns["terraform-provisioner"] }
+    },
+  ]
+
+}
