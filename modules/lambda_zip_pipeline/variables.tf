@@ -10,6 +10,10 @@ variable "docker_build_required" {
 
 variable "pipeline_name" {
   type = string
+  validation {
+    condition     = can(regex("^[0-9a-z-]+$", var.pipeline_name))
+    error_message = "Due to resource name limitations only lowercase alphanumeric characters and hyphens are allowed in pipeline names."
+  }
 }
 
 variable "src_org" {

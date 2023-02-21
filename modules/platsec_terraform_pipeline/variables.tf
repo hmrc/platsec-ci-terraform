@@ -1,6 +1,10 @@
 variable "pipeline_name" {
   type    = string
   default = "platsec-terraform-pipeline"
+  validation {
+    condition     = can(regex("^[0-9a-z-]+$", var.pipeline_name))
+    error_message = "Due to resource name limitations only lowercase alphanumeric characters and hyphens are allowed in pipeline names."
+  }
 }
 
 variable "src_org" {
