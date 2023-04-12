@@ -4,7 +4,7 @@ module "vpc" {
     aws = aws.no-default-tags
   }
 
-  source  = "git@github.com:hmrc/terraform-aws-vpc.git"
+  source  = "git@github.com:hmrc/terraform-aws-vpc.git?ref=v3.6.0"
 
   name = var.name_prefix
 
