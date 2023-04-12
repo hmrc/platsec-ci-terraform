@@ -47,7 +47,7 @@ locals {
 }
 
 module "label" {
-  source = "github.com/hmrc/terraform-null-label?ref=0.24.1"
+  source = "github.com/hmrc/terraform-null-label?ref=0.25.0"
 
   namespace = "mdtp"
   stage     = terraform.workspace
