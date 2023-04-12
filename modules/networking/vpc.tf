@@ -5,7 +5,6 @@ module "vpc" {
   }
 
   source  = "git@github.com:hmrc/terraform-aws-vpc.git"
-  version = "3.6.0"
 
   name = var.name_prefix
 
