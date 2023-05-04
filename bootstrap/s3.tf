@@ -25,7 +25,7 @@ module "access_logs" {
 
 module "state_bucket" {
   source        = "hmrc/s3-bucket-standard/aws"
-  version       = "1.2.0"
+  version       = "1.7.0"
   bucket_name   = nonsensitive(data.aws_secretsmanager_secret_version.s3_state_bucket_name.secret_string)
   force_destroy = false
 
@@ -41,7 +41,7 @@ module "state_bucket" {
 
 module "cf_templates_bucket" {
   source        = "hmrc/s3-bucket-standard/aws"
-  version       = "1.2.0"
+  version       = "1.7.0"
   bucket_name   = "cf-templates-1a94pgui3v5ft-eu-west-2"
   force_destroy = false
 
