@@ -9,3 +9,4 @@ phases:
       - make all-checks
       - scripts/run.sh validate-main development
       - scripts/run.sh plan development
+      - scripts/run.sh plan production
