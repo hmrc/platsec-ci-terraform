@@ -23,7 +23,7 @@ provider "aws" {
 locals {
   is_live              = terraform.workspace == "live"
   prefix               = local.is_live ? "platsec-ci-" : "platsec-${terraform.workspace}-"
-  step_roles           = toset(["lambda-deploy", "ecr-upload", "ecs-task-update", "terraform-provisioner"])
+  step_roles           = toset(["lambda-deploy", "ecr-upload", "ecs-task-update", "terraform-provisioner", "terraform-applier", "terraform-planner"])
   access_log_bucket_id = nonsensitive(data.aws_secretsmanager_secret_version.s3_access_logs_bucket_name.secret_string)
 
   accounts = {
