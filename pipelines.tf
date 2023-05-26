@@ -258,19 +258,16 @@ module "platsec-terraform-pipeline" {
     {
       sandbox = {
         "TERRAFORM_APPLIER_ROLE_ARN" = local.accounts.sandbox.role_arns["terraform-applier"]
-        "TERRAFORM_PROVISIONER_ROLE_ARN" = local.accounts.sandbox.role_arns["terraform-provisioner"]
       }
     },
     {
       development = {
         "TERRAFORM_APPLIER_ROLE_ARN" = local.accounts.development.role_arns["terraform-applier"]
-        "TERRAFORM_PROVISIONER_ROLE_ARN" = local.accounts.development.role_arns["terraform-provisioner"]
       }
     },
     {
       production = {
         "TERRAFORM_APPLIER_ROLE_ARN" = local.accounts.production.role_arns["terraform-applier"]
-        "TERRAFORM_PROVISIONER_ROLE_ARN" = local.accounts.production.role_arns["terraform-provisioner"]
       }
     },
   ]
