@@ -8,12 +8,9 @@ module "platsec_terraform_pr_builder" {
 
   admin_role = local.tf_admin_role
   project_assume_roles = {
-    "SANDBOX_TERRAFORM_PROVISIONER_ROLE_ARN"     = local.accounts.sandbox.role_arns["terraform-provisioner"]
-    "DEVELOPMENT_TERRAFORM_PROVISIONER_ROLE_ARN" = local.accounts.development.role_arns["terraform-provisioner"]
-    "PRODUCTION_TERRAFORM_PROVISIONER_ROLE_ARN"  = local.accounts.production.role_arns["terraform-provisioner"]
-    "SANDBOX_TERRAFORM_PLANNER_ROLE_ARN"         = local.accounts.sandbox.role_arns["terraform-planner"]
-    "DEVELOPMENT_TERRAFORM_PLANNER_ROLE_ARN"     = local.accounts.development.role_arns["terraform-planner"]
-    "PRODUCTION_TERRAFORM_PLANNER_ROLE_ARN"      = local.accounts.production.role_arns["terraform-planner"]
+    "SANDBOX_TERRAFORM_PLANNER_ROLE_ARN"     = local.accounts.sandbox.role_arns["terraform-planner"]
+    "DEVELOPMENT_TERRAFORM_PLANNER_ROLE_ARN" = local.accounts.development.role_arns["terraform-planner"]
+    "PRODUCTION_TERRAFORM_PLANNER_ROLE_ARN"  = local.accounts.production.role_arns["terraform-planner"]
   }
 
   vpc_config = local.vpc_config
