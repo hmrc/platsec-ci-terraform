@@ -10,7 +10,7 @@ module "build_artifact_step" {
   agent_security_group_ids         = [var.ci_agent_to_endpoints_sg_id, var.ci_agent_to_internet_sg_id]
   policy_arns                      = [module.common.policy_build_core_arn, module.common.policy_get_artifactory_credentials_arn]
   artifactory_secret_manager_names = module.common.artifactory_secret_manager_names
-  step_assume_roles                = { STEP_ASSUME_ROLE_ARN : var.accounts.sandbox.role_arns["terraform-provisioner"] }
+  step_assume_roles                = { STEP_ASSUME_ROLE_ARN : var.accounts.sandbox.role_arns["terraform-applier"] }
 }
 
 module "git_version_step" {
