@@ -141,6 +141,27 @@ module "github_webhook_report" {
   admin_role                  = local.tf_admin_role
 }
 
+module "monitor_aws_iam" {
+  source = "./modules/lambda_docker_pipeline"
+
+  pipeline_name = "monitor-aws-iam"
+  src_repo      = "monitor-aws-iam"
+  branch        = "BAU-fix-build"
+
+  lambda_function_name = "monitor_aws_iam_lambda"
+  ecr_arn              = module.monitor_aws_iam_repository.arn
+  ecr_url              = module.monitor_aws_iam_repository.url
+
+  accounts                    = local.accounts
+  vpc_config                  = local.vpc_config
+  ci_agent_to_internet_sg_id  = local.ci_agent_to_internet_sg_id
+  ci_agent_to_endpoints_sg_id = local.ci_agent_to_endpoints_sg_id
+  github_token                = data.aws_secretsmanager_secret_version.github_token.secret_string
+  sns_topic_arn               = module.ci_alerts_for_production.sns_topic_arn
+  access_log_bucket_id        = local.access_log_bucket_id
+  admin_role                  = local.tf_admin_role
+}
+
 module "security_reports_frontend" {
   source = "./modules/ecs_task_pipeline"
 
