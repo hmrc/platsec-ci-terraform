@@ -146,7 +146,7 @@ module "monitor_aws_iam" {
 
   pipeline_name = "monitor-aws-iam"
   src_repo      = "monitor-aws-iam"
-  branch        = "BAU-fix-build"
+  branch        = "main"
 
   lambda_function_name = "monitor_aws_iam_lambda"
   ecr_arn              = module.monitor_aws_iam_repository.arn
