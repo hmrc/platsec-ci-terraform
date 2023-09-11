@@ -62,24 +62,24 @@ module "bitwarden_manager" {
 }
 
 module "cloudtrail_monitoring" {
-  source = "./modules/lambda_zip_pipeline"
+  source = "./modules/lambda_docker_pipeline"
 
   pipeline_name = "cloudtrail-monitoring"
   src_repo      = "platsec-cloudtrail-monitoring"
-  branch        = "main"
-  github_token  = data.aws_secretsmanager_secret_version.github_token.secret_string
 
   lambda_function_name = "platsec_cloudtrail_monitoring"
+  ecr_url              = module.cloudtrail_monitoring_repository.url
+  ecr_arn              = module.cloudtrail_monitoring_repository.arn
 
   accounts                    = local.accounts
   vpc_config                  = local.vpc_config
   ci_agent_to_internet_sg_id  = local.ci_agent_to_internet_sg_id
   ci_agent_to_endpoints_sg_id = local.ci_agent_to_endpoints_sg_id
+  github_token                = data.aws_secretsmanager_secret_version.github_token.secret_string
   sns_topic_arn               = module.ci_alerts_for_production.sns_topic_arn
   access_log_bucket_id        = local.access_log_bucket_id
   admin_role                  = local.tf_admin_role
 }
-
 
 module "github_scanner" {
   source = "./modules/lambda_zip_pipeline"

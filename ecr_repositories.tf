@@ -12,6 +12,14 @@ module "aws_scanner_repository" {
   allow_read_account_id_list = local.all_account_ids
 }
 
+module "cloudtrail_monitoring_repository" {
+  source = "./modules/ecr_repository"
+
+  repository_name            = "cloudtrail-monitoring"
+  allow_read_account_id_list = local.all_account_ids
+}
+
+
 module "compliance_alerting_repository" {
   source = "./modules/ecr_repository"
 
@@ -53,4 +61,3 @@ module "security_reports_frontend_repository" {
   repository_name            = "security-reports-frontend"
   allow_read_account_id_list = local.all_account_ids
 }
-
