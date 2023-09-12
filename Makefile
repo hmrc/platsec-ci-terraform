@@ -7,6 +7,8 @@ SHELL = /bin/bash
 
 export AWS_PROFILE = platsec-ci-RoleTerraformProvisioner
 
+REMARK_LINT_VERSION = 0.2.1
+
 ifneq (, $(strip $(shell command -v aws-vault)))
 	AWS_PROFILE_CMD := aws-vault exec $${AWS_PROFILE} --
 endif
@@ -53,8 +55,12 @@ fmt-check: terragrunt
 
 .PHONY: md-check
 md-check:
-	@docker pull zemanlx/remark-lint:0.2.0
-	@docker run --rm -i -v $(PWD):/lint/input:ro zemanlx/remark-lint:0.2.0 --frail .
+	@docker run --pull missing --rm -i -v $(PWD):/lint/input:ro zemanlx/remark-lint:${REMARK_LINT_VERSION} --frail .
+
+# Update (to best of tools ability) md linter findings
+.PHONY: md-fix
+md-fix:
+	@docker run --pull missing --rm -i -v $(PWD):/lint/input:rw zemanlx/remark-lint:${REMARK_LINT_VERSION} . -o
 
 .PHONY: validate
 validate: fmt

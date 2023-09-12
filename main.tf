@@ -41,7 +41,7 @@ locals {
       role_arns : { for role, secret in data.aws_secretsmanager_secret_version.production_role_arn : role => nonsensitive(secret.secret_string) }
     }
   }
-  all_account_ids = [for account in values(local.accounts) : account.id]
+  all_platsec_account_ids = [for account in values(local.accounts) : account.id]
 
   tf_admin_role = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleTerraformProvisioner"
 }

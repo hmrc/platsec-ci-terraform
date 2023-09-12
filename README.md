@@ -5,13 +5,13 @@ This repo holds OpenSource modules that are used for a CodePipeline release
 In the [main.tf](main.tf) file there are examples for different methods of lambda
 deployment as:
 
-1. ZIP file
-2. Docker image
+1.  ZIP file
+2.  Docker image
 
->If you are using Docker Hub as a source of your base image or using Docker Hub
-for build purpose, it may hit API limits. To avoid this please use our
-Artifactory proxy eg. instead of Docker image `python` you can use
-`dockerhub.tax.service.gov.uk/python` in your `FROM` directive in a Dockerfile.
+> If you are using Docker Hub as a source of your base image or using Docker Hub
+> for build purpose, it may hit API limits. To avoid this please use our
+> Artifactory proxy eg. instead of Docker image `python` you can use
+> `dockerhub.tax.service.gov.uk/python` in your `FROM` directive in a Dockerfile.
 
 ## ZIP deploy pipeline
 
@@ -70,8 +70,8 @@ To be able to use this pipeline you need to supply `buildspec.yml` in the root
 of your repo which will be used by CI to build the artefact. There are a few
 requirements for Docker image:
 
-1. tagged as `container-release:local`
-2. saved as `docker.tar` in the root of the repo and reference it as an artifact
+1.  tagged as `container-release:local`
+2.  saved as `docker.tar` in the root of the repo and reference it as an artifact
 
 ```yaml
 version: 0.2
@@ -111,13 +111,10 @@ resource "aws_lambda_function" "docker" {
 ## Running locally
 
 ### Plan
-
 ```
 make plan
 ```
-
 ### Apply
-
 ```
 make apply
 ```
@@ -126,10 +123,11 @@ make apply
 
 ### Where can I find a CI/CD pipeline for this code base?
 
-* No PR build job yet
-* No deployment pipeline job yet
+*   No PR build job yet
+*   No deployment pipeline job yet
 
 ### How is the CI/CD pipeline configured?
+
 N/A
 
 ## License
