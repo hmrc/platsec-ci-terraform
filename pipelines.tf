@@ -294,3 +294,31 @@ module "platsec-terraform-pipeline" {
   ]
 
 }
+
+module "central_account_pipeline" {
+  source = "modules\/central_audit_pipeline"
+
+  pipeline_name = "central-audit-terraform"
+  branch        = "main"
+  step_assume_roles = [
+    {
+      central_audit_development = {
+        "TERRAFORM_APPLIER_ROLE_ARN" = local.accounts.central_audit_development.role_arns["terraform-applier"]
+      }
+    },
+    //    {
+    //      central_audit_production = {
+    //        "TERRAFORM_APPLIER_ROLE_ARN" = local.accounts.production.role_arns["terraform-applier"]
+    //      }
+    //    },
+  ]
+  access_log_bucket_id = local.access_log_bucket_id
+  //  accounts                    = local.accounts
+  vpc_config                  = local.vpc_config
+  sns_topic_arn               = module.ci_alerts_for_central_audit_development.sns_topic_arn
+  admin_role                  = local.tf_admin_role
+  ci_agent_to_endpoints_sg_id = local.ci_agent_to_endpoints_sg_id
+  ci_agent_to_internet_sg_id  = local.ci_agent_to_internet_sg_id
+  github_token                = data.aws_secretsmanager_secret_version.github_token.secret_string
+  src_repo                    = "central-audit-terraform"
+}
