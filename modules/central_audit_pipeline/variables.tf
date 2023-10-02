@@ -17,9 +17,6 @@ variable "branch" {
   default = "main"
 }
 
-# variable "sns_topic_arn" {
-#   type = string
-# }
 
 variable "test_timeout_in_minutes" {
   default = 30
@@ -28,10 +25,6 @@ variable "test_timeout_in_minutes" {
 variable "step_assume_roles" {
   type = list(map(map(string)))
 }
-
-//variable "agent_security_group_ids" {
-//  type = list(string)
-//}
 
 variable "ci_agent_to_internet_sg_id" {
   type = string

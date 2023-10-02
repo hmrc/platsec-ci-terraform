@@ -12,8 +12,4 @@ module "common" {
   vpc_config           = var.vpc_config
   access_log_bucket_id = var.access_log_bucket_id
   admin_role           = var.admin_role
-  //  pipeline_bucket_admin_roles = [
-  //    local.tf_admin_role,
-  //    local.tf_plan_role,
-  //  ]
 }
