@@ -91,5 +91,5 @@ module "ci_alerts_for_central_audit_development" {
   source = "./modules/alerting_sns_topics"
 
   topic_name              = "ci_alerts_for_central_audit_development"
-  subscription_account_no = local.accounts.production.id
+  subscription_account_no = local.accounts.central_audit_development.id
 }
