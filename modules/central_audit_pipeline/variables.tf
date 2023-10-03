@@ -1,6 +1,6 @@
 variable "pipeline_name" {
   type    = string
-  default = "central-audit-pipeline"
+  default = "central-audit-terraform-pipeline"
 }
 
 variable "src_org" {
