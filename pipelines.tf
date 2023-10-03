@@ -297,9 +297,7 @@ module "platsec-terraform-pipeline" {
 
 module "central_account_pipeline" {
   source = "./modules/central_audit_pipeline"
-
-  pipeline_name = "central-audit-terraform"
-  branch        = "main"
+  branch = "main"
   step_assume_roles = [
     {
       central_audit_development = {
