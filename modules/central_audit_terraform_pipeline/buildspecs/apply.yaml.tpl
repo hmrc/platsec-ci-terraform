@@ -19,4 +19,4 @@ phases:
 
       - |
         cd $${CODEBUILD_SRC_DIR}/tmp/central-audit-terraform
-        scripts/apply.sh plan-development
+        scripts/apply.sh plan-${target}
