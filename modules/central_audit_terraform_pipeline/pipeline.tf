@@ -34,10 +34,10 @@ resource "aws_codepipeline" "codepipeline" {
   }
 
   stage {
-    name = "apply-central-development"
+    name = "apply-central-audit-terraform-development"
 
     action {
-      name            = "apply-central-audit-development"
+      name            = "apply-central-audit-terraform-development"
       category        = "Build"
       owner           = "AWS"
       provider        = "CodeBuild"
@@ -45,7 +45,30 @@ resource "aws_codepipeline" "codepipeline" {
       version         = "1"
 
       configuration = {
-        ProjectName = module.apply_step["central_audit_development"].name
+        ProjectName = module.apply_step["development"].name
+        EnvironmentVariables = jsonencode([
+          {
+            name  = "COMMIT_ID"
+            value = "#{SourceVariables.CommitId}"
+            type  = "PLAINTEXT"
+          }
+        ])
+      }
+    }
+  }
+  stage {
+    name = "apply-central-audit-terraform-production"
+
+    action {
+      name            = "apply-central-audit-terraform-production"
+      category        = "Build"
+      owner           = "AWS"
+      provider        = "CodeBuild"
+      input_artifacts = ["source_output"]
+      version         = "1"
+
+      configuration = {
+        ProjectName = module.apply_step["production"].name
         EnvironmentVariables = jsonencode([
           {
             name  = "COMMIT_ID"

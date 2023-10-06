@@ -295,20 +295,25 @@ module "platsec-terraform-pipeline" {
 
 }
 
-module "central_account_pipeline" {
-  source = "./modules/central_audit_pipeline"
+moved {
+  from = module.central_account_pipeline
+  to   = module.central_account_terraform_pipeline
+}
+
+module "central_account_terraform_pipeline" {
+  source = "./modules/central_audit_terraform_pipeline"
   branch = "main"
   step_assume_roles = [
     {
-      central_audit_development = {
+      development = {
         "TERRAFORM_APPLIER_ROLE_ARN" = local.accounts.central_audit_development.role_arns["terraform-applier"]
       }
     },
-    //    {
-    //      central_audit_production = {
-    //        "TERRAFORM_APPLIER_ROLE_ARN" = local.accounts.production.role_arns["terraform-applier"]
-    //      }
-    //    },
+    {
+      production = {
+        "TERRAFORM_APPLIER_ROLE_ARN" = local.accounts.production.role_arns["terraform-applier"]
+      }
+    },
   ]
   access_log_bucket_id = local.access_log_bucket_id
   //  accounts                    = local.accounts
