@@ -43,10 +43,10 @@ locals {
       role_arns : { for role, secret in data.aws_secretsmanager_secret_version.production_role_arn : role => nonsensitive(secret.secret_string) }
     }
 
-    //    central_audit_production : {
-    //      id : nonsensitive(tonumber(data.aws_secretsmanager_secret_version.central_audit_production_account_id.secret_string))
-    //      role_arns : { for role, secret in data.aws_secretsmanager_secret_version.central_audit_production_role_arn : role => nonsensitive(secret.secret_string) }
-    //    }
+    central_audit_production : {
+      id : nonsensitive(tonumber(data.aws_secretsmanager_secret_version.central_audit_production_account_id.secret_string))
+      role_arns : { for role, secret in data.aws_secretsmanager_secret_version.central_audit_production_role_arn : role => nonsensitive(secret.secret_string) }
+    }
 
     central_audit_development : {
       id : nonsensitive(tonumber(data.aws_secretsmanager_secret_version.central_audit_development_account_id.secret_string))

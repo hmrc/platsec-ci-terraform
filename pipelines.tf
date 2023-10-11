@@ -311,7 +311,7 @@ module "central_account_terraform_pipeline" {
     },
     {
       production = {
-        "TERRAFORM_APPLIER_ROLE_ARN" = local.accounts.production.role_arns["terraform-applier"]
+        "TERRAFORM_APPLIER_ROLE_ARN" = local.accounts.central_audit_production.role_arns["terraform-applier"]
       }
     },
   ]
