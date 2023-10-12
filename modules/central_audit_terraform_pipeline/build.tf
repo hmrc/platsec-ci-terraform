@@ -14,7 +14,7 @@ module "apply_step" {
   s3_bucket_arn       = module.common.bucket_arn
   policy_arns         = [module.common.policy_build_core_arn, aws_iam_policy.secretsmanager.arn]
   step_assume_roles   = each.value
-  build_spec_contents = templatefile("${path.module}/buildspecs/apply.yaml.tpl", { target = each.key, action = each.key == "development" ? "apply" : "plan" })
+  build_spec_contents = templatefile("${path.module}/buildspecs/apply.yaml.tpl", { target = each.key })
 
   vpc_config               = var.vpc_config
   agent_security_group_ids = [var.ci_agent_to_endpoints_sg_id, var.ci_agent_to_internet_sg_id]
