@@ -43,10 +43,13 @@ variable "src_org" {
 }
 
 variable "src_repo" {
-  type    = string
-  default = "platsec-terraform"
+  type = string
 }
 
 variable "access_logs_bucket_id" {
+  type = string
+}
+
+variable "buildspec" {
   type = string
 }
