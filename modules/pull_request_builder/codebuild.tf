@@ -62,7 +62,7 @@ resource "aws_codebuild_project" "build" {
     location            = "https://github.com/${var.src_org}/${var.src_repo}.git"
     git_clone_depth     = 1
     report_build_status = true
-    buildspec           = file("${path.module}/buildspecs/${var.buildspec}")
+    buildspec           = file("${path.module}/buildspecs/plan.yaml")
   }
 
   # source_version = "^main" ## takes a regex? ...so as to exclude main branch?
