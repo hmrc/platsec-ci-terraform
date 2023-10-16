@@ -67,7 +67,7 @@ module "cloudtrail_monitoring" {
   pipeline_name = "cloudtrail-monitoring"
   src_repo      = "platsec-cloudtrail-monitoring"
 
-  lambda_function_name = "platsec_cloudtrail_monitoring"
+  lambda_function_name = "orgtrail-monitoring"
   ecr_url              = module.cloudtrail_monitoring_repository.url
   ecr_arn              = module.cloudtrail_monitoring_repository.arn
 
