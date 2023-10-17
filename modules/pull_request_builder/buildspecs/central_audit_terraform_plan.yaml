@@ -10,5 +10,4 @@ phases:
     commands:
       - make lambda-ci
       - make fmt-check
-      - ./scripts/run.sh plan development
-      - ./scripts/run.sh plan production
+      - ./scripts/run.sh plan development && ./scripts/run.sh plan production
