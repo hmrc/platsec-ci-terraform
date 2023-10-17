@@ -8,4 +8,4 @@ env:
 phases:
   build:
     commands:
-      - ./scripts/apply.sh apply-${target}
+      - ./scripts/run.sh apply ${target}

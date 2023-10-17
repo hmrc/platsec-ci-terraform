@@ -306,12 +306,12 @@ module "central_account_terraform_pipeline" {
   step_assume_roles = [
     {
       development = {
-        "TERRAFORM_APPLIER_ROLE_ARN" = local.accounts.central_audit_development.role_arns["terraform-applier"]
+        "DEVELOPMENT_TERRAFORM_APPLIER_ROLE_ARN" = local.accounts.central_audit_development.role_arns["terraform-applier"]
       }
     },
     {
       production = {
-        "TERRAFORM_APPLIER_ROLE_ARN" = local.accounts.central_audit_production.role_arns["terraform-applier"]
+        "PRODUCTION_TERRAFORM_APPLIER_ROLE_ARN" = local.accounts.central_audit_production.role_arns["terraform-applier"]
       }
     },
   ]
