@@ -318,7 +318,7 @@ module "central_account_terraform_pipeline" {
   access_log_bucket_id = local.access_log_bucket_id
   //  accounts                    = local.accounts
   vpc_config                  = local.vpc_config
-  sns_topic_arn               = module.ci_alerts_for_central_audit_development.sns_topic_arn
+  sns_topic_arn               = module.ci_alerts_for_production.sns_topic_arn
   admin_role                  = local.tf_admin_role
   ci_agent_to_endpoints_sg_id = local.ci_agent_to_endpoints_sg_id
   ci_agent_to_internet_sg_id  = local.ci_agent_to_internet_sg_id
