@@ -162,6 +162,24 @@ module "monitor_aws_iam" {
   admin_role                  = local.tf_admin_role
 }
 
+module "vault_policy_applier_corretto" {
+  source = "./modules/lambda_zip_pipeline"
+
+  pipeline_name = "vault_policy_applier_corretto"
+  src_repo      = "vault-policy-applier"
+  github_token  = data.aws_secretsmanager_secret_version.github_token.secret_string
+
+  lambda_function_name = "policy-applier-corretto"
+
+  accounts                    = local.accounts
+  vpc_config                  = local.vpc_config
+  ci_agent_to_internet_sg_id  = local.ci_agent_to_internet_sg_id
+  ci_agent_to_endpoints_sg_id = local.ci_agent_to_endpoints_sg_id
+  sns_topic_arn               = module.ci_alerts_for_production.sns_topic_arn
+  access_log_bucket_id        = local.access_log_bucket_id
+  admin_role                  = local.tf_admin_role
+}
+
 module "security_reports_frontend" {
   source = "./modules/ecs_task_pipeline"
 
