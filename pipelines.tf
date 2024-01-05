@@ -165,7 +165,7 @@ module "monitor_aws_iam" {
 module "vault_policy_applier_corretto" {
   source = "./modules/lambda_zip_pipeline"
 
-  pipeline_name = "vault_policy_applier_corretto"
+  pipeline_name = "vault-policy-applier-corretto"
   src_repo      = "vault-policy-applier"
   github_token  = data.aws_secretsmanager_secret_version.github_token.secret_string
 
