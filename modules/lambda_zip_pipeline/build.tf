@@ -34,10 +34,11 @@ module "zip_upload_artifactory_step" {
 module "zip-deployment-step-development" {
   source = "../zip_deployment_step"
 
-  lambda_arn            = "arn:aws:lambda:${var.target_region}:${var.accounts.development.id}:function:${var.lambda_function_name}"
-  step_name             = "${module.common.pipeline_name}-development"
-  build_core_policy_arn = module.common.policy_build_core_arn
-  deployment_role_arn   = var.accounts.development.role_arns["lambda-deploy"]
+  lambda_arn                     = "arn:aws:lambda:${var.target_region}:${var.accounts.development.id}:function:${var.lambda_function_name}"
+  lambda_deployment_package_name = var.lambda_deployment_package_name
+  step_name                      = "${module.common.pipeline_name}-development"
+  build_core_policy_arn          = module.common.policy_build_core_arn
+  deployment_role_arn            = var.accounts.development.role_arns["lambda-deploy"]
 
   vpc_config               = var.vpc_config
   agent_security_group_ids = [var.ci_agent_to_endpoints_sg_id]
@@ -46,10 +47,11 @@ module "zip-deployment-step-development" {
 module "zip-deployment-step-production" {
   source = "../zip_deployment_step"
 
-  lambda_arn            = "arn:aws:lambda:${var.target_region}:${var.accounts.production.id}:function:${var.lambda_function_name}"
-  step_name             = "${module.common.pipeline_name}-production"
-  build_core_policy_arn = module.common.policy_build_core_arn
-  deployment_role_arn   = var.accounts.production.role_arns["lambda-deploy"]
+  lambda_arn                     = "arn:aws:lambda:${var.target_region}:${var.accounts.production.id}:function:${var.lambda_function_name}"
+  step_name                      = "${module.common.pipeline_name}-production"
+  lambda_deployment_package_name = var.lambda_deployment_package_name
+  build_core_policy_arn          = module.common.policy_build_core_arn
+  deployment_role_arn            = var.accounts.production.role_arns["lambda-deploy"]
 
   vpc_config               = var.vpc_config
   agent_security_group_ids = [var.ci_agent_to_endpoints_sg_id]

@@ -37,3 +37,8 @@ variable "lambda_arn" {
     error_message = "Arn must be given and should start with 'arn:aws:lambda:'."
   }
 }
+
+variable "lambda_deployment_package_name" {
+  type    = string
+  default = "lambda.zip"
+}
