@@ -84,3 +84,8 @@ variable "admin_role" {
   description = "The role for bucket policy admin"
   type        = string
 }
+
+variable "lambda_deployment_package_name" {
+  type    = string
+  default = "lambda.zip"
+}

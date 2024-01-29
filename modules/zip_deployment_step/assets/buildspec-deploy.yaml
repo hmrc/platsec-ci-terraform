@@ -21,6 +21,6 @@ phases:
       - |
         aws lambda update-function-code \
           --function-name ${LAMBDA_ARN} \
-          --zip-file fileb://lambda.zip \
+          --zip-file fileb://${LAMBDA_DEPLOYMENT_PACKAGE_NAME} \
           --publish \
           --profile zip-deployment

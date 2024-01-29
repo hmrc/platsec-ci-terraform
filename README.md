@@ -19,7 +19,10 @@ deployment as:
 
 To be able to use this pipeline you need to supply `buildspec.yml` in the root
 of your repo which will be used by CI to build the artefact. The artefact needs
-to be saved in the root of the repo as `lambda.zip`.
+to be saved in the root of the repo, which, by default has to be, `lambda.zip`.
+However, this can be overwritten by specifying `lambda_deployment_package_name`
+environment variable. If the environment variable is not specified `lambda.zip`
+will be used.
 
 For example this buildspec will use `Makefile` to run all tests, then build
 lambda package and finally save it as artifact `lambda.zip`.
