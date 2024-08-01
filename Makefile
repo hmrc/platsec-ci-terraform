@@ -6,6 +6,7 @@ SHELL = /bin/bash
 	-c
 
 export AWS_PROFILE = platsec-ci-RoleTerraformProvisioner
+# export TERRAFORM_WORKSPACE = live
 
 REMARK_LINT_VERSION = 0.2.1
 
@@ -13,12 +14,9 @@ ifneq (, $(strip $(shell command -v aws-vault)))
 	AWS_PROFILE_CMD := aws-vault exec $${AWS_PROFILE} --
 endif
 
-ifneq (, $(strip $(shell command -v aws-profile)))
-	AWS_PROFILE_CMD := aws-profile --profile $${AWS_PROFILE}
-endif
-
-# TF = ${PWD}/scripts/terraform
-TG := docker run \
+# Terraform command accessible via Docker for user convenience and portability
+# Any target that uses this command should have run "terraform" target
+TF := docker run \
 	--rm \
 	--interactive \
 	--volume "${PWD}:${PWD}" \
@@ -29,15 +27,15 @@ TG := docker run \
 	--env TF_LOG \
 	--user "$(shell id -u):$(shell id -g)" \
 	--workdir "$${PWD}" \
-	tg-worker
+	tf-worker
 
-# Build image based on alpine/terragrunt with custom dependencies
-.PHONY: terragrunt
-terragrunt:
+# Build image based on hashicorp/terraform with custom dependencies
+.PHONY: terraform
+terraform:
 	docker build \
-		--tag tg-worker \
+		--tag tf-worker \
 		--build-arg "TF_BASE_TAG=$(shell head -n1 .terraform-version)" \
-		-f tg.Dockerfile \
+		-f tf.Dockerfile \
 		.
 
 .PHONY: all-checks
@@ -45,13 +43,13 @@ all-checks: fmt-check  md-check
 
 # Format all terraform files
 .PHONY: fmt
-fmt: terragrunt
-	@$(TG) terraform fmt -recursive .
+fmt: terraform
+	@$(TF) fmt -recursive .
 
 # Check if all files are formatted
 .PHONY: fmt-check
-fmt-check: terragrunt
-	@$(TG) terraform fmt -recursive -check .
+fmt-check: terraform
+	@$(TF) fmt -recursive -check .
 
 .PHONY: md-check
 md-check:
@@ -63,20 +61,36 @@ md-fix:
 	@docker run --pull missing --rm -i -v $(PWD):/lint/input:rw zemanlx/remark-lint:${REMARK_LINT_VERSION} . -o
 
 .PHONY: validate
-validate: fmt
+validate: terraform
 	@echo "Validating"
-	@$(AWS_PROFILE_CMD) $(TG) scripts/run.sh validate
+	@$(AWS_PROFILE_CMD) $(TF) scripts/run.sh validate
 	@echo -e "$@ OK\n"
 
 .PHONY: plan
-plan: fmt
+plan: fmt-check
 	@find . -type d -name '.terraform' | xargs -I {} rm -rf {}
-	@$(AWS_PROFILE_CMD) $(TG) scripts/run.sh plan
+	@$(AWS_PROFILE_CMD) $(TF) scripts/run.sh plan
 
-apply: fmt
+apply: fmt-check
 	@find . -type d -name '.terraform' | xargs -I {} rm -rf {}
-	@$(AWS_PROFILE_CMD) $(TG) scripts/run.sh apply
+	@$(AWS_PROFILE_CMD) $(TF) scripts/run.sh apply
 
 .PHONY: clean
 clean:
 	@docker system prune
+
+.PHONY: plan-bootstrap
+plan-bootstrap: export AWS_PROFILE := platsec-ci-RoleTerraformProvisioner
+plan-bootstrap: fmt-check
+	cd ./bootstrap/
+	@rm -f .terraform/terraform.tfstate
+	@$(AWS_PROFILE_CMD) $(TF) init
+	@$(AWS_PROFILE_CMD) $(TF) plan
+
+.PHONY: plan-bootstrap
+apply-bootstrap: export AWS_PROFILE := platsec-ci-RoleTerraformProvisioner
+apply-bootstrap: fmt-check
+	cd ./bootstrap/
+	@rm -f .terraform/terraform.tfstate
+	@$(AWS_PROFILE_CMD) $(TF) init
+	@$(AWS_PROFILE_CMD) $(TF) apply
