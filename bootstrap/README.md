@@ -1,35 +1,15 @@
 # Bootstrap
 
-This folder contains the bootstrap terraform required for s3/dynamo state management.
-In order to allow changes, the state of the bootstrap is managed with the following steps
+This folder contains the bootstrap config required for state management using s3 and dynamodb.
 
-## For first time run
+## Plan
 
-*   create a secrets manager entry with the state bucket name you want under the name
-    `/terraform/platsec-ci-state-bucket-name`
-*   create a secrets manager entry with the logging bucket name you want under the name
-    `/terraform/platsec-ci-logging-bucket-name`
-*   comment out the `backend "s3" {}` block in the [main.tf](./main.tf) file
-*   run `terraform init` and `terraform apply`
-*   uncomment the `backend "s3" {}` block
-*   now you can run `terraform init -backend-config="$(git rev-parse --show-toplevel)/backend.hcl"`
-    to move the state to the bucket you just created
-*   done ✅
+```bash
+make plan-bootstrap
+```
 
-## For successive runs
+## Apply
 
-*   run:
-
-    ```bash
-    AWS_PAGER="" aws secretsmanager get-secret-value \
-      --secret-id "backend.hcl" \
-      --query="SecretString" \
-      --output=text \
-      > "$(git rev-parse --show-toplevel)/backend.hcl"
-    ```
-
-*   then run: `terraform init -backend-config=../backend.hcl`
-
-*   you are now free to make changes e.g. `terraform apply`
-
-*   done ✅
+```bash
+make apply-bootstrap
+```

@@ -1,37 +1,40 @@
 data "aws_caller_identity" "current" {}
 
-data "aws_secretsmanager_secret_version" "s3_state_bucket_name" {
-  secret_id = "/terraform/platsec-ci-state-bucket-name"
-}
-
-data "aws_secretsmanager_secret_version" "s3_logging_bucket_name" {
-  secret_id = "/terraform/platsec-ci-logging-bucket-name"
-}
-
 locals {
-  tf_provisioner_role    = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleTerraformProvisioner"
-  security_eng_role      = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleSecurityEngineer"
-  changeset_creator_role = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleChangeSetCreator"
-  iam_admin_role         = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleIAMAdministrator"
+  tf_read_roles          = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleTerraformProvisioner", "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleTerraformApplier", "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleTerraformPlanner", "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleSecurityEngineer"]
+  tf_list_roles          = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleTerraformProvisioner", "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleTerraformApplier", "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleTerraformPlanner", "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleSecurityEngineer"]
+  tf_metadata_read_roles = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleTerraformProvisioner", "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleTerraformApplier", "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleTerraformPlanner", "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleSecurityEngineer"]
+  tf_write_roles         = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleTerraformProvisioner", "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleTerraformApplier"]
+  tf_admin_roles         = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleTerraformProvisioner", "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleTerraformApplier"]
 
-  tmp_all_roles = [local.tf_provisioner_role, local.security_eng_role, local.changeset_creator_role, local.iam_admin_role]
+  cf_templates_all_roles = [
+    "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleTerraformProvisioner",
+    "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleSecurityEngineer",
+    "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleChangeSetCreator",
+    "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleIAMAdministrator",
+  ]
+
+  tf_state_bucket_name    = "platsec-ci20210713082841419000000002"
+  access_logs_bucket_name = "platsec-ci-access-logs20220222104748703700000001"
 }
 
 module "access_logs" {
   source      = "../modules/access_logs_bucket"
   account_id  = data.aws_caller_identity.current.id
-  bucket_name = nonsensitive(data.aws_secretsmanager_secret_version.s3_logging_bucket_name.secret_string)
+  bucket_name = local.access_logs_bucket_name
 }
 
 module "state_bucket" {
   source        = "hmrc/s3-bucket-standard/aws"
   version       = "1.7.0"
-  bucket_name   = nonsensitive(data.aws_secretsmanager_secret_version.s3_state_bucket_name.secret_string)
+  bucket_name   = local.tf_state_bucket_name
   force_destroy = false
 
-  list_roles  = [local.tf_provisioner_role]
-  read_roles  = [local.tf_provisioner_role]
-  write_roles = [local.tf_provisioner_role]
+  list_roles          = local.tf_list_roles
+  read_roles          = local.tf_read_roles
+  metadata_read_roles = local.tf_metadata_read_roles
+  write_roles         = local.tf_write_roles
+  admin_roles         = local.tf_admin_roles
 
   data_expiry      = "forever-config-only"
   data_sensitivity = "high"
@@ -45,10 +48,10 @@ module "cf_templates_bucket" {
   bucket_name   = "cf-templates-1a94pgui3v5ft-eu-west-2"
   force_destroy = false
 
-  list_roles          = local.tmp_all_roles
-  read_roles          = local.tmp_all_roles
-  write_roles         = local.tmp_all_roles
-  metadata_read_roles = local.tmp_all_roles
+  list_roles          = local.cf_templates_all_roles
+  read_roles          = local.cf_templates_all_roles
+  write_roles         = local.cf_templates_all_roles
+  metadata_read_roles = local.cf_templates_all_roles
 
   data_expiry      = "90-days"
   data_sensitivity = "low"
