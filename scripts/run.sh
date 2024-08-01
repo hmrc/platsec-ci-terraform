@@ -28,7 +28,7 @@ set_aws_credentials() {
 }
 
 main() {
-    # set_aws_credentials
+    set_aws_credentials
     
     case ${CMD} in
         validate)

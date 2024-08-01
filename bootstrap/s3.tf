@@ -9,6 +9,8 @@ locals {
 
   cf_templates_all_roles = [
     "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleTerraformProvisioner",
+    "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleTerraformApplier",
+    "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleTerraformPlanner",
     "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleSecurityEngineer",
     "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleChangeSetCreator",
     "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleIAMAdministrator",
@@ -52,6 +54,7 @@ module "cf_templates_bucket" {
   read_roles          = local.cf_templates_all_roles
   write_roles         = local.cf_templates_all_roles
   metadata_read_roles = local.cf_templates_all_roles
+  admin_roles         = local.tf_admin_roles
 
   data_expiry      = "90-days"
   data_sensitivity = "low"
