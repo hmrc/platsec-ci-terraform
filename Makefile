@@ -6,7 +6,7 @@ SHELL = /bin/bash
 	-c
 
 export AWS_PROFILE = platsec-ci-RoleTerraformProvisioner
-# export TERRAFORM_WORKSPACE = live
+export TERRAFORM_WORKSPACE = live
 
 REMARK_LINT_VERSION = 0.2.1
 
@@ -39,7 +39,7 @@ terraform:
 		.
 
 .PHONY: all-checks
-all-checks: fmt-check  md-check
+all-checks: fmt-check validate md-check
 
 # Format all terraform files
 .PHONY: fmt
@@ -63,34 +63,44 @@ md-fix:
 .PHONY: validate
 validate: terraform
 	@echo "Validating"
-	@$(AWS_PROFILE_CMD) $(TF) scripts/run.sh validate
+	@$(AWS_PROFILE_CMD) $(TF) init
+	@$(AWS_PROFILE_CMD) $(TF) validate
 	@echo -e "$@ OK\n"
 
 .PHONY: plan
+# plan: export AWS_PROFILE := platsec-ci-RoleTerraformProvisioner
+plan: export AWS_PROFILE := platsec-ci-RoleTerraformPlanner
 plan: fmt-check
-	@find . -type d -name '.terraform' | xargs -I {} rm -rf {}
-	@$(AWS_PROFILE_CMD) $(TF) scripts/run.sh plan
+	@rm -f .terraform/terraform.tfstate
+	@$(AWS_PROFILE_CMD) $(TF) init
+	@$(AWS_PROFILE_CMD) $(TF) workspace select $(TERRAFORM_WORKSPACE)
+	@$(AWS_PROFILE_CMD) $(TF) plan
 
+
+.PHONY: apply
+apply: export AWS_PROFILE := platsec-ci-RoleTerraformApplier
 apply: fmt-check
-	@find . -type d -name '.terraform' | xargs -I {} rm -rf {}
-	@$(AWS_PROFILE_CMD) $(TF) scripts/run.sh apply
+	@rm -f .terraform/terraform.tfstate
+	@$(AWS_PROFILE_CMD) $(TF) init
+	@$(AWS_PROFILE_CMD) $(TF) workspace select $(TERRAFORM_WORKSPACE)
+	@$(AWS_PROFILE_CMD) $(TF) apply
 
 .PHONY: clean
 clean:
 	@docker system prune
 
 .PHONY: plan-bootstrap
-plan-bootstrap: export AWS_PROFILE := platsec-ci-RoleTerraformProvisioner
+plan-bootstrap: export AWS_PROFILE := platsec-ci-RoleTerraformPlanner
 plan-bootstrap: fmt-check
-	cd ./bootstrap/
+	@cd ./bootstrap/
 	@rm -f .terraform/terraform.tfstate
 	@$(AWS_PROFILE_CMD) $(TF) init
 	@$(AWS_PROFILE_CMD) $(TF) plan
 
 .PHONY: plan-bootstrap
-apply-bootstrap: export AWS_PROFILE := platsec-ci-RoleTerraformProvisioner
+apply-bootstrap: export AWS_PROFILE := platsec-ci-RoleTerraformApplier
 apply-bootstrap: fmt-check
-	cd ./bootstrap/
+	@cd ./bootstrap/
 	@rm -f .terraform/terraform.tfstate
 	@$(AWS_PROFILE_CMD) $(TF) init
 	@$(AWS_PROFILE_CMD) $(TF) apply
