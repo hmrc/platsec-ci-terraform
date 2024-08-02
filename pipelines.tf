@@ -62,7 +62,7 @@ module "bitwarden_manager" {
 }
 
 module "cloudtrail_monitoring" {
-  source = "./modules/lambda_docker_pipeline"
+  source = "./modules/lambda_docker_pipeline_codestar_connection"
 
   pipeline_name = "cloudtrail-monitoring"
   src_repo      = "platsec-cloudtrail-monitoring"
