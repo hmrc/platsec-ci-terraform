@@ -19,6 +19,10 @@ resource "aws_codepipeline_webhook" "default" {
     json_path    = "$.ref"
     match_equals = "refs/heads/{Branch}"
   }
+
+  lifecycle {
+    ignore_changes = [authentication_configuration]
+  }
 }
 
 data "github_repository" "this" {
