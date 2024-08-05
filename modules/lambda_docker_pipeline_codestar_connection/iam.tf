@@ -20,7 +20,7 @@ data "aws_iam_policy_document" "codeconnections" {
 
 resource "aws_iam_policy" "codeconnections" {
   name_prefix = "platsec-ci-codeconnections"
-  description = "${var.pipeline_name} allows and resticts use to desired repo ${var.src_repo}"
+  description = "${var.pipeline_name} allows and restricts use to desired repo ${var.src_repo}"
   policy      = data.aws_iam_policy_document.codeconnections.json
 
   lifecycle {
