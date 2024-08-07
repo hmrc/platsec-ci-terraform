@@ -7,7 +7,7 @@ terraform {
     region         = "eu-west-2"
     key            = "ci.tfstate"
     encrypt        = true
-    kms_key_id     = "alias/platsec-ci20210713082841419000000002"
+    kms_key_id     = "alias/s3-platsec-ci20210713082841419000000002"
     dynamodb_table = "platsec-ci"
   }
 }
