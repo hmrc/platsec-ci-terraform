@@ -22,9 +22,8 @@ provider "github" {
 
 locals {
   is_live       = terraform.workspace == "live"
-  prefix        = local.is_live ? "" : "${terraform.workspace}-"
-  pipeline_name = "${local.prefix}${var.pipeline}"
-  build_id      = "${local.prefix}#{SourceVariables.CommitId}-#{Timestamp.BUILD_TIMESTAMP}"
+  pipeline_name = var.pipeline
+  build_id      = "#{SourceVariables.CommitId}-#{Timestamp.BUILD_TIMESTAMP}"
   artifactory_secret_manager_names = {
     token : "/artifactory/live/ci-token"
     username : "/artifactory/live/ci-username"
