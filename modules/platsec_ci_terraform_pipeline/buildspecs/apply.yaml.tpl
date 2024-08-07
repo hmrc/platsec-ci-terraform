@@ -6,4 +6,4 @@ env:
 phases:
   build:
     commands:
-      - scripts/run.sh apply main
+      - scripts/run.sh apply ${target}
