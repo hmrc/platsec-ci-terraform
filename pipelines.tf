@@ -9,14 +9,16 @@ module "aws_scanner" {
   ecr_arn              = module.aws_scanner_repository.arn
   ecr_url              = module.aws_scanner_repository.url
 
-  accounts                    = local.accounts
-  vpc_config                  = local.vpc_config
-  ci_agent_to_internet_sg_id  = local.ci_agent_to_internet_sg_id
-  ci_agent_to_endpoints_sg_id = local.ci_agent_to_endpoints_sg_id
-  github_token                = data.aws_secretsmanager_secret_version.github_token.secret_string
-  sns_topic_arn               = module.ci_alerts_for_production.sns_topic_arn
-  access_log_bucket_id        = local.access_log_bucket_id
-  admin_role                  = local.tf_admin_role
+  accounts             = local.accounts
+  github_token         = data.aws_secretsmanager_secret_version.github_token.secret_string
+  sns_topic_arn        = module.ci_alerts_for_production.sns_topic_arn
+  access_log_bucket_id = local.access_log_bucket_id
+  admin_roles          = [local.tf_admin_role]
+  vpc_config           = local.vpc_config
+  agent_security_group_ids = {
+    internet          = local.ci_agent_to_internet_sg_id
+    service_endpoints = local.ci_agent_to_endpoints_sg_id
+  }
 }
 
 module "compliance_alerting" {
@@ -31,14 +33,16 @@ module "compliance_alerting" {
   ecr_arn              = module.compliance_alerting_repository.arn
   ecr_url              = module.compliance_alerting_repository.url
 
-  accounts                    = local.accounts
-  vpc_config                  = local.vpc_config
-  ci_agent_to_internet_sg_id  = local.ci_agent_to_internet_sg_id
-  ci_agent_to_endpoints_sg_id = local.ci_agent_to_endpoints_sg_id
-  github_token                = data.aws_secretsmanager_secret_version.github_token.secret_string
-  sns_topic_arn               = module.ci_alerts_for_production.sns_topic_arn
-  access_log_bucket_id        = local.access_log_bucket_id
-  admin_role                  = local.tf_admin_role
+  accounts             = local.accounts
+  github_token         = data.aws_secretsmanager_secret_version.github_token.secret_string
+  sns_topic_arn        = module.ci_alerts_for_production.sns_topic_arn
+  access_log_bucket_id = local.access_log_bucket_id
+  admin_roles          = [local.tf_admin_role]
+  vpc_config           = local.vpc_config
+  agent_security_group_ids = {
+    internet          = local.ci_agent_to_internet_sg_id
+    service_endpoints = local.ci_agent_to_endpoints_sg_id
+  }
 }
 
 module "bitwarden_manager" {
@@ -51,14 +55,16 @@ module "bitwarden_manager" {
   ecr_url              = module.bitwarden_manager_repository.url
   ecr_arn              = module.bitwarden_manager_repository.arn
 
-  accounts                    = local.accounts
-  vpc_config                  = local.vpc_config
-  ci_agent_to_internet_sg_id  = local.ci_agent_to_internet_sg_id
-  ci_agent_to_endpoints_sg_id = local.ci_agent_to_endpoints_sg_id
-  github_token                = data.aws_secretsmanager_secret_version.github_token.secret_string
-  sns_topic_arn               = module.ci_alerts_for_production.sns_topic_arn
-  access_log_bucket_id        = local.access_log_bucket_id
-  admin_role                  = local.tf_admin_role
+  accounts             = local.accounts
+  github_token         = data.aws_secretsmanager_secret_version.github_token.secret_string
+  sns_topic_arn        = module.ci_alerts_for_production.sns_topic_arn
+  access_log_bucket_id = local.access_log_bucket_id
+  admin_roles          = [local.tf_admin_role]
+  vpc_config           = local.vpc_config
+  agent_security_group_ids = {
+    internet          = local.ci_agent_to_internet_sg_id
+    service_endpoints = local.ci_agent_to_endpoints_sg_id
+  }
 }
 
 module "cloudtrail_monitoring" {
@@ -71,14 +77,16 @@ module "cloudtrail_monitoring" {
   ecr_url              = module.cloudtrail_monitoring_repository.url
   ecr_arn              = module.cloudtrail_monitoring_repository.arn
 
-  accounts                    = local.accounts
-  vpc_config                  = local.vpc_config
-  ci_agent_to_internet_sg_id  = local.ci_agent_to_internet_sg_id
-  ci_agent_to_endpoints_sg_id = local.ci_agent_to_endpoints_sg_id
-  github_token                = data.aws_secretsmanager_secret_version.github_token.secret_string
-  sns_topic_arn               = module.ci_alerts_for_production.sns_topic_arn
-  access_log_bucket_id        = local.access_log_bucket_id
-  admin_role                  = local.tf_admin_role
+  accounts             = local.accounts
+  github_token         = data.aws_secretsmanager_secret_version.github_token.secret_string
+  sns_topic_arn        = module.ci_alerts_for_production.sns_topic_arn
+  access_log_bucket_id = local.access_log_bucket_id
+  admin_roles          = [local.tf_admin_role]
+  vpc_config           = local.vpc_config
+  agent_security_group_ids = {
+    internet          = local.ci_agent_to_internet_sg_id
+    service_endpoints = local.ci_agent_to_endpoints_sg_id
+  }
 }
 
 module "github_scanner" {
@@ -90,13 +98,15 @@ module "github_scanner" {
 
   lambda_function_name = "github_scanner"
 
-  accounts                    = local.accounts
-  vpc_config                  = local.vpc_config
-  ci_agent_to_internet_sg_id  = local.ci_agent_to_internet_sg_id
-  ci_agent_to_endpoints_sg_id = local.ci_agent_to_endpoints_sg_id
-  sns_topic_arn               = module.ci_alerts_for_production.sns_topic_arn
-  access_log_bucket_id        = local.access_log_bucket_id
-  admin_role                  = local.tf_admin_role
+  accounts             = local.accounts
+  sns_topic_arn        = module.ci_alerts_for_production.sns_topic_arn
+  access_log_bucket_id = local.access_log_bucket_id
+  admin_roles          = [local.tf_admin_role]
+  vpc_config           = local.vpc_config
+  agent_security_group_ids = {
+    internet          = local.ci_agent_to_internet_sg_id
+    service_endpoints = local.ci_agent_to_endpoints_sg_id
+  }
 }
 
 module "github_admin_report" {
@@ -110,14 +120,16 @@ module "github_admin_report" {
   ecr_arn              = module.github_admin_report_repository.arn
   ecr_url              = module.github_admin_report_repository.url
 
-  accounts                    = local.accounts
-  vpc_config                  = local.vpc_config
-  ci_agent_to_internet_sg_id  = local.ci_agent_to_internet_sg_id
-  ci_agent_to_endpoints_sg_id = local.ci_agent_to_endpoints_sg_id
-  github_token                = data.aws_secretsmanager_secret_version.github_token.secret_string
-  sns_topic_arn               = module.ci_alerts_for_production.sns_topic_arn
-  access_log_bucket_id        = local.access_log_bucket_id
-  admin_role                  = local.tf_admin_role
+  accounts             = local.accounts
+  github_token         = data.aws_secretsmanager_secret_version.github_token.secret_string
+  sns_topic_arn        = module.ci_alerts_for_production.sns_topic_arn
+  access_log_bucket_id = local.access_log_bucket_id
+  admin_roles          = [local.tf_admin_role]
+  vpc_config           = local.vpc_config
+  agent_security_group_ids = {
+    internet          = local.ci_agent_to_internet_sg_id
+    service_endpoints = local.ci_agent_to_endpoints_sg_id
+  }
 }
 
 module "github_webhook_report" {
@@ -131,14 +143,16 @@ module "github_webhook_report" {
   ecr_arn              = module.github_webhook_report_repository.arn
   ecr_url              = module.github_webhook_report_repository.url
 
-  accounts                    = local.accounts
-  vpc_config                  = local.vpc_config
-  ci_agent_to_internet_sg_id  = local.ci_agent_to_internet_sg_id
-  ci_agent_to_endpoints_sg_id = local.ci_agent_to_endpoints_sg_id
-  github_token                = data.aws_secretsmanager_secret_version.github_token.secret_string
-  sns_topic_arn               = module.ci_alerts_for_production.sns_topic_arn
-  access_log_bucket_id        = local.access_log_bucket_id
-  admin_role                  = local.tf_admin_role
+  accounts             = local.accounts
+  github_token         = data.aws_secretsmanager_secret_version.github_token.secret_string
+  sns_topic_arn        = module.ci_alerts_for_production.sns_topic_arn
+  access_log_bucket_id = local.access_log_bucket_id
+  admin_roles          = [local.tf_admin_role]
+  vpc_config           = local.vpc_config
+  agent_security_group_ids = {
+    internet          = local.ci_agent_to_internet_sg_id
+    service_endpoints = local.ci_agent_to_endpoints_sg_id
+  }
 }
 
 module "monitor_aws_iam" {
@@ -152,14 +166,16 @@ module "monitor_aws_iam" {
   ecr_arn              = module.monitor_aws_iam_repository.arn
   ecr_url              = module.monitor_aws_iam_repository.url
 
-  accounts                    = local.accounts
-  vpc_config                  = local.vpc_config
-  ci_agent_to_internet_sg_id  = local.ci_agent_to_internet_sg_id
-  ci_agent_to_endpoints_sg_id = local.ci_agent_to_endpoints_sg_id
-  github_token                = data.aws_secretsmanager_secret_version.github_token.secret_string
-  sns_topic_arn               = module.ci_alerts_for_production.sns_topic_arn
-  access_log_bucket_id        = local.access_log_bucket_id
-  admin_role                  = local.tf_admin_role
+  accounts             = local.accounts
+  github_token         = data.aws_secretsmanager_secret_version.github_token.secret_string
+  sns_topic_arn        = module.ci_alerts_for_production.sns_topic_arn
+  access_log_bucket_id = local.access_log_bucket_id
+  admin_roles          = [local.tf_admin_role]
+  vpc_config           = local.vpc_config
+  agent_security_group_ids = {
+    internet          = local.ci_agent_to_internet_sg_id
+    service_endpoints = local.ci_agent_to_endpoints_sg_id
+  }
 }
 
 module "vault_policy_applier_corretto" {
@@ -172,12 +188,14 @@ module "vault_policy_applier_corretto" {
   lambda_function_name           = "policy-applier-corretto"
   lambda_deployment_package_name = "vault-policy-applier-2-SNAPSHOT.jar"
   accounts                       = local.accounts
-  vpc_config                     = local.vpc_config
-  ci_agent_to_internet_sg_id     = local.ci_agent_to_internet_sg_id
-  ci_agent_to_endpoints_sg_id    = local.ci_agent_to_endpoints_sg_id
   sns_topic_arn                  = module.ci_alerts_for_production.sns_topic_arn
   access_log_bucket_id           = local.access_log_bucket_id
-  admin_role                     = local.tf_admin_role
+  admin_roles                    = [local.tf_admin_role]
+  vpc_config                     = local.vpc_config
+  agent_security_group_ids = {
+    internet          = local.ci_agent_to_internet_sg_id
+    service_endpoints = local.ci_agent_to_endpoints_sg_id
+  }
 }
 
 module "security_reports_frontend" {
@@ -193,14 +211,16 @@ module "security_reports_frontend" {
   ecr_url      = module.security_reports_frontend_repository.url
   ecr_arn      = module.security_reports_frontend_repository.arn
 
-  accounts                    = local.accounts
-  vpc_config                  = local.vpc_config
-  ci_agent_to_internet_sg_id  = local.ci_agent_to_internet_sg_id
-  ci_agent_to_endpoints_sg_id = local.ci_agent_to_endpoints_sg_id
-  github_token                = data.aws_secretsmanager_secret_version.github_token.secret_string
-  sns_topic_arn               = module.ci_alerts_for_production.sns_topic_arn
-  access_log_bucket_id        = local.access_log_bucket_id
-  admin_role                  = local.tf_admin_role
+  accounts             = local.accounts
+  github_token         = data.aws_secretsmanager_secret_version.github_token.secret_string
+  sns_topic_arn        = module.ci_alerts_for_production.sns_topic_arn
+  access_log_bucket_id = local.access_log_bucket_id
+  admin_roles          = [local.tf_admin_role]
+  vpc_config           = local.vpc_config
+  agent_security_group_ids = {
+    internet          = local.ci_agent_to_internet_sg_id
+    service_endpoints = local.ci_agent_to_endpoints_sg_id
+  }
 }
 
 module "sandbox_aws_nuke" {
@@ -214,14 +234,16 @@ module "sandbox_aws_nuke" {
   ecr_arn              = module.go_nuke_repository.arn
   ecr_url              = module.go_nuke_repository.url
 
-  accounts                    = local.accounts
-  vpc_config                  = local.vpc_config
-  ci_agent_to_internet_sg_id  = local.ci_agent_to_internet_sg_id
-  ci_agent_to_endpoints_sg_id = local.ci_agent_to_endpoints_sg_id
-  github_token                = data.aws_secretsmanager_secret_version.github_token.secret_string
-  sns_topic_arn               = module.ci_alerts_for_production.sns_topic_arn
-  access_log_bucket_id        = local.access_log_bucket_id
-  admin_role                  = local.tf_admin_role
+  accounts             = local.accounts
+  github_token         = data.aws_secretsmanager_secret_version.github_token.secret_string
+  sns_topic_arn        = module.ci_alerts_for_production.sns_topic_arn
+  access_log_bucket_id = local.access_log_bucket_id
+  admin_roles          = [local.tf_admin_role]
+  vpc_config           = local.vpc_config
+  agent_security_group_ids = {
+    internet          = local.ci_agent_to_internet_sg_id
+    service_endpoints = local.ci_agent_to_endpoints_sg_id
+  }
 }
 
 module "sandbox_compliance_alerting" {
@@ -235,14 +257,16 @@ module "sandbox_compliance_alerting" {
   ecr_arn              = module.compliance_alerting_repository.arn
   ecr_url              = module.compliance_alerting_repository.url
 
-  accounts                    = local.accounts
-  vpc_config                  = local.vpc_config
-  ci_agent_to_internet_sg_id  = local.ci_agent_to_internet_sg_id
-  ci_agent_to_endpoints_sg_id = local.ci_agent_to_endpoints_sg_id
-  github_token                = data.aws_secretsmanager_secret_version.github_token.secret_string
-  sns_topic_arn               = module.ci_alerts_for_production.sns_topic_arn
-  access_log_bucket_id        = local.access_log_bucket_id
-  admin_role                  = local.tf_admin_role
+  accounts             = local.accounts
+  github_token         = data.aws_secretsmanager_secret_version.github_token.secret_string
+  sns_topic_arn        = module.ci_alerts_for_production.sns_topic_arn
+  access_log_bucket_id = local.access_log_bucket_id
+  admin_roles          = [local.tf_admin_role]
+  vpc_config           = local.vpc_config
+  agent_security_group_ids = {
+    internet          = local.ci_agent_to_internet_sg_id
+    service_endpoints = local.ci_agent_to_endpoints_sg_id
+  }
 }
 
 module "tf-s3-bucket-core" {
@@ -252,14 +276,16 @@ module "tf-s3-bucket-core" {
   src_repo      = "terraform-aws-s3-bucket-core"
   branch        = "main"
 
-  accounts                    = local.accounts
-  vpc_config                  = local.vpc_config
-  ci_agent_to_internet_sg_id  = local.ci_agent_to_internet_sg_id
-  ci_agent_to_endpoints_sg_id = local.ci_agent_to_endpoints_sg_id
-  github_token                = data.aws_secretsmanager_secret_version.github_token.secret_string
-  sns_topic_arn               = module.ci_alerts_for_production.sns_topic_arn
-  access_log_bucket_id        = local.access_log_bucket_id
-  admin_role                  = local.tf_admin_role
+  accounts             = local.accounts
+  github_token         = data.aws_secretsmanager_secret_version.github_token.secret_string
+  sns_topic_arn        = module.ci_alerts_for_production.sns_topic_arn
+  access_log_bucket_id = local.access_log_bucket_id
+  admin_roles          = [local.tf_admin_role]
+  vpc_config           = local.vpc_config
+  agent_security_group_ids = {
+    internet          = local.ci_agent_to_internet_sg_id
+    service_endpoints = local.ci_agent_to_endpoints_sg_id
+  }
 }
 
 module "tf-s3-bucket-standard" {
@@ -271,27 +297,31 @@ module "tf-s3-bucket-standard" {
 
   test_timeout_in_minutes = 25
 
-  accounts                    = local.accounts
-  vpc_config                  = local.vpc_config
-  ci_agent_to_internet_sg_id  = local.ci_agent_to_internet_sg_id
-  ci_agent_to_endpoints_sg_id = local.ci_agent_to_endpoints_sg_id
-  github_token                = data.aws_secretsmanager_secret_version.github_token.secret_string
-  sns_topic_arn               = module.ci_alerts_for_production.sns_topic_arn
-  access_log_bucket_id        = local.access_log_bucket_id
-  admin_role                  = local.tf_admin_role
+  accounts             = local.accounts
+  github_token         = data.aws_secretsmanager_secret_version.github_token.secret_string
+  sns_topic_arn        = module.ci_alerts_for_production.sns_topic_arn
+  access_log_bucket_id = local.access_log_bucket_id
+  admin_roles          = [local.tf_admin_role]
+  vpc_config           = local.vpc_config
+  agent_security_group_ids = {
+    internet          = local.ci_agent_to_internet_sg_id
+    service_endpoints = local.ci_agent_to_endpoints_sg_id
+  }
 }
 
 module "platsec-terraform-pipeline" {
 
   source = "./modules/platsec_terraform_pipeline"
 
-  vpc_config                  = local.vpc_config
-  ci_agent_to_internet_sg_id  = local.ci_agent_to_internet_sg_id
-  ci_agent_to_endpoints_sg_id = local.ci_agent_to_endpoints_sg_id
-  github_token                = data.aws_secretsmanager_secret_version.github_token.secret_string
-  sns_topic_arn               = module.ci_alerts_for_production.sns_topic_arn
-  access_log_bucket_id        = local.access_log_bucket_id
-  admin_role                  = local.tf_admin_role
+  github_token         = data.aws_secretsmanager_secret_version.github_token.secret_string
+  sns_topic_arn        = module.ci_alerts_for_production.sns_topic_arn
+  access_log_bucket_id = local.access_log_bucket_id
+  admin_roles          = [local.tf_admin_role]
+  vpc_config           = local.vpc_config
+  agent_security_group_ids = {
+    internet          = local.ci_agent_to_internet_sg_id
+    service_endpoints = local.ci_agent_to_endpoints_sg_id
+  }
 
   step_assume_roles = [
     {
@@ -320,7 +350,9 @@ moved {
 
 module "central_account_terraform_pipeline" {
   source = "./modules/central_audit_terraform_pipeline"
-  branch = "main"
+
+  src_repo = "central-audit-terraform"
+  branch   = "main"
   step_assume_roles = [
     {
       development = {
@@ -335,11 +367,12 @@ module "central_account_terraform_pipeline" {
   ]
   access_log_bucket_id = local.access_log_bucket_id
   //  accounts                    = local.accounts
-  vpc_config                  = local.vpc_config
-  sns_topic_arn               = module.ci_alerts_for_production.sns_topic_arn
-  admin_role                  = local.tf_admin_role
-  ci_agent_to_endpoints_sg_id = local.ci_agent_to_endpoints_sg_id
-  ci_agent_to_internet_sg_id  = local.ci_agent_to_internet_sg_id
-  github_token                = data.aws_secretsmanager_secret_version.github_token.secret_string
-  src_repo                    = "central-audit-terraform"
+  sns_topic_arn = module.ci_alerts_for_production.sns_topic_arn
+  github_token  = data.aws_secretsmanager_secret_version.github_token.secret_string
+  admin_roles   = [local.tf_admin_role]
+  vpc_config    = local.vpc_config
+  agent_security_group_ids = {
+    internet          = local.ci_agent_to_internet_sg_id
+    service_endpoints = local.ci_agent_to_endpoints_sg_id
+  }
 }
