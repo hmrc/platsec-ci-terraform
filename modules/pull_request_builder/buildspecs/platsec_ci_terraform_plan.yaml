@@ -1,0 +1,11 @@
+version: 0.2
+
+env:
+  shell: bash
+
+phases:
+  build:
+    commands:
+      - make all-checks
+      - make plan-ci
+      - make plan-main

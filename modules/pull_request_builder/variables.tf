@@ -46,6 +46,12 @@ variable "src_repo" {
   type = string
 }
 
+variable "src_branch" {
+  type        = string
+  default     = null
+  description = "Source repository branch"
+}
+
 variable "access_logs_bucket_id" {
   type = string
 }

@@ -65,7 +65,7 @@ resource "aws_codebuild_project" "build" {
     buildspec           = file("${path.module}/buildspecs/${var.buildspec}")
   }
 
-  # source_version = "^main" ## takes a regex? ...so as to exclude main branch?
+  source_version = var.src_branch
 }
 
 resource "aws_codebuild_webhook" "build" {
