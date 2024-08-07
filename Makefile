@@ -85,7 +85,7 @@ apply-main: fmt-check
 	@rm -f .terraform/terraform.tfstate
 	@$(AWS_PROFILE_CMD) $(TF) init
 	@$(AWS_PROFILE_CMD) $(TF) workspace select $(TERRAFORM_WORKSPACE)
-	@$(AWS_PROFILE_CMD) $(TF) apply
+	@$(AWS_PROFILE_CMD) $(TF) apply -auto-approve
 
 .PHONY: clean
 clean:
@@ -107,4 +107,4 @@ apply-%: fmt-check
 	@cd ./$*
 	@rm -f .terraform/terraform.tfstate
 	@$(AWS_PROFILE_CMD) $(TF) init
-	@$(AWS_PROFILE_CMD) $(TF) apply
+	@$(AWS_PROFILE_CMD) $(TF) apply -auto-approve

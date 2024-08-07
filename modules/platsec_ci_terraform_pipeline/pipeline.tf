@@ -76,10 +76,10 @@ resource "aws_codepipeline" "codepipeline" {
   }
 
   stage {
-    name = "approve-production"
+    name = "approve-main"
 
     action {
-      name     = "approve-production"
+      name     = "approve-main"
       category = "Approval"
       owner    = "AWS"
       provider = "Manual"
