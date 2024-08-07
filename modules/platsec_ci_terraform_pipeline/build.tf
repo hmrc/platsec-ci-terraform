@@ -20,7 +20,7 @@ module "apply_step" {
 }
 
 module "build_timestamp_step" {
-  source                   = "../build_timestamp_step"
-  step_name                = "${module.common.pipeline_name}-timestamp"
-  policy_arns              = [module.common.policy_build_core_arn]
+  source      = "../build_timestamp_step"
+  step_name   = "${module.common.pipeline_name}-timestamp"
+  policy_arns = [module.common.policy_build_core_arn]
 }

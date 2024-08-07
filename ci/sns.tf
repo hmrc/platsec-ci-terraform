@@ -8,5 +8,5 @@ module "ci_alerts_sns_topic" {
     data.aws_secretsmanager_secret_version.production_account_id.secret_string,
     data.aws_secretsmanager_secret_version.central_audit_development_account_id.secret_string,
     data.aws_secretsmanager_secret_version.central_audit_production_account_id.secret_string,
-  ] 
+  ]
 }

@@ -6,10 +6,10 @@ variable "topic_name" {
 variable "override_policy_json" {
   description = "Override policy document for SNS topic"
   type        = string
-  default = null
+  default     = null
 }
 
 variable "subscriber_account_numbers" {
   description = "AWS account number of subscribers"
-  type = list(string)
+  type        = list(string)
 }

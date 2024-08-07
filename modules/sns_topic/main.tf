@@ -54,7 +54,7 @@ data "aws_iam_policy_document" "this" {
     principals {
       type = "AWS"
       identifiers = [
-        for acctno in var.subscriber_account_numbers: "arn:aws:iam::${acctno}:root"
+        for acctno in var.subscriber_account_numbers : "arn:aws:iam::${acctno}:root"
       ]
     }
 
