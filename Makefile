@@ -71,7 +71,7 @@ plan: plan-main
 
 .PHONY: plan
 plan-main: export AWS_PROFILE := platsec-ci-RoleTerraformPlanner
-plan: fmt-check
+plan-main: fmt-check
 	@rm -f .terraform/terraform.tfstate
 	@$(AWS_PROFILE_CMD) $(TF) init
 	@$(AWS_PROFILE_CMD) $(TF) workspace select $(TERRAFORM_WORKSPACE)
