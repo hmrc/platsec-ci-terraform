@@ -17,6 +17,5 @@ module "apply_step" {
   build_spec_contents = templatefile("${path.module}/buildspecs/apply.yaml.tpl", { target = each.key })
 
   vpc_config               = var.vpc_config
-  agent_security_group_ids = [var.ci_agent_to_endpoints_sg_id, var.ci_agent_to_internet_sg_id]
+  agent_security_group_ids = values(var.agent_security_group_ids)
 }
-

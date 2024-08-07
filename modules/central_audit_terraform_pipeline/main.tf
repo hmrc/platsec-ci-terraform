@@ -11,5 +11,5 @@ module "common" {
   github_token         = data.aws_secretsmanager_secret_version.github_token.secret_string
   vpc_config           = var.vpc_config
   access_log_bucket_id = var.access_log_bucket_id
-  admin_role           = var.admin_role
+  admin_roles          = var.admin_roles
 }
