@@ -16,7 +16,7 @@ module "apply_step" {
   build_spec_contents = templatefile("${path.module}/buildspecs/apply.yaml.tpl", { target = each.key })
 
   vpc_config               = var.vpc_config
-  agent_security_group_ids = var.agent_security_group_ids
+  agent_security_group_ids = values(var.agent_security_group_ids)
 }
 
 module "build_timestamp_step" {

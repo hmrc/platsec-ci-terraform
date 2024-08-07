@@ -3,7 +3,11 @@ variable "project_name" {
 }
 
 variable "agent_security_group_ids" {
-  type = list(string)
+  description = "A map of CI agent security group ids"
+  type = object({
+    internet          = string
+    service_endpoints = string
+  })
 }
 
 variable "vpc_config" {

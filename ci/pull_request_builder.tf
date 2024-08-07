@@ -19,10 +19,10 @@ module "pull_request_builder" {
   buildspec  = "platsec_ci_terraform_plan.yaml"
 
   vpc_config = module.networking.vpc_config
-  agent_security_group_ids = [
-    module.networking.ci_agent_to_endpoints_sg_id,
-    module.networking.ci_agent_to_internet_sg_id
-  ]
+   agent_security_group_ids = {
+    internet          = module.networking.ci_agent_to_internet_sg_id
+    service_endpoints = module.networking.ci_agent_to_endpoints_sg_id
+  }
   access_logs_bucket_id = local.access_logs_bucket_name
   timeout_in_minutes    = 30
 }

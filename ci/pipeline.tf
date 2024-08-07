@@ -14,10 +14,10 @@ module "pipeline" {
   admin_roles = [local.terraform_applier_role]
 
   vpc_config = module.networking.vpc_config
-  agent_security_group_ids = [
-    module.networking.ci_agent_to_endpoints_sg_id,
-    module.networking.ci_agent_to_internet_sg_id
-  ]
+  agent_security_group_ids = {
+    internet          = module.networking.ci_agent_to_internet_sg_id
+    service_endpoints = module.networking.ci_agent_to_endpoints_sg_id
+  }
   sns_topic_arn        = module.ci_alerts_sns_topic.arn
   access_log_bucket_id = ""
   github_token         = data.aws_secretsmanager_secret_version.github_token.secret_string
