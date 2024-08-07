@@ -14,7 +14,7 @@ variable "src_org" {
 
 variable "src_repo" {
   type    = string
-  default = "platsec-terraform"
+  default = "platsec-ci-terraform"
 }
 
 variable "branch" {
