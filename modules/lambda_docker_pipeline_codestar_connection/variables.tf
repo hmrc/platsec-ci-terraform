@@ -50,11 +50,12 @@ variable "vpc_config" {
   })
 }
 
-variable "ci_agent_to_internet_sg_id" {
-  type = string
-}
-variable "ci_agent_to_endpoints_sg_id" {
-  type = string
+variable "agent_security_group_ids" {
+  description = "A map of CI agent security group ids"
+  type = object({
+    internet          = string
+    service_endpoints = string
+  })
 }
 
 variable "accounts" {
@@ -83,7 +84,8 @@ variable "access_log_bucket_id" {
   type = string
 }
 
-variable "admin_role" {
-  description = "The role for bucket policy admin"
-  type        = string
+variable "admin_roles" {
+  type        = list(string)
+  description = "A list of roles to allow admin access to bucket"
+  default     = []
 }

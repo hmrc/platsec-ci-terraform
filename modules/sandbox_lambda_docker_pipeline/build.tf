@@ -6,7 +6,7 @@ module "build_artifact_step" {
 
   s3_bucket_arn                    = module.common.bucket_arn
   vpc_config                       = var.vpc_config
-  agent_security_group_ids         = [var.ci_agent_to_endpoints_sg_id, var.ci_agent_to_internet_sg_id]
+  agent_security_group_ids         = values(var.agent_security_group_ids)
   policy_arns                      = [module.common.policy_build_core_arn, module.common.policy_get_artifactory_credentials_arn]
   artifactory_secret_manager_names = module.common.artifactory_secret_manager_names
 }
@@ -15,9 +15,6 @@ module "build_timestamp_step" {
   source      = "../build_timestamp_step"
   step_name   = "${module.common.pipeline_name}-timestamp"
   policy_arns = [module.common.policy_build_core_arn]
-
-  vpc_config               = var.vpc_config
-  agent_security_group_ids = [var.ci_agent_to_endpoints_sg_id]
 }
 
 module "upload_to_ecr" {
@@ -29,7 +26,7 @@ module "upload_to_ecr" {
   ecr_arn               = var.ecr_arn
 
   vpc_config               = var.vpc_config
-  agent_security_group_ids = [var.ci_agent_to_endpoints_sg_id]
+  agent_security_group_ids = [var.agent_security_group_ids.service_endpoints]
 }
 
 module "docker_deployment_sandbox" {
@@ -42,5 +39,5 @@ module "docker_deployment_sandbox" {
   deployment_role_arn   = var.accounts.sandbox.role_arns["lambda-deploy"]
 
   vpc_config               = var.vpc_config
-  agent_security_group_ids = [var.ci_agent_to_endpoints_sg_id]
+  agent_security_group_ids = [var.agent_security_group_ids.service_endpoints]
 }

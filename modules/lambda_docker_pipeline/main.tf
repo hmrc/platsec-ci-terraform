@@ -21,5 +21,5 @@ module "common" {
   vpc_config           = var.vpc_config
   sns_topic_arn        = var.sns_topic_arn
   access_log_bucket_id = var.access_log_bucket_id
-  admin_role           = var.admin_role
+  admin_roles          = var.admin_roles
 }
