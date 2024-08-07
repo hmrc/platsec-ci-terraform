@@ -19,7 +19,7 @@ module "pull_request_builder" {
   buildspec  = "platsec_ci_terraform_plan.yaml"
 
   vpc_config = module.networking.vpc_config
-   agent_security_group_ids = {
+  agent_security_group_ids = {
     internet          = module.networking.ci_agent_to_internet_sg_id
     service_endpoints = module.networking.ci_agent_to_endpoints_sg_id
   }
