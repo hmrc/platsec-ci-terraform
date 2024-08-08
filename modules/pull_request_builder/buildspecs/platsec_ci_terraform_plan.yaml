@@ -8,4 +8,4 @@ phases:
     commands:
       - make all-checks
       - make plan-ci
-      - make plan-main
+      - make plan-live

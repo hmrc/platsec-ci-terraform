@@ -76,10 +76,10 @@ resource "aws_codepipeline" "codepipeline" {
   }
 
   stage {
-    name = "approve-main"
+    name = "approve-live"
 
     action {
-      name     = "approve-main"
+      name     = "approve-live"
       category = "Approval"
       owner    = "AWS"
       provider = "Manual"
@@ -93,10 +93,10 @@ resource "aws_codepipeline" "codepipeline" {
   }
 
   stage {
-    name = "apply-main"
+    name = "apply-live"
 
     action {
-      name            = "apply-main"
+      name            = "apply-live"
       category        = "Build"
       owner           = "AWS"
       provider        = "CodeBuild"
@@ -104,7 +104,7 @@ resource "aws_codepipeline" "codepipeline" {
       version         = "1"
 
       configuration = {
-        ProjectName = module.apply_step["main"].name
+        ProjectName = module.apply_step["live"].name
         EnvironmentVariables = jsonencode([
           {
             name  = "COMMIT_ID"

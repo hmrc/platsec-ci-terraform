@@ -61,27 +61,32 @@ md-fix:
 	@docker run --pull missing --rm -i -v $(PWD):/lint/input:rw zemanlx/remark-lint:${REMARK_LINT_VERSION} . -o
 
 .PHONY: validate
-validate: terraform
+validate: validate-bootstrap validate-ci validate-live
+
+validate-%: terraform
+	@cd ./$*
 	@echo "Validating"
 	@$(AWS_PROFILE_CMD) $(TF) init
 	@$(AWS_PROFILE_CMD) $(TF) validate
 	@echo -e "$@ OK\n"
 
-plan: plan-main
+plan: plan-live
 
 .PHONY: plan
-plan-main: export AWS_PROFILE := platsec-ci-RoleTerraformPlanner
-plan-main: fmt-check
+plan-live: export AWS_PROFILE := platsec-ci-RoleTerraformPlanner
+plan-%: fmt-check
+	@cd ./$*
 	@rm -f .terraform/terraform.tfstate
 	@$(AWS_PROFILE_CMD) $(TF) init
 	@$(AWS_PROFILE_CMD) $(TF) workspace select $(TERRAFORM_WORKSPACE)
 	@$(AWS_PROFILE_CMD) $(TF) plan
 
-apply: apply-main
+apply: apply-live
 
-.PHONY: apply
-apply-main: export AWS_PROFILE := platsec-ci-RoleTerraformApplier
-apply-main: fmt-check
+.PHONY: apply-live
+apply-live: export AWS_PROFILE := platsec-ci-RoleTerraformApplier
+apply-live: fmt-check
+	@cd ./$*
 	@rm -f .terraform/terraform.tfstate
 	@$(AWS_PROFILE_CMD) $(TF) init
 	@$(AWS_PROFILE_CMD) $(TF) workspace select $(TERRAFORM_WORKSPACE)

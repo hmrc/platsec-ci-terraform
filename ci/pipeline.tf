@@ -8,7 +8,7 @@ module "pipeline" {
   step_assume_roles = [
     {
       ci   = { "TERRAFORM_APPLIER_ROLE_ARN" = local.terraform_applier_role }
-      main = { "TERRAFORM_APPLIER_ROLE_ARN" = local.terraform_applier_role }
+      live = { "TERRAFORM_APPLIER_ROLE_ARN" = local.terraform_applier_role }
     },
   ]
   admin_roles = [local.terraform_applier_role]
