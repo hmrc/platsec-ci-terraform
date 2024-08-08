@@ -70,9 +70,9 @@ validate-%: terraform
 	@$(AWS_PROFILE_CMD) $(TF) validate
 	@echo -e "$@ OK\n"
 
+.PHONY: plan
 plan: plan-live
 
-.PHONY: plan
 plan-live: export AWS_PROFILE := platsec-ci-RoleTerraformPlanner
 plan-%: fmt-check
 	@cd ./$*
@@ -81,11 +81,11 @@ plan-%: fmt-check
 	@$(AWS_PROFILE_CMD) $(TF) workspace select $(TERRAFORM_WORKSPACE)
 	@$(AWS_PROFILE_CMD) $(TF) plan
 
+.PHONY: apply
 apply: apply-live
 
-.PHONY: apply-live
 apply-live: export AWS_PROFILE := platsec-ci-RoleTerraformApplier
-apply-live: fmt-check
+apply-%: fmt-check
 	@cd ./$*
 	@rm -f .terraform/terraform.tfstate
 	@$(AWS_PROFILE_CMD) $(TF) init

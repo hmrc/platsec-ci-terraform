@@ -32,9 +32,9 @@ variable "project_assume_roles" {
   description = "map of environment variable to role arn for use within the build"
 }
 
-variable "admin_role" {
-  type        = string
-  description = "IAM role for automation in the host account"
+variable "admin_roles" {
+  type        = list(string)
+  description = "A list of roles to allow admin access to bucket"
 }
 
 variable "timeout_in_minutes" {

@@ -1,10 +1,8 @@
 locals {
-  is_live                = terraform.workspace == "live"
-  prefix                 = local.is_live ? "platsec-ci-" : "platsec-${terraform.workspace}-"
-  step_roles             = toset(["lambda-deploy", "ecr-upload", "ecs-task-update", "terraform-applier", "terraform-planner"])
-  terraform_applier_role = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleTerraformApplier"
-  terraform_planner_role = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleTerraformPlanner"
-  access_log_bucket_id   = nonsensitive(data.aws_secretsmanager_secret_version.s3_access_logs_bucket_name.secret_string)
+  is_live              = terraform.workspace == "live"
+  prefix               = local.is_live ? "platsec-ci-" : "platsec-${terraform.workspace}-"
+  step_roles           = toset(["lambda-deploy", "ecr-upload", "ecs-task-update", "terraform-applier", "terraform-planner"])
+  access_log_bucket_id = nonsensitive(data.aws_secretsmanager_secret_version.s3_access_logs_bucket_name.secret_string)
 
   accounts = {
     sandbox : {
@@ -33,7 +31,11 @@ locals {
   }
   all_platsec_account_ids = [for account in values(local.accounts) : account.id]
 
-  tf_admin_role = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleTerraformProvisioner"
+  tf_admin_roles = [
+    "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleTerraformApplier",
+    "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleTerraformPlanner",
+    "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleTerraformProvisioner",
+  ]
 }
 
 module "label" {
@@ -44,6 +46,7 @@ module "label" {
   name      = "platsec-ci"
 }
 
+# TODO: Deprecate the following modules below
 module "ci_alerts_for_sandbox" {
   source = "../modules//alerting_sns_topics"
 

@@ -73,7 +73,7 @@ data "aws_iam_policy_document" "bucket_policy" {
     condition {
       test     = "StringNotLike"
       variable = "aws:PrincipalArn"
-      values   = [var.admin_role]
+      values   = var.admin_roles
     }
   }
 }
