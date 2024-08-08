@@ -38,8 +38,8 @@ terraform:
 		-f tf.Dockerfile \
 		.
 
-.PHONY: all-checks
-all-checks: fmt-check validate md-check
+.PHONY: style-checks
+style-checks: fmt-check md-check
 
 # Format all terraform files
 .PHONY: fmt

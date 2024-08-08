@@ -6,7 +6,7 @@ env:
 phases:
   build:
     commands:
-      - make all-checks
+      - make style-checks
       - scripts/run.sh validate bootstrap
       - scripts/run.sh validate ci
       - scripts/run.sh validate live
