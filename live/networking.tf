@@ -17,7 +17,7 @@ module "networking" {
   }
 
   name_prefix = module.label.id
-  source      = "./modules/networking"
+  source      = "../modules//networking"
 }
 
 data "aws_security_group" "ci_agent_to_internet" {

@@ -1,6 +1,6 @@
 module "platsec_terraform_pr_builder" {
 
-  source = "./modules/pull_request_builder"
+  source = "../modules//pull_request_builder"
 
   src_repo              = "platsec-terraform"
   buildspec             = "platsec_terraform_plan.yaml"
@@ -24,7 +24,7 @@ module "platsec_terraform_pr_builder" {
 
 module "central_audit_pr_builder" {
 
-  source = "./modules/pull_request_builder"
+  source = "../modules//pull_request_builder"
 
   src_repo              = "central-audit-terraform"
   buildspec             = "central_audit_terraform_plan.yaml"
@@ -47,7 +47,7 @@ module "central_audit_pr_builder" {
 
 module "platsec_catalogue_pr_builder" {
 
-  source = "./modules/pull_request_builder"
+  source = "../modules//pull_request_builder"
 
   src_repo              = "platsec-catalogue"
   buildspec             = "platsec-catalogue.yaml"
@@ -67,7 +67,7 @@ module "platsec_catalogue_pr_builder" {
 
 module "monitor_aws_iam_pr_builder" {
 
-  source = "./modules/pull_request_builder"
+  source = "../modules//pull_request_builder"
 
   src_repo              = "monitor-aws-iam"
   buildspec             = "monitor-aws-iam.yaml"

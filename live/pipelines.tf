@@ -1,5 +1,5 @@
 module "aws_scanner" {
-  source = "./modules/lambda_docker_pipeline"
+  source = "../modules//lambda_docker_pipeline"
 
   pipeline_name = "aws-scanner"
   src_repo      = "platsec-aws-scanner"
@@ -22,7 +22,7 @@ module "aws_scanner" {
 }
 
 module "compliance_alerting" {
-  source = "./modules/lambda_docker_pipeline"
+  source = "../modules//lambda_docker_pipeline"
 
   pipeline_name = "compliance-alerting"
   src_repo      = "platsec-compliance-alerting"
@@ -46,7 +46,7 @@ module "compliance_alerting" {
 }
 
 module "bitwarden_manager" {
-  source = "./modules/lambda_docker_pipeline"
+  source = "../modules//lambda_docker_pipeline"
 
   pipeline_name = "bitwarden-manager"
   src_repo      = "bitwarden-manager"
@@ -68,7 +68,7 @@ module "bitwarden_manager" {
 }
 
 module "cloudtrail_monitoring" {
-  source = "./modules/lambda_docker_pipeline_codestar_connection"
+  source = "../modules//lambda_docker_pipeline_codestar_connection"
 
   pipeline_name = "cloudtrail-monitoring"
   src_repo      = "platsec-cloudtrail-monitoring"
@@ -90,7 +90,7 @@ module "cloudtrail_monitoring" {
 }
 
 module "github_scanner" {
-  source = "./modules/lambda_zip_pipeline"
+  source = "../modules//lambda_zip_pipeline"
 
   pipeline_name = "github-scanner"
   src_repo      = "platsec-scanning-tools"
@@ -110,7 +110,7 @@ module "github_scanner" {
 }
 
 module "github_admin_report" {
-  source = "./modules/lambda_docker_pipeline"
+  source = "../modules//lambda_docker_pipeline"
 
   pipeline_name = "github-admin-report"
   src_repo      = "github-admin-report-lambda"
@@ -133,7 +133,7 @@ module "github_admin_report" {
 }
 
 module "github_webhook_report" {
-  source = "./modules/lambda_docker_pipeline"
+  source = "../modules//lambda_docker_pipeline"
 
   pipeline_name = "github-webhook-report"
   src_repo      = "github-webhook-report-lambda"
@@ -156,7 +156,7 @@ module "github_webhook_report" {
 }
 
 module "monitor_aws_iam" {
-  source = "./modules/lambda_docker_pipeline"
+  source = "../modules//lambda_docker_pipeline"
 
   pipeline_name = "monitor-aws-iam"
   src_repo      = "monitor-aws-iam"
@@ -179,7 +179,7 @@ module "monitor_aws_iam" {
 }
 
 module "vault_policy_applier_corretto" {
-  source = "./modules/lambda_zip_pipeline"
+  source = "../modules//lambda_zip_pipeline"
 
   pipeline_name = "vault-policy-applier-corretto"
   src_repo      = "vault-policy-applier"
@@ -199,7 +199,7 @@ module "vault_policy_applier_corretto" {
 }
 
 module "security_reports_frontend" {
-  source = "./modules/ecs_task_pipeline"
+  source = "../modules//ecs_task_pipeline"
 
   pipeline_name = "compliance-dataviz"
   src_repo      = "platsec-compliance-dataviz"
@@ -224,7 +224,7 @@ module "security_reports_frontend" {
 }
 
 module "sandbox_aws_nuke" {
-  source = "./modules/sandbox_lambda_docker_pipeline"
+  source = "../modules//sandbox_lambda_docker_pipeline"
 
   pipeline_name = "sandbox-aws-nuke"
   src_repo      = "platsec-aws-nuke-lambda"
@@ -247,7 +247,7 @@ module "sandbox_aws_nuke" {
 }
 
 module "sandbox_compliance_alerting" {
-  source = "./modules/sandbox_lambda_docker_pipeline"
+  source = "../modules//sandbox_lambda_docker_pipeline"
 
   pipeline_name = "sandbox-compliance-alerting"
   src_repo      = "platsec-compliance-alerting"
@@ -270,7 +270,7 @@ module "sandbox_compliance_alerting" {
 }
 
 module "tf-s3-bucket-core" {
-  source = "./modules/terraform_module_pipeline"
+  source = "../modules//terraform_module_pipeline"
 
   pipeline_name = "terraform-aws-s3-bucket-core"
   src_repo      = "terraform-aws-s3-bucket-core"
@@ -289,7 +289,7 @@ module "tf-s3-bucket-core" {
 }
 
 module "tf-s3-bucket-standard" {
-  source = "./modules/terraform_module_pipeline"
+  source = "../modules//terraform_module_pipeline"
 
   pipeline_name = "terraform-aws-s3-bucket-standard"
   src_repo      = "terraform-aws-s3-bucket-standard"
@@ -311,7 +311,7 @@ module "tf-s3-bucket-standard" {
 
 module "platsec-terraform-pipeline" {
 
-  source = "./modules/platsec_terraform_pipeline"
+  source = "../modules//platsec_terraform_pipeline"
 
   github_token         = data.aws_secretsmanager_secret_version.github_token.secret_string
   sns_topic_arn        = module.ci_alerts_for_production.sns_topic_arn
@@ -349,7 +349,7 @@ moved {
 }
 
 module "central_account_terraform_pipeline" {
-  source = "./modules/central_audit_terraform_pipeline"
+  source = "../modules//central_audit_terraform_pipeline"
 
   src_repo = "central-audit-terraform"
   branch   = "main"
