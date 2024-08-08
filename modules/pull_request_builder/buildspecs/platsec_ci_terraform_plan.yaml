@@ -7,5 +7,5 @@ phases:
   build:
     commands:
       - make all-checks
-      - make plan-ci
-      - make plan-live
+      - scripts/run.sh plan ci
+      - scripts/run.sh plan live
