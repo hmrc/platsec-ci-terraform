@@ -5,7 +5,7 @@ module "pull_request_builder" {
   project_assume_roles = {
     "TERRAFORM_PLANNER_ROLE_ARN" = local.terraform_planner_role
   }
-  admin_role      = local.terraform_applier_role
+  admin_roles     = [local.terraform_applier_role, local.terraform_planner_role]
   docker_required = true
 
   src_repo   = local.repo
