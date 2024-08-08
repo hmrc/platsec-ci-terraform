@@ -11,7 +11,7 @@ module "pipeline" {
       live = { "TERRAFORM_APPLIER_ROLE_ARN" = local.terraform_applier_role }
     },
   ]
-  admin_roles = [local.terraform_applier_role]
+  admin_roles = [local.terraform_applier_role, local.terraform_planner_role]
 
   vpc_config = module.networking.vpc_config
   agent_security_group_ids = {
