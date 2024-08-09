@@ -70,7 +70,7 @@ validate-%: terraform
 	@echo -e "$@ OK\n"
 
 .PHONY: plan
-plan: plan-live
+plan: plan-ci plan-live
 
 .PHONY: plan-%
 plan-ci: export AWS_PROFILE := platsec-ci-RoleTerraformPlanner
@@ -82,7 +82,7 @@ plan-%: fmt-check
 	@$(AWS_PROFILE_CMD) $(TF) plan
 
 .PHONY: apply
-apply: apply-live
+apply: apply-ci apply-live
 
 .PHONY: apply-%
 apply-ci: export AWS_PROFILE := platsec-ci-RoleTerraformApplier
