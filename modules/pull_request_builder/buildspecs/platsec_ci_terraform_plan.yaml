@@ -1,0 +1,14 @@
+version: 0.2
+
+env:
+  shell: bash
+
+phases:
+  build:
+    commands:
+      - make style-checks
+      - scripts/run.sh validate bootstrap
+      - scripts/run.sh validate ci
+      - scripts/run.sh validate live
+      - scripts/run.sh plan ci
+      - scripts/run.sh plan live

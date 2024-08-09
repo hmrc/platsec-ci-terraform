@@ -35,5 +35,5 @@ output "pipeline_name" {
 }
 
 output "build_id" {
-  value = "${local.prefix}#{SourceVariables.CommitId}-#{Timestamp.BUILD_TIMESTAMP}"
+  value = "#{SourceVariables.CommitId}-#{Timestamp.BUILD_TIMESTAMP}"
 }

@@ -4,7 +4,7 @@ locals {
 
 module "codepipeline_bucket" {
   source         = "hmrc/s3-bucket-core/aws"
-  version        = "1.0.0"
+  version        = "2.0.4"
   bucket_name    = local.bucket_name
   force_destroy  = true
   kms_key_policy = null
@@ -72,7 +72,7 @@ data "aws_iam_policy_document" "bucket_policy" {
     condition {
       test     = "StringNotLike"
       variable = "aws:PrincipalArn"
-      values   = [var.admin_role]
+      values   = var.admin_roles
     }
   }
 }

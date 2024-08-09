@@ -16,13 +16,11 @@ module "apply_step" {
   build_spec_contents = templatefile("${path.module}/buildspecs/apply.yaml.tpl", { target = each.key })
 
   vpc_config               = var.vpc_config
-  agent_security_group_ids = [var.ci_agent_to_endpoints_sg_id, var.ci_agent_to_internet_sg_id]
+  agent_security_group_ids = values(var.agent_security_group_ids)
 }
 
 module "build_timestamp_step" {
-  source                   = "../build_timestamp_step"
-  step_name                = "${module.common.pipeline_name}-timestamp"
-  policy_arns              = [module.common.policy_build_core_arn]
-  vpc_config               = var.vpc_config
-  agent_security_group_ids = [var.ci_agent_to_endpoints_sg_id]
+  source      = "../build_timestamp_step"
+  step_name   = "${module.common.pipeline_name}-timestamp"
+  policy_arns = [module.common.policy_build_core_arn]
 }

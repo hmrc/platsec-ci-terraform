@@ -3,7 +3,11 @@ variable "project_name" {
 }
 
 variable "agent_security_group_ids" {
-  type = list(string)
+  description = "A map of CI agent security group ids"
+  type = object({
+    internet          = string
+    service_endpoints = string
+  })
 }
 
 variable "vpc_config" {
@@ -28,9 +32,9 @@ variable "project_assume_roles" {
   description = "map of environment variable to role arn for use within the build"
 }
 
-variable "admin_role" {
-  type        = string
-  description = "IAM role for automation in the host account"
+variable "admin_roles" {
+  type        = list(string)
+  description = "A list of roles to allow admin access to bucket"
 }
 
 variable "timeout_in_minutes" {
@@ -44,6 +48,12 @@ variable "src_org" {
 
 variable "src_repo" {
   type = string
+}
+
+variable "src_branch" {
+  type        = string
+  default     = null
+  description = "Source repository branch"
 }
 
 variable "access_logs_bucket_id" {

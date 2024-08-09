@@ -3,14 +3,21 @@
 # Note: The following environment variables are set by PR build job
 #   - CODEBUILD_INITIATOR
 #   - CODEBUILD_BUILD_NUMBER
-#   - *_TERRAFORM_PROVISIONER_ROLE_ARN
+#   - TERRAFORM_{APPLIER|PLANNER}_ROLE_ARN
 
 set -euo pipefail
 IFS=$'\n\t'
 
-TERRAFORM_WORKSPACE="live"
 ASSUME_ROLE_ARN=""
 CMD=$1
+TARGET=$2
+
+set_assume_role_arn() {
+    ASSUME_ROLE_ARN="${TERRAFORM_PLANNER_ROLE_ARN}"
+    if [[ "${CMD}" == "apply" ]]; then
+        ASSUME_ROLE_ARN="${TERRAFORM_APPLIER_ROLE_ARN}"
+    fi
+}
 
 set_aws_credentials() {
     STS=$(
@@ -28,25 +35,9 @@ set_aws_credentials() {
 }
 
 main() {
-    # set_aws_credentials
-    
-    case ${CMD} in
-        validate)
-            terraform init
-            terraform validate
-            ;;
-        plan)
-            terraform init
-            terraform workspace select "${TERRAFORM_WORKSPACE}"
-            terraform validate
-            terraform plan
-            ;;
-        apply)
-            terraform init
-            terraform workspace select "${TERRAFORM_WORKSPACE}"
-            terraform apply -no-color -auto-approve
-            ;;
-    esac
+    set_assume_role_arn
+    set_aws_credentials
+    make "$CMD-${TARGET}"
 }
 
 main "$@"
