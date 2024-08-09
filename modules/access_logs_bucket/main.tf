@@ -13,31 +13,12 @@ resource "aws_s3_bucket" "access_logs" {
 
   tags = {
     Name                        = var.bucket_name
-    Environment                 = terraform.workspace
+    Environment                 = "live"
     allow_delete                = "false"
     data_sensitivity            = "low"
     data_expiry                 = "90-days"
     ignore_access_logging_check = true
   }
-
-  # lifecycle_rule {
-  #   id                                     = "AbortIncompleteMultipartUpload"
-  #   enabled                                = true
-  #   abort_incomplete_multipart_upload_days = 7
-  # }
-
-  # lifecycle_rule {
-  #   id      = "Expiration days"
-  #   enabled = true
-
-  #   expiration {
-  #     days = 90
-  #   }
-
-  #   noncurrent_version_expiration {
-  #     days = 90
-  #   }
-  # }
 }
 
 resource "aws_s3_bucket_versioning" "access_logs" {

@@ -8,8 +8,7 @@ terraform {
 }
 
 locals {
-  is_live = terraform.workspace == "live"
-  prefix  = local.is_live ? "platsec-ci-" : "platsec-${terraform.workspace}-"
+  prefix = "platsec-ci-"
 }
 
 module "common" {

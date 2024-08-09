@@ -1,6 +1,7 @@
 locals {
-  is_live              = terraform.workspace == "live"
-  prefix               = local.is_live ? "platsec-ci-" : "platsec-${terraform.workspace}-"
+  environment          = "live"
+  state_bucket         = "platsec-ci20210713082841419000000002"
+  prefix               = "platsec-ci-"
   step_roles           = toset(["lambda-deploy", "ecr-upload", "ecs-task-update", "terraform-applier", "terraform-planner"])
   access_log_bucket_id = nonsensitive(data.aws_secretsmanager_secret_version.s3_access_logs_bucket_name.secret_string)
 
@@ -36,13 +37,15 @@ locals {
     "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleTerraformPlanner",
     "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleTerraformProvisioner",
   ]
+  vpc_config               = data.terraform_remote_state.ci.outputs.vpc_config
+  agent_security_group_ids = data.terraform_remote_state.ci.outputs.agent_security_group_ids
 }
 
 module "label" {
   source = "github.com/hmrc/terraform-null-label?ref=0.25.0"
 
   namespace = "mdtp"
-  stage     = terraform.workspace
+  stage     = local.environment
   name      = "platsec-ci"
 }
 
