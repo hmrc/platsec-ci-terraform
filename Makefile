@@ -6,7 +6,6 @@ SHELL = /bin/bash
 	-c
 
 export AWS_PROFILE = platsec-ci-RoleTerraformPlanner
-export TERRAFORM_WORKSPACE = live
 
 REMARK_LINT_VERSION = 0.2.1
 
@@ -71,45 +70,45 @@ validate-%: terraform
 	@echo -e "$@ OK\n"
 
 .PHONY: plan
-plan: plan-live
+plan: plan-ci plan-live
 
+.PHONY: plan-%
+plan-ci: export AWS_PROFILE := platsec-ci-RoleTerraformPlanner
 plan-live: export AWS_PROFILE := platsec-ci-RoleTerraformPlanner
 plan-%: fmt-check
 	@cd ./$*
 	@rm -f .terraform/terraform.tfstate
 	@$(AWS_PROFILE_CMD) $(TF) init
-	@$(AWS_PROFILE_CMD) $(TF) workspace select $(TERRAFORM_WORKSPACE)
 	@$(AWS_PROFILE_CMD) $(TF) plan
 
 .PHONY: apply
-apply: apply-live
+apply: apply-ci apply-live
 
+.PHONY: apply-%
+apply-ci: export AWS_PROFILE := platsec-ci-RoleTerraformApplier
 apply-live: export AWS_PROFILE := platsec-ci-RoleTerraformApplier
 apply-%: fmt-check
 	@cd ./$*
 	@rm -f .terraform/terraform.tfstate
 	@$(AWS_PROFILE_CMD) $(TF) init
-	@$(AWS_PROFILE_CMD) $(TF) workspace select $(TERRAFORM_WORKSPACE)
 	@$(AWS_PROFILE_CMD) $(TF) apply -auto-approve
 
 .PHONY: clean
 clean:
 	@docker system prune
 
-.PHONY: plan-%
+.PHONY: plan-bootstrap
 plan-bootstrap: export AWS_PROFILE := platsec-ci-RoleTerraformPlanner
-plan-ci: export AWS_PROFILE := platsec-ci-RoleTerraformPlanner
-plan-%: fmt-check
-	@cd ./$*
+plan-bootstrap: fmt-check
+	@cd ./bootstrap
 	@rm -f .terraform/terraform.tfstate
 	@$(AWS_PROFILE_CMD) $(TF) init
 	@$(AWS_PROFILE_CMD) $(TF) plan
 
-.PHONY: apply-%
+.PHONY: apply-bootstrap
 apply-bootstrap: export AWS_PROFILE := platsec-ci-RoleTerraformApplier
-apply-ci: export AWS_PROFILE := platsec-ci-RoleTerraformApplier
-apply-%: fmt-check
-	@cd ./$*
+apply-bootstrap: fmt-check
+	@cd ./bootstrap
 	@rm -f .terraform/terraform.tfstate
 	@$(AWS_PROFILE_CMD) $(TF) init
 	@$(AWS_PROFILE_CMD) $(TF) apply -auto-approve

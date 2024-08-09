@@ -1,11 +1,6 @@
-locals {
-  is_live = terraform.workspace == "live"
-  prefix  = local.is_live ? "" : "${terraform.workspace}-"
-}
-
 resource "aws_sns_topic" "sns_topic" {
-  name         = "${local.prefix}${var.topic_name}"
-  display_name = "${local.prefix}${var.topic_name}"
+  name         = var.topic_name
+  display_name = var.topic_name
 }
 
 resource "aws_sns_topic_policy" "sns_topic_policy" {

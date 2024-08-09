@@ -140,52 +140,45 @@ resource "aws_codepipeline" "codepipeline" {
     }
   }
 
-  dynamic "stage" {
-    for_each = module.common.is_live ? toset(["Approve_Production"]) : toset([])
-    content {
-      name = stage.value
+  stage {
+    name = "Approve_Production"
 
-      action {
-        name     = stage.value
-        category = "Approval"
-        owner    = "AWS"
-        provider = "Manual"
-        version  = "1"
+    action {
+      name     = "Approve_Production"
+      category = "Approval"
+      owner    = "AWS"
+      provider = "Manual"
+      version  = "1"
 
-        configuration = {
-          ExternalEntityLink : "https://github.com/${var.src_org}/${var.src_repo}/commit/#{SourceVariables.CommitId}"
-          CustomData : "#{SourceVariables.CommitMessage}"
-        }
+      configuration = {
+        ExternalEntityLink : "https://github.com/${var.src_org}/${var.src_repo}/commit/#{SourceVariables.CommitId}"
+        CustomData : "#{SourceVariables.CommitMessage}"
       }
     }
   }
 
-  dynamic "stage" {
-    for_each = module.common.is_live ? toset(["Deploy_Production"]) : toset([])
+  stage {
+    name = "Deploy_Production"
 
-    content {
-      name = stage.value
+    action {
+      name            = "Deploy_Production"
+      category        = "Build"
+      owner           = "AWS"
+      provider        = "CodeBuild"
+      input_artifacts = ["build_output"]
+      version         = "1"
 
-      action {
-        name            = stage.value
-        category        = "Build"
-        owner           = "AWS"
-        provider        = "CodeBuild"
-        input_artifacts = ["build_output"]
-        version         = "1"
-
-        configuration = {
-          ProjectName = module.docker_deployment_production.name
-          EnvironmentVariables = jsonencode([
-            {
-              name  = "IMAGE_TAG"
-              value = module.common.build_id
-              type  = "PLAINTEXT"
-            }
-          ])
-        }
-
+      configuration = {
+        ProjectName = module.docker_deployment_production.name
+        EnvironmentVariables = jsonencode([
+          {
+            name  = "IMAGE_TAG"
+            value = module.common.build_id
+            type  = "PLAINTEXT"
+          }
+        ])
       }
+
     }
   }
 

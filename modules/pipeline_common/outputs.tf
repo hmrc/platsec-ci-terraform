@@ -26,10 +26,6 @@ output "policy_get_artifactory_credentials_arn" {
   value = aws_iam_policy.get_artifactory_credentials.arn
 }
 
-output "is_live" {
-  value = terraform.workspace == "live"
-}
-
 output "pipeline_name" {
   value = local.pipeline_name
 }
