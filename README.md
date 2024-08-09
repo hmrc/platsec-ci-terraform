@@ -113,25 +113,32 @@ resource "aws_lambda_function" "docker" {
 
 ## Running locally
 
+This repository has the following terraform components:
+
+-   `bootstrap`: for bootstrapping terraform state management resources. It should be run locally only.
+-   `ci`: for CI/CD pipeline resources for applying changes to this repository
+-   `live`: for the main terraform config that this repository delivers
+
 ### Plan
 ```
-make plan
+make plan-${component}
 ```
 ### Apply
 ```
-make apply
+make apply-${component}
 ```
 
 ## CI/CD pipeline
 
 ### Where can I find a CI/CD pipeline for this code base?
 
-*   No PR build job yet
-*   No deployment pipeline job yet
+-   [PR build job](https://eu-west-2.console.aws.amazon.com/codesuite/codebuild/987972305662/projects/platsec-ci-terraform-pr-builder/history?region=eu-west-2)
+-   [Deployment pipeline](https://eu-west-2.console.aws.amazon.com/codesuite/codepipeline/pipelines/platsec-ci-terraform-pipeline/view?region=eu-west-2)
 
 ### How is the CI/CD pipeline configured?
 
-N/A
+-   PR build job is an [AWS CodeBuild](https://eu-west-2.console.aws.amazon.com/codesuite/codebuild/987972305662/projects/platsec-ci-terraform-pr-builder/history?region=eu-west-2) project
+-   Deployment pipeline and PR build job are managed in code [here](https://github.com/hmrc/platsec-ci-terraform/tree/main/ci)
 
 ## License
 
