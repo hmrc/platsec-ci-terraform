@@ -13,9 +13,10 @@ CMD=$1
 TARGET=$2
 
 set_assume_role_arn() {
-    ASSUME_ROLE_ARN="${TERRAFORM_PLANNER_ROLE_ARN}"
     if [[ "${CMD}" == "apply" ]]; then
         ASSUME_ROLE_ARN="${TERRAFORM_APPLIER_ROLE_ARN}"
+    else
+        ASSUME_ROLE_ARN="${TERRAFORM_PLANNER_ROLE_ARN}"
     fi
 }
 
