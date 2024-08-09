@@ -39,6 +39,7 @@ locals {
   ]
   vpc_config               = data.terraform_remote_state.ci.outputs.vpc_config
   agent_security_group_ids = data.terraform_remote_state.ci.outputs.agent_security_group_ids
+  ci_alerts_sns_topic_arn  = data.terraform_remote_state.ci.outputs.sns_topic_arn
 }
 
 module "label" {
@@ -47,27 +48,5 @@ module "label" {
   namespace = "mdtp"
   stage     = local.environment
   name      = "platsec-ci"
-}
-
-# TODO: Deprecate the following modules below
-module "ci_alerts_for_sandbox" {
-  source = "../modules//alerting_sns_topics"
-
-  topic_name              = "ci_alerts_for_sandbox"
-  subscription_account_no = local.accounts.sandbox.id
-}
-
-module "ci_alerts_for_development" {
-  source = "../modules//alerting_sns_topics"
-
-  topic_name              = "ci_alerts_for_development"
-  subscription_account_no = local.accounts.development.id
-}
-
-module "ci_alerts_for_production" {
-  source = "../modules//alerting_sns_topics"
-
-  topic_name              = "ci_alerts_for_production"
-  subscription_account_no = local.accounts.production.id
 }
 

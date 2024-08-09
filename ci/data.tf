@@ -1,6 +1,6 @@
 data "aws_caller_identity" "current" {}
 
-#TODO: add TF resource config for account ids below in platsec-terraform and central-audit-terraform repos
+# Consider adding TF resource configs for the resources below in their respective accounts
 data "aws_secretsmanager_secret_version" "sandbox_account_id" {
   secret_id = "platsec-sandbox-account-id"
 }
