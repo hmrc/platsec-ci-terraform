@@ -3,7 +3,7 @@ module "pipeline" {
 
   pipeline_name = "${local.repo}-pipeline"
   src_repo      = local.repo
-  branch        = "PSEC-2203-ci" # "main"
+  branch        = "main"
 
   step_assume_roles = [
     {
