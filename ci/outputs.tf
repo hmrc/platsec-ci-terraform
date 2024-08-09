@@ -8,3 +8,7 @@ output "agent_security_group_ids" {
     service_endpoints = module.networking.ci_agent_to_endpoints_sg_id
   }
 }
+
+output "sns_topic_arn" {
+  value = module.ci_alerts_sns_topic.arn
+}

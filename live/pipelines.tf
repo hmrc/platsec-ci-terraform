@@ -11,7 +11,7 @@ module "aws_scanner" {
 
   accounts                 = local.accounts
   github_token             = data.aws_secretsmanager_secret_version.github_token.secret_string
-  sns_topic_arn            = module.ci_alerts_for_production.sns_topic_arn
+  sns_topic_arn            = local.ci_alerts_sns_topic_arn
   access_log_bucket_id     = local.access_log_bucket_id
   admin_roles              = local.tf_admin_roles
   vpc_config               = local.vpc_config
@@ -32,7 +32,7 @@ module "compliance_alerting" {
 
   accounts                 = local.accounts
   github_token             = data.aws_secretsmanager_secret_version.github_token.secret_string
-  sns_topic_arn            = module.ci_alerts_for_production.sns_topic_arn
+  sns_topic_arn            = local.ci_alerts_sns_topic_arn
   access_log_bucket_id     = local.access_log_bucket_id
   admin_roles              = local.tf_admin_roles
   vpc_config               = local.vpc_config
@@ -51,7 +51,7 @@ module "bitwarden_manager" {
 
   accounts                 = local.accounts
   github_token             = data.aws_secretsmanager_secret_version.github_token.secret_string
-  sns_topic_arn            = module.ci_alerts_for_production.sns_topic_arn
+  sns_topic_arn            = local.ci_alerts_sns_topic_arn
   access_log_bucket_id     = local.access_log_bucket_id
   admin_roles              = local.tf_admin_roles
   vpc_config               = local.vpc_config
@@ -70,7 +70,7 @@ module "cloudtrail_monitoring" {
 
   accounts                 = local.accounts
   github_token             = data.aws_secretsmanager_secret_version.github_token.secret_string
-  sns_topic_arn            = module.ci_alerts_for_production.sns_topic_arn
+  sns_topic_arn            = local.ci_alerts_sns_topic_arn
   access_log_bucket_id     = local.access_log_bucket_id
   admin_roles              = local.tf_admin_roles
   vpc_config               = local.vpc_config
@@ -87,7 +87,7 @@ module "github_scanner" {
   lambda_function_name = "github_scanner"
 
   accounts                 = local.accounts
-  sns_topic_arn            = module.ci_alerts_for_production.sns_topic_arn
+  sns_topic_arn            = local.ci_alerts_sns_topic_arn
   access_log_bucket_id     = local.access_log_bucket_id
   admin_roles              = local.tf_admin_roles
   vpc_config               = local.vpc_config
@@ -107,7 +107,7 @@ module "github_admin_report" {
 
   accounts                 = local.accounts
   github_token             = data.aws_secretsmanager_secret_version.github_token.secret_string
-  sns_topic_arn            = module.ci_alerts_for_production.sns_topic_arn
+  sns_topic_arn            = local.ci_alerts_sns_topic_arn
   access_log_bucket_id     = local.access_log_bucket_id
   admin_roles              = local.tf_admin_roles
   vpc_config               = local.vpc_config
@@ -127,7 +127,7 @@ module "github_webhook_report" {
 
   accounts                 = local.accounts
   github_token             = data.aws_secretsmanager_secret_version.github_token.secret_string
-  sns_topic_arn            = module.ci_alerts_for_production.sns_topic_arn
+  sns_topic_arn            = local.ci_alerts_sns_topic_arn
   access_log_bucket_id     = local.access_log_bucket_id
   admin_roles              = local.tf_admin_roles
   vpc_config               = local.vpc_config
@@ -147,7 +147,7 @@ module "monitor_aws_iam" {
 
   accounts                 = local.accounts
   github_token             = data.aws_secretsmanager_secret_version.github_token.secret_string
-  sns_topic_arn            = module.ci_alerts_for_production.sns_topic_arn
+  sns_topic_arn            = local.ci_alerts_sns_topic_arn
   access_log_bucket_id     = local.access_log_bucket_id
   admin_roles              = local.tf_admin_roles
   vpc_config               = local.vpc_config
@@ -164,7 +164,7 @@ module "vault_policy_applier_corretto" {
   lambda_function_name           = "policy-applier-corretto"
   lambda_deployment_package_name = "vault-policy-applier-2-SNAPSHOT.jar"
   accounts                       = local.accounts
-  sns_topic_arn                  = module.ci_alerts_for_production.sns_topic_arn
+  sns_topic_arn                  = local.ci_alerts_sns_topic_arn
   access_log_bucket_id           = local.access_log_bucket_id
   admin_roles                    = local.tf_admin_roles
   vpc_config                     = local.vpc_config
@@ -186,7 +186,7 @@ module "security_reports_frontend" {
 
   accounts                 = local.accounts
   github_token             = data.aws_secretsmanager_secret_version.github_token.secret_string
-  sns_topic_arn            = module.ci_alerts_for_production.sns_topic_arn
+  sns_topic_arn            = local.ci_alerts_sns_topic_arn
   access_log_bucket_id     = local.access_log_bucket_id
   admin_roles              = local.tf_admin_roles
   vpc_config               = local.vpc_config
@@ -206,7 +206,7 @@ module "sandbox_aws_nuke" {
 
   accounts                 = local.accounts
   github_token             = data.aws_secretsmanager_secret_version.github_token.secret_string
-  sns_topic_arn            = module.ci_alerts_for_production.sns_topic_arn
+  sns_topic_arn            = local.ci_alerts_sns_topic_arn
   access_log_bucket_id     = local.access_log_bucket_id
   admin_roles              = local.tf_admin_roles
   vpc_config               = local.vpc_config
@@ -226,7 +226,7 @@ module "sandbox_compliance_alerting" {
 
   accounts                 = local.accounts
   github_token             = data.aws_secretsmanager_secret_version.github_token.secret_string
-  sns_topic_arn            = module.ci_alerts_for_production.sns_topic_arn
+  sns_topic_arn            = local.ci_alerts_sns_topic_arn
   access_log_bucket_id     = local.access_log_bucket_id
   admin_roles              = local.tf_admin_roles
   vpc_config               = local.vpc_config
@@ -242,7 +242,7 @@ module "tf-s3-bucket-core" {
 
   accounts                 = local.accounts
   github_token             = data.aws_secretsmanager_secret_version.github_token.secret_string
-  sns_topic_arn            = module.ci_alerts_for_production.sns_topic_arn
+  sns_topic_arn            = local.ci_alerts_sns_topic_arn
   access_log_bucket_id     = local.access_log_bucket_id
   admin_roles              = local.tf_admin_roles
   vpc_config               = local.vpc_config
@@ -260,7 +260,7 @@ module "tf-s3-bucket-standard" {
 
   accounts                 = local.accounts
   github_token             = data.aws_secretsmanager_secret_version.github_token.secret_string
-  sns_topic_arn            = module.ci_alerts_for_production.sns_topic_arn
+  sns_topic_arn            = local.ci_alerts_sns_topic_arn
   access_log_bucket_id     = local.access_log_bucket_id
   admin_roles              = local.tf_admin_roles
   vpc_config               = local.vpc_config
@@ -272,7 +272,7 @@ module "platsec-terraform-pipeline" {
   source = "../modules//platsec_terraform_pipeline"
 
   github_token             = data.aws_secretsmanager_secret_version.github_token.secret_string
-  sns_topic_arn            = module.ci_alerts_for_production.sns_topic_arn
+  sns_topic_arn            = local.ci_alerts_sns_topic_arn
   access_log_bucket_id     = local.access_log_bucket_id
   admin_roles              = local.tf_admin_roles
   vpc_config               = local.vpc_config
@@ -322,7 +322,7 @@ module "central_account_terraform_pipeline" {
   ]
   access_log_bucket_id = local.access_log_bucket_id
   //  accounts                    = local.accounts
-  sns_topic_arn            = module.ci_alerts_for_production.sns_topic_arn
+  sns_topic_arn            = local.ci_alerts_sns_topic_arn
   github_token             = data.aws_secretsmanager_secret_version.github_token.secret_string
   admin_roles              = local.tf_admin_roles
   vpc_config               = local.vpc_config
