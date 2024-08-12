@@ -22,8 +22,9 @@ locals {
 
 module "access_logs" {
   source      = "../modules/access_logs_bucket"
-  account_id  = data.aws_caller_identity.current.id
   bucket_name = local.access_logs_bucket_name
+  admin_roles = local.tf_admin_roles
+  read_roles  = local.tf_read_roles
 }
 
 module "state_bucket" {
