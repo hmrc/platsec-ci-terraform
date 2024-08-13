@@ -1,7 +1,9 @@
 data "aws_iam_policy_document" "codeconnections" {
   statement {
+    # Have to add both for a short period. AWS "say" they've moved to codeconnections, but it still createted a codestar connection
     actions = [
       "codeconnections:UseConnection",
+      "codestar-connections:UseConnection",
     ]
 
     resources = [
@@ -12,7 +14,15 @@ data "aws_iam_policy_document" "codeconnections" {
       test     = "ForAllValues:StringEquals"
       variable = "codeconnections:FullRepositoryId"
       values = [
-        var.src_repo
+        "${var.src_org}/${var.src_repo}"
+      ]
+    }
+
+    condition {
+      test     = "ForAllValues:StringEquals"
+      variable = "codestar-connections:FullRepositoryId"
+      values = [
+        "${var.src_org}/${var.src_repo}"
       ]
     }
   }
