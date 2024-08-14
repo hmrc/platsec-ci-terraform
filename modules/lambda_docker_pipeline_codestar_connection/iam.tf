@@ -1,6 +1,6 @@
 data "aws_iam_policy_document" "codeconnections" {
   statement {
-    # Have to add both for a short period. AWS "say" they've moved to codeconnections, but it still createted a codestar connection
+    # Have to add both for a short period. AWS "say" they've moved to codeconnections, but it still created a codestar connection
     actions = [
       "codeconnections:UseConnection",
       "codestar-connections:UseConnection",
