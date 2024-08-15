@@ -42,8 +42,8 @@ variable "admin_roles" {
 ###
 # Presume a codeconnection is present to simplify the config for now
 ###
-variable "codeconnection_arns" {
-  type        = set(string)
-  description = "(Optional) A list of aws aws_codestarconnections_connection ARNs."
-  default     = []
+variable "codeconnection_arn" {
+  type        = string
+  description = "(Optional) The aws_codestarconnections_connection ARN."
+  default     = ""
 }

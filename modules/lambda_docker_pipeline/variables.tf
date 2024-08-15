@@ -90,8 +90,8 @@ variable "admin_roles" {
   default     = []
 }
 
-variable "codeconnection_arns" {
-  type        = set(string)
-  description = "(Optional) The codestar connection ARNs."
-  default     = []
+variable "codeconnection_arn" {
+  type        = string
+  description = "(Optional) The codestar connection ARN."
+  default     = ""
 }

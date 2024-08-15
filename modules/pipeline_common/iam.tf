@@ -54,7 +54,7 @@ data "aws_iam_policy_document" "codepipeline_policy" {
   }
 
   dynamic "statement" {
-    for_each = length(var.codeconnection_arns) > 0 ? [1] : []
+    for_each = length(var.codeconnection_arn) > 0 ? [1] : []
 
     content {
       actions = [
@@ -62,7 +62,7 @@ data "aws_iam_policy_document" "codepipeline_policy" {
         "codestar-connections:UseConnection",
       ]
 
-      resources = var.codeconnection_arns
+      resources = [var.codeconnection_arn]
 
       condition {
         test     = "ForAllValues:StringEquals"

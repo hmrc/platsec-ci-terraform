@@ -1,7 +1,17 @@
 module "codeconnection" {
   source = "../modules//codeconnection"
 
-  name = "platsec-ci-connection"
+  name = "cloudtrail-monitoring-connection"
+}
+
+###
+# Move resource for now, to avoid recreation
+# Should go to bootstrap and be pulled in as a
+# data resource
+###
+moved {
+  from = module.cloudtrail_monitoring.aws_codestarconnections_connection.connection
+  to   = module.codeconnection.aws_codestarconnections_connection.connection
 }
 
 module "aws_scanner" {
@@ -75,7 +85,7 @@ module "cloudtrail_monitoring" {
   ecr_arn              = module.cloudtrail_monitoring_repository.arn
 
   accounts                 = local.accounts
-  codeconnection_arns      = [module.codeconnection.arn]
+  codeconnection_arn       = module.codeconnection.arn
   github_token             = data.aws_secretsmanager_secret_version.github_token.secret_string
   sns_topic_arn            = local.ci_alerts_sns_topic_arn
   access_log_bucket_id     = local.access_log_bucket_id

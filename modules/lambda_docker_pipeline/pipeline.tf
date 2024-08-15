@@ -13,7 +13,7 @@ resource "aws_codepipeline" "codepipeline" {
   }
 
   dynamic "stage" {
-    for_each = var.codeconnection_arns
+    for_each = length(var.codeconnection_arn) > 0 ? [0] : []
 
     content {
       name = "Source"
@@ -27,7 +27,7 @@ resource "aws_codepipeline" "codepipeline" {
         output_artifacts = ["source_output"]
 
         configuration = {
-          ConnectionArn    = stage.value
+          ConnectionArn    = var.codeconnection_arn
           FullRepositoryId = "${var.src_org}/${var.src_repo}"
           BranchName       = var.branch
         }
@@ -36,7 +36,7 @@ resource "aws_codepipeline" "codepipeline" {
   }
 
   dynamic "stage" {
-    for_each = length(var.codeconnection_arns) == 0 ? [0] : []
+    for_each = length(var.codeconnection_arn) == 0 ? [0] : []
 
     content {
       name = "Source"
