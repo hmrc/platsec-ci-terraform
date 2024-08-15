@@ -12,23 +12,50 @@ resource "aws_codepipeline" "codepipeline" {
     }
   }
 
-  stage {
-    name = "Source"
-    action {
-      name             = "Source"
-      category         = "Source"
-      owner            = "ThirdParty"
-      provider         = "GitHub"
-      namespace        = "SourceVariables"
-      version          = "1"
-      output_artifacts = ["source_output"]
+  dynamic "stage" {
+    for_each = var.codeconnection_arns
 
-      configuration = {
-        Owner                = var.src_org
-        Repo                 = var.src_repo
-        PollForSourceChanges = false
-        Branch               = var.branch
-        OAuthToken           = var.github_token
+    content {
+      name = "Source"
+      action {
+        name             = "Source"
+        category         = "Source"
+        owner            = "AWS"
+        provider         = "CodeStarSourceConnection"
+        namespace        = "SourceVariables"
+        version          = "1"
+        output_artifacts = ["source_output"]
+
+        configuration = {
+          ConnectionArn    = stage.value
+          FullRepositoryId = "${var.src_org}/${var.src_repo}"
+          BranchName       = var.branch
+        }
+      }
+    }
+  }
+
+  dynamic "stage" {
+    for_each = length(var.codeconnection_arns) == 0 ? [0] : []
+
+    content {
+      name = "Source"
+      action {
+        name             = "Source"
+        category         = "Source"
+        owner            = "ThirdParty"
+        provider         = "GitHub"
+        namespace        = "SourceVariables"
+        version          = "1"
+        output_artifacts = ["source_output"]
+
+        configuration = {
+          Owner                = var.src_org
+          Repo                 = var.src_repo
+          PollForSourceChanges = false
+          Branch               = var.branch
+          OAuthToken           = var.github_token
+        }
       }
     }
   }

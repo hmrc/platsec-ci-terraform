@@ -34,3 +34,5 @@ dummy_lambda_payload.zip
 backend.hcl
 .idea/
 tmp/
+Pipfile
+Pipfile.lock

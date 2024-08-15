@@ -38,3 +38,12 @@ variable "admin_roles" {
   description = "A list of roles to allow admin access to bucket"
   default     = []
 }
+
+###
+# Presume a codeconnection is present to simplify the config for now
+###
+variable "codeconnection_arns" {
+  type        = set(string)
+  description = "(Optional) A list of aws aws_codestarconnections_connection ARNs."
+  default     = []
+}
