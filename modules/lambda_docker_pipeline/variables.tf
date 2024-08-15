@@ -89,3 +89,9 @@ variable "admin_roles" {
   description = "A list of roles to allow admin access to bucket"
   default     = []
 }
+
+variable "codeconnection_arn" {
+  type        = string
+  description = "(Optional) The codestar connection ARN."
+  default     = ""
+}
