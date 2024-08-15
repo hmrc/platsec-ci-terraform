@@ -35,7 +35,6 @@ locals {
   tf_admin_roles = [
     "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleTerraformApplier",
     "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleTerraformPlanner",
-    "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleTerraformProvisioner",
   ]
   vpc_config               = data.terraform_remote_state.ci.outputs.vpc_config
   agent_security_group_ids = data.terraform_remote_state.ci.outputs.agent_security_group_ids

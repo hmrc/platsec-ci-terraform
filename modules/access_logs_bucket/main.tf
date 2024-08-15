@@ -1,7 +1,14 @@
 locals {
-  logs_access_roles = [
-    "arn:aws:iam::${var.account_id}:role/RoleSecurityEngineer",
-  ]
+  current_provisioner_role = data.aws_iam_session_context.current.issuer_arn
+
+  admins  = sort(distinct(concat(var.admin_roles, [local.current_provisioner_role])))
+  readers = sort(distinct(concat(var.read_roles, ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleSecurityEngineer"])))
+}
+
+data "aws_caller_identity" "current" {}
+
+data "aws_iam_session_context" "current" {
+  arn = data.aws_caller_identity.current.arn
 }
 
 # we do not use the module 'hmrc/s3-bucket-core/aws' here as it enforces kms encryption.
@@ -13,12 +20,12 @@ resource "aws_s3_bucket" "access_logs" {
 
   tags = {
     Name                        = var.bucket_name
-    Environment                 = "live"
     allow_delete                = "false"
     data_sensitivity            = "low"
     data_expiry                 = "90-days"
     ignore_access_logging_check = true
   }
+
 }
 
 resource "aws_s3_bucket_versioning" "access_logs" {
@@ -39,25 +46,9 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "access_logs" {
   }
 }
 
-resource "aws_s3_bucket_ownership_controls" "access_logs" {
-  bucket = aws_s3_bucket.access_logs.id
-
-  rule {
-    object_ownership = "BucketOwnerEnforced"
-  }
-}
-
-resource "aws_s3_bucket_public_access_block" "access_logs" {
-  bucket                  = aws_s3_bucket.access_logs.id
-  block_public_acls       = true
-  block_public_policy     = true
-  ignore_public_acls      = true
-  restrict_public_buckets = true
-  depends_on              = [aws_s3_bucket.access_logs]
-}
-
 resource "aws_s3_bucket_lifecycle_configuration" "access_logs" {
   bucket = aws_s3_bucket.access_logs.id
+
   rule {
     id     = "AbortIncompleteMultipartUpload"
     status = "Enabled"
@@ -78,6 +69,23 @@ resource "aws_s3_bucket_lifecycle_configuration" "access_logs" {
       noncurrent_days = 90
     }
   }
+}
+
+resource "aws_s3_bucket_ownership_controls" "access_logs" {
+  bucket = aws_s3_bucket.access_logs.id
+
+  rule {
+    object_ownership = "BucketOwnerEnforced"
+  }
+}
+
+resource "aws_s3_bucket_public_access_block" "access_logs" {
+  bucket                  = aws_s3_bucket.access_logs.id
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
+  depends_on              = [aws_s3_bucket.access_logs]
 }
 
 resource "aws_s3_bucket_policy" "access_logs" {
@@ -112,7 +120,7 @@ data "aws_iam_policy_document" "access_logs" {
   statement {
     sid = "Administer"
     principals {
-      identifiers = ["arn:aws:iam::${var.account_id}:role/RoleTerraformProvisioner"]
+      identifiers = ["*"]
       type        = "AWS"
     }
     actions = [
@@ -122,6 +130,11 @@ data "aws_iam_policy_document" "access_logs" {
       aws_s3_bucket.access_logs.arn,
       "${aws_s3_bucket.access_logs.arn}/*",
     ]
+    condition {
+      test     = "StringLike"
+      variable = "aws:PrincipalArn"
+      values   = local.admins
+    }
   }
 
   statement {
@@ -142,7 +155,7 @@ data "aws_iam_policy_document" "access_logs" {
     condition {
       test     = "StringLike"
       variable = "aws:PrincipalArn"
-      values   = local.logs_access_roles
+      values   = local.readers
     }
   }
 
@@ -158,7 +171,7 @@ data "aws_iam_policy_document" "access_logs" {
     ]
     resources = [
       aws_s3_bucket.access_logs.arn,
-      "${aws_s3_bucket.access_logs.arn}/*",
+      "${aws_s3_bucket.access_logs.arn}/*"
     ]
     condition {
       test     = "Bool"
