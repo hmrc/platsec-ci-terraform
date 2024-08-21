@@ -1,8 +1,5 @@
 resource "aws_codestarconnections_connection" "connection" {
-  name = var.name
-
-  #restrict access to this as we're only expecting GitHub
+  name          = var.name
   provider_type = "GitHub"
-
-  tags = var.tags
+  tags          = var.tags
 }

@@ -85,7 +85,7 @@ module "cloudtrail_monitoring" {
   ecr_arn              = module.cloudtrail_monitoring_repository.arn
 
   accounts                 = local.accounts
-  codeconnection_arn       = module.codeconnection.arn
+  codeconnection_arn       = data.aws_codestarconnections_connection.this.arn
   github_token             = data.aws_secretsmanager_secret_version.github_token.secret_string
   sns_topic_arn            = local.ci_alerts_sns_topic_arn
   access_log_bucket_id     = local.access_log_bucket_id

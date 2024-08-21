@@ -17,6 +17,7 @@ resource "aws_codepipeline" "codepipeline" {
 
     content {
       name = "Source"
+
       action {
         name             = "Source"
         category         = "Source"
@@ -40,6 +41,7 @@ resource "aws_codepipeline" "codepipeline" {
 
     content {
       name = "Source"
+
       action {
         name             = "Source"
         category         = "Source"
