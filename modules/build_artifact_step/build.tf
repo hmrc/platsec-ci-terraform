@@ -28,6 +28,7 @@ resource "aws_codebuild_project" "build" {
       name  = "ARTIFACTORY_TOKEN"
       value = var.artifactory_secret_manager_names.token
     }
+
     environment_variable {
       type  = "SECRETS_MANAGER"
       name  = "ARTIFACTORY_USERNAME"
@@ -64,6 +65,7 @@ resource "aws_codebuild_project" "build" {
   artifacts {
     type = "CODEPIPELINE"
   }
+
   source {
     type = "CODEPIPELINE"
   }

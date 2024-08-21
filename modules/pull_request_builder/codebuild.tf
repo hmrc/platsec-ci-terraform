@@ -57,6 +57,7 @@ resource "aws_codebuild_project" "build" {
   artifacts {
     type = "NO_ARTIFACTS"
   }
+
   source {
     type                = "GITHUB"
     location            = "https://github.com/${var.src_org}/${var.src_repo}.git"

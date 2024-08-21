@@ -1,4 +1,7 @@
 data "aws_caller_identity" "current" {}
+data "aws_codestarconnections_connection" "this" {
+  name = "platsec-ci"
+}
 
 # Consider adding TF resource configs for the resources below in their respective accounts
 data "aws_secretsmanager_secret_version" "sandbox_account_id" {

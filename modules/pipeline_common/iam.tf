@@ -1,10 +1,15 @@
 
+data "aws_caller_identity" "current" {}
+
+data "aws_region" "current" {}
+
 data "aws_iam_policy_document" "codepipeline_assume_role" {
   statement {
     principals {
       identifiers = ["codepipeline.amazonaws.com"]
       type        = "Service"
     }
+
     actions = [
       "sts:AssumeRole"
     ]
@@ -14,7 +19,6 @@ data "aws_iam_policy_document" "codepipeline_assume_role" {
 data "aws_iam_policy_document" "codepipeline_policy" {
   version = "2012-10-17"
   statement {
-    effect = "Allow"
     actions = [
       "s3:PutObjectAcl",
       "s3:PutObject",
@@ -22,13 +26,13 @@ data "aws_iam_policy_document" "codepipeline_policy" {
       "s3:GetObject",
       "s3:GetBucketVersioning"
     ]
+
     resources = [
       "${module.codepipeline_bucket.arn}/*/source_out/*"
     ]
   }
 
   statement {
-    effect = "Allow"
     actions = [
       "codebuild:BatchGetBuilds",
       "codebuild:StartBuild"
@@ -40,7 +44,6 @@ data "aws_iam_policy_document" "codepipeline_policy" {
   }
 
   statement {
-    effect = "Allow"
     actions = [
       "kms:ReEncrypt*",
       "kms:GenerateDataKey*",
@@ -48,6 +51,7 @@ data "aws_iam_policy_document" "codepipeline_policy" {
       "kms:DescribeKey",
       "kms:Decrypt",
     ]
+
     resources = [
       module.codepipeline_bucket.kms_key_arn
     ]
@@ -67,14 +71,6 @@ data "aws_iam_policy_document" "codepipeline_policy" {
       condition {
         test     = "ForAllValues:StringEquals"
         variable = "codeconnections:FullRepositoryId"
-        values = [
-          "${var.src_org}/${var.src_repo}"
-        ]
-      }
-
-      condition {
-        test     = "ForAllValues:StringEquals"
-        variable = "codestar-connections:FullRepositoryId"
         values = [
           "${var.src_org}/${var.src_repo}"
         ]
@@ -114,20 +110,18 @@ data "aws_iam_policy_document" "codebuild_assume_role" {
       identifiers = ["codebuild.amazonaws.com"]
       type        = "Service"
     }
+
     actions = [
       "sts:AssumeRole"
     ]
   }
 }
 
-data "aws_caller_identity" "current" {}
-
-data "aws_region" "current" {}
-
 data "aws_iam_policy_document" "build_core" {
 
   statement {
     sid = "VpcNetworking"
+
     actions = [
       "ec2:CreateNetworkInterface",
       "ec2:DescribeDhcpOptions",
@@ -137,6 +131,7 @@ data "aws_iam_policy_document" "build_core" {
       "ec2:DescribeSecurityGroups",
       "ec2:DescribeVpcs"
     ]
+
     resources = ["*"]
   }
 
@@ -144,14 +139,17 @@ data "aws_iam_policy_document" "build_core" {
     actions = [
       "ec2:CreateNetworkInterfacePermission"
     ]
+
     resources = [
       "arn:aws:ec2:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:network-interface/*"
     ]
+
     condition {
       test     = "StringEquals"
       variable = "ec2:Subnet"
       values   = var.vpc_config.private_subnet_arns
     }
+
     condition {
       test     = "StringEquals"
       variable = "ec2:AuthorizedService"
@@ -165,6 +163,7 @@ data "aws_iam_policy_document" "build_core" {
       "logs:CreateLogStream",
       "logs:PutLogEvents",
     ]
+
     resources = ["*"]
   }
 
@@ -176,6 +175,7 @@ data "aws_iam_policy_document" "build_core" {
       "kms:GenerateDataKey*",
       "kms:DescribeKey",
     ]
+
     resources = [
       module.codepipeline_bucket.kms_key_arn
     ]
@@ -187,6 +187,7 @@ data "aws_iam_policy_document" "build_core" {
       "s3:GetObjectVersion",
       "s3:GetBucketVersioning",
     ]
+
     resources = [
       "${module.codepipeline_bucket.arn}/*/source_out/*",
       "${module.codepipeline_bucket.arn}/*/build_outp/*",
@@ -200,6 +201,7 @@ data "aws_iam_policy_document" "store_artifacts" {
       "s3:PutObjectAcl",
       "s3:PutObject",
     ]
+
     resources = [
       "${module.codepipeline_bucket.arn}/*/build_outp/*"
     ]
@@ -220,16 +222,16 @@ resource "aws_iam_policy" "build_core" {
   }
 }
 
-
-
 data "aws_iam_policy_document" "get_artifactory_credentials" {
   statement {
+
     actions = [
       "secretsmanager:GetResourcePolicy",
       "secretsmanager:GetSecretValue",
       "secretsmanager:DescribeSecret",
       "secretsmanager:ListSecretVersionIds"
     ]
+
     resources = [
       "arn:aws:secretsmanager:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:secret:${local.artifactory_secret_manager_names.token}*",
       "arn:aws:secretsmanager:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:secret:${local.artifactory_secret_manager_names.username}*",

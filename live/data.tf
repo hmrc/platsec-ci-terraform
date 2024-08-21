@@ -54,6 +54,10 @@ data "aws_secretsmanager_secret_version" "github_token" {
 
 data "aws_caller_identity" "current" {}
 
+data "aws_codestarconnections_connection" "this" {
+  name = "platsec-ci"
+}
+
 data "terraform_remote_state" "ci" {
   backend = "s3"
 
