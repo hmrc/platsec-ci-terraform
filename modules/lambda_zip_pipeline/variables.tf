@@ -91,3 +91,9 @@ variable "lambda_deployment_package_name" {
   type    = string
   default = "lambda.zip"
 }
+
+variable "codeconnection_arn" {
+  type        = string
+  description = "(Optional) The codestar connection ARN."
+  default     = ""
+}
