@@ -59,3 +59,9 @@ variable "admin_roles" {
 variable "github_token" {
   type = string
 }
+
+variable "codeconnection_arn" {
+  type        = string
+  description = "(Optional) The codestar connection ARN."
+  default     = ""
+}
