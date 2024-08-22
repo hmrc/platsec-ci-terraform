@@ -92,6 +92,5 @@ variable "admin_roles" {
 
 variable "codeconnection_arn" {
   type        = string
-  description = "(Optional) The codestar connection ARN."
-  default     = ""
+  description = "The codestar connection ARN."
 }
