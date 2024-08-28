@@ -65,3 +65,7 @@ variable "github_token" {
   type = string
 }
 
+variable "codeconnection_arn" {
+  type        = string
+  description = "(Optional) The aws_codestarconnections_connection ARN."
+}
