@@ -51,7 +51,7 @@ resource "aws_codebuild_project" "build" {
   }
 
   artifacts {
-    type = "NO_ARTIFACTS"
+    type = "CODEPIPELINE"
   }
 
   source {
