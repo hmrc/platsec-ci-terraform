@@ -1,7 +1,3 @@
-locals {
-  github_event_patterns = ["PULL_REQUEST_CREATED", "PULL_REQUEST_UPDATED", "PULL_REQUEST_REOPENED"]
-}
-
 resource "aws_codebuild_project" "build" {
   name          = var.project_name
   description   = "For ${var.project_name}"
@@ -59,24 +55,10 @@ resource "aws_codebuild_project" "build" {
   }
 
   source {
-    type                = "GITHUB"
-    location            = "https://github.com/${var.src_org}/${var.src_repo}.git"
-    git_clone_depth     = 1
+    type                = "CODEPIPELINE"
     report_build_status = true
     buildspec           = file("${path.module}/buildspecs/${var.buildspec}")
   }
 
   source_version = var.src_branch
-}
-
-resource "aws_codebuild_webhook" "build" {
-  project_name = aws_codebuild_project.build.name
-  build_type   = "BUILD"
-
-  filter_group {
-    filter {
-      type    = "EVENT"
-      pattern = join(",", local.github_event_patterns)
-    }
-  }
 }
