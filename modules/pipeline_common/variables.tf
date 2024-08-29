@@ -45,4 +45,5 @@ variable "admin_roles" {
 variable "codeconnection_arn" {
   type        = string
   description = "(Optional) The aws_codestarconnections_connection ARN."
+  default     = ""
 }
