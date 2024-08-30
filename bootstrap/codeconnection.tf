@@ -3,10 +3,8 @@ resource "aws_codestarconnections_connection" "this" {
   provider_type = "GitHub"
 }
 
-# Code ready for migration
-#
-# resource "aws_codebuild_source_credential" "this" {
-#   server_type = "GITHUB"
-#   auth_type   = "CODECONNECTIONS"
-#   token       = aws_codestarconnections_connection.this.arn
-# }
+resource "aws_codebuild_source_credential" "this" {
+  server_type = "GITHUB"
+  auth_type   = "CODECONNECTIONS"
+  token       = aws_codestarconnections_connection.this.arn
+}
