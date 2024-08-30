@@ -8,9 +8,10 @@ module "pull_request_builder" {
   admin_roles     = [local.terraform_applier_role, local.terraform_planner_role]
   docker_required = true
 
-  src_repo   = local.repo
-  src_branch = ""
-  buildspec  = "platsec_ci_terraform_plan.yaml"
+  codeconnection_arn = data.aws_codestarconnections_connection.this.arn
+  src_repo           = local.repo
+  src_branch         = ""
+  buildspec          = "platsec_ci_terraform_plan.yaml"
 
   vpc_config = module.networking.vpc_config
   agent_security_group_ids = {
