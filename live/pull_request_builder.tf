@@ -2,6 +2,7 @@ module "platsec_terraform_pr_builder" {
 
   source = "../modules//pull_request_builder"
 
+  codeconnection_arn    = data.aws_codestarconnections_connection.this.arn
   src_repo              = "platsec-terraform"
   buildspec             = "platsec_terraform_plan.yaml"
   docker_required       = true
@@ -23,6 +24,7 @@ module "central_audit_pr_builder" {
 
   source = "../modules//pull_request_builder"
 
+  codeconnection_arn    = data.aws_codestarconnections_connection.this.arn
   src_repo              = "central-audit-terraform"
   buildspec             = "central_audit_terraform_plan.yaml"
   docker_required       = true
@@ -43,6 +45,7 @@ module "platsec_catalogue_pr_builder" {
 
   source = "../modules//pull_request_builder"
 
+  codeconnection_arn    = data.aws_codestarconnections_connection.this.arn
   src_repo              = "platsec-catalogue"
   buildspec             = "platsec-catalogue.yaml"
   docker_required       = true
@@ -60,6 +63,7 @@ module "monitor_aws_iam_pr_builder" {
 
   source = "../modules//pull_request_builder"
 
+  codeconnection_arn    = data.aws_codestarconnections_connection.this.arn
   src_repo              = "monitor-aws-iam"
   buildspec             = "monitor-aws-iam.yaml"
   docker_required       = true

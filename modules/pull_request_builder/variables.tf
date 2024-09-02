@@ -63,3 +63,8 @@ variable "access_logs_bucket_id" {
 variable "buildspec" {
   type = string
 }
+
+variable "codeconnection_arn" {
+  type        = string
+  description = "The codestar connection ARN."
+}
