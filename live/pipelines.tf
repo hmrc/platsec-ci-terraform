@@ -346,3 +346,24 @@ module "central_account_terraform_pipeline" {
     },
   ]
 }
+
+module "aws_users_manager" {
+  source = "../modules//lambda_docker_pipeline"
+
+  pipeline_name = "aws-users-manager"
+  src_repo      = "aws-users-manager"
+
+  lambda_function_name = "aws-users-manager-lambda"
+  ecr_url              = module.aws_users_manager_repository.url
+  ecr_arn              = module.aws_users_manager_repository.arn
+
+  accounts                 = local.accounts
+  codeconnection_arn       = data.aws_codestarconnections_connection.this.arn
+  github_token             = data.aws_secretsmanager_secret_version.github_token.secret_string
+  sns_topic_arn            = local.ci_alerts_sns_topic_arn
+  access_log_bucket_id     = local.access_log_bucket_id
+  admin_roles              = local.tf_admin_roles
+  vpc_config               = local.vpc_config
+  agent_security_group_ids = local.agent_security_group_ids
+}
+
