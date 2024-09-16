@@ -5,6 +5,13 @@ module "bitwarden_manager_repository" {
   allow_read_account_id_list = local.all_platsec_account_ids
 }
 
+module "aws_users_manager_repository" {
+  source = "../modules//ecr_repository"
+
+  repository_name            = "aws-users-manager"
+  allow_read_account_id_list = local.all_platsec_account_ids
+}
+
 module "aws_scanner_repository" {
   source = "../modules//ecr_repository"
 
