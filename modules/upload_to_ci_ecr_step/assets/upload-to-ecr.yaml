@@ -15,3 +15,4 @@ phases:
       - docker load -i docker.tar
       - docker tag container-release:local "${ECR_URL}:${IMAGE_TAG}"
       - docker push "${ECR_URL}:${IMAGE_TAG}"
+      - docker push "${ECR_URL}:latest
