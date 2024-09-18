@@ -51,6 +51,30 @@ resource "aws_codepipeline" "codepipeline" {
   }
 
   stage {
+    name = "apply-sandbox"
+
+    action {
+      name            = "apply-sandbox"
+      category        = "Build"
+      owner           = "AWS"
+      provider        = "CodeBuild"
+      input_artifacts = ["source_output"]
+      version         = "1"
+
+      configuration = {
+        ProjectName = module.apply_step["sandbox"].name
+        EnvironmentVariables = jsonencode([
+          {
+            name  = "COMMIT_ID"
+            value = "#{SourceVariables.CommitId}"
+            type  = "PLAINTEXT"
+          }
+        ])
+      }
+    }
+  }
+
+  stage {
     name = "apply-development"
 
     action {
