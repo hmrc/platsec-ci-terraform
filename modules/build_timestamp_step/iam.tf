@@ -17,7 +17,7 @@ resource "aws_iam_role" "codebuild" {
   assume_role_policy  = data.aws_iam_policy_document.codebuild_assume_role.json
   managed_policy_arns = var.policy_arns
 
-  tags = {
+  tags = merge({
     Step = var.step_name
-  }
+  }, var.tags)
 }

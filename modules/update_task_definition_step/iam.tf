@@ -27,9 +27,9 @@ resource "aws_iam_policy" "deploy" {
     create_before_destroy = true
   }
 
-  tags = {
+  tags = merge({
     Step = var.step_name
-  }
+  }, var.tags)
 }
 
 resource "aws_iam_role" "deploy" {
@@ -41,7 +41,7 @@ resource "aws_iam_role" "deploy" {
     aws_iam_policy.deploy.arn,
   ]
 
-  tags = {
+  tags = merge({
     Step = var.step_name
-  }
+  }, var.tags)
 }

@@ -27,4 +27,6 @@ resource "aws_codebuild_project" "deploy" {
     type      = "CODEPIPELINE"
     buildspec = file("${path.module}/assets/build-timestamp.yaml")
   }
+
+  tags = var.tags
 }

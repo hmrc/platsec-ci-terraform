@@ -41,3 +41,9 @@ variable "deployment_role_arn" {
     error_message = "Must be role arn."
   }
 }
+
+variable "tags" {
+  type        = map(string)
+  description = "A map of key, value pairs to be added to resources as tags"
+  default     = {}
+}

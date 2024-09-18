@@ -9,6 +9,7 @@ resource "aws_codebuild_project" "deploy" {
     subnets            = var.vpc_config.private_subnet_ids
     vpc_id             = var.vpc_config.vpc_id
   }
+
   environment {
     compute_type                = "BUILD_GENERAL1_SMALL"
     image                       = "aws/codebuild/standard:7.0"
@@ -20,18 +21,22 @@ resource "aws_codebuild_project" "deploy" {
       name  = "ECR_URL"
       value = var.ecr_url
     }
+
     environment_variable {
       name  = "TASK_NAME"
       value = var.task_name
     }
+
     environment_variable {
       name  = "SERVICE_NAME"
       value = var.service_name
     }
+
     environment_variable {
       name  = "CLUSTER_NAME"
       value = var.cluster_name
     }
+
     environment_variable {
       name  = "DEPLOYMENT_ROLE_ARN"
       value = var.deployment_role_arn
@@ -53,4 +58,6 @@ resource "aws_codebuild_project" "deploy" {
     type      = "CODEPIPELINE"
     buildspec = file("${path.module}/assets/buildspec-deploy.yaml")
   }
+
+  tags = var.tags
 }

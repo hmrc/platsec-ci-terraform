@@ -51,3 +51,9 @@ variable "step_assume_roles" {
 variable "timeout_in_minutes" {
   default = 10
 }
+
+variable "tags" {
+  type        = map(string)
+  description = "A map of key, value pairs to be added to resources as tags"
+  default     = {}
+}

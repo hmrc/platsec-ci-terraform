@@ -13,9 +13,10 @@ module "codepipeline_bucket" {
   data_sensitivity = "low"
 
   log_bucket_id = var.access_log_bucket_id
-  tags = {
+
+  tags = merge({
     Pipeline = local.pipeline_name
-  }
+  }, var.tags)
 }
 
 resource "aws_s3_bucket_policy" "bucket" {

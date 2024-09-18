@@ -4,10 +4,6 @@ variable "vpc_id" {}
 
 variable "service_name" {}
 
-variable "tags" {
-  type = map(string)
-}
-
 variable "subnet_ids" {
   type = list(string)
 }
@@ -32,4 +28,10 @@ variable "create_wildcard" {
   description = "Flag for Wildcard DNS creation - Set to create a wildcard entry in the Route53 zone. Requires create_dns to be true"
   type        = bool
   default     = false
+}
+
+variable "tags" {
+  type        = map(string)
+  description = "A map of key, value pairs to be added to resources as tags"
+  default     = {}
 }

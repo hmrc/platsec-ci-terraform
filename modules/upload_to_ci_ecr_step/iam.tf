@@ -52,7 +52,7 @@ resource "aws_iam_role" "deploy" {
     aws_iam_policy.deploy.arn,
   ]
 
-  tags = {
+  tags = merge({
     Step = var.step_name
-  }
+  }, var.tags)
 }

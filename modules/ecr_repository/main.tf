@@ -1,6 +1,8 @@
 resource "aws_ecr_repository" "ecr_repository" {
   name                 = var.repository_name
   image_tag_mutability = "IMMUTABLE"
+
+  tags = var.tags
 }
 
 resource "aws_ecr_lifecycle_policy" "ecr_lifecycle_rule" {

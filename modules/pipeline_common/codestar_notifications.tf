@@ -10,4 +10,6 @@ resource "aws_codestarnotifications_notification_rule" "failed_codepipeline" {
   target {
     address = var.sns_topic_arn
   }
+
+  tags = var.tags
 }

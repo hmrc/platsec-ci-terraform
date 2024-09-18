@@ -69,4 +69,6 @@ resource "aws_codebuild_project" "build" {
   source {
     type = "CODEPIPELINE"
   }
+
+  tags = var.tags
 }

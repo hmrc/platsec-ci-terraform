@@ -88,9 +88,9 @@ resource "aws_iam_policy" "codepipeline_policy" {
     create_before_destroy = true
   }
 
-  tags = {
+  tags = merge({
     Pipeline = local.pipeline_name
-  }
+  }, var.tags)
 }
 
 resource "aws_iam_role" "codepipeline_role" {
@@ -99,9 +99,9 @@ resource "aws_iam_role" "codepipeline_role" {
   assume_role_policy  = data.aws_iam_policy_document.codepipeline_assume_role.json
   managed_policy_arns = [aws_iam_policy.codepipeline_policy.arn]
 
-  tags = {
+  tags = merge({
     Pipeline = local.pipeline_name
-  }
+  }, var.tags)
 }
 
 data "aws_iam_policy_document" "codebuild_assume_role" {
@@ -217,9 +217,9 @@ resource "aws_iam_policy" "build_core" {
     create_before_destroy = true
   }
 
-  tags = {
+  tags = merge({
     Pipeline = local.pipeline_name
-  }
+  }, var.tags)
 }
 
 data "aws_iam_policy_document" "get_artifactory_credentials" {
@@ -248,9 +248,9 @@ resource "aws_iam_policy" "get_artifactory_credentials" {
     create_before_destroy = true
   }
 
-  tags = {
+  tags = merge({
     Pipeline = local.pipeline_name
-  }
+  }, var.tags)
 }
 
 resource "aws_iam_policy" "store_artifacts" {
@@ -262,7 +262,7 @@ resource "aws_iam_policy" "store_artifacts" {
     create_before_destroy = true
   }
 
-  tags = {
+  tags = merge({
     Pipeline = local.pipeline_name
-  }
+  }, var.tags)
 }

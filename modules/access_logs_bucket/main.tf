@@ -18,14 +18,13 @@ resource "aws_s3_bucket" "access_logs" {
 
   force_destroy = false
 
-  tags = {
+  tags = merge({
     Name                        = var.bucket_name
     allow_delete                = "false"
     data_sensitivity            = "low"
     data_expiry                 = "90-days"
     ignore_access_logging_check = true
-  }
-
+  }, var.tags)
 }
 
 resource "aws_s3_bucket_versioning" "access_logs" {

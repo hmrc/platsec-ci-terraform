@@ -9,12 +9,16 @@ module "build_artifact_step" {
   agent_security_group_ids         = values(var.agent_security_group_ids)
   policy_arns                      = [module.common.policy_build_core_arn, module.common.policy_get_artifactory_credentials_arn]
   artifactory_secret_manager_names = module.common.artifactory_secret_manager_names
+
+  tags = var.tags
 }
 
 module "build_timestamp_step" {
   source      = "../build_timestamp_step"
   step_name   = "${module.common.pipeline_name}-timestamp"
   policy_arns = [module.common.policy_build_core_arn]
+
+  tags = var.tags
 }
 
 module "upload_to_ecr" {
@@ -27,6 +31,8 @@ module "upload_to_ecr" {
 
   vpc_config               = var.vpc_config
   agent_security_group_ids = [var.agent_security_group_ids.service_endpoints]
+
+  tags = var.tags
 }
 
 module "docker_deployment_sandbox" {
@@ -40,4 +46,6 @@ module "docker_deployment_sandbox" {
 
   vpc_config               = var.vpc_config
   agent_security_group_ids = [var.agent_security_group_ids.service_endpoints]
+
+  tags = var.tags
 }

@@ -25,3 +25,9 @@ variable "repository_name" {
 variable "use_release_version_explicitly" {
   default = true
 }
+
+variable "tags" {
+  type        = map(string)
+  description = "A map of key, value pairs to be added to resources as tags"
+  default     = {}
+}

@@ -14,9 +14,9 @@ module "artifactory_endpoint_connector" {
     "pythonpips",
   ]
   top_level_domain = "tax.service.gov.uk"
-  tags = {
+  tags = merge({
     Purpose : "${local.vpc_name}-artifactory-endpoint-connector"
-  }
+  }, var.tags)
 }
 
 # CloudWatch Logs to be able to see agent logs in CodeBuild
@@ -31,9 +31,9 @@ resource "aws_vpc_endpoint" "cloudwatch_logs" {
   subnet_ids          = module.vpc.private_subnets
   private_dns_enabled = true
 
-  tags = {
+  tags = merge({
     Name : "${local.vpc_name}-logs"
-  }
+  }, var.tags)
 }
 
 # ECR for ECR Native API
@@ -48,9 +48,9 @@ resource "aws_vpc_endpoint" "ecr_api" {
   subnet_ids          = module.vpc.private_subnets
   private_dns_enabled = true
 
-  tags = {
+  tags = merge({
     Name : "${local.vpc_name}-ecr-api"
-  }
+  }, var.tags)
 }
 
 resource "aws_vpc_endpoint" "secretsmanager" {
@@ -64,9 +64,9 @@ resource "aws_vpc_endpoint" "secretsmanager" {
   subnet_ids          = module.vpc.private_subnets
   private_dns_enabled = true
 
-  tags = {
+  tags = merge({
     Name : "${local.vpc_name}-secretsmanager"
-  }
+  }, var.tags)
 }
 
 
@@ -82,9 +82,9 @@ resource "aws_vpc_endpoint" "ecr_dkr" {
   subnet_ids          = module.vpc.private_subnets
   private_dns_enabled = true
 
-  tags = {
+  tags = merge({
     Name : "${local.vpc_name}-ecr-dkr"
-  }
+  }, var.tags)
 }
 
 resource "aws_vpc_endpoint" "lambda" {
@@ -98,9 +98,9 @@ resource "aws_vpc_endpoint" "lambda" {
   subnet_ids          = module.vpc.private_subnets
   private_dns_enabled = true
 
-  tags = {
+  tags = merge({
     Name : "${local.vpc_name}-lambda"
-  }
+  }, var.tags)
 }
 
 resource "aws_vpc_endpoint" "ecs" {
@@ -114,9 +114,9 @@ resource "aws_vpc_endpoint" "ecs" {
   subnet_ids          = module.vpc.private_subnets
   private_dns_enabled = true
 
-  tags = {
+  tags = merge({
     Name : "${local.vpc_name}-ecs"
-  }
+  }, var.tags)
 }
 
 # S3 for downloading source code
@@ -124,9 +124,9 @@ resource "aws_vpc_endpoint" "s3" {
   vpc_id       = module.vpc.vpc_id
   service_name = "com.amazonaws.${data.aws_region.current.name}.s3"
 
-  tags = {
+  tags = merge({
     Name : "${local.vpc_name}-s3"
-  }
+  }, var.tags)
 }
 
 resource "aws_vpc_endpoint" "sts" {
@@ -140,9 +140,9 @@ resource "aws_vpc_endpoint" "sts" {
   subnet_ids          = module.vpc.private_subnets
   private_dns_enabled = true
 
-  tags = {
+  tags = merge({
     Name : "${local.vpc_name}-sts"
-  }
+  }, var.tags)
 }
 
 resource "aws_vpc_endpoint" "execute_api" {
@@ -156,7 +156,7 @@ resource "aws_vpc_endpoint" "execute_api" {
   subnet_ids          = module.vpc.private_subnets
   private_dns_enabled = true
 
-  tags = {
+  tags = merge({
     Name : "${local.vpc_name}-execute-api"
-  }
+  }, var.tags)
 }

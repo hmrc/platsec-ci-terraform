@@ -18,4 +18,6 @@ module "apply_step" {
 
   vpc_config               = var.vpc_config
   agent_security_group_ids = values(var.agent_security_group_ids)
+
+  tags = var.tags
 }

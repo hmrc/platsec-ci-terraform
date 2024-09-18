@@ -40,7 +40,6 @@ resource "aws_codebuild_project" "build" {
         value = environment_variable.value.value
       }
     }
-
   }
 
   logs_config {
@@ -53,8 +52,11 @@ resource "aws_codebuild_project" "build" {
   artifacts {
     type = "CODEPIPELINE"
   }
+
   source {
     type      = "CODEPIPELINE"
     buildspec = var.build_spec_contents
   }
+
+  tags = var.tags
 }

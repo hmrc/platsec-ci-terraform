@@ -48,4 +48,6 @@ resource "aws_codebuild_project" "git_tag" {
     type      = "CODEPIPELINE"
     buildspec = file("${path.module}/assets/git-tag.yaml")
   }
+
+  tags = var.tags
 }

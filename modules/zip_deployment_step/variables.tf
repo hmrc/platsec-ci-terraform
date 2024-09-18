@@ -42,3 +42,9 @@ variable "lambda_deployment_package_name" {
   type    = string
   default = "lambda.zip"
 }
+
+variable "tags" {
+  type        = map(string)
+  description = "A map of key, value pairs to be added to resources as tags"
+  default     = {}
+}

@@ -1,6 +1,8 @@
 resource "aws_sns_topic" "sns_topic" {
   name         = var.topic_name
   display_name = var.topic_name
+
+  tags = var.tags
 }
 
 resource "aws_sns_topic_policy" "sns_topic_policy" {

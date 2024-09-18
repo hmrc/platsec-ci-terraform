@@ -9,12 +9,16 @@ module "build_artifact_step" {
   vpc_config                       = var.vpc_config
   agent_security_group_ids         = values(var.agent_security_group_ids)
   artifactory_secret_manager_names = module.common.artifactory_secret_manager_names
+
+  tags = var.tags
 }
 
 module "build_timestamp_step" {
   source      = "../build_timestamp_step"
   step_name   = "${module.common.pipeline_name}-timestamp"
   policy_arns = [module.common.policy_build_core_arn]
+
+  tags = var.tags
 }
 
 module "zip_upload_artifactory_step" {
@@ -26,6 +30,8 @@ module "zip_upload_artifactory_step" {
   artifactory_secret_manager_names = module.common.artifactory_secret_manager_names
   vpc_config                       = var.vpc_config
   agent_security_group_ids         = [var.agent_security_group_ids.service_endpoints]
+
+  tags = var.tags
 }
 
 module "zip-deployment-step-development" {
@@ -39,6 +45,8 @@ module "zip-deployment-step-development" {
 
   vpc_config               = var.vpc_config
   agent_security_group_ids = [var.agent_security_group_ids.service_endpoints]
+
+  tags = var.tags
 }
 
 module "zip-deployment-step-production" {
@@ -52,4 +60,6 @@ module "zip-deployment-step-production" {
 
   vpc_config               = var.vpc_config
   agent_security_group_ids = [var.agent_security_group_ids.service_endpoints]
+
+  tags = var.tags
 }
