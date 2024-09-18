@@ -9,6 +9,7 @@ resource "aws_codebuild_project" "git_tag" {
     subnets            = var.vpc_config.private_subnet_ids
     vpc_id             = var.vpc_config.vpc_id
   }
+
   environment {
     compute_type                = "BUILD_GENERAL1_SMALL"
     image                       = "aws/codebuild/standard:7.0"
@@ -21,11 +22,13 @@ resource "aws_codebuild_project" "git_tag" {
       name  = "REPOSITORY_NAME"
       value = var.repository_name
     }
+
     environment_variable {
       type  = "PLAINTEXT"
       name  = "USE_RELEASE_VERSION_EXPLICITLY"
       value = var.use_release_version_explicitly ? "true" : "false"
     }
+    
     environment_variable {
       type  = "PLAINTEXT"
       name  = "API_ENDPOINT"
