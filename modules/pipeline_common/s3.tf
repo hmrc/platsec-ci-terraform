@@ -4,7 +4,7 @@ locals {
 
 module "codepipeline_bucket" {
   source         = "hmrc/s3-bucket-core/aws"
-  version        = "2.0.4"
+  version        = "2.0.5"
   bucket_name    = local.bucket_name
   force_destroy  = true
   kms_key_policy = null
