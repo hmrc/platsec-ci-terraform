@@ -27,6 +27,8 @@ resource "aws_codepipeline_webhook" "default" {
   lifecycle {
     ignore_changes = [authentication_configuration]
   }
+
+  tags = var.tags
 }
 
 data "github_repository" "this" {

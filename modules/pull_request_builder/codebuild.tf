@@ -67,6 +67,8 @@ resource "aws_codebuild_project" "build" {
   }
 
   source_version = var.src_branch
+
+  tags = var.tags
 }
 
 resource "aws_codebuild_webhook" "build" {

@@ -33,3 +33,9 @@ variable "ecr_arn" {
     error_message = "Arn must be given and should start with 'arn:aws:'."
   }
 }
+
+variable "tags" {
+  type        = map(string)
+  description = "A map of key, value pairs to be added to resources as tags"
+  default     = {}
+}

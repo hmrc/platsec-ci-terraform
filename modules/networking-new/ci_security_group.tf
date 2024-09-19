@@ -7,6 +7,8 @@ resource "aws_security_group" "aws_interface_endpoints" {
     to_port     = 0
     cidr_blocks = ["0.0.0.0/0"]
   }
+
+  tags = var.tags
 }
 
 resource "aws_security_group" "ci_agent_to_internet" {
@@ -26,6 +28,8 @@ resource "aws_security_group" "ci_agent_to_internet" {
     to_port     = 443
     cidr_blocks = ["0.0.0.0/0"]
   }
+
+  tags = var.tags
 }
 
 resource "aws_security_group" "ci_agent_to_endpoints" {
@@ -55,6 +59,8 @@ resource "aws_security_group" "ci_agent_to_endpoints" {
     to_port         = 443
     security_groups = [aws_security_group.aws_interface_endpoints.id]
   }
+
+  tags = var.tags
 }
 
 resource "aws_security_group_rule" "ci_agents_to_artifactory" {

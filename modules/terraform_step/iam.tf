@@ -25,9 +25,9 @@ resource "aws_iam_role" "build" {
   assume_role_policy  = data.aws_iam_policy_document.codebuild_assume_role.json
   managed_policy_arns = local.managed_policy_arns
 
-  tags = {
+  tags = merge({
     Step = var.step_name
-  }
+  }, var.tags)
 }
 
 data "aws_iam_policy_document" "build" {
@@ -52,9 +52,9 @@ resource "aws_iam_policy" "build" {
     create_before_destroy = true
   }
 
-  tags = {
+  tags = merge({
     Step = var.step_name
-  }
+  }, var.tags)
 }
 
 data "aws_iam_policy_document" "step_assume_roles" {
@@ -72,6 +72,8 @@ resource "aws_iam_policy" "step_assume_roles" {
   name_prefix = substr(var.step_name, 0, 32)
   policy      = data.aws_iam_policy_document.step_assume_roles[0].json
   description = "${var.step_name} step assume roles"
+
+  tags = var.tags
 }
 
 data "aws_iam_policy_document" "build_core" {
@@ -130,7 +132,7 @@ resource "aws_iam_policy" "build_core" {
     create_before_destroy = true
   }
 
-  tags = {
+  tags = merge({
     codebuild_project = var.step_name
-  }
+  }, var.tags)
 }

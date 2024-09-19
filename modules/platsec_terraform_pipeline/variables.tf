@@ -70,3 +70,9 @@ variable "codeconnection_arn" {
   type        = string
   description = "The codestar connection ARN."
 }
+
+variable "tags" {
+  type        = map(string)
+  description = "A map of key, value pairs to be added to resources as tags"
+  default     = {}
+}

@@ -9,6 +9,7 @@ resource "aws_codebuild_project" "upload" {
     subnets            = var.vpc_config.private_subnet_ids
     vpc_id             = var.vpc_config.vpc_id
   }
+
   environment {
     compute_type                = "BUILD_GENERAL1_SMALL"
     image                       = "aws/codebuild/standard:7.0"
@@ -19,11 +20,13 @@ resource "aws_codebuild_project" "upload" {
       name  = "ARTEFACT_URL"
       value = "https://artefacts.tax.service.gov.uk/artifactory/platsec-lambda-packages"
     }
+
     environment_variable {
       type  = "SECRETS_MANAGER"
       name  = "ARTIFACTORY_TOKEN"
       value = var.artifactory_secret_manager_names.token
     }
+
     environment_variable {
       name  = "PACKAGE_NAME"
       value = var.package_name
@@ -45,4 +48,6 @@ resource "aws_codebuild_project" "upload" {
     type      = "CODEPIPELINE"
     buildspec = file("${path.module}/assets/upload_artifactory.yaml")
   }
+
+  tags = var.tags
 }

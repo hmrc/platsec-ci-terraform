@@ -3,8 +3,11 @@ provider "aws" {
 
   default_tags {
     tags = {
-      "team:product" : "platsec:${local.repo}"
-      "Git_Project" : "${local.repo}"
+      repository  = "${local.repo}"
+      team        = "platsec"
+      region      = "eu-west-2"
+      environment = "bootstrap"
+      service     = "ci"
     }
   }
 }
@@ -18,4 +21,14 @@ provider "aws" {
 provider "aws" {
   alias  = "us_east_1"
   region = "us-east-1"
+
+  default_tags {
+    tags = {
+      repository  = "${local.repo}"
+      team        = "platsec"
+      region      = "us-east-1"
+      environment = "bootstrap"
+      service     = "ci"
+    }
+  }
 }

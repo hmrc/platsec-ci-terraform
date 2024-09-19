@@ -13,4 +13,5 @@ module "common" {
   sns_topic_arn        = var.sns_topic_arn
   access_log_bucket_id = var.access_log_bucket_id
   admin_roles          = var.admin_roles
+  tags                 = var.tags
 }

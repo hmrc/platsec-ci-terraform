@@ -18,6 +18,10 @@ module "platsec_terraform_pr_builder" {
 
   vpc_config               = local.vpc_config
   agent_security_group_ids = local.agent_security_group_ids
+
+  tags = {
+    service = "platsec_terraform_pr_builder"
+  }
 }
 
 module "central_audit_pr_builder" {
@@ -39,6 +43,10 @@ module "central_audit_pr_builder" {
 
   vpc_config               = local.vpc_config
   agent_security_group_ids = local.agent_security_group_ids
+
+  tags = {
+    service = "central_audit_pr_builder"
+  }
 }
 
 module "platsec_catalogue_pr_builder" {
@@ -57,6 +65,10 @@ module "platsec_catalogue_pr_builder" {
 
   vpc_config               = local.vpc_config
   agent_security_group_ids = local.agent_security_group_ids
+
+  tags = {
+    service = "platsec_catalogue_pr_build"
+  }
 }
 
 module "monitor_aws_iam_pr_builder" {
@@ -75,6 +87,10 @@ module "monitor_aws_iam_pr_builder" {
 
   vpc_config               = local.vpc_config
   agent_security_group_ids = local.agent_security_group_ids
+
+  tags = {
+    service = "monitor_aws_iam_pr_builder"
+  }
 }
 
 module "aws_users_manager_pr_builder" {
@@ -93,4 +109,8 @@ module "aws_users_manager_pr_builder" {
 
   vpc_config               = local.vpc_config
   agent_security_group_ids = local.agent_security_group_ids
+
+  tags = {
+    service = "aws_users_manager_pr_builder"
+  }
 }

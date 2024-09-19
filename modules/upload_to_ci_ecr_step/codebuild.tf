@@ -9,6 +9,7 @@ resource "aws_codebuild_project" "deploy" {
     subnets            = var.vpc_config.private_subnet_ids
     vpc_id             = var.vpc_config.vpc_id
   }
+
   environment {
     compute_type                = "BUILD_GENERAL1_SMALL"
     image                       = "aws/codebuild/standard:7.0"
@@ -37,4 +38,6 @@ resource "aws_codebuild_project" "deploy" {
     type      = "CODEPIPELINE"
     buildspec = file("${path.module}/assets/upload-to-ecr.yaml")
   }
+
+  tags = var.tags
 }

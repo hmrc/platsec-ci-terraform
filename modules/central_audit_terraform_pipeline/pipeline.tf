@@ -78,4 +78,6 @@ resource "aws_codepipeline" "codepipeline" {
       }
     }
   }
+
+  tags = var.tags
 }

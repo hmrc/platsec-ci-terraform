@@ -47,3 +47,9 @@ variable "codeconnection_arn" {
   description = "(Optional) The aws_codestarconnections_connection ARN."
   default     = ""
 }
+
+variable "tags" {
+  type        = map(string)
+  description = "A map of key, value pairs to be added to resources as tags"
+  default     = {}
+}

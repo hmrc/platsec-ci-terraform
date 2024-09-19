@@ -6,6 +6,7 @@ provider "aws" {
       team        = "platsec"
       region      = "eu-west-2"
       environment = "bootstrap"
+      service     = "bootstrap"
     }
   }
 }

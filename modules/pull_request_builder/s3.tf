@@ -14,9 +14,9 @@ module "pr_builder_bucket" {
   data_sensitivity = "low"
 
   log_bucket_id = local.access_logs_bucket_id
-  tags = {
+  tags = merge({
     codebuild_project = var.project_name
-  }
+  }, var.tags)
 }
 
 resource "aws_s3_bucket_policy" "bucket" {

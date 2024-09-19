@@ -29,3 +29,9 @@ variable "package_name" {
   type        = string
   description = "Name of package used for ZIP, usually name of the repository."
 }
+
+variable "tags" {
+  type        = map(string)
+  description = "A map of key, value pairs to be added to resources as tags"
+  default     = {}
+}

@@ -13,3 +13,9 @@ variable "subscriber_account_numbers" {
   description = "AWS account number of subscribers"
   type        = list(string)
 }
+
+variable "tags" {
+  type        = map(string)
+  description = "A map of key, value pairs to be added to resources as tags"
+  default     = {}
+}

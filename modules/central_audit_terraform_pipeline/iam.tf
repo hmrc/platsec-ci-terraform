@@ -26,7 +26,7 @@ resource "aws_iam_policy" "secretsmanager" {
     create_before_destroy = true
   }
 
-  tags = {
+  tags = merge({
     Pipeline = var.pipeline_name
-  }
+  }, var.tags)
 }

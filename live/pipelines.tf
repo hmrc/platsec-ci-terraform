@@ -17,6 +17,10 @@ module "aws_scanner" {
   admin_roles              = local.tf_admin_roles
   vpc_config               = local.vpc_config
   agent_security_group_ids = local.agent_security_group_ids
+
+  tags = {
+    service = "aws_scanner"
+  }
 }
 
 module "compliance_alerting" {
@@ -39,6 +43,10 @@ module "compliance_alerting" {
   admin_roles              = local.tf_admin_roles
   vpc_config               = local.vpc_config
   agent_security_group_ids = local.agent_security_group_ids
+
+  tags = {
+    service = "compliance_alerting"
+  }
 }
 
 module "bitwarden_manager" {
@@ -59,6 +67,10 @@ module "bitwarden_manager" {
   admin_roles              = local.tf_admin_roles
   vpc_config               = local.vpc_config
   agent_security_group_ids = local.agent_security_group_ids
+
+  tags = {
+    service = "bitwarden_manager"
+  }
 }
 
 module "cloudtrail_monitoring" {
@@ -79,6 +91,10 @@ module "cloudtrail_monitoring" {
   admin_roles              = local.tf_admin_roles
   vpc_config               = local.vpc_config
   agent_security_group_ids = local.agent_security_group_ids
+
+  tags = {
+    service = "cloudtrail_monitoring"
+  }
 }
 
 module "github_scanner" {
@@ -97,6 +113,10 @@ module "github_scanner" {
   admin_roles              = local.tf_admin_roles
   vpc_config               = local.vpc_config
   agent_security_group_ids = local.agent_security_group_ids
+
+  tags = {
+    service = "github_scanner"
+  }
 }
 
 module "github_admin_report" {
@@ -118,6 +138,10 @@ module "github_admin_report" {
   admin_roles              = local.tf_admin_roles
   vpc_config               = local.vpc_config
   agent_security_group_ids = local.agent_security_group_ids
+
+  tags = {
+    service = "github_admin_report"
+  }
 }
 
 module "github_webhook_report" {
@@ -139,6 +163,10 @@ module "github_webhook_report" {
   admin_roles              = local.tf_admin_roles
   vpc_config               = local.vpc_config
   agent_security_group_ids = local.agent_security_group_ids
+
+  tags = {
+    service = "github_webhook_report"
+  }
 }
 
 module "monitor_aws_iam" {
@@ -160,6 +188,10 @@ module "monitor_aws_iam" {
   admin_roles              = local.tf_admin_roles
   vpc_config               = local.vpc_config
   agent_security_group_ids = local.agent_security_group_ids
+
+  tags = {
+    service = "monitor_aws_iam"
+  }
 }
 
 module "vault_policy_applier_corretto" {
@@ -179,6 +211,10 @@ module "vault_policy_applier_corretto" {
   admin_roles              = local.tf_admin_roles
   vpc_config               = local.vpc_config
   agent_security_group_ids = local.agent_security_group_ids
+
+  tags = {
+    service = "vault_policy_applier_corretto"
+  }
 }
 
 module "security_reports_frontend" {
@@ -202,6 +238,10 @@ module "security_reports_frontend" {
   admin_roles              = local.tf_admin_roles
   vpc_config               = local.vpc_config
   agent_security_group_ids = local.agent_security_group_ids
+
+  tags = {
+    service = "security_reports_frontend"
+  }
 }
 
 module "sandbox_aws_nuke" {
@@ -223,6 +263,10 @@ module "sandbox_aws_nuke" {
   admin_roles              = local.tf_admin_roles
   vpc_config               = local.vpc_config
   agent_security_group_ids = local.agent_security_group_ids
+
+  tags = {
+    service = "sandbox_aws_nuke"
+  }
 }
 
 module "sandbox_compliance_alerting" {
@@ -244,6 +288,10 @@ module "sandbox_compliance_alerting" {
   admin_roles              = local.tf_admin_roles
   vpc_config               = local.vpc_config
   agent_security_group_ids = local.agent_security_group_ids
+
+  tags = {
+    service = "sandbox_compliance_alerting"
+  }
 }
 
 module "tf-s3-bucket-core" {
@@ -261,6 +309,10 @@ module "tf-s3-bucket-core" {
   admin_roles              = local.tf_admin_roles
   vpc_config               = local.vpc_config
   agent_security_group_ids = local.agent_security_group_ids
+
+  tags = {
+    service = "tf-s3-bucket-core"
+  }
 }
 
 module "tf-s3-bucket-standard" {
@@ -280,6 +332,10 @@ module "tf-s3-bucket-standard" {
   admin_roles              = local.tf_admin_roles
   vpc_config               = local.vpc_config
   agent_security_group_ids = local.agent_security_group_ids
+
+  tags = {
+    service = "tf-s3-bucket-standard"
+  }
 }
 
 module "platsec-terraform-pipeline" {
@@ -312,6 +368,9 @@ module "platsec-terraform-pipeline" {
     },
   ]
 
+  tags = {
+    service = "platsec-terraform-pipeline"
+  }
 }
 
 moved {
@@ -345,6 +404,10 @@ module "central_account_terraform_pipeline" {
       }
     },
   ]
+
+  tags = {
+    service = "central_account_terraform_pipeline"
+  }
 }
 
 module "aws_users_manager" {
@@ -365,5 +428,9 @@ module "aws_users_manager" {
   admin_roles              = local.tf_admin_roles
   vpc_config               = local.vpc_config
   agent_security_group_ids = local.agent_security_group_ids
+
+  tags = {
+    service = "aws_users_manager"
+  }
 }
 

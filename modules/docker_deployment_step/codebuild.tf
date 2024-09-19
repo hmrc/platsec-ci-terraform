@@ -45,4 +45,6 @@ resource "aws_codebuild_project" "deploy" {
     type      = "CODEPIPELINE"
     buildspec = file("${path.module}/assets/buildspec-deploy.yaml")
   }
+
+  tags = var.tags
 }
