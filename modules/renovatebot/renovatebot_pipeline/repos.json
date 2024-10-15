@@ -1,0 +1,8 @@
+{
+  "repositories": [
+    {
+      "org": "hmrc",
+      "repo": "platsec-ci-terraform"
+    }
+  ]
+}

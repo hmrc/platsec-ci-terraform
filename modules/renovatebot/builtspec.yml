@@ -1,0 +1,28 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - echo "Installing dependencies..."
+      - curl -sL https://deb.nodesource.com/setup_18.x | bash -
+      - apt-get install -y nodejs jq
+      - npm install -g renovate
+  build:
+    commands:
+      - echo "Reading repositories from repos.json"
+      - |
+        # Loop through repositories and run Renovate
+        cat repos.json | jq -r '.repositories[] | "\(.org)/\(.repo)"' | while read repo; do
+          echo "Running Renovate for $repo"
+          renovate --platform github --token $GITHUB_TOKEN --repository $repo
+        done
+  post_build:
+    commands:
+      - echo "Renovate process completed for all repositories."
+      - |
+        # Notify via Slack
+        if [ $? -eq 0 ]; then
+          curl -X POST -H 'Content-type: application/json' --data '{"text":"Renovate ran successfully!"}' $SLACK_WEBHOOK_URL
+        else
+          curl -X POST -H 'Content-type: application/json' --data '{"text":"Renovate failed."}' $SLACK_WEBHOOK_URL
+        fi
