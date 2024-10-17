@@ -2,7 +2,8 @@
   "repositories": [
     {
       "org": "hmrc",
-      "repo": "platsec-ci-terraform"
+      "repo": "platsec-ci-terraform",
+      "branch": "main"
     }
   ]
 }

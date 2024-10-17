@@ -12,17 +12,24 @@ phases:
       - echo "Reading repositories from repos.json"
       - |
         # Loop through repositories and run Renovate
+        success=true
         cat repos.json | jq -r '.repositories[] | "\(.org)/\(.repo)"' | while read repo; do
           echo "Running Renovate for $repo"
           renovate --platform github --token $GITHUB_TOKEN --repository $repo
+          if [ $? -ne 0 ]; then
+            echo "Renovate failed for $repo"
+            success=false
+          fi
         done
+      - if [ "$success" = false ]; then exit 1; fi
   post_build:
     commands:
       - echo "Renovate process completed for all repositories."
       - |
-        # Notify via Slack
-        if [ $? -eq 0 ]; then
-          curl -X POST -H 'Content-type: application/json' --data '{"text":"Renovate ran successfully!"}' $SLACK_WEBHOOK_URL
+        # Indicate whether Renovate succeeded or failed
+        if [ "$success" = true ]; then
+          echo "All repositories updated successfully!"
         else
-          curl -X POST -H 'Content-type: application/json' --data '{"text":"Renovate failed."}' $SLACK_WEBHOOK_URL
+          echo "One or more repositories failed to update."
         fi
+
