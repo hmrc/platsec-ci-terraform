@@ -41,3 +41,16 @@ resource "aws_codebuild_project" "this" {
 
   tags = var.tags
 }
+
+resource "aws_cloudwatch_event_rule" "this" {
+  name                = "run_${local.name}_pipeline_at_interval"
+  description         = "Runs ${local.name} CodeBuild Job At Defined Interval"
+  schedule_expression = "cron(0 5 * * SUN *)"
+}
+
+resource "aws_cloudwatch_event_target" "this" {
+  arn       = aws_codebuild_project.this.arn
+  rule      = aws_cloudwatch_event_rule.this.name
+  target_id = "run_${local.name}_pipeline"
+  role_arn  = aws_iam_role.schedule_role.arn
+}
