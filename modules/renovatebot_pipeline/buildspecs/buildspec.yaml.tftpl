@@ -13,8 +13,8 @@ phases:
       - GITHUB_COM_TOKEN=$(echo url=https://github.com/${primary_repository}.git | git credential fill | grep  -oP 'username=\K[a-zA-Z0-9\-_]+')
   build:
     commands:
-      - echo "Reading repositories from repos.json"
+      - echo "Checking repositories"
       - |
         for REPOSITORY in ${repositories}; do
-          renovate $REPOSITORY --token=$GITHUB_COM_TOKEN --report-type=logging --dry-run=lookup 
+          LOG_LEVEL=debug renovate $REPOSITORY --token=$GITHUB_COM_TOKEN --report-type=logging --dry-run=lookup 
         done
