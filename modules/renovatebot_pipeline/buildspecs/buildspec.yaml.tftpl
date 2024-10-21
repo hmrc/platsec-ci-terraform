@@ -1,0 +1,24 @@
+version: 0.2
+env:
+  git-credential-helper: yes
+phases:
+  install:
+    commands:
+      - echo "Installing dependencies..."
+      - curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+      - source ~/.bashrc
+      - nvm install --lts
+      - npm install -g renovate
+  pre_build:
+    commands:
+      - GITHUB_COM_TOKEN=$(echo url=https://github.com/${primary_repository}.git | git credential fill | grep  -oP 'username=\K[a-zA-Z0-9\-_]+')
+  build:
+    commands:
+      - echo "Reading repositories from repos.json"
+      - |
+        for REPOSITORY in ${repositories}; do
+          renovate $REPOSITORY --token=$GITHUB_COM_TOKEN --report-type=logging --dry-run=lookup 
+        done
+  cache:
+    paths:
+      - /root/.npm/**/*

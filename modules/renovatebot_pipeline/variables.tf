@@ -1,23 +1,6 @@
-variable "branch" {
-  type    = string
-  default = "main"
-}
-
-variable "pipeline_name" {
-  type = string
-}
-
-variable "src_org" {
-  type    = string
-  default = "hmrc"
-}
-
-variable "src_repo" {
-  type = string
-}
-
-variable "github_token" {
-  type = string
+variable "repositories" {
+  # just a long string for now
+  type = list(string)
 }
 
 variable "target_region" {
