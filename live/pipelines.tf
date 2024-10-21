@@ -217,6 +217,26 @@ module "vault_policy_applier_corretto" {
   }
 }
 
+module "renovatebot" {
+  source = "../modules//renovatebot_pipeline"
+
+  accounts                 = local.accounts
+  codeconnection_arn       = data.aws_codestarconnections_connection.this.arn
+  sns_topic_arn            = local.ci_alerts_sns_topic_arn
+  access_log_bucket_id     = local.access_log_bucket_id
+  admin_roles              = local.tf_admin_roles
+  vpc_config               = local.vpc_config
+  agent_security_group_ids = local.agent_security_group_ids
+
+  repositories = [
+    "hmrc/vault-policy-generator"
+  ]
+
+  tags = {
+    service = "renovatebot"
+  }
+}
+
 module "security_reports_frontend" {
   source = "../modules//ecs_task_pipeline"
 
