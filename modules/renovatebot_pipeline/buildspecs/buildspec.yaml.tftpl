@@ -19,6 +19,3 @@ phases:
         for REPOSITORY in ${repositories}; do
           renovate $REPOSITORY --token=$GITHUB_COM_TOKEN --report-type=logging --dry-run=lookup 
         done
-  cache:
-    paths:
-      - /root/.npm/**/*
