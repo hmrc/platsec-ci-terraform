@@ -89,8 +89,8 @@ resource "aws_iam_role" "codebuild_role" {
   managed_policy_arns = [
     aws_iam_policy.codebuild_policy.id
   ]
+  tags = var.tags
 }
-
 
 data "aws_iam_policy_document" "events_assume_role" {
   statement {
@@ -126,4 +126,5 @@ resource "aws_iam_role" "schedule_role" {
   managed_policy_arns = [
     aws_iam_policy.schedule_policy.id
   ]
+  tags = var.tags
 }

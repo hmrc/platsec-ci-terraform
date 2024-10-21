@@ -29,6 +29,7 @@ resource "aws_kms_key" "this" {
   enable_key_rotation                = true
   rotation_period_in_days            = 90
   policy                             = data.aws_iam_policy_document.kms.json
+  tags                               = var.tags
 }
 
 resource "aws_kms_alias" "this" {
