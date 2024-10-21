@@ -45,7 +45,7 @@ resource "aws_codebuild_project" "this" {
 resource "aws_cloudwatch_event_rule" "this" {
   name                = "run_${local.name}_pipeline_at_interval"
   description         = "Runs ${local.name} CodeBuild Job At Defined Interval"
-  schedule_expression = "cron(0 5 * * SUN *)"
+  schedule_expression = "cron(0 5 ? * SUN *)"
   tags                = var.tags
 }
 
