@@ -229,6 +229,8 @@ module "renovatebot" {
   agent_security_group_ids = local.agent_security_group_ids
 
   repositories = [
+    "hmrc/platsec-ci-terraform",
+    "hmrc/platsec-terraform",
     "hmrc/vault-policy-generator"
   ]
 

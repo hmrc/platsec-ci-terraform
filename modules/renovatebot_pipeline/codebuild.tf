@@ -1,5 +1,5 @@
 resource "aws_codebuild_project" "this" {
-  name          = "renovate"
+  name          = local.name
   service_role  = aws_iam_role.codebuild_role.arn
   build_timeout = var.build_timeout_in_minutes
 
