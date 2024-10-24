@@ -1,6 +1,10 @@
 version: 0.2
 env:
   git-credential-helper: yes
+  secrets-manager:
+    GITHUB_USER: /github/user
+    GITHUB_EMAIL: /github/email
+    GITHUB_SIGNING_KEY: /github/signing_key
 phases:
   install:
     runtime-versions:
@@ -10,7 +14,14 @@ phases:
       - npm install -g renovate
   pre_build:
     commands:
-      - GITHUB_COM_TOKEN=$(echo url=https://github.com/${primary_repository}.git | git credential fill | grep  -oP 'username=\K[a-zA-Z0-9\-_]+')
+      - export GITHUB_COM_TOKEN=$(echo url=https://github.com/${primary_repository}.git | git credential fill | grep  -oP 'username=\K[a-zA-Z0-9\-_]+')
+      - mkdir -p ~/.ssh
+      - echo $GITHUB_SIGNING_KEY > ~/.ssh/ed_25519_git_signing_key.pub && chmod 400 ~/.ssh/ed_25519_git_signing_key.pub
+      - git config --global user.name $GITHUB_USER
+      - git config --global user.email $GITHUB_EMAIL
+      - git config --global user.signingkey ~/.ssh/ed_25519_git_signing_key
+      - git config --global commit.gpgsign true
+      - echo $(git config --global --get user.email) $(cat $(git config --global user.signingkey)) >> ~/.ssh/allowed_signers
   build:
     commands:
       - echo "Checking repositories"
