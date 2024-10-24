@@ -43,6 +43,19 @@ data "aws_iam_policy_document" "codebuild_policy" {
   }
 
   statement {
+    actions = [
+      "secretsmanager:GetResourcePolicy",
+      "secretsmanager:GetSecretValue",
+      "secretsmanager:DescribeSecret",
+      "secretsmanager:ListSecretVersionIds"
+    ]
+
+    resources = [
+      "arn:aws:secretsmanager:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:secret:/github/*"
+    ]
+  }
+
+  statement {
     actions   = ["ec2:CreateNetworkInterfacePermission"]
     resources = ["arn:aws:ec2:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:network-interface/*"]
 
