@@ -14,8 +14,8 @@ phases:
       - npm install -g renovate
   pre_build:
     commands:
-      - mkdir -p ~/.ssh
-      - export RENOVATE_GIT_PRIVATE_KEY=$GITHUB_SIGNING_KEY
+      - export RENOVATE_GIT_PRIVATE_KEY=/tmp/git-private-ssh.key
+      - echo $GITHUB_SIGNING_KEY > $RENOVATE_GIT_PRIVATE_KEY && chmod 400 $RENOVATE_GIT_PRIVATE_KEY
       - export RENOVATE_TOKEN=$(echo url=https://github.com/${primary_repository}.git | git credential fill | grep  -oP 'username=\K[a-zA-Z0-9\-_]+')
       - export RENOVATE_GIT_AUTHOR="$GITHUB_USER <$GITHUB_EMAIL>"
   build:
@@ -23,5 +23,5 @@ phases:
       - echo "Checking repositories"
       - |
         for REPOSITORY in ${repositories}; do
-          LOG_LEVEL=debug renovate $REPOSITORY --report-type=logging
+          LOG_LEVEL=debug renovate $REPOSITORY --token=$GITHUB_COM_TOKEN --report-type=logging
         done
