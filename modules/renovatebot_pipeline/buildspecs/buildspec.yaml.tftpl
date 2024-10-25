@@ -16,8 +16,6 @@ phases:
     commands:
       - mkdir -p ~/.ssh
       - export RENOVATE_GIT_PRIVATE_KEY=$GITHUB_SIGNING_KEY
-      - echo $GITHUB_EMAIL namespace="git" $GITHUB_SIGNING_KEY > $HOME/.ssh/allowed_signers
-      - git config --global gpg.ssh.allowedSignersFile "$HOME/.ssh/allowed_signers"
       - export RENOVATE_TOKEN=$(echo url=https://github.com/${primary_repository}.git | git credential fill | grep  -oP 'username=\K[a-zA-Z0-9\-_]+')
       - export RENOVATE_GIT_AUTHOR="$GITHUB_USER <$GITHUB_EMAIL>"
   build:
