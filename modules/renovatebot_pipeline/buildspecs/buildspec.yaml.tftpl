@@ -23,5 +23,5 @@ phases:
       - echo "Checking repositories"
       - |
         for REPOSITORY in ${repositories}; do
-          LOG_LEVEL=debug renovate $REPOSITORY --token=$GITHUB_COM_TOKEN --report-type=logging
+          LOG_LEVEL=debug renovate $REPOSITORY --report-type=logging
         done
