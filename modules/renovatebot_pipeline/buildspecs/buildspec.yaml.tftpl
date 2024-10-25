@@ -26,5 +26,5 @@ phases:
       - echo "Checking repositories"
       - |
         for REPOSITORY in ${repositories}; do
-          LOG_LEVEL=debug renovate $REPOSITORY --report-type=logging --dry-run=lookup 
+          LOG_LEVEL=debug renovate $REPOSITORY --report-type=logging
         done
