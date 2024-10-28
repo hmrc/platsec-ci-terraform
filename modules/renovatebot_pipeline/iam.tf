@@ -102,7 +102,7 @@ data "aws_iam_policy_document" "codebuild_policy" {
     ]
 
     # will refine via ct logs, no information on reqs as of yet
-    resources = [ "*" ]
+    resources = ["*"]
   }
 }
 
