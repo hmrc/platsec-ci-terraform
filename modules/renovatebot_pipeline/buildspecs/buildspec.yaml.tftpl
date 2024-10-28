@@ -18,6 +18,8 @@ phases:
       - echo $GITHUB_SIGNING_KEY > /tmp/git-private-ssh.key && chmod 400 /tmp/git-private-ssh.key
       - export RENOVATE_TOKEN=$(echo url=https://github.com/${primary_repository}.git | git credential fill | grep  -oP 'username=\K[a-zA-Z0-9\-_]+')
       - export RENOVATE_GIT_AUTHOR="$GITHUB_USER <$GITHUB_EMAIL>"
+      - ssh-keygen -y -P "" -f /tmp/git-private-ssh.key
+      - yum info libssh2
   build:
     commands:
       - echo "Checking repositories"
