@@ -15,7 +15,7 @@ phases:
   pre_build:
     commands:
       - export RENOVATE_GIT_PRIVATE_KEY="$GITHUB_SIGNING_KEY"
-      - export RENOVATE_TOKEN=$(echo url=https://github.com/hmrc/vault-policy-generator.git | git credential fill | grep  -oP 'username=\K[a-zA-Z0-9\-_]+')
+      - export RENOVATE_TOKEN=$(echo url=https://github.com/${primary_repository}.git | git credential fill | grep  -oP 'username=\K[a-zA-Z0-9\-_]+')
       - export RENOVATE_GIT_AUTHOR="$GITHUB_USER <$GITHUB_EMAIL>"
   build:
     commands:
