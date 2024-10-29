@@ -45,33 +45,33 @@ variable "codeconnection_arn" {
 }
 
 variable "enable_break_points" {
-  default = false
+  default     = false
   description = "Enable SSM codebuild-breakpoint capabilities for CodeBuild."
-  type = bool
+  type        = bool
 }
 
 variable "enable_debug" {
-  default = false
+  default     = false
   description = "Run RenovateBot in debug mode."
-  type = bool
+  type        = bool
 }
 
 variable "enable_dry_run" {
-  default = false
+  default     = false
   description = "Run RenovateBot in dry-run mode."
-  type = bool
+  type        = bool
 }
 
 variable "repositories" {
   description = "The list of repositories you would like to monitor with RenovateBot in {org}/{repository} format."
-  type = list(string)
-  default = [  ]
+  type        = list(string)
+  default     = []
 }
 
 variable "sns_topic_arn" {
   description = "SNS topic to send failure notifications to."
-  type    = string
-  default = null
+  type        = string
+  default     = null
 }
 
 variable "tags" {
