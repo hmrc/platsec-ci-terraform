@@ -22,5 +22,5 @@ phases:
       - echo "Checking repositories"
       - |
         for REPOSITORY in ${repositories}; do
-          LOG_LEVEL=debug renovate $REPOSITORY --report-type=logging
+          %{ if enable_debug }LOG_LEVEL=debug %{ endif }renovate $REPOSITORY --report-type=logging %{ if enable_dry_run }--dry-run=full%{ endif }
         done

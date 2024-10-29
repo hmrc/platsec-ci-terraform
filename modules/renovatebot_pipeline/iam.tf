@@ -15,8 +15,6 @@ data "aws_iam_policy_document" "codebuild_policy" {
       "logs:CreateLogGroup",
       "logs:CreateLogStream",
       "logs:PutLogEvents",
-      "logs:DescribeLogGroups",
-      "logs:DescribeLogStreams"
     ]
 
     resources = ["*"]
@@ -92,18 +90,36 @@ data "aws_iam_policy_document" "codebuild_policy" {
     }
   }
 
-  statement {
-    actions = [
-      "ssm:UpdateInstanceInformation",
-      "ssmmessages:CreateControlChannel",
-      "ssmmessages:CreateDataChannel",
-      "ssmmessages:OpenControlChannel",
-      "ssmmessages:OpenDataChannel"
-    ]
+  dynamic "statement" {
+    for_each = var.enable_break_points ? [0] : []
 
-    # will refine via ct logs, no information on reqs as of yet
-    resources = ["*"]
+    content {
+      actions = [
+        "ssm:UpdateInstanceInformation",
+        "ssmmessages:CreateControlChannel",
+        "ssmmessages:CreateDataChannel",
+        "ssmmessages:OpenControlChannel",
+        "ssmmessages:OpenDataChannel"
+      ]
+
+      # will refine via ct logs, no information on reqs as of yet
+      resources = ["*"]
+    }
   }
+
+  dynamic "statement" {
+    for_each = var.enable_break_points ? [0] : []
+
+    content {
+      actions = [
+        "logs:DescribeLogGroups",
+        "logs:DescribeLogStreams"
+      ]
+
+      resources = ["*"]
+    }
+  }
+
 }
 
 resource "aws_iam_policy" "codebuild_policy" {

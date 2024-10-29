@@ -27,6 +27,8 @@ resource "aws_codebuild_project" "this" {
     buildspec = templatefile(
       "${path.module}/buildspecs/buildspec.yaml.tftpl",
       {
+        enable_dry_run = var.enable_dry_run
+        enable_debug = var.enable_debug
         primary_repository = local.primary_repository
         repositories       = local.repositories
       }
