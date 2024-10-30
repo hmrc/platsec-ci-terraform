@@ -8,6 +8,7 @@ module "platsec_terraform_pr_builder" {
   docker_required       = true
   project_name          = "platsec-terraform-pr-builder"
   access_logs_bucket_id = data.aws_secretsmanager_secret_version.s3_access_logs_bucket_name.secret_string
+  timeout_in_minutes    = 30
 
   admin_roles = local.tf_admin_roles
   project_assume_roles = {
