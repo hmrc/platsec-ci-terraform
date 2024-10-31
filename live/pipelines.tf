@@ -227,6 +227,7 @@ module "renovatebot" {
   admin_roles              = local.tf_admin_roles
   vpc_config               = local.vpc_config
   agent_security_group_ids = local.agent_security_group_ids
+  enable_break_points      = false
 
   repositories = [
     "hmrc/vault-policy-generator"
