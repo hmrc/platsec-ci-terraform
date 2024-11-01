@@ -218,7 +218,7 @@ module "vault_policy_applier_corretto" {
 }
 
 module "renovatebot" {
-  source = "../modules//renovatebot_pipeline"
+  source = "../modules//renovatebot_build"
 
   accounts                 = local.accounts
   codeconnection_arn       = data.aws_codestarconnections_connection.this.arn
