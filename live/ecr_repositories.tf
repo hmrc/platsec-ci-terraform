@@ -16,7 +16,18 @@ module "aws_users_manager_repository" {
   allow_read_account_id_list = local.all_platsec_account_ids
 
   tags = {
-    service = "aws_users_manager"
+    service = "aws-users-manager"
+  }
+}
+
+module "prowler_scanner_repository" {
+  source = "../modules//ecr_repository"
+
+  repository_name            = "prowler-scanner"
+  allow_read_account_id_list = local.all_platsec_account_ids
+
+  tags = {
+    service = "prowler-scanner"
   }
 }
 
