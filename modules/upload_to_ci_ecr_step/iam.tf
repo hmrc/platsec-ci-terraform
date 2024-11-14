@@ -23,6 +23,7 @@ data "aws_iam_policy_document" "deploy" {
       "ecr:UploadLayerPart",
       "ecr:InitiateLayerUpload",
       "ecr:BatchCheckLayerAvailability",
+      "ecr:DescribeImages",
       "ecr:PutImage"
     ]
     resources = [var.ecr_arn]
