@@ -16,3 +16,7 @@ phases:
       - docker load -i docker.tar
       - docker tag container-release:local "${ECR_URL}:${IMAGE_TAG}"
       - docker push "${ECR_URL}:${IMAGE_TAG}"
+      - | # create a "latest" imageTag if it does not exist
+        aws ecr describe-images --repository-name "${ECR_URL##*/} --image-ids imageTag=latest \
+          || docker tag container-release:local "${ECR_URL}:latest" \
+          && docker push "${ECR_URL}:latest"
