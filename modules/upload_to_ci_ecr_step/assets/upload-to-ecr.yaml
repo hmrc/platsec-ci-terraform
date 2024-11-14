@@ -17,6 +17,7 @@ phases:
       - docker tag container-release:local "${ECR_URL}:${IMAGE_TAG}"
       - docker push "${ECR_URL}:${IMAGE_TAG}"
       - | # create a "latest" imageTag if it does not exist
-        aws ecr describe-images --repository-name "${ECR_URL##*/}" --image-ids imageTag=latest \
-          || docker tag container-release:local "${ECR_URL}:latest" \
-          && docker push "${ECR_URL}:latest"
+        if ! aws ecr describe-images --repository-name "${ECR_URL##*/}" --image-ids imageTag=latest 2> /dev/null; then
+          docker tag container-release:local "${ECR_URL}:latest"
+          docker push "${ECR_URL}:latest"
+        fi
