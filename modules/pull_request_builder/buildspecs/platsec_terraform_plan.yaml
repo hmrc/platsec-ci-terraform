@@ -7,10 +7,10 @@ phases:
   build:
     commands:
       - make all-checks
-      - time scripts/run.sh validate-main development # why validate only development?
-      - time scripts/run.sh plan development
-      - time scripts/run.sh plan production
-      # - echo -e "\n\n\n\n###### Testing TERRAGRUNT [psec-1793]\n\n"
-      # - time make tg-validate-development
-      # - time make tg-plan-development
-      # - time make tg-plan-production
+      - time make tg-validate-development
+      - time make tg-plan-development
+      - time make tg-validate-production
+      - time make tg-plan-production
+      # - time scripts/run.sh validate-main development
+      # - time scripts/run.sh plan development
+      # - time scripts/run.sh plan production
