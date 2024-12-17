@@ -473,6 +473,7 @@ module "prowler_scanner" {
   admin_roles              = local.tf_admin_roles
   vpc_config               = local.vpc_config
   agent_security_group_ids = local.agent_security_group_ids
+  build_timeout_in_minutes = 15
 
   tags = {
     service = "prowler-scanner"
