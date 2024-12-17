@@ -9,6 +9,7 @@ module "build_artifact_step" {
   agent_security_group_ids         = values(var.agent_security_group_ids)
   policy_arns                      = [module.common.policy_build_core_arn, module.common.policy_get_artifactory_credentials_arn]
   artifactory_secret_manager_names = module.common.artifactory_secret_manager_names
+  timeout_in_minutes               = var.build_timeout_in_minutes
 
   tags = var.tags
 }
