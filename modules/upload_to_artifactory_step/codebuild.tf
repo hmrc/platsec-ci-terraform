@@ -1,6 +1,6 @@
 resource "aws_codebuild_project" "upload" {
   name          = var.step_name
-  build_timeout = 5
+  build_timeout = var.upload_image_timeout_in_minutes
 
   service_role = aws_iam_role.upload.arn
 

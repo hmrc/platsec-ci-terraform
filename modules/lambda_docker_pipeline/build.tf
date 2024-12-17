@@ -29,6 +29,7 @@ module "upload_to_artifactory_step" {
   artifactory_secret_manager_names = module.common.artifactory_secret_manager_names
   vpc_config                       = var.vpc_config
   agent_security_group_ids         = [var.agent_security_group_ids.service_endpoints]
+  upload_image_timeout_in_minutes  = var.upload_image_timeout_in_minutes
 
   tags = var.tags
 }
@@ -41,8 +42,9 @@ module "upload_to_ecr_step" {
   ecr_url               = var.ecr_url
   ecr_arn               = var.ecr_arn
 
-  vpc_config               = var.vpc_config
-  agent_security_group_ids = [var.agent_security_group_ids.service_endpoints]
+  vpc_config                      = var.vpc_config
+  agent_security_group_ids        = [var.agent_security_group_ids.service_endpoints]
+  upload_image_timeout_in_minutes = var.upload_image_timeout_in_minutes
 
   tags = var.tags
 }

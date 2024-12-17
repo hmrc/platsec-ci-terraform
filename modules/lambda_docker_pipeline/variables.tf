@@ -105,3 +105,8 @@ variable "build_timeout_in_minutes" {
   type    = string
   default = 10
 }
+
+variable "upload_image_timeout_in_minutes" {
+  type    = string
+  default = 5
+}
