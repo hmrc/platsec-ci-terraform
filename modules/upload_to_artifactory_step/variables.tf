@@ -34,3 +34,8 @@ variable "tags" {
   description = "A map of key, value pairs to be added to resources as tags"
   default     = {}
 }
+
+variable "upload_image_timeout_in_minutes" {
+  type    = string
+  default = 5
+}
