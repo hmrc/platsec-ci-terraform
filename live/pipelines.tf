@@ -481,3 +481,29 @@ module "prowler_scanner" {
   }
 }
 
+module "prowler_scan_enqueuer" {
+  source = "../modules//lambda_docker_pipeline"
+
+  pipeline_name = "prowler-scan-enqueuer"
+  src_repo      = "prowler-scan-enqueuer"
+
+  lambda_function_name = "prowler-scan-enqueuer-lambda"
+  ecr_url              = module.prowler_scan_enqueuer_repository.url
+  ecr_arn              = module.prowler_scan_enqueuer_repository.arn
+
+  accounts                        = local.accounts
+  codeconnection_arn              = data.aws_codestarconnections_connection.this.arn
+  github_token                    = data.aws_secretsmanager_secret_version.github_token.secret_string
+  sns_topic_arn                   = local.ci_alerts_sns_topic_arn
+  access_log_bucket_id            = local.access_log_bucket_id
+  admin_roles                     = local.tf_admin_roles
+  vpc_config                      = local.vpc_config
+  agent_security_group_ids        = local.agent_security_group_ids
+  build_timeout_in_minutes        = 15
+  upload_image_timeout_in_minutes = 10
+
+  tags = {
+    service = "prowler-scan-enqueuer"
+  }
+}
+
