@@ -94,6 +94,28 @@ module "monitor_aws_iam_pr_builder" {
   }
 }
 
+module "aws_scanner_pr_builder" {
+
+  source = "../modules//pull_request_builder"
+
+  codeconnection_arn    = data.aws_codestarconnections_connection.this.arn
+  src_repo              = "platsec-aws-scanner"
+  buildspec             = "aws-scanner.yaml"
+  docker_required       = true
+  project_name          = "aws-scanner-pr-builder"
+  access_logs_bucket_id = data.aws_secretsmanager_secret_version.s3_access_logs_bucket_name.secret_string
+
+  admin_roles          = local.tf_admin_roles
+  project_assume_roles = {}
+
+  vpc_config               = local.vpc_config
+  agent_security_group_ids = local.agent_security_group_ids
+
+  tags = {
+    service = "aws-scanner"
+  }
+}
+
 module "bitwarden_manager_pr_builder" {
 
   source = "../modules//pull_request_builder"
