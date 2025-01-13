@@ -7,7 +7,7 @@ SHELL = /bin/bash
 
 export AWS_PROFILE = platsec-ci-RoleTerraformPlanner
 
-REMARK_LINT_VERSION = 0.2.1
+REMARK_LINT_VERSION = 0.3.5
 
 ifneq (, $(strip $(shell command -v aws-vault)))
 	AWS_PROFILE_CMD := aws-vault exec $${AWS_PROFILE} --
@@ -52,12 +52,12 @@ fmt-check: terraform
 
 .PHONY: md-check
 md-check:
-	@docker run --pull missing --rm -i -v $(PWD):/lint/input:ro zemanlx/remark-lint:${REMARK_LINT_VERSION} --frail .
+	@docker run --pull missing --rm -i -v $(PWD):/lint/input:ro ghcr.io/zemanlx/remark-lint:${REMARK_LINT_VERSION} --frail .
 
 # Update (to best of tools ability) md linter findings
 .PHONY: md-fix
 md-fix:
-	@docker run --pull missing --rm -i -v $(PWD):/lint/input:rw zemanlx/remark-lint:${REMARK_LINT_VERSION} . -o
+	@docker run --pull missing --rm -i -v $(PWD):/lint/input:rw ghcr.io/zemanlx/remark-lint:${REMARK_LINT_VERSION} . -o
 
 .PHONY: validate
 validate: validate-bootstrap validate-ci validate-live

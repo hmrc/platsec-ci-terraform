@@ -5,8 +5,8 @@ This repo holds OpenSource modules that are used for a CodePipeline release
 In the [main.tf](main.tf) file there are examples for different methods of lambda
 deployment as:
 
-1.  ZIP file
-2.  Docker image
+1. ZIP file
+2. Docker image
 
 > If you are using Docker Hub as a source of your base image or using Docker Hub
 > for build purpose, it may hit API limits. To avoid this please use our
@@ -73,8 +73,8 @@ To be able to use this pipeline you need to supply `buildspec.yml` in the root
 of your repo which will be used by CI to build the artefact. There are a few
 requirements for Docker image:
 
-1.  tagged as `container-release:local`
-2.  saved as `docker.tar` in the root of the repo and reference it as an artifact
+1. tagged as `container-release:local`
+2. saved as `docker.tar` in the root of the repo and reference it as an artifact
 
 ```yaml
 version: 0.2
@@ -115,15 +115,18 @@ resource "aws_lambda_function" "docker" {
 
 This repository has the following terraform components:
 
--   `bootstrap`: for bootstrapping terraform state management resources. It should be run locally only.
--   `ci`: for CI/CD pipeline resources for applying changes to this repository
--   `live`: for the main terraform config that this repository delivers
+* `bootstrap`: for bootstrapping terraform state management resources. It should be run locally only.
+* `ci`: for CI/CD pipeline resources for applying changes to this repository
+* `live`: for the main terraform config that this repository delivers
 
 ### Plan
+
 ```
 make plan-${component}
 ```
+
 ### Apply
+
 ```
 make apply-${component}
 ```
@@ -132,13 +135,13 @@ make apply-${component}
 
 ### Where can I find a CI/CD pipeline for this code base?
 
--   [PR build job](https://eu-west-2.console.aws.amazon.com/codesuite/codebuild/987972305662/projects/platsec-ci-terraform-pr-builder/history?region=eu-west-2)
--   [Deployment pipeline](https://eu-west-2.console.aws.amazon.com/codesuite/codepipeline/pipelines/platsec-ci-terraform-pipeline/view?region=eu-west-2)
+* [PR build job](https://eu-west-2.console.aws.amazon.com/codesuite/codebuild/987972305662/projects/platsec-ci-terraform-pr-builder/history?region=eu-west-2)
+* [Deployment pipeline](https://eu-west-2.console.aws.amazon.com/codesuite/codepipeline/pipelines/platsec-ci-terraform-pipeline/view?region=eu-west-2)
 
 ### How is the CI/CD pipeline configured?
 
--   PR build job is an [AWS CodeBuild](https://eu-west-2.console.aws.amazon.com/codesuite/codebuild/987972305662/projects/platsec-ci-terraform-pr-builder/history?region=eu-west-2) project
--   Deployment pipeline and PR build job are managed in code [here](https://github.com/hmrc/platsec-ci-terraform/tree/main/ci)
+* PR build job is an [AWS CodeBuild](https://eu-west-2.console.aws.amazon.com/codesuite/codebuild/987972305662/projects/platsec-ci-terraform-pr-builder/history?region=eu-west-2) project
+* Deployment pipeline and PR build job are managed in code [here](https://github.com/hmrc/platsec-ci-terraform/tree/main/ci)
 
 ## License
 
