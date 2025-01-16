@@ -13,6 +13,8 @@ module "pr_builder_bucket" {
   data_expiry      = "90-days"
   data_sensitivity = "low"
 
+  transition_to_glacier_days = var.transition_to_glacier_days
+
   log_bucket_id = local.access_logs_bucket_id
   tags = merge({
     codebuild_project = var.project_name

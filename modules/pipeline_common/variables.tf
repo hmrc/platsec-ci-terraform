@@ -53,3 +53,9 @@ variable "tags" {
   description = "A map of key, value pairs to be added to resources as tags"
   default     = {}
 }
+
+variable "transition_to_glacier_days" {
+  description = "Number of days after creation to transition to GLACIER storage"
+  type        = number
+  default     = 7
+}
