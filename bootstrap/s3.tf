@@ -1,9 +1,9 @@
 data "aws_caller_identity" "current" {}
 
 locals {
-  tf_read_roles          = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleTerraformApplier", "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleTerraformPlanner", "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleSecurityEngineer"]
-  tf_list_roles          = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleTerraformApplier", "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleTerraformPlanner", "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleSecurityEngineer"]
-  tf_metadata_read_roles = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleTerraformApplier", "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleTerraformPlanner", "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleSecurityEngineer"]
+  tf_read_roles          = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleProwlerScanner", "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleTerraformApplier", "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleTerraformPlanner", "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleSecurityEngineer"]
+  tf_list_roles          = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleProwlerScanner", "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleTerraformApplier", "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleTerraformPlanner", "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleSecurityEngineer"]
+  tf_metadata_read_roles = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleProwlerScanner", "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleTerraformApplier", "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleTerraformPlanner", "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleSecurityEngineer"]
   tf_write_roles         = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleTerraformApplier"]
   tf_admin_roles         = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleTerraformApplier"]
 
