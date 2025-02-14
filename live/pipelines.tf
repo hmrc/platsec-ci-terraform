@@ -98,13 +98,15 @@ module "cloudtrail_monitoring" {
 }
 
 module "github_scanner" {
-  source = "../modules//lambda_zip_pipeline"
+  source = "../modules//lambda_docker_pipeline"
 
   pipeline_name = "github-scanner"
   src_repo      = "platsec-scanning-tools"
   github_token  = data.aws_secretsmanager_secret_version.github_token.secret_string
 
   lambda_function_name = "github_scanner"
+  ecr_arn              = module.github_scanner_repository.arn
+  ecr_url              = module.github_scanner_repository.url
 
   accounts                 = local.accounts
   codeconnection_arn       = data.aws_codestarconnections_connection.this.arn
