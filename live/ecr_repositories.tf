@@ -130,3 +130,14 @@ module "security_reports_frontend_repository" {
     service = "security_reports_frontend"
   }
 }
+
+module "github_scanner_repository" {
+  source = "../modules//ecr_repository"
+
+  repository_name            = "github-scanner"
+  allow_read_account_id_list = local.all_platsec_account_ids
+
+  tags = {
+    service = "github-scanner"
+  }
+}
