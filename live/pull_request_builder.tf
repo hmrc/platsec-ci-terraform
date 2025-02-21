@@ -269,3 +269,25 @@ module "compliance_dataviz_pr_builder" {
     service = "compliance-dataviz"
   }
 }
+
+module "github_scanner_pr_builder" {
+
+  source = "../modules//pull_request_builder"
+
+  codeconnection_arn    = data.aws_codestarconnections_connection.this.arn
+  src_repo              = "platsec-scanning-tools"
+  buildspec             = "github-scanner.yaml"
+  docker_required       = true
+  project_name          = "github-scanner-pr-builder"
+  access_logs_bucket_id = local.access_log_bucket_id
+
+  admin_roles          = local.tf_admin_roles
+  project_assume_roles = {}
+
+  vpc_config               = local.vpc_config
+  agent_security_group_ids = local.agent_security_group_ids
+
+  tags = {
+    service = "github_scanner"
+  }
+}
