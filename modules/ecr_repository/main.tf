@@ -12,12 +12,12 @@ resource "aws_ecr_lifecycle_policy" "ecr_lifecycle_rule" {
     "rules": [
         {
             "rulePriority": 1,
-            "description": "Keep last 100 images",
+            "description": "Keep last 10 images",
             "selection": {
                 "tagStatus": "tagged",
                 "tagPrefixList": ["v"],
                 "countType": "imageCountMoreThan",
-                "countNumber": 100
+                "countNumber": 10
             },
             "action": {
                 "type": "expire"
