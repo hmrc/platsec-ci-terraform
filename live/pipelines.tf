@@ -197,14 +197,15 @@ module "monitor_aws_iam" {
 }
 
 module "vault_policy_applier_corretto" {
-  source = "../modules//lambda_zip_pipeline"
+  source = "../modules//lambda_docker_pipeline"
 
   pipeline_name = "vault-policy-applier-corretto"
   src_repo      = "vault-policy-applier"
   github_token  = data.aws_secretsmanager_secret_version.github_token.secret_string
 
-  lambda_function_name           = "policy-applier-corretto"
-  lambda_deployment_package_name = "vault-policy-applier-2-SNAPSHOT.jar"
+  lambda_function_name = "policy-applier-corretto"
+  ecr_arn              = module.vault_policy_applier_repository.arn
+  ecr_url              = module.vault_policy_applier_repository.url
 
   accounts                 = local.accounts
   codeconnection_arn       = data.aws_codestarconnections_connection.this.arn
