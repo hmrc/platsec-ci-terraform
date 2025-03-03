@@ -15,7 +15,7 @@ resource "aws_ecr_lifecycle_policy" "ecr_lifecycle_rule" {
             "description": "Keep last 10 images",
             "selection": {
                 "tagStatus": "tagged",
-                "tagPrefixList": ["v"],
+                "tagPatternList": ["*"],
                 "countType": "imageCountMoreThan",
                 "countNumber": 10
             },
