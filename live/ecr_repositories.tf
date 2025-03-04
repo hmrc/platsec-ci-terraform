@@ -145,7 +145,7 @@ module "github_scanner_repository" {
 module "vault_policy_applier_repository" {
   source = "../modules//ecr_repository"
 
-  repository_name            = "vault-policy-applier"
+  repository_name            = "vault-policy-applier-corretto"
   allow_read_account_id_list = local.all_platsec_account_ids
 
   tags = {
