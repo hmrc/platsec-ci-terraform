@@ -6,6 +6,7 @@ resource "aws_codebuild_project" "build" {
   name          = var.project_name
   description   = "For ${var.project_name}"
   build_timeout = var.timeout_in_minutes
+  badge_enabled = var.badge_enabled
 
   service_role = aws_iam_role.build.arn
 

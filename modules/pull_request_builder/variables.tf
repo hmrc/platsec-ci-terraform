@@ -80,3 +80,9 @@ variable "transition_to_glacier_days" {
   type        = number
   default     = 7
 }
+
+variable "badge_enabled" {
+  description = "Generates a publicly-accessible URL for projects build badge"
+  type        = bool
+  default     = false
+}
