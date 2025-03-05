@@ -313,3 +313,26 @@ module "vault_policy_applier_pr_builder" {
     service = "vault_policy_applier_corretto"
   }
 }
+
+module "policyexplorer_pr_builder" {
+
+  source = "../modules//pull_request_builder"
+
+  codeconnection_arn    = data.aws_codestarconnections_connection.this.arn
+  src_repo              = "policyexplorer"
+  buildspec             = "policyexplorer.yaml"
+  docker_required       = true
+  badge_enabled         = true
+  project_name          = "policyexplorer-pr-builder"
+  access_logs_bucket_id = data.aws_secretsmanager_secret_version.s3_access_logs_bucket_name.secret_string
+
+  admin_roles          = local.tf_admin_roles
+  project_assume_roles = {}
+
+  vpc_config               = local.vpc_config
+  agent_security_group_ids = local.agent_security_group_ids
+
+  tags = {
+    service = "policyexplorer-pr-builder"
+  }
+}
