@@ -149,6 +149,6 @@ module "vault_policy_applier_repository" {
   allow_read_account_id_list = local.all_platsec_account_ids
 
   tags = {
-    service = "vault_policy_applier"
+    service = "vault_policy_applier-corretto"
   }
 }
