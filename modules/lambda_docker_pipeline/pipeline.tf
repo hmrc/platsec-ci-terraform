@@ -36,27 +36,6 @@ resource "aws_codepipeline" "codepipeline" {
     name = "Build"
 
     action {
-      name             = "Build"
-      category         = "Build"
-      owner            = "AWS"
-      provider         = "CodeBuild"
-      input_artifacts  = ["source_output"]
-      output_artifacts = ["build_output"]
-      version          = "1"
-
-      configuration = {
-        ProjectName = module.build_artifact_step.name
-        EnvironmentVariables = jsonencode([
-          {
-            name  = "COMMIT_ID"
-            value = "#{SourceVariables.CommitId}"
-            type  = "PLAINTEXT"
-          }
-        ])
-      }
-    }
-
-    action {
       name            = "Create_Timestamp"
       category        = "Build"
       owner           = "AWS"
@@ -84,26 +63,6 @@ resource "aws_codepipeline" "codepipeline" {
 
       configuration = {
         ProjectName = module.upload_to_ecr_step.name
-        EnvironmentVariables = jsonencode([
-          {
-            name  = "IMAGE_TAG"
-            value = module.common.build_id
-            type  = "PLAINTEXT"
-          }
-        ])
-      }
-    }
-
-    action {
-      name            = "Upload_To_Artifactory"
-      category        = "Build"
-      owner           = "AWS"
-      provider        = "CodeBuild"
-      input_artifacts = ["build_output"]
-      version         = "1"
-
-      configuration = {
-        ProjectName = module.upload_to_artifactory_step.name
         EnvironmentVariables = jsonencode([
           {
             name  = "IMAGE_TAG"
