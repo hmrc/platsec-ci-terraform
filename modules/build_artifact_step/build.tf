@@ -22,37 +22,6 @@ resource "aws_codebuild_project" "build" {
     type                        = "LINUX_CONTAINER"
     image_pull_credentials_type = "CODEBUILD"
     privileged_mode             = var.docker_required
-
-    environment_variable {
-      type  = "SECRETS_MANAGER"
-      name  = "ARTIFACTORY_TOKEN"
-      value = var.artifactory_secret_manager_names.token
-    }
-
-    environment_variable {
-      type  = "SECRETS_MANAGER"
-      name  = "ARTIFACTORY_USERNAME"
-      value = var.artifactory_secret_manager_names.username
-    }
-
-    dynamic "environment_variable" {
-      for_each = var.step_assume_roles
-      content {
-        type  = "PLAINTEXT"
-        name  = environment_variable.key
-        value = environment_variable.value
-      }
-    }
-
-    dynamic "environment_variable" {
-      for_each = var.step_environment_variables
-      content {
-        type  = environment_variable.value.type
-        name  = environment_variable.value.name
-        value = environment_variable.value.value
-      }
-    }
-
   }
 
   logs_config {

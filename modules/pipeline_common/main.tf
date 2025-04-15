@@ -23,8 +23,4 @@ provider "github" {
 locals {
   pipeline_name = var.pipeline
   build_id      = "#{SourceVariables.CommitId}-#{Timestamp.BUILD_TIMESTAMP}"
-  artifactory_secret_manager_names = {
-    token : "/artifactory/live/ci-token"
-    username : "/artifactory/live/ci-username"
-  }
 }

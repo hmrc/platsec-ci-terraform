@@ -14,13 +14,6 @@ variable "agent_security_group_ids" {
   type = list(string)
 }
 
-variable "artifactory_secret_manager_names" {
-  type = object({
-    token    = string,
-    username = string,
-  })
-}
-
 variable "docker_required" {
   type = bool
 }

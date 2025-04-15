@@ -93,26 +93,6 @@ resource "aws_codepipeline" "codepipeline" {
         ])
       }
     }
-
-    action {
-      name            = "Upload_To_Artifactory"
-      category        = "Build"
-      owner           = "AWS"
-      provider        = "CodeBuild"
-      input_artifacts = ["build_output"]
-      version         = "1"
-
-      configuration = {
-        ProjectName = module.upload_to_artifactory_step.name
-        EnvironmentVariables = jsonencode([
-          {
-            name  = "IMAGE_TAG"
-            value = module.common.build_id
-            type  = "PLAINTEXT"
-          }
-        ])
-      }
-    }
   }
 
   stage {

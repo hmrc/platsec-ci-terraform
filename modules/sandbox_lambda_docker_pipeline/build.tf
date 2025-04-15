@@ -4,11 +4,10 @@ module "build_artifact_step" {
   docker_required = true
   step_name       = "${module.common.pipeline_name}-build"
 
-  s3_bucket_arn                    = module.common.bucket_arn
-  vpc_config                       = var.vpc_config
-  agent_security_group_ids         = values(var.agent_security_group_ids)
-  policy_arns                      = [module.common.policy_build_core_arn, module.common.policy_get_artifactory_credentials_arn]
-  artifactory_secret_manager_names = module.common.artifactory_secret_manager_names
+  s3_bucket_arn            = module.common.bucket_arn
+  vpc_config               = var.vpc_config
+  agent_security_group_ids = values(var.agent_security_group_ids)
+  policy_arns              = [module.common.policy_build_core_arn]
 
   tags = var.tags
 }

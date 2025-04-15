@@ -4,12 +4,11 @@ module "build_artifact_step" {
   docker_required = true
   step_name       = "${module.common.pipeline_name}-build"
 
-  s3_bucket_arn                    = module.common.bucket_arn
-  vpc_config                       = var.vpc_config
-  agent_security_group_ids         = values(var.agent_security_group_ids)
-  policy_arns                      = [module.common.policy_build_core_arn, module.common.policy_get_artifactory_credentials_arn]
-  artifactory_secret_manager_names = module.common.artifactory_secret_manager_names
-  timeout_in_minutes               = var.build_timeout_in_minutes
+  s3_bucket_arn            = module.common.bucket_arn
+  vpc_config               = var.vpc_config
+  agent_security_group_ids = values(var.agent_security_group_ids)
+  policy_arns              = [module.common.policy_build_core_arn]
+  timeout_in_minutes       = var.build_timeout_in_minutes
 
   tags = var.tags
 }
@@ -19,21 +18,6 @@ module "build_timestamp_step" {
   step_name   = "${module.common.pipeline_name}-timestamp"
   policy_arns = [module.common.policy_build_core_arn]
 }
-
-module "upload_to_artifactory_step" {
-  source           = "../upload_to_artifactory_step"
-  step_name        = "${module.common.pipeline_name}-artifactory"
-  docker_repo_name = var.src_repo
-  policy_arns      = [module.common.policy_build_core_arn, module.common.policy_get_artifactory_credentials_arn]
-
-  artifactory_secret_manager_names = module.common.artifactory_secret_manager_names
-  vpc_config                       = var.vpc_config
-  agent_security_group_ids         = [var.agent_security_group_ids.service_endpoints]
-  upload_image_timeout_in_minutes  = var.upload_image_timeout_in_minutes
-
-  tags = var.tags
-}
-
 module "upload_to_ecr_step" {
   source = "../upload_to_ci_ecr_step"
 
