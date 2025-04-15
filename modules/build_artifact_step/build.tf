@@ -30,15 +30,6 @@ resource "aws_codebuild_project" "build" {
         value = environment_variable.value
       }
     }
-    dynamic "environment_variable" {
-      for_each = var.step_environment_variables
-      content {
-        type  = environment_variable.value.type
-        name  = environment_variable.value.name
-        value = environment_variable.value.value
-      }
-    }
-
   }
 
   logs_config {
