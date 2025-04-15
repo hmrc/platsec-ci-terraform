@@ -221,3 +221,17 @@ resource "aws_iam_policy" "build_core" {
     Pipeline = local.pipeline_name
   }, var.tags)
 }
+
+resource "aws_iam_policy" "store_artifacts" {
+  name_prefix = substr(local.pipeline_name, 0, 32)
+  description = "${local.pipeline_name} store artefacts"
+  policy      = data.aws_iam_policy_document.store_artifacts.json
+
+  lifecycle {
+    create_before_destroy = true
+  }
+
+  tags = merge({
+    Pipeline = local.pipeline_name
+  }, var.tags)
+}

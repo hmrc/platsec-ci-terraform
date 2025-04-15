@@ -22,14 +22,6 @@ resource "aws_codebuild_project" "build" {
     type                        = "LINUX_CONTAINER"
     image_pull_credentials_type = "CODEBUILD"
     privileged_mode             = var.docker_required
-    dynamic "environment_variable" {
-      for_each = var.step_assume_roles
-      content {
-        type  = "PLAINTEXT"
-        name  = environment_variable.key
-        value = environment_variable.value
-      }
-    }
   }
 
   logs_config {
