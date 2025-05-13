@@ -79,7 +79,7 @@ plan-%: fmt-check
 	@cd ./$*
 	@rm -f .terraform/terraform.tfstate
 	@$(AWS_PROFILE_CMD) $(TF) init
-	@$(AWS_PROFILE_CMD) $(TF) plan
+	@$(AWS_PROFILE_CMD) $(TF) plan -lock=false
 
 .PHONY: apply
 apply: apply-ci apply-live
@@ -103,7 +103,7 @@ plan-bootstrap: fmt-check
 	@cd ./bootstrap
 	@rm -f .terraform/terraform.tfstate
 	@$(AWS_PROFILE_CMD) $(TF) init
-	@$(AWS_PROFILE_CMD) $(TF) plan
+	@$(AWS_PROFILE_CMD) $(TF) plan -lock=false
 
 .PHONY: apply-bootstrap
 apply-bootstrap: export AWS_PROFILE := platsec-ci-RoleTerraformApplier
