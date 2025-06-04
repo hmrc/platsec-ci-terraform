@@ -4,11 +4,20 @@ data "aws_iam_policy_document" "codebuild_assume_role" {
       identifiers = ["codebuild.amazonaws.com"]
       type        = "Service"
     }
+
+    condition {
+      test     = "StringEquals"
+      variable = "aws:SourceAccount"
+      values   = [data.aws_caller_identity.current.account_id]
+    }
+
     actions = [
       "sts:AssumeRole"
     ]
   }
 }
+
+data "aws_caller_identity" "current" {}
 
 data "aws_iam_policy_document" "deploy" {
   statement {

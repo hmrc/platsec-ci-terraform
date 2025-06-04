@@ -10,6 +10,12 @@ data "aws_iam_policy_document" "codepipeline_assume_role" {
       type        = "Service"
     }
 
+    condition {
+      test     = "StringEquals"
+      variable = "aws:SourceAccount"
+      values   = [data.aws_caller_identity.current.account_id]
+    }
+
     actions = [
       "sts:AssumeRole"
     ]
@@ -102,19 +108,6 @@ resource "aws_iam_role" "codepipeline_role" {
   tags = merge({
     Pipeline = local.pipeline_name
   }, var.tags)
-}
-
-data "aws_iam_policy_document" "codebuild_assume_role" {
-  statement {
-    principals {
-      identifiers = ["codebuild.amazonaws.com"]
-      type        = "Service"
-    }
-
-    actions = [
-      "sts:AssumeRole"
-    ]
-  }
 }
 
 data "aws_iam_policy_document" "build_core" {
