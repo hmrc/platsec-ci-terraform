@@ -149,6 +149,13 @@ data "aws_iam_policy_document" "events_assume_role" {
       identifiers = ["events.amazonaws.com"]
     }
 
+    condition {
+      test     = "StringEquals"
+      variable = "aws:SourceAccount"
+      values   = [data.aws_caller_identity.current.account_id]
+    }
+
+
     actions = ["sts:AssumeRole"]
   }
 }
