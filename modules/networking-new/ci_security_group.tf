@@ -5,7 +5,7 @@ resource "aws_security_group" "aws_interface_endpoints" {
     from_port   = 0
     protocol    = "-1"
     to_port     = 0
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = [module.vpc.vpc_cidr_block]
   }
 
   tags = var.tags
