@@ -65,6 +65,18 @@ module "cloudtrail_monitoring_repository" {
 }
 
 
+module "cloudtrail_events_monitor_repository" {
+  source = "../modules//ecr_repository"
+
+  repository_name            = "cloudtrail-events-monitor"
+  allow_read_account_id_list = local.all_platsec_account_ids
+
+  tags = {
+    service = "cloudtrail-events-monitor"
+  }
+}
+
+
 module "compliance_alerting_repository" {
   source = "../modules//ecr_repository"
 
