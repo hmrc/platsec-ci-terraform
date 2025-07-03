@@ -51,6 +51,14 @@ resource "aws_codepipeline" "codepipeline" {
             name  = "COMMIT_ID"
             value = "#{SourceVariables.CommitId}"
             type  = "PLAINTEXT"
+          },
+          # PSEC-2577: temp env var to support cloudtrail-events-monitoring
+          #            and platsec-cloudtrail-monitoring pipelines.
+          #            To be removed post-PSEC-2577
+          {
+            name  = "PIPELINE_NAME"
+            value = module.common.pipeline_name
+            type  = "PLAINTEXT"
           }
         ])
       }
@@ -90,14 +98,6 @@ resource "aws_codepipeline" "codepipeline" {
             value = module.common.build_id
             type  = "PLAINTEXT"
           },
-          # PSEC-2577: temp env var to support cloudtrail-events-monitoring
-          #            and platsec-cloudtrail-monitoring pipelines.
-          #            To be removed post-PSEC-2577
-          {
-            name  = "PIPELINE_NAME"
-            value = module.common.pipeline_name
-            type  = "PLAINTEXT"
-          }
         ])
       }
     }
