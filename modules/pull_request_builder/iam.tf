@@ -1,6 +1,7 @@
 locals {
   default_policy_arns = [aws_iam_policy.build.arn, aws_iam_policy.build_core.arn]
   managed_policy_arns = length(var.project_assume_roles) == 0 ? local.default_policy_arns : concat(local.default_policy_arns, [aws_iam_policy.project_assume_roles[0].arn])
+  project_role_name   = substr(var.project_name, 0, 32)
 }
 
 data "aws_caller_identity" "current" {}
@@ -27,7 +28,7 @@ data "aws_iam_policy_document" "codebuild_assume_role" {
 }
 
 resource "aws_iam_role" "build" {
-  name_prefix         = substr(var.project_name, 0, 32)
+  name_prefix         = local.project_role_name
   description         = "${var.project_name} build"
   assume_role_policy  = data.aws_iam_policy_document.codebuild_assume_role.json
   managed_policy_arns = local.managed_policy_arns
@@ -76,7 +77,7 @@ data "aws_iam_policy_document" "build" {
 }
 
 resource "aws_iam_policy" "build" {
-  name_prefix = substr(var.project_name, 0, 32)
+  name_prefix = local.project_role_name
   description = "${var.project_name} store artefacts"
 
   policy = data.aws_iam_policy_document.build.json
@@ -102,7 +103,7 @@ data "aws_iam_policy_document" "project_assume_roles" {
 
 resource "aws_iam_policy" "project_assume_roles" {
   count       = length(var.project_assume_roles) == 0 ? 0 : 1
-  name_prefix = substr(var.project_name, 0, 32)
+  name_prefix = local.project_role_name
   policy      = data.aws_iam_policy_document.project_assume_roles[0].json
   description = "${var.project_name} codebuild project assume roles"
   tags        = var.tags
@@ -198,7 +199,7 @@ data "aws_iam_policy_document" "build_core" {
 }
 
 resource "aws_iam_policy" "build_core" {
-  name_prefix = substr(var.project_name, 0, 32)
+  name_prefix = local.project_role_name
   description = "${var.project_name} build"
   policy      = data.aws_iam_policy_document.build_core.json
 
