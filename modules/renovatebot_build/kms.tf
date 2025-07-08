@@ -1,26 +1,21 @@
-data "aws_iam_policy_document" "kms" {
-  statement {
-    sid       = "RenovateAllowPermissionsIamUsers"
-    actions   = ["kms:*"]
-    resources = ["*"]
-    principals {
-      identifiers = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"]
-      type        = "AWS"
-    }
-  }
+locals {
+  readers = [
+    "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleTerraformPlanner",
+    "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleSecurityEngineer",
+  ]
+  writers = [
+    "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleTerraformApplier",
+    "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleSecurityEngineer",
+  ]
+  admins = concat(var.admin_roles, ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleKmsAdministrator"])
+}
 
-  statement {
-    sid = "RenovateAllowPermissionsPipelineRoles"
-    actions = [
-      "kms:GenerateDataKey",
-      "kms:Decrypt"
-    ]
-    resources = ["*"]
-    principals {
-      identifiers = var.admin_roles
-      type        = "AWS"
-    }
-  }
+module "kms_key_policy_document" {
+  source = "../kms_key_policy"
+
+  read_roles  = local.readers
+  write_roles = local.writers
+  admin_roles = local.admins
 }
 
 resource "aws_kms_key" "this" {
@@ -28,7 +23,7 @@ resource "aws_kms_key" "this" {
   deletion_window_in_days            = 7
   enable_key_rotation                = true
   rotation_period_in_days            = 90
-  policy                             = data.aws_iam_policy_document.kms.json
+  policy                             = module.kms_key_policy_document.policy_document_json
   tags                               = var.tags
 }
 
