@@ -1,12 +1,24 @@
 locals {
   bucket_name           = "ci-${substr(var.project_name, 0, 32)}"
   access_logs_bucket_id = var.access_logs_bucket_id
+  readers = [
+    "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleTerraformPlanner",
+    "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleSecurityEngineer",
+    "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${local.project_role_name}*",
+  ]
+  writers = [
+    "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleTerraformApplier",
+    "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleSecurityEngineer",
+  ]
+  admins = concat(var.admin_roles, ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleKmsAdministrator"])
 }
 
 module "kms_key_policy_document" {
   source = "../kms_key_policy"
 
-  admin_roles = concat(var.admin_roles, ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleKmsAdministrator"])
+  read_roles  = local.readers
+  write_roles = local.writers
+  admin_roles = local.admins
 }
 
 module "pr_builder_bucket" {

@@ -75,7 +75,7 @@ plan: plan-ci plan-live
 .PHONY: plan-%
 plan-ci: export AWS_PROFILE := platsec-ci-RoleTerraformPlanner
 plan-live: export AWS_PROFILE := platsec-ci-RoleTerraformPlanner
-plan-%: fmt-check
+plan-%: fmt
 	@cd ./$*
 	@rm -f .terraform/terraform.tfstate
 	@$(AWS_PROFILE_CMD) $(TF) init
@@ -99,7 +99,7 @@ clean:
 
 .PHONY: plan-bootstrap
 plan-bootstrap: export AWS_PROFILE := platsec-ci-RoleTerraformPlanner
-plan-bootstrap: fmt-check
+plan-bootstrap: fmt
 	@cd ./bootstrap
 	@rm -f .terraform/terraform.tfstate
 	@$(AWS_PROFILE_CMD) $(TF) init

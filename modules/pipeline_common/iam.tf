@@ -1,3 +1,6 @@
+locals {
+  pipeline_role_name = substr(local.pipeline_name, 0, 32)
+}
 
 data "aws_caller_identity" "current" {}
 
@@ -86,7 +89,7 @@ data "aws_iam_policy_document" "codepipeline_policy" {
 }
 
 resource "aws_iam_policy" "codepipeline_policy" {
-  name_prefix = substr(local.pipeline_name, 0, 32)
+  name_prefix = local.pipeline_role_name
   description = "${local.pipeline_name} CodePipeline"
   policy      = data.aws_iam_policy_document.codepipeline_policy.json
 
@@ -100,7 +103,7 @@ resource "aws_iam_policy" "codepipeline_policy" {
 }
 
 resource "aws_iam_role" "codepipeline_role" {
-  name_prefix         = substr(local.pipeline_name, 0, 32)
+  name_prefix         = local.pipeline_role_name
   description         = "${local.pipeline_name} CodePipeline"
   assume_role_policy  = data.aws_iam_policy_document.codepipeline_assume_role.json
   managed_policy_arns = [aws_iam_policy.codepipeline_policy.arn]
@@ -202,7 +205,7 @@ data "aws_iam_policy_document" "store_artifacts" {
 }
 
 resource "aws_iam_policy" "build_core" {
-  name_prefix = substr(local.pipeline_name, 0, 32)
+  name_prefix = local.pipeline_role_name
   description = "${local.pipeline_name} build"
   policy      = data.aws_iam_policy_document.build_core.json
 
@@ -216,7 +219,7 @@ resource "aws_iam_policy" "build_core" {
 }
 
 resource "aws_iam_policy" "store_artifacts" {
-  name_prefix = substr(local.pipeline_name, 0, 32)
+  name_prefix = local.pipeline_role_name
   description = "${local.pipeline_name} store artefacts"
   policy      = data.aws_iam_policy_document.store_artifacts.json
 
