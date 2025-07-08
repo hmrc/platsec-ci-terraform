@@ -2,12 +2,18 @@ locals {
   bucket_name = "ci-${substr(local.pipeline_name, 0, 32)}"
 }
 
+module "kms_key_policy_document" {
+  source = "../kms_key_policy"
+
+  admin_roles = concat(var.admin_roles, ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleKmsAdministrator"])
+}
+
 module "codepipeline_bucket" {
   source         = "hmrc/s3-bucket-core/aws"
   version        = "2.0.5"
   bucket_name    = local.bucket_name
   force_destroy  = true
-  kms_key_policy = null
+  kms_key_policy = module.kms_key_policy_document.policy_document_json
 
   data_expiry      = "90-days"
   data_sensitivity = "low"

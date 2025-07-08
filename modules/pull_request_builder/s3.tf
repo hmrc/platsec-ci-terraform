@@ -3,12 +3,18 @@ locals {
   access_logs_bucket_id = var.access_logs_bucket_id
 }
 
+module "kms_key_policy_document" {
+  source = "../kms_key_policy"
+
+  admin_roles = concat(var.admin_roles, ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleKmsAdministrator"])
+}
+
 module "pr_builder_bucket" {
   source         = "hmrc/s3-bucket-core/aws"
   version        = "1.2.0"
   bucket_name    = local.bucket_name
   force_destroy  = true
-  kms_key_policy = null
+  kms_key_policy = module.kms_key_policy_document.policy_document_json
 
   data_expiry      = "90-days"
   data_sensitivity = "low"
