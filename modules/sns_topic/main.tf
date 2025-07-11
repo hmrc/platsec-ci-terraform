@@ -1,6 +1,11 @@
+locals {
+  cross_account_access_principals = formatlist("arn:aws:iam::%s:root", var.subscriber_account_numbers)
+}
+
 resource "aws_sns_topic" "this" {
-  name         = var.topic_name
-  display_name = var.topic_name
+  name              = var.topic_name
+  display_name      = var.topic_name
+  kms_master_key_id = aws_kms_alias.sns.name
 
   tags = var.tags
 }
@@ -50,22 +55,23 @@ data "aws_iam_policy_document" "this" {
     }
   }
 
-  statement {
-    sid = "AllowSubscriptionsFromOtherAccounts"
+  dynamic "statement" {
+    for_each = length(local.cross_account_access_principals) > 0 ? { principals = local.cross_account_access_principals } : {}
+    content {
+      sid = "AllowSubscriptionsFromOtherAccounts"
 
-    principals {
-      type = "AWS"
-      identifiers = [
-        for acctno in var.subscriber_account_numbers : "arn:aws:iam::${acctno}:root"
+      principals {
+        type        = "AWS"
+        identifiers = statement.value
+      }
+
+      actions = [
+        "SNS:Subscribe",
       ]
+
+      effect = "Allow"
+
+      resources = [aws_sns_topic.this.arn]
     }
-
-    actions = [
-      "SNS:Subscribe",
-    ]
-
-    effect = "Allow"
-
-    resources = [aws_sns_topic.this.arn]
   }
 }

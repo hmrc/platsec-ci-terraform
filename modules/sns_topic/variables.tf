@@ -10,7 +10,7 @@ variable "override_policy_json" {
 }
 
 variable "subscriber_account_numbers" {
-  description = "AWS account number of subscribers"
+  description = "AWS account number of subscribers for cross account access"
   type        = list(string)
 }
 
