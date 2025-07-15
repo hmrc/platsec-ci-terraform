@@ -1,7 +1,7 @@
 locals {
   readers = var.read_roles != null ? var.read_roles : formatlist(
     "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/%s",
-    ["RoleTerraformPlanner", "RoleSecurityEngineer"]
+    ["RoleTerraformPlanner", "RoleSecurityEngineer", "RoleProwlerScanner"]
   )
   writers = var.write_roles != null ? var.write_roles : formatlist(
     "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/%s",
