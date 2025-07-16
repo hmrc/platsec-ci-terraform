@@ -4,6 +4,7 @@ locals {
   readers = [
     "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleTerraformPlanner",
     "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleSecurityEngineer",
+    "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleProwlerScanner",
     "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${local.project_role_name}*",
   ]
   writers = [
