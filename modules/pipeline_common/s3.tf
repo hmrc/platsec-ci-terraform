@@ -8,8 +8,7 @@ locals {
     "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleTerraformApplier",
     "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleSecurityEngineer",
   ]
-  admins        = concat(var.admin_roles, ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleKmsAdministrator"])
-  bucket_admins = concat(var.admin_roles, ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleProwlerScanner"])
+  admins = concat(var.admin_roles, ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleKmsAdministrator"])
 }
 
 module "kms_key_policy_document" {
@@ -110,7 +109,7 @@ data "aws_iam_policy_document" "bucket_policy" {
     condition {
       test     = "StringNotLike"
       variable = "aws:PrincipalArn"
-      values   = local.bucket_admins
+      values   = concat(var.admin_roles, ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleProwlerScanner"])
     }
   }
 
