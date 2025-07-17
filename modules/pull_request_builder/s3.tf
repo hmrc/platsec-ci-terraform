@@ -11,7 +11,8 @@ locals {
     "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleTerraformApplier",
     "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleSecurityEngineer",
   ]
-  admins = concat(var.admin_roles, ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleKmsAdministrator"])
+  admins        = concat(var.admin_roles, ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleKmsAdministrator"])
+  bucket_admins = concat(var.admin_roles, ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleProwlerScanner"])
 }
 
 module "kms_key_policy_document" {
@@ -80,7 +81,6 @@ data "aws_iam_policy_document" "bucket_policy" {
       "s3:GetAnalyticsConfiguration",
       "s3:GetInventoryConfiguration",
       "s3:GetMetricsConfiguration",
-      "s3:GetReplicationConfiguration",
       "s3:PutAccelerateConfiguration",
       "s3:PutAnalyticsConfiguration",
       "s3:PutBucket*",
@@ -95,6 +95,54 @@ data "aws_iam_policy_document" "bucket_policy" {
       test     = "StringNotLike"
       variable = "aws:PrincipalArn"
       values   = var.admin_roles
+    }
+  }
+
+  statement {
+    sid    = "DenyActivitiesUnlessBucketAdmin"
+    effect = "Deny"
+    principals {
+      type        = "AWS"
+      identifiers = ["*"]
+    }
+    actions = [
+      "s3:GetInventoryConfiguration",
+      "s3:GetMetricsConfiguration",
+      "s3:GetReplicationConfiguration",
+    ]
+    resources = [module.pr_builder_bucket.arn]
+    condition {
+      test     = "StringNotLike"
+      variable = "aws:PrincipalArn"
+      values   = local.bucket_admins
+    }
+  }
+
+  statement {
+    sid    = "AllowReadOnlyProwlerScanner"
+    effect = "Allow"
+    principals {
+      type        = "AWS"
+      identifiers = ["*"]
+    }
+    actions = [
+      "s3:ListBucket*",
+      "s3:GetObject*",
+      "s3:GetBucket*",
+      "s3:GetEncryptionConfiguration",
+      "s3:GetInventoryConfiguration",
+      "s3:GetLifecycleConfiguration",
+      "s3:GetMetricsConfiguration",
+      "s3:GetReplicationConfiguration"
+    ]
+    resources = [
+      module.pr_builder_bucket.arn,
+      "${module.pr_builder_bucket.arn}/*"
+    ]
+    condition {
+      test     = "StringEquals"
+      variable = "aws:PrincipalArn"
+      values   = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleProwlerScanner"]
     }
   }
 }
