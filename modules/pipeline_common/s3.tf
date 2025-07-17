@@ -2,7 +2,10 @@ locals {
   bucket_name = "ci-${substr(local.pipeline_name, 0, 32)}"
   readers = [
     # Allow all roles ReadOnly access since there is no specific naming convention for codepipeline/codebuild project roles
-    "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/*",
+    "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleTerraformPlanner",
+    "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleSecurityEngineer",
+    "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleProwlerScanner",
+    "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${local.pipeline_role_name}*",
   ]
   writers = [
     "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleTerraformApplier",
