@@ -76,9 +76,6 @@ data "aws_iam_policy_document" "bucket_policy" {
       "s3:DeleteBucket*",
       "s3:GetAccelerateConfiguration",
       "s3:GetAnalyticsConfiguration",
-      "s3:GetInventoryConfiguration",
-      "s3:GetMetricsConfiguration",
-      "s3:GetReplicationConfiguration",
       "s3:PutAccelerateConfiguration",
       "s3:PutAnalyticsConfiguration",
       "s3:PutBucket*",
@@ -93,6 +90,26 @@ data "aws_iam_policy_document" "bucket_policy" {
       test     = "StringNotLike"
       variable = "aws:PrincipalArn"
       values   = var.admin_roles
+    }
+  }
+
+  statement {
+    sid    = "DenyActivitiesUnlessBucketAdmin"
+    effect = "Deny"
+    principals {
+      type        = "AWS"
+      identifiers = ["*"]
+    }
+    actions = [
+      "s3:GetInventoryConfiguration",
+      "s3:GetMetricsConfiguration",
+      "s3:GetReplicationConfiguration",
+    ]
+    resources = [module.codepipeline_bucket.arn]
+    condition {
+      test     = "StringNotLike"
+      variable = "aws:PrincipalArn"
+      values   = concat(var.admin_roles, ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleProwlerScanner"])
     }
   }
 
