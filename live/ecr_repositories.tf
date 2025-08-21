@@ -31,7 +31,7 @@ module "prowler_scanner_repository" {
   }
 }
 
-module "prowler_scanner__batch_repository" {
+module "prowler_scanner_batch_repository" {
   source = "../modules//ecr_repository"
 
   repository_name            = "prowler-scanner-batch"
