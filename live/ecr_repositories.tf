@@ -31,6 +31,17 @@ module "prowler_scanner_repository" {
   }
 }
 
+module "prowler_scanner_batch_repository" {
+  source = "../modules//ecr_repository"
+
+  repository_name            = "prowler-scanner-batch"
+  allow_read_account_id_list = local.all_platsec_account_ids
+
+  tags = {
+    service = "prowler-scanner"
+  }
+}
+
 module "prowler_scan_enqueuer_repository" {
   source = "../modules//ecr_repository"
 
