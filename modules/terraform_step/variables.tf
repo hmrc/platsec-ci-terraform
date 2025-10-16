@@ -54,3 +54,15 @@ variable "tags" {
   description = "A map of key, value pairs to be added to resources as tags"
   default     = {}
 }
+
+variable "environment_compute_type" {
+  type        = string
+  default     = "BUILD_GENERAL1_SMALL"
+  description = "Compute type: https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-compute-types.html#environment.types"
+}
+
+variable "environment_type" {
+  type        = string
+  default     = "LINUX_CONTAINER"
+  description = "Environment type: https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-compute-types.html#environment.types"
+}

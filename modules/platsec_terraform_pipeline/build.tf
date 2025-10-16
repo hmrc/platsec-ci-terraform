@@ -15,6 +15,9 @@ module "apply_step" {
   step_assume_roles   = each.value
   build_spec_contents = templatefile("${path.module}/buildspecs/apply.yaml.tpl", { target = each.key })
 
+  environment_compute_type = "BUILD_GENERAL1_MEDIUM"
+  environment_type         = "LINUX_CONTAINER"
+
   vpc_config               = var.vpc_config
   agent_security_group_ids = values(var.agent_security_group_ids)
 

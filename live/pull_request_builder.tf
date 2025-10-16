@@ -9,7 +9,7 @@ module "platsec_terraform_pr_builder" {
   project_name             = "platsec-terraform-pr-builder"
   access_logs_bucket_id    = data.aws_secretsmanager_secret_version.s3_access_logs_bucket_name.secret_string
   timeout_in_minutes       = 30
-  environment_compute_type = "BUILD_GENERAL1_MEDIUM"
+  environment_compute_type = "BUILD_GENERAL1_LARGE"
   environment_type         = "LINUX_CONTAINER"
 
   admin_roles = local.tf_admin_roles
