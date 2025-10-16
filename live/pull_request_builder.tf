@@ -2,13 +2,15 @@ module "platsec_terraform_pr_builder" {
 
   source = "../modules//pull_request_builder"
 
-  codeconnection_arn    = data.aws_codestarconnections_connection.this.arn
-  src_repo              = "platsec-terraform"
-  buildspec             = "platsec_terraform_plan.yaml"
-  docker_required       = true
-  project_name          = "platsec-terraform-pr-builder"
-  access_logs_bucket_id = data.aws_secretsmanager_secret_version.s3_access_logs_bucket_name.secret_string
-  timeout_in_minutes    = 30
+  codeconnection_arn       = data.aws_codestarconnections_connection.this.arn
+  src_repo                 = "platsec-terraform"
+  buildspec                = "platsec_terraform_plan.yaml"
+  docker_required          = true
+  project_name             = "platsec-terraform-pr-builder"
+  access_logs_bucket_id    = data.aws_secretsmanager_secret_version.s3_access_logs_bucket_name.secret_string
+  timeout_in_minutes       = 30
+  environment_compute_type = "BUILD_GENERAL1_MEDIUM"
+  environment_type         = "LINUX_CONTAINER"
 
   admin_roles = local.tf_admin_roles
   project_assume_roles = {

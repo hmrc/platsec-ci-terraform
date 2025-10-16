@@ -22,9 +22,9 @@ resource "aws_codebuild_project" "build" {
   }
 
   environment {
-    compute_type                = "BUILD_GENERAL1_SMALL"
+    compute_type                = var.environment_compute_type
     image                       = "aws/codebuild/standard:7.0"
-    type                        = "LINUX_CONTAINER"
+    type                        = var.environment_type
     image_pull_credentials_type = "CODEBUILD"
     privileged_mode             = var.docker_required
 
