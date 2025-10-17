@@ -1,0 +1,8 @@
+version: 0.2
+env:
+  shell: bash
+phases:
+  build:
+    commands:
+      - time scripts/run.sh plan development
+      - time scripts/run.sh plan production

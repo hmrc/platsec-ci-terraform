@@ -2,68 +2,12 @@
 
 This repo holds OpenSource modules that are used for a CodePipeline release
 
-In the [main.tf](main.tf) file there are examples for different methods of lambda
-deployment as:
-
-1. ZIP file
-2. Docker image
+In the [main.tf](main.tf) container images.
 
 > If you are using Docker Hub as a source of your base image or using Docker Hub
 > for build purpose, it may hit API limits. To avoid this please use our
 > Artifactory proxy eg. instead of Docker image `python` you can use
 > `dockerhub.tax.service.gov.uk/python` in your `FROM` directive in a Dockerfile.
-
-## ZIP deploy pipeline
-
-### CodeBuild Buildspec
-
-To be able to use this pipeline you need to supply `buildspec.yml` in the root
-of your repo which will be used by CI to build the artefact. The artefact needs
-to be saved in the root of the repo, which, by default has to be, `lambda.zip`.
-However, this can be overwritten by specifying `lambda_deployment_package_name`
-environment variable. If the environment variable is not specified `lambda.zip`
-will be used.
-
-For example this buildspec will use `Makefile` to run all tests, then build
-lambda package and finally save it as artifact `lambda.zip`.
-
-```yaml
-version: 0.2
-phases:
-  build:
-    commands:
-      - make test
-      - make lambda-package
-artifacts:
-  files:
-    - lambda.zip
-```
-
-### Terraform
-
-In your Terraform you will need to ignore changes in Lambda ZIP that the
-pipeline makes. Otherwise your deployments will be reverted next time your
-Terraform is run. This can be achieved by using dummy file which will never
-change from Terraform point of view.
-
-```hcl
-data "archive_file" "empty_lambda" {
-  type = "zip"
-
-  output_file_mode = "0666"
-  output_path      = "${path.module}/assets/empty_lambda.zip"
-  source {
-    content  = "import emptiness"
-    filename = "handler.py"
-  }
-}
-
-resource "aws_lambda_function" "lambda_function" {
-  function_name    = "${module.label.id}-example-zip-lambda"
-  role             = aws_iam_role.iam_for_lambda.arn
-  filename         = data.archive_file.empty_lambda.output_path
-}
-```
 
 ## Docker deploy pipeline
 
