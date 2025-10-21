@@ -13,14 +13,19 @@ data "aws_iam_policy_document" "cloudwatch" {
     }
 
     actions = [
+      "kms:CancelKeyDeletion",
       "kms:CreateAlias",
+      "kms:CreateKey",
       "kms:DeleteAlias",
       "kms:DisableKey",
+      "kms:DisableKeyRotation",
       "kms:EnableKey",
+      "kms:EnableKeyRotation",
       "kms:GetKeyPolicy",
       "kms:PutKeyPolicy",
       "kms:RescheduleKeyRotation",
       "kms:ScheduleKeyDeletion",
+      "kms:ScheduleKeyDeletionPendingWindowInDays",
       "kms:ScheduleKeyRotation",
       "kms:UpdateKeyDescription",
       "kms:UpdateAlias"
