@@ -74,7 +74,7 @@ variable "environment_variables" {
 
 variable "is_ci" {
   type        = bool
-  description = "Defined if the project is a CI job to enable integration with GotHub pull requests"
+  description = "Defined if the project is a CI job to enable integration with GitHub pull requests"
   default     = false
 }
 
