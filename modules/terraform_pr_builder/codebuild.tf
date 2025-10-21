@@ -11,11 +11,12 @@ module "pr_lint" {
   description        = "CodeBuild project to run ci checks for pull requests on ${var.src_repo} repo"
   build_timeout      = var.build_timeout
   queued_timeout     = var.queued_timeout
+  is_ci              = true
 
   src_repo     = var.src_repo
   build_type   = "terraform"
   build_action = "lint"
-  buildspec    = file("${path.module}/buildspecs/platsec-terraform-lint.yaml")
+  buildspec    = file("${path.module}/buildspecs/terraform-lint.yaml")
 
   environment_type                        = var.environment_type
   environment_image                       = var.environment_image
@@ -27,9 +28,7 @@ module "pr_lint" {
   vpc_config_subnets            = var.vpc_config_subnets
   vpc_config_vpc_id             = var.vpc_config_vpc_id
 
-  tags = {
-    service = "platsec_terraform_pr_builder"
-  }
+  tags = var.tags
 }
 
 module "pr_plan" {
@@ -41,11 +40,12 @@ module "pr_plan" {
   description        = "CodeBuild project to run ci checks for pull requests on ${var.src_repo} repo against the ${each.value} environment"
   build_timeout      = var.build_timeout
   queued_timeout     = var.queued_timeout
+  is_ci              = true
 
   src_repo     = var.src_repo
   build_type   = "terraform"
   build_action = "plan"
-  buildspec    = file("${path.module}/buildspecs/platsec-terraform-plan-development.yaml")
+  buildspec    = file("${path.module}/buildspecs/terraform-plan-${each.value}.yaml")
 
   environment_type                        = var.environment_type
   environment_image                       = var.environment_image
@@ -65,7 +65,5 @@ module "pr_plan" {
   vpc_config_subnets            = var.vpc_config_subnets
   vpc_config_vpc_id             = var.vpc_config_vpc_id
 
-  tags = {
-    service = "platsec_terraform_pr_builder"
-  }
+  tags = var.tags
 }
