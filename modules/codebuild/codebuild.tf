@@ -9,7 +9,7 @@ resource "aws_codebuild_project" "build" {
   service_role           = aws_iam_role.build.arn
 
   artifacts {
-    type = var.build_type == "ci" ? "NO_ARTIFACTS" : "CODEPIPELINE"
+    type = var.is_ci ? "NO_ARTIFACTS" : "CODEPIPELINE"
   }
 
   cache {
@@ -22,7 +22,7 @@ resource "aws_codebuild_project" "build" {
     image                       = var.environment_image
     type                        = var.environment_type
     image_pull_credentials_type = var.environment_image_pull_credentials_type
-    privileged_mode             = var.build_type == "container" ? true : false
+    privileged_mode             = true //var.build_type == "container" ? true : false
 
     dynamic "environment_variable" {
       for_each = var.environment_variables
@@ -43,12 +43,12 @@ resource "aws_codebuild_project" "build" {
   }
 
   source {
-    type                = "GITHUB"
+    type                = var.is_ci ? "GITHUB" : "CODEPIPELINE"
     buildspec           = var.buildspec
-    git_clone_depth     = upper(var.src_type) != "CODEPIPELINE" ? 1 : 0 # needed for codepipeline or all the iam policy docs get recreated 🤷
+    git_clone_depth     = var.is_ci ? 1 : 0 # needed for codepipeline or all the iam policy docs get recreated 🤷
     insecure_ssl        = false
-    location            = upper(var.src_type) != "CODEPIPELINE" ? "https://github.com/${var.src_org}/${var.src_repo}" : null
-    report_build_status = var.build_action == "ci" ? true : false
+    location            = var.is_ci ? "https://github.com/${var.src_org}/${var.src_repo}" : null
+    report_build_status = var.is_ci ? true : false
   }
 
   vpc_config {
@@ -63,7 +63,7 @@ resource "aws_codebuild_project" "build" {
 }
 
 resource "aws_codebuild_webhook" "build" {
-  count = var.build_action == "ci" ? 1 : 0
+  count = var.is_ci ? 1 : 0
 
   project_name = aws_codebuild_project.build.name
   build_type   = "BUILD"

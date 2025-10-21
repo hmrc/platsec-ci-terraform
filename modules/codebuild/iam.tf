@@ -30,7 +30,7 @@ data "aws_iam_policy_document" "build" {
     ]
 
     resources = [
-      "arn:aws:logs:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:log-group:${var.name}:*"
+      "arn:aws:logs:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:log-group:${var.name}-*:*"
     ]
   }
 
@@ -47,14 +47,6 @@ data "aws_iam_policy_document" "build" {
     ]
 
     resources = ["*"]
-
-    condition {
-      test     = "StringEquals"
-      variable = "aws:EventSource"
-      values = [
-        "ec2.amazonaws.com",
-      ]
-    }
   }
 
   statement {
@@ -68,16 +60,17 @@ data "aws_iam_policy_document" "build" {
 
     condition {
       test     = "StringEquals"
-      variable = "ec2:AuthorizedService"
-      values = [
-        "codebuild.amazonaws.com"
-      ]
+      variable = "ec2:Subnet"
+      values = formatlist(
+        "arn:aws:ec2:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:subnet/%s",
+        var.vpc_config_subnets
+      )
     }
 
     condition {
-      test     = "ArnEquals"
-      variable = "ec2:Subnet"
-      values   = var.vpc_config_subnets
+      test     = "StringEquals"
+      variable = "ec2:AuthorizedService"
+      values   = ["codebuild.amazonaws.com"]
     }
   }
 

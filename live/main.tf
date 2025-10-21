@@ -5,6 +5,36 @@ locals {
   step_roles           = toset(["lambda-deploy", "ecs-task-update", "terraform-applier", "terraform-planner"])
   access_log_bucket_id = nonsensitive(data.aws_secretsmanager_secret_version.s3_access_logs_bucket_name.secret_string)
 
+  account_list = {
+    "platsec" : {
+      sandbox : {
+        id : nonsensitive(tonumber(data.aws_secretsmanager_secret_version.sandbox_account_id.secret_string))
+        role_arns : { for role, secret in data.aws_secretsmanager_secret_version.sandbox_role_arn : role => nonsensitive(secret.secret_string) }
+      }
+      development : {
+        id : nonsensitive(tonumber(data.aws_secretsmanager_secret_version.development_account_id.secret_string))
+        role_arns : { for role, secret in data.aws_secretsmanager_secret_version.development_role_arn : role => nonsensitive(secret.secret_string) }
+      }
+
+      production : {
+        id : nonsensitive(tonumber(data.aws_secretsmanager_secret_version.production_account_id.secret_string))
+        role_arns : { for role, secret in data.aws_secretsmanager_secret_version.production_role_arn : role => nonsensitive(secret.secret_string) }
+      }
+    }
+
+    "central-audit" : {
+      production : {
+        id : nonsensitive(tonumber(data.aws_secretsmanager_secret_version.central_audit_production_account_id.secret_string))
+        role_arns : { for role, secret in data.aws_secretsmanager_secret_version.central_audit_production_role_arn : role => nonsensitive(secret.secret_string) }
+      }
+
+      development : {
+        id : nonsensitive(tonumber(data.aws_secretsmanager_secret_version.central_audit_development_account_id.secret_string))
+        role_arns : { for role, secret in data.aws_secretsmanager_secret_version.central_audit_development_role_arn : role => nonsensitive(secret.secret_string) }
+      }
+    }
+  }
+
   accounts = {
     sandbox : {
       id : nonsensitive(tonumber(data.aws_secretsmanager_secret_version.sandbox_account_id.secret_string))

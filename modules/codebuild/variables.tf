@@ -26,7 +26,7 @@ variable "build_type" {
 
 variable "build_action" {
   type        = string
-  description = "The build action, can be either 'plan', 'apply', 'build', or 'ci'"
+  description = "The build action, can be either 'plan', 'apply', or 'build'"
   default     = "plan"
 }
 
@@ -72,6 +72,12 @@ variable "environment_variables" {
   default = []
 }
 
+variable "is_ci" {
+  type        = bool
+  description = "Defined if the project is a CI job to enable integration with GitHub pull requests"
+  default     = false
+}
+
 variable "queued_timeout" {
   type    = number
   default = 30
@@ -90,12 +96,6 @@ variable "src_org" {
 
 variable "src_repo" {
   type = string
-}
-
-variable "src_type" {
-  type        = string
-  description = "The source type, can be either 'CODEPIPELINE' or 'GITHUB'"
-  default     = "GITHUB"
 }
 
 variable "tags" {

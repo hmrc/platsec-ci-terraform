@@ -61,7 +61,7 @@ data "aws_iam_policy_document" "kms" {
     }
 
     dynamic "condition" {
-      for_each = concat(var.read_service_conditions, var.write_service_conditions)
+      for_each = var.read_service_conditions
 
       content {
         test     = condition.value.test
