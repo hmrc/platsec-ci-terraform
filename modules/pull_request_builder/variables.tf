@@ -32,11 +32,6 @@ variable "project_assume_roles" {
   description = "map of environment variable to role arn for use within the build"
 }
 
-variable "admin_roles" {
-  type        = list(string)
-  description = "A list of roles to allow admin access to bucket"
-}
-
 variable "timeout_in_minutes" {
   default = 15
 }
@@ -67,10 +62,6 @@ variable "src_branch" {
   type        = string
   default     = null
   description = "Source repository branch"
-}
-
-variable "access_logs_bucket_id" {
-  type = string
 }
 
 variable "buildspec" {

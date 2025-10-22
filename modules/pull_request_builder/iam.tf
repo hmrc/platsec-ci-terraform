@@ -40,16 +40,6 @@ resource "aws_iam_role" "build" {
 
 data "aws_iam_policy_document" "build" {
   statement {
-    actions = [
-      "s3:PutObjectAcl",
-      "s3:PutObject"
-    ]
-    resources = [
-      "${module.pr_builder_bucket.arn}/*/build_outp/*"
-    ]
-  }
-
-  statement {
     actions   = ["codeconnections:UseConnection"]
     resources = [var.codeconnection_arn]
 
@@ -118,31 +108,6 @@ data "aws_iam_policy_document" "build_core" {
       "logs:PutLogEvents",
     ]
     resources = ["*"]
-  }
-
-  statement {
-    actions = [
-      "kms:Encrypt",
-      "kms:Decrypt",
-      "kms:ReEncrypt*",
-      "kms:GenerateDataKey*",
-      "kms:DescribeKey",
-    ]
-    resources = [
-      module.pr_builder_bucket.kms_key_arn
-    ]
-  }
-
-  statement {
-    actions = [
-      "s3:GetObject",
-      "s3:GetObjectVersion",
-      "s3:GetBucketVersioning",
-    ]
-    resources = [
-      "${module.pr_builder_bucket.arn}/*/source_out/*",
-      "${module.pr_builder_bucket.arn}/*/build_outp/*",
-    ]
   }
 
   # https://docs.aws.amazon.com/codebuild/latest/userguide/auth-and-access-control-iam-identity-based-access-control.html#customer-managed-policies-example-create-vpc-network-interface
