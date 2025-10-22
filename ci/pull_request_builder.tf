@@ -5,7 +5,7 @@ module "pull_request_builder" {
   project_assume_roles = {
     "TERRAFORM_PLANNER_ROLE_ARN" = local.terraform_planner_role
   }
-  admin_roles     = [local.terraform_applier_role, local.terraform_planner_role]
+  
   docker_required = true
 
   codeconnection_arn = data.aws_codestarconnections_connection.this.arn
@@ -18,6 +18,6 @@ module "pull_request_builder" {
     internet          = module.networking.ci_agent_to_internet_sg_id
     service_endpoints = module.networking.ci_agent_to_endpoints_sg_id
   }
-  access_logs_bucket_id = local.access_logs_bucket_name
+  
   timeout_in_minutes    = 30
 }
