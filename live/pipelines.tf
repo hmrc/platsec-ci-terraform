@@ -483,7 +483,7 @@ module "aws_users_manager" {
 }
 
 module "prowler_scanner" {
-  source = "../modules//lambda_docker_pipeline"
+  source = "../modules//docker_pipeline"
 
   pipeline_name = "prowler-scanner"
   src_repo      = "prowler-scanner"
