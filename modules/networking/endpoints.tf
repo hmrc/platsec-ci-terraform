@@ -22,7 +22,7 @@ module "artifactory_endpoint_connector" {
 # CloudWatch Logs to be able to see agent logs in CodeBuild
 resource "aws_vpc_endpoint" "cloudwatch_logs" {
   vpc_id            = module.vpc.vpc_id
-  service_name      = "com.amazonaws.${data.aws_region.current.name}.logs"
+  service_name      = "com.amazonaws.${data.aws_region.current.region}.logs"
   vpc_endpoint_type = "Interface"
 
   security_group_ids = [
@@ -39,7 +39,7 @@ resource "aws_vpc_endpoint" "cloudwatch_logs" {
 # ECR for ECR Native API
 resource "aws_vpc_endpoint" "ecr_api" {
   vpc_id            = module.vpc.vpc_id
-  service_name      = "com.amazonaws.${data.aws_region.current.name}.ecr.api"
+  service_name      = "com.amazonaws.${data.aws_region.current.region}.ecr.api"
   vpc_endpoint_type = "Interface"
 
   security_group_ids = [
@@ -55,7 +55,7 @@ resource "aws_vpc_endpoint" "ecr_api" {
 
 resource "aws_vpc_endpoint" "secretsmanager" {
   vpc_id            = module.vpc.vpc_id
-  service_name      = "com.amazonaws.${data.aws_region.current.name}.secretsmanager"
+  service_name      = "com.amazonaws.${data.aws_region.current.region}.secretsmanager"
   vpc_endpoint_type = "Interface"
 
   security_group_ids = [
@@ -73,7 +73,7 @@ resource "aws_vpc_endpoint" "secretsmanager" {
 # ECR for Docker Registry API
 resource "aws_vpc_endpoint" "ecr_dkr" {
   vpc_id            = module.vpc.vpc_id
-  service_name      = "com.amazonaws.${data.aws_region.current.name}.ecr.dkr"
+  service_name      = "com.amazonaws.${data.aws_region.current.region}.ecr.dkr"
   vpc_endpoint_type = "Interface"
 
   security_group_ids = [
@@ -89,7 +89,7 @@ resource "aws_vpc_endpoint" "ecr_dkr" {
 
 resource "aws_vpc_endpoint" "lambda" {
   vpc_id            = module.vpc.vpc_id
-  service_name      = "com.amazonaws.${data.aws_region.current.name}.lambda"
+  service_name      = "com.amazonaws.${data.aws_region.current.region}.lambda"
   vpc_endpoint_type = "Interface"
 
   security_group_ids = [
@@ -105,7 +105,7 @@ resource "aws_vpc_endpoint" "lambda" {
 
 resource "aws_vpc_endpoint" "ecs" {
   vpc_id            = module.vpc.vpc_id
-  service_name      = "com.amazonaws.${data.aws_region.current.name}.ecs"
+  service_name      = "com.amazonaws.${data.aws_region.current.region}.ecs"
   vpc_endpoint_type = "Interface"
 
   security_group_ids = [
@@ -122,7 +122,7 @@ resource "aws_vpc_endpoint" "ecs" {
 # S3 for downloading source code
 resource "aws_vpc_endpoint" "s3" {
   vpc_id       = module.vpc.vpc_id
-  service_name = "com.amazonaws.${data.aws_region.current.name}.s3"
+  service_name = "com.amazonaws.${data.aws_region.current.region}.s3"
 
   tags = merge({
     Name : "${var.name_prefix}-s3"
@@ -131,7 +131,7 @@ resource "aws_vpc_endpoint" "s3" {
 
 resource "aws_vpc_endpoint" "sts" {
   vpc_id            = module.vpc.vpc_id
-  service_name      = "com.amazonaws.${data.aws_region.current.name}.sts"
+  service_name      = "com.amazonaws.${data.aws_region.current.region}.sts"
   vpc_endpoint_type = "Interface"
 
   security_group_ids = [
@@ -147,7 +147,7 @@ resource "aws_vpc_endpoint" "sts" {
 
 resource "aws_vpc_endpoint" "execute_api" {
   vpc_id            = module.vpc.vpc_id
-  service_name      = "com.amazonaws.${data.aws_region.current.name}.execute-api"
+  service_name      = "com.amazonaws.${data.aws_region.current.region}.execute-api"
   vpc_endpoint_type = "Interface"
 
   security_group_ids = [

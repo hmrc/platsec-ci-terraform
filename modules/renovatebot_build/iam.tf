@@ -57,18 +57,18 @@ data "aws_iam_policy_document" "codebuild_policy" {
     ]
 
     resources = [
-      "arn:aws:secretsmanager:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:secret:/github/*"
+      "arn:aws:secretsmanager:${data.aws_region.current.region}:${data.aws_caller_identity.current.account_id}:secret:/github/*"
     ]
   }
 
   statement {
     actions   = ["ec2:CreateNetworkInterfacePermission"]
-    resources = ["arn:aws:ec2:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:network-interface/*"]
+    resources = ["arn:aws:ec2:${data.aws_region.current.region}:${data.aws_caller_identity.current.account_id}:network-interface/*"]
 
     condition {
       test     = "StringEquals"
       variable = "ec2:Subnet"
-      values   = formatlist("arn:aws:ec2:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:subnet/%s", var.vpc_config.private_subnet_ids)
+      values   = formatlist("arn:aws:ec2:${data.aws_region.current.region}:${data.aws_caller_identity.current.account_id}:subnet/%s", var.vpc_config.private_subnet_ids)
     }
 
     condition {
@@ -136,10 +136,12 @@ resource "aws_iam_policy" "codebuild_policy" {
 resource "aws_iam_role" "codebuild_role" {
   name_prefix        = local.name
   assume_role_policy = data.aws_iam_policy_document.codebuild_assume_role.json
-  managed_policy_arns = [
-    aws_iam_policy.codebuild_policy.id
-  ]
-  tags = var.tags
+  tags               = var.tags
+}
+
+resource "aws_iam_role_policy_attachment" "codebuild_managed_policy" {
+  role       = aws_iam_role.codebuild_role.name
+  policy_arn = aws_iam_policy.codebuild_policy.arn
 }
 
 data "aws_iam_policy_document" "events_assume_role" {
@@ -180,8 +182,11 @@ resource "aws_iam_policy" "schedule_policy" {
 resource "aws_iam_role" "schedule_role" {
   name_prefix        = local.name
   assume_role_policy = data.aws_iam_policy_document.events_assume_role.json
-  managed_policy_arns = [
-    aws_iam_policy.schedule_policy.id
-  ]
+
   tags = var.tags
+}
+
+resource "aws_iam_role_policy_attachment" "schedule_managed_policy" {
+  role       = aws_iam_role.schedule_role.name
+  policy_arn = aws_iam_policy.schedule_policy.arn
 }

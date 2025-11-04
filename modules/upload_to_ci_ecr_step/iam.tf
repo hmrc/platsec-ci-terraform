@@ -56,12 +56,14 @@ resource "aws_iam_role" "deploy" {
   name_prefix        = substr(var.step_name, 0, 32)
   description        = "${var.step_name} deploy"
   assume_role_policy = data.aws_iam_policy_document.codebuild_assume_role.json
-  managed_policy_arns = [
-    var.build_core_policy_arn,
-    aws_iam_policy.deploy.arn,
-  ]
 
   tags = merge({
     Step = var.step_name
   }, var.tags)
+}
+
+resource "aws_iam_role_policy_attachment" "managed_policy" {
+  for_each   = toset(concat([var.build_core_policy_arn], [aws_iam_policy.deploy.arn]))
+  role       = aws_iam_role.deploy.name
+  policy_arn = each.value
 }

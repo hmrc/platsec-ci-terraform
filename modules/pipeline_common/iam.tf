@@ -48,7 +48,7 @@ data "aws_iam_policy_document" "codepipeline_policy" {
     ]
 
     resources = [
-      "arn:aws:codebuild:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:project/${local.pipeline_name}*"
+      "arn:aws:codebuild:${data.aws_region.current.region}:${data.aws_caller_identity.current.account_id}:project/${local.pipeline_name}*"
     ]
   }
 
@@ -103,14 +103,18 @@ resource "aws_iam_policy" "codepipeline_policy" {
 }
 
 resource "aws_iam_role" "codepipeline_role" {
-  name_prefix         = local.pipeline_role_name
-  description         = "${local.pipeline_name} CodePipeline"
-  assume_role_policy  = data.aws_iam_policy_document.codepipeline_assume_role.json
-  managed_policy_arns = [aws_iam_policy.codepipeline_policy.arn]
+  name_prefix        = local.pipeline_role_name
+  description        = "${local.pipeline_name} CodePipeline"
+  assume_role_policy = data.aws_iam_policy_document.codepipeline_assume_role.json
 
   tags = merge({
     Pipeline = local.pipeline_name
   }, var.tags)
+}
+
+resource "aws_iam_role_policy_attachment" "managed_policy" {
+  role       = aws_iam_role.codepipeline_role.name
+  policy_arn = aws_iam_policy.codepipeline_policy.arn
 }
 
 data "aws_iam_policy_document" "build_core" {
@@ -137,7 +141,7 @@ data "aws_iam_policy_document" "build_core" {
     ]
 
     resources = [
-      "arn:aws:ec2:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:network-interface/*"
+      "arn:aws:ec2:${data.aws_region.current.region}:${data.aws_caller_identity.current.account_id}:network-interface/*"
     ]
 
     condition {

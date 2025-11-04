@@ -5,7 +5,7 @@ resource "aws_codestarnotifications_notification_rule" "fail" {
   ]
 
   name     = local.name
-  resource = "arn:aws:codepipeline:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:${local.name}"
+  resource = "arn:aws:codepipeline:${data.aws_region.current.region}:${data.aws_caller_identity.current.account_id}:${local.name}"
 
   target {
     address = var.sns_topic_arn
