@@ -49,14 +49,19 @@ resource "aws_iam_policy" "store_artifacts" {
 }
 
 resource "aws_iam_role" "build" {
-  name_prefix         = substr(var.step_name, 0, 32)
-  description         = "${var.step_name} build"
-  assume_role_policy  = data.aws_iam_policy_document.codebuild_assume_role.json
-  managed_policy_arns = local.managed_policy_arns
+  name_prefix        = substr(var.step_name, 0, 32)
+  description        = "${var.step_name} build"
+  assume_role_policy = data.aws_iam_policy_document.codebuild_assume_role.json
 
   tags = merge({
     Step = var.step_name
   }, var.tags)
+}
+
+resource "aws_iam_role_policy_attachment" "managed_policy" {
+  for_each   = toset(local.managed_policy_arns)
+  role       = aws_iam_role.build.name
+  policy_arn = each.value
 }
 
 data "aws_iam_policy_document" "step_assume_roles" {

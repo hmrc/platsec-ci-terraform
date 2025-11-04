@@ -27,14 +27,19 @@ data "aws_iam_policy_document" "codebuild_assume_role" {
 }
 
 resource "aws_iam_role" "build" {
-  name_prefix         = substr(var.step_name, 0, 32)
-  description         = "${var.step_name} build"
-  assume_role_policy  = data.aws_iam_policy_document.codebuild_assume_role.json
-  managed_policy_arns = local.managed_policy_arns
+  name_prefix        = substr(var.step_name, 0, 32)
+  description        = "${var.step_name} build"
+  assume_role_policy = data.aws_iam_policy_document.codebuild_assume_role.json
 
   tags = merge({
     Step = var.step_name
   }, var.tags)
+}
+
+resource "aws_iam_role_policy_attachment" "managed_policy" {
+  for_each   = toset(local.managed_policy_arns)
+  role       = aws_iam_role.build.name
+  policy_arn = each.value
 }
 
 data "aws_iam_policy_document" "build" {
@@ -113,7 +118,7 @@ data "aws_iam_policy_document" "build_core" {
       "ec2:CreateNetworkInterfacePermission",
     ]
     resources = [
-      "arn:aws:ec2:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:network-interface/*"
+      "arn:aws:ec2:${data.aws_region.current.region}:${data.aws_caller_identity.current.account_id}:network-interface/*"
     ]
     condition {
       test     = "StringEquals"

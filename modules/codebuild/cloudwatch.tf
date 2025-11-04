@@ -31,7 +31,7 @@ data "aws_iam_policy_document" "cloudwatch" {
       "kms:UpdateAlias"
     ]
 
-    resources = ["arn:aws:kms:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:key/*"]
+    resources = ["arn:aws:kms:${data.aws_region.current.region}:${data.aws_caller_identity.current.account_id}:key/*"]
   }
 
   statement {
@@ -55,7 +55,7 @@ data "aws_iam_policy_document" "cloudwatch" {
       "kms:Get*"
     ]
 
-    resources = ["arn:aws:kms:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:key/*"]
+    resources = ["arn:aws:kms:${data.aws_region.current.region}:${data.aws_caller_identity.current.account_id}:key/*"]
   }
 
   statement {
@@ -73,14 +73,14 @@ data "aws_iam_policy_document" "cloudwatch" {
       "kms:GenerateDataKey*"
     ]
 
-    resources = ["arn:aws:kms:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:key/*"]
+    resources = ["arn:aws:kms:${data.aws_region.current.region}:${data.aws_caller_identity.current.account_id}:key/*"]
   }
 
   statement {
     sid = "AllowCloudWatchLogsUsage"
     principals {
       type        = "Service"
-      identifiers = ["logs.${data.aws_region.current.name}.amazonaws.com"]
+      identifiers = ["logs.${data.aws_region.current.region}.amazonaws.com"]
     }
 
     actions = [
@@ -91,13 +91,13 @@ data "aws_iam_policy_document" "cloudwatch" {
       "kms:Describe*"
     ]
 
-    resources = ["arn:aws:kms:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:key/*"]
+    resources = ["arn:aws:kms:${data.aws_region.current.region}:${data.aws_caller_identity.current.account_id}:key/*"]
 
     condition {
       test     = "ArnEquals"
       variable = "kms:EncryptionContext:aws:logs:arn"
       values = [
-        "arn:aws:logs:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:log-group:${var.name}*"
+        "arn:aws:logs:${data.aws_region.current.region}:${data.aws_caller_identity.current.account_id}:log-group:${var.name}*"
       ]
     }
   }

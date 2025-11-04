@@ -62,7 +62,7 @@ data "aws_iam_policy_document" "ecr_repository_policy" {
     condition {
       test     = "StringLike"
       variable = "aws:sourceArn"
-      values   = formatlist("arn:aws:lambda:${data.aws_region.current.name}:%s:function:*", var.allow_read_account_id_list)
+      values   = formatlist("arn:aws:lambda:${data.aws_region.current.region}:%s:function:*", var.allow_read_account_id_list)
     }
   }
 }
