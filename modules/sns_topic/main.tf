@@ -33,6 +33,20 @@ data "aws_iam_policy_document" "this" {
   }
 
   statement {
+    sid     = "CodePipelinePublish"
+    actions = ["sns:Publish"]
+
+    principals {
+      type        = "Service"
+      identifiers = ["codepipeline.amazonaws.com"]
+    }
+
+    resources = [
+      aws_sns_topic.this.arn,
+    ]
+  }
+
+  statement {
     sid = "SnsTopicSubscriptionCondition"
 
     principals {
