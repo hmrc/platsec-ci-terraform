@@ -58,6 +58,18 @@ data "aws_iam_policy_document" "sns_topic_encryption_key_default" {
 
 data "aws_iam_policy_document" "sns_topic_encryption_key_supplementary" {
 
+  statement {
+    sid = "AllowPipelineRolesForSNS"
+    principals {
+      type = "AWS"
+      identifiers = [
+        "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/*"
+      ]
+    }
+    actions   = ["kms:GenerateDataKey", "kms:Decrypt"]
+    resources = ["*"]
+  }
+
   dynamic "statement" {
     for_each = length(local.cross_account_access_principals) > 0 ? { principals = local.cross_account_access_principals } : {}
     content {
