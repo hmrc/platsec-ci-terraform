@@ -28,6 +28,11 @@ variable "sns_topic_arn" {
   default = null
 }
 
+variable "sns_kms_key_arn" {
+  type    = string
+  default = null
+}
+
 variable "access_log_bucket_id" {
   description = "The name of the access log bucket"
   type        = string

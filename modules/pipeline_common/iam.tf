@@ -73,6 +73,18 @@ data "aws_iam_policy_document" "codepipeline_policy" {
   }
 
   dynamic "statement" {
+    for_each = var.sns_kms_key_arn != null ? [1] : []
+    content {
+      actions = [
+        "kms:GenerateDataKey",
+        "kms:Decrypt",
+        "kms:DescribeKey",
+      ]
+      resources = [var.sns_kms_key_arn]
+    }
+  }
+
+  dynamic "statement" {
     for_each = length(var.codeconnection_arn) > 0 ? [1] : []
 
     content {
