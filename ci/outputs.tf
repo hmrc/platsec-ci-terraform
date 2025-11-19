@@ -12,3 +12,7 @@ output "agent_security_group_ids" {
 output "sns_topic_arn" {
   value = module.ci_alerts_sns_topic.arn
 }
+
+output "sns_kms_key_arn" {
+  value = module.ci_alerts_sns_topic.kms_key_arn
+}

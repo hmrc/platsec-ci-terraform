@@ -7,10 +7,6 @@ terraform {
   }
 }
 
-locals {
-  prefix = "platsec-ci-"
-}
-
 module "common" {
   source               = "../pipeline_common"
   pipeline             = var.pipeline_name
@@ -20,6 +16,7 @@ module "common" {
   codeconnection_arn   = var.codeconnection_arn
   vpc_config           = var.vpc_config
   sns_topic_arn        = var.sns_topic_arn
+  sns_kms_key_arn      = var.sns_kms_key_arn
   access_log_bucket_id = var.access_log_bucket_id
   admin_roles          = var.admin_roles
   tags                 = var.tags

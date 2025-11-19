@@ -13,6 +13,7 @@ module "aws_scanner" {
   codeconnection_arn       = data.aws_codestarconnections_connection.this.arn
   github_token             = data.aws_secretsmanager_secret_version.github_token.secret_string
   sns_topic_arn            = local.ci_alerts_sns_topic_arn
+  sns_kms_key_arn          = local.ci_alerts_sns_topic_kms_arn
   access_log_bucket_id     = local.access_log_bucket_id
   admin_roles              = local.tf_admin_roles
   vpc_config               = local.vpc_config
@@ -39,6 +40,7 @@ module "compliance_alerting" {
   codeconnection_arn       = data.aws_codestarconnections_connection.this.arn
   github_token             = data.aws_secretsmanager_secret_version.github_token.secret_string
   sns_topic_arn            = local.ci_alerts_sns_topic_arn
+  sns_kms_key_arn          = local.ci_alerts_sns_topic_kms_arn
   access_log_bucket_id     = local.access_log_bucket_id
   admin_roles              = local.tf_admin_roles
   vpc_config               = local.vpc_config
@@ -63,6 +65,7 @@ module "bitwarden_manager" {
   codeconnection_arn       = data.aws_codestarconnections_connection.this.arn
   github_token             = data.aws_secretsmanager_secret_version.github_token.secret_string
   sns_topic_arn            = local.ci_alerts_sns_topic_arn
+  sns_kms_key_arn          = local.ci_alerts_sns_topic_kms_arn
   access_log_bucket_id     = local.access_log_bucket_id
   admin_roles              = local.tf_admin_roles
   vpc_config               = local.vpc_config
@@ -87,6 +90,7 @@ module "cloudtrail_monitoring" {
   codeconnection_arn       = data.aws_codestarconnections_connection.this.arn
   github_token             = data.aws_secretsmanager_secret_version.github_token.secret_string
   sns_topic_arn            = local.ci_alerts_sns_topic_arn
+  sns_kms_key_arn          = local.ci_alerts_sns_topic_kms_arn
   access_log_bucket_id     = local.access_log_bucket_id
   admin_roles              = local.tf_admin_roles
   vpc_config               = local.vpc_config
@@ -111,6 +115,7 @@ module "cloudtrail_events_monitor" {
   codeconnection_arn       = data.aws_codestarconnections_connection.this.arn
   github_token             = data.aws_secretsmanager_secret_version.github_token.secret_string
   sns_topic_arn            = local.ci_alerts_sns_topic_arn
+  sns_kms_key_arn          = local.ci_alerts_sns_topic_kms_arn
   access_log_bucket_id     = local.access_log_bucket_id
   admin_roles              = local.tf_admin_roles
   vpc_config               = local.vpc_config
@@ -135,6 +140,7 @@ module "github_scanner" {
   accounts                 = local.accounts
   codeconnection_arn       = data.aws_codestarconnections_connection.this.arn
   sns_topic_arn            = local.ci_alerts_sns_topic_arn
+  sns_kms_key_arn          = local.ci_alerts_sns_topic_kms_arn
   access_log_bucket_id     = local.access_log_bucket_id
   admin_roles              = local.tf_admin_roles
   vpc_config               = local.vpc_config
@@ -160,6 +166,7 @@ module "github_admin_report" {
   codeconnection_arn       = data.aws_codestarconnections_connection.this.arn
   github_token             = data.aws_secretsmanager_secret_version.github_token.secret_string
   sns_topic_arn            = local.ci_alerts_sns_topic_arn
+  sns_kms_key_arn          = local.ci_alerts_sns_topic_kms_arn
   access_log_bucket_id     = local.access_log_bucket_id
   admin_roles              = local.tf_admin_roles
   vpc_config               = local.vpc_config
@@ -185,6 +192,7 @@ module "github_webhook_report" {
   codeconnection_arn       = data.aws_codestarconnections_connection.this.arn
   github_token             = data.aws_secretsmanager_secret_version.github_token.secret_string
   sns_topic_arn            = local.ci_alerts_sns_topic_arn
+  sns_kms_key_arn          = local.ci_alerts_sns_topic_kms_arn
   access_log_bucket_id     = local.access_log_bucket_id
   admin_roles              = local.tf_admin_roles
   vpc_config               = local.vpc_config
@@ -210,6 +218,7 @@ module "monitor_aws_iam" {
   codeconnection_arn       = data.aws_codestarconnections_connection.this.arn
   github_token             = data.aws_secretsmanager_secret_version.github_token.secret_string
   sns_topic_arn            = local.ci_alerts_sns_topic_arn
+  sns_kms_key_arn          = local.ci_alerts_sns_topic_kms_arn
   access_log_bucket_id     = local.access_log_bucket_id
   admin_roles              = local.tf_admin_roles
   vpc_config               = local.vpc_config
@@ -234,6 +243,7 @@ module "vault_policy_applier_corretto" {
   accounts                 = local.accounts
   codeconnection_arn       = data.aws_codestarconnections_connection.this.arn
   sns_topic_arn            = local.ci_alerts_sns_topic_arn
+  sns_kms_key_arn          = local.ci_alerts_sns_topic_kms_arn
   access_log_bucket_id     = local.access_log_bucket_id
   admin_roles              = local.tf_admin_roles
   vpc_config               = local.vpc_config
@@ -472,6 +482,7 @@ module "aws_users_manager" {
   codeconnection_arn       = data.aws_codestarconnections_connection.this.arn
   github_token             = data.aws_secretsmanager_secret_version.github_token.secret_string
   sns_topic_arn            = local.ci_alerts_sns_topic_arn
+  sns_kms_key_arn          = local.ci_alerts_sns_topic_kms_arn
   access_log_bucket_id     = local.access_log_bucket_id
   admin_roles              = local.tf_admin_roles
   vpc_config               = local.vpc_config
@@ -522,6 +533,7 @@ module "prowler_scan_enqueuer" {
   codeconnection_arn              = data.aws_codestarconnections_connection.this.arn
   github_token                    = data.aws_secretsmanager_secret_version.github_token.secret_string
   sns_topic_arn                   = local.ci_alerts_sns_topic_arn
+  sns_kms_key_arn                 = local.ci_alerts_sns_topic_kms_arn
   access_log_bucket_id            = local.access_log_bucket_id
   admin_roles                     = local.tf_admin_roles
   vpc_config                      = local.vpc_config
