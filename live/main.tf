@@ -68,7 +68,7 @@ locals {
   vpc_config                  = data.terraform_remote_state.ci.outputs.vpc_config
   agent_security_group_ids    = data.terraform_remote_state.ci.outputs.agent_security_group_ids
   ci_alerts_sns_topic_arn     = data.terraform_remote_state.ci.outputs.sns_topic_arn
-  ci_alerts_sns_topic_kms_arn = data.terraform_remote_state.ci.outputs.sns_kms_key_arn
+  ci_alerts_sns_topic_kms_arn = null # data.terraform_remote_state.ci.outputs.sns_kms_key_arn
 }
 
 module "label" {
