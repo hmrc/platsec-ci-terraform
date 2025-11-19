@@ -61,7 +61,7 @@ data "aws_iam_policy_document" "sns_topic_encryption_key_supplementary" {
   statement {
     sid = "AllowPipelineRolesForSNS"
     principals {
-      type        = "AWS"
+      type = "AWS"
       identifiers = [
         "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/*"
       ]
