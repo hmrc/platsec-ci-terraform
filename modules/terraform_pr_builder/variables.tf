@@ -20,7 +20,7 @@ variable "codeconnection_arn" {
 
 variable "concurrent_build_limit" {
   type    = number
-  default = 1
+  default = 3
 }
 
 variable "environments" {
