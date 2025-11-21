@@ -27,6 +27,11 @@ variable "sns_topic_arn" {
   default = null
 }
 
+variable "sns_kms_key_arn" {
+  type    = string
+  default = null
+}
+
 variable "step_timeout_in_minutes" {
   default = 15
 }

@@ -19,6 +19,7 @@ module "pipeline" {
     service_endpoints = module.networking.ci_agent_to_endpoints_sg_id
   }
   sns_topic_arn        = module.ci_alerts_sns_topic.arn
+  sns_kms_key_arn      = module.ci_alerts_sns_topic.kms_key_arn
   access_log_bucket_id = local.access_logs_bucket_name
   github_token         = data.aws_secretsmanager_secret_version.github_token.secret_string
   codeconnection_arn   = data.aws_codestarconnections_connection.this.arn
