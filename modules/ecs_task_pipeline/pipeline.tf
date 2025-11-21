@@ -130,6 +130,7 @@ resource "aws_codepipeline" "codepipeline" {
       version  = "1"
 
       configuration = {
+        NotificationArn : var.sns_topic_arn,
         ExternalEntityLink : "https://github.com/${var.src_org}/${var.src_repo}/commit/#{SourceVariables.CommitId}"
         CustomData : "#{SourceVariables.CommitMessage}"
       }
