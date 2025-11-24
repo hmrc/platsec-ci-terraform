@@ -47,6 +47,21 @@ data "aws_iam_policy_document" "this" {
   }
 
   statement {
+    actions = [
+      "kms:GenerateDataKey",
+      "kms:Decrypt",
+      "kms:DescribeKey",
+    ]
+
+    principals {
+      type        = "Service"
+      identifiers = ["codepipeline.amazonaws.com"]
+    }
+
+    resources = [aws_kms_key.sns.arn]
+  }
+
+  statement {
     sid = "SnsTopicSubscriptionCondition"
 
     principals {
