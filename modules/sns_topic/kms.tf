@@ -60,7 +60,11 @@ data "aws_iam_policy_document" "sns_topic_encryption_key_default" {
       identifiers = ["codestar-notifications.amazonaws.com"]
       type        = "Service"
     }
-    effect    = "Allow"
+    effect = "Allow"
+    actions = [
+      "kms:GenerateDataKey",
+      "kms:Decrypt"
+    ]
     resources = ["*"]
     condition {
       test     = "StringEquals"
