@@ -54,6 +54,20 @@ data "aws_iam_policy_document" "sns_topic_encryption_key_default" {
     ]
     resources = ["*"]
   }
+
+  statement {
+    principals {
+      identifiers = ["codestar-notifications.amazonaws.com"]
+      type        = "Service"
+    }
+    effect    = "Allow"
+    resources = ["*"]
+    condition {
+      test     = "StringEquals"
+      variable = "kms:ViaService"
+      values   = ["sns.eu-west-2.amazonaws.com"]
+    }
+  }
 }
 
 data "aws_iam_policy_document" "sns_topic_encryption_key_supplementary" {
