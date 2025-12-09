@@ -64,17 +64,6 @@ module "aws_scanner_repository" {
   }
 }
 
-module "cloudtrail_monitoring_repository" {
-  source = "../modules//ecr_repository"
-
-  repository_name            = "cloudtrail-monitoring"
-  allow_read_account_id_list = local.all_platsec_account_ids
-
-  tags = {
-    service = "cloudtrail_monitoring"
-  }
-}
-
 
 module "cloudtrail_events_monitor_repository" {
   source = "../modules//ecr_repository"
