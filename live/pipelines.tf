@@ -76,31 +76,6 @@ module "bitwarden_manager" {
   }
 }
 
-module "cloudtrail_monitoring" {
-  source = "../modules//lambda_docker_pipeline"
-
-  pipeline_name = "cloudtrail-monitoring"
-  src_repo      = "platsec-cloudtrail-monitoring"
-
-  lambda_function_name = "platsec-cloudtrail-monitoring"
-  ecr_url              = module.cloudtrail_monitoring_repository.url
-  ecr_arn              = module.cloudtrail_monitoring_repository.arn
-
-  accounts                 = local.accounts
-  codeconnection_arn       = data.aws_codestarconnections_connection.this.arn
-  github_token             = data.aws_secretsmanager_secret_version.github_token.secret_string
-  sns_topic_arn            = local.ci_alerts_sns_topic_arn
-  sns_kms_key_arn          = local.ci_alerts_sns_topic_kms_arn
-  access_log_bucket_id     = local.access_log_bucket_id
-  admin_roles              = local.tf_admin_roles
-  vpc_config               = local.vpc_config
-  agent_security_group_ids = local.agent_security_group_ids
-
-  tags = {
-    service = "cloudtrail_monitoring"
-  }
-}
-
 module "cloudtrail_events_monitor" {
   source = "../modules//lambda_docker_pipeline"
 

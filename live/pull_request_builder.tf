@@ -131,22 +131,22 @@ module "prowler_scan_enqueuer_pr_builder" {
   }
 }
 
-module "cloudtrail_monitoring_pr_builder" {
+module "cloudtrail_events_monitor_pr_builder" {
 
   source = "../modules//pull_request_builder"
 
   codeconnection_arn   = data.aws_codestarconnections_connection.this.arn
   src_repo             = "platsec-cloudtrail-monitoring"
-  buildspec            = "cloudtrail-monitoring.yaml"
+  buildspec            = "cloudtrail-events-monitor.yaml"
   docker_required      = true
-  project_name         = "cloudtrail-monitoring-pr-builder"
+  project_name         = "cloudtrail-events-monitor-pr-builder"
   project_assume_roles = {}
 
   vpc_config               = local.vpc_config
   agent_security_group_ids = local.agent_security_group_ids
 
   tags = {
-    service = "cloudtrail-monitoring"
+    service = "cloudtrail-events-monitor"
   }
 }
 
