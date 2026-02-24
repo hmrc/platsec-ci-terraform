@@ -263,4 +263,5 @@ module "security_hub_alert_processor_pr_builder" {
   tags = {
     service = "security_hub_alert_processor_pr_builder"
   }
+
 }
