@@ -62,12 +62,12 @@ resource "aws_iam_role" "deploy" {
   }, var.tags)
 }
 
-locals {
-  deploy_policy_arns = [var.build_core_policy_arn, aws_iam_policy.deploy.arn]
+resource "aws_iam_role_policy_attachment" "managed_policy" {
+  count      = length(local.managed_policy_arns)
+  role       = aws_iam_role.deploy.name
+  policy_arn = local.managed_policy_arns[count.index]
 }
 
-resource "aws_iam_role_policy_attachment" "managed_policy" {
-  count      = length(local.deploy_policy_arns)
-  role       = aws_iam_role.deploy.name
-  policy_arn = local.deploy_policy_arns[count.index]
+locals {
+  managed_policy_arns = [var.build_core_policy_arn, aws_iam_policy.deploy.arn]
 }
