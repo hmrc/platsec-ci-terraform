@@ -245,3 +245,23 @@ module "policyexplorer_pr_builder" {
     service = "policyexplorer-pr-builder"
   }
 }
+
+module "security_hub_alert_processor_pr_builder" {
+
+  source = "../modules//pull_request_builder"
+
+  codeconnection_arn   = data.aws_codestarconnections_connection.this.arn
+  src_repo             = "security-hub-alert-processor"
+  buildspec            = "security-hub-alert-processor.yaml"
+  docker_required      = true
+  project_name         = "security-hub-alert-processor-pr-builder"
+  project_assume_roles = {}
+
+  vpc_config               = local.vpc_config
+  agent_security_group_ids = local.agent_security_group_ids
+
+  tags = {
+    service = "security_hub_alert_processor_pr_builder"
+  }
+
+}

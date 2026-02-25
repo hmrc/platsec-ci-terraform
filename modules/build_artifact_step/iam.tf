@@ -59,9 +59,9 @@ resource "aws_iam_role" "build" {
 }
 
 resource "aws_iam_role_policy_attachment" "managed_policy" {
-  for_each   = toset(local.managed_policy_arns)
+  count      = length(local.managed_policy_arns)
   role       = aws_iam_role.build.name
-  policy_arn = each.value
+  policy_arn = local.managed_policy_arns[count.index]
 }
 
 data "aws_iam_policy_document" "step_assume_roles" {

@@ -523,3 +523,27 @@ module "prowler_scan_enqueuer" {
   }
 }
 
+module "security_hub_alert_processor" {
+  source = "../modules//lambda_docker_pipeline"
+
+  pipeline_name = "security-hub-alert-processor"
+  src_repo      = "security-hub-alert-processor"
+
+  lambda_function_name = "security-hub-alert-processor-lambda"
+  ecr_url              = module.security_hub_alert_processor_repository.url
+  ecr_arn              = module.security_hub_alert_processor_repository.arn
+
+  accounts                 = local.accounts
+  codeconnection_arn       = data.aws_codestarconnections_connection.this.arn
+  github_token             = data.aws_secretsmanager_secret_version.github_token.secret_string
+  sns_topic_arn            = local.ci_alerts_sns_topic_arn
+  sns_kms_key_arn          = local.ci_alerts_sns_topic_kms_arn
+  access_log_bucket_id     = local.access_log_bucket_id
+  admin_roles              = local.tf_admin_roles
+  vpc_config               = local.vpc_config
+  agent_security_group_ids = local.agent_security_group_ids
+
+  tags = {
+    service = "security_hub_alert_processor"
+  }
+}

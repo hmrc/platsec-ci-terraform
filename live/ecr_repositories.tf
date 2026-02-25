@@ -143,6 +143,17 @@ module "security_reports_frontend_repository" {
   }
 }
 
+module "security_hub_alert_processor_repository" {
+  source = "../modules//ecr_repository"
+
+  repository_name            = "security-hub-alert-processor"
+  allow_read_account_id_list = local.all_platsec_account_ids
+
+  tags = {
+    service = "security_hub_alert_processor"
+  }
+}
+
 module "github_scanner_repository" {
   source = "../modules//ecr_repository"
 
