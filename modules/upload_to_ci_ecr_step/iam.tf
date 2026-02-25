@@ -62,8 +62,12 @@ resource "aws_iam_role" "deploy" {
   }, var.tags)
 }
 
+locals {
+  deploy_policy_arns = [var.build_core_policy_arn, aws_iam_policy.deploy.arn]
+}
+
 resource "aws_iam_role_policy_attachment" "managed_policy" {
-  for_each   = toset(concat([var.build_core_policy_arn], [aws_iam_policy.deploy.arn]))
+  count      = length(local.deploy_policy_arns)
   role       = aws_iam_role.deploy.name
-  policy_arn = each.value
+  policy_arn = local.deploy_policy_arns[count.index]
 }

@@ -31,7 +31,7 @@ resource "aws_iam_role" "codebuild" {
 }
 
 resource "aws_iam_role_policy_attachment" "managed_policy" {
-  for_each   = toset(var.policy_arns)
+  count      = length(var.policy_arns)
   role       = aws_iam_role.codebuild.name
-  policy_arn = each.value
+  policy_arn = var.policy_arns[count.index]
 }
