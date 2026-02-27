@@ -34,7 +34,7 @@ data "aws_secretsmanager_secret_version" "central_audit_development_account_id" 
 }
 
 data "aws_secretsmanager_secret_version" "central_audit_development_role_arn" {
-  for_each  = toset(["terraform-applier", "terraform-planner"])
+  for_each  = toset(["terraform-applier", "terraform-planner", "lambda-deploy"])
   secret_id = "arn:aws:secretsmanager:eu-west-2:${data.aws_secretsmanager_secret_version.central_audit_development_account_id.secret_string}:secret:/shared/ci-${each.value}-role-arn"
 }
 
@@ -43,7 +43,7 @@ data "aws_secretsmanager_secret_version" "central_audit_production_account_id" {
 }
 
 data "aws_secretsmanager_secret_version" "central_audit_production_role_arn" {
-  for_each  = toset(["terraform-applier", "terraform-planner"])
+  for_each  = toset(["terraform-applier", "terraform-planner", "lambda-deploy"])
   secret_id = "arn:aws:secretsmanager:eu-west-2:${data.aws_secretsmanager_secret_version.central_audit_production_account_id.secret_string}:secret:/shared/ci-${each.value}-role-arn"
 }
 

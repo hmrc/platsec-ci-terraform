@@ -533,7 +533,12 @@ module "security_hub_alert_processor" {
   ecr_url              = module.security_hub_alert_processor_repository.url
   ecr_arn              = module.security_hub_alert_processor_repository.arn
 
-  accounts                 = local.accounts
+  accounts = {
+    sandbox     = local.accounts.sandbox
+    development = local.accounts.central_audit_development
+    production  = local.accounts.central_audit_production
+  }
+
   codeconnection_arn       = data.aws_codestarconnections_connection.this.arn
   github_token             = data.aws_secretsmanager_secret_version.github_token.secret_string
   sns_topic_arn            = local.ci_alerts_sns_topic_arn
