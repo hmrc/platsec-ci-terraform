@@ -188,22 +188,22 @@ module "compliance_dataviz_pr_builder" {
   }
 }
 
-module "github_scanner_pr_builder" {
+module "platsec_scanner_pr_builder" {
 
   source = "../modules//pull_request_builder"
 
   codeconnection_arn   = data.aws_codestarconnections_connection.this.arn
-  src_repo             = "platsec-scanning-tools"
-  buildspec            = "github-scanner.yaml"
+  src_repo             = "platsec-scanner"
+  buildspec            = "platsec-scanner.yaml"
   docker_required      = true
-  project_name         = "github-scanner-pr-builder"
+  project_name         = "platsec-scanner-pr-builder"
   project_assume_roles = {}
 
   vpc_config               = local.vpc_config
   agent_security_group_ids = local.agent_security_group_ids
 
   tags = {
-    service = "github_scanner"
+    service = "platsec_scanner"
   }
 }
 

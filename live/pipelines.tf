@@ -101,16 +101,16 @@ module "cloudtrail_events_monitor" {
   }
 }
 
-module "github_scanner" {
+module "platsec_scanner" {
   source = "../modules//lambda_docker_pipeline"
 
-  pipeline_name = "github-scanner"
-  src_repo      = "platsec-scanning-tools"
+  pipeline_name = "platsec-scanner"
+  src_repo      = "platsec-scanner"
   github_token  = data.aws_secretsmanager_secret_version.github_token.secret_string
 
-  lambda_function_name = "github_scanner"
-  ecr_arn              = module.github_scanner_repository.arn
-  ecr_url              = module.github_scanner_repository.url
+  lambda_function_name = "platsec_scanner_lambda"
+  ecr_arn              = module.platsec_scanner_repository.arn
+  ecr_url              = module.platsec_scanner_repository.url
 
   accounts                 = local.accounts
   codeconnection_arn       = data.aws_codestarconnections_connection.this.arn
@@ -122,7 +122,7 @@ module "github_scanner" {
   agent_security_group_ids = local.agent_security_group_ids
 
   tags = {
-    service = "github_scanner"
+    service = "platsec_scanner"
   }
 }
 
