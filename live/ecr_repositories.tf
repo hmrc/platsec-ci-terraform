@@ -154,14 +154,14 @@ module "security_hub_alert_processor_repository" {
   }
 }
 
-module "github_scanner_repository" {
+module "platsec_scanner_repository" {
   source = "../modules//ecr_repository"
 
-  repository_name            = "github-scanner"
+  repository_name            = "platsec-scanner"
   allow_read_account_id_list = local.all_platsec_account_ids
 
   tags = {
-    service = "github_scanner"
+    service = "platsec_scanner"
   }
 }
 
