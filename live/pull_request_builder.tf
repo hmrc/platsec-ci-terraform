@@ -169,25 +169,6 @@ module "compliance_alerting_pr_builder" {
   }
 }
 
-module "compliance_dataviz_pr_builder" {
-
-  source = "../modules//pull_request_builder"
-
-  codeconnection_arn   = data.aws_codestarconnections_connection.this.arn
-  src_repo             = "platsec-compliance-dataviz"
-  buildspec            = "compliance-dataviz.yaml"
-  docker_required      = true
-  project_name         = "compliance-dataviz-pr-builder"
-  project_assume_roles = {}
-
-  vpc_config               = local.vpc_config
-  agent_security_group_ids = local.agent_security_group_ids
-
-  tags = {
-    service = "compliance-dataviz"
-  }
-}
-
 module "platsec_scanner_pr_builder" {
 
   source = "../modules//pull_request_builder"
