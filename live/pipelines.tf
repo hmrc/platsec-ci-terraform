@@ -250,34 +250,6 @@ module "renovatebot" {
   }
 }
 
-module "security_reports_frontend" {
-  source = "../modules//ecs_task_pipeline"
-
-  pipeline_name = "compliance-dataviz"
-  src_repo      = "platsec-compliance-dataviz"
-  branch        = "main"
-
-  cluster_name = "security_reports_frontend"
-  service_name = "compliance_dataviz"
-  task_name    = "compliance_dataviz_task"
-  ecr_url      = module.security_reports_frontend_repository.url
-  ecr_arn      = module.security_reports_frontend_repository.arn
-
-  accounts                 = local.accounts
-  codeconnection_arn       = data.aws_codestarconnections_connection.this.arn
-  github_token             = data.aws_secretsmanager_secret_version.github_token.secret_string
-  sns_topic_arn            = local.ci_alerts_sns_topic_arn
-  sns_kms_key_arn          = local.ci_alerts_sns_topic_kms_arn
-  access_log_bucket_id     = local.access_log_bucket_id
-  admin_roles              = local.tf_admin_roles
-  vpc_config               = local.vpc_config
-  agent_security_group_ids = local.agent_security_group_ids
-
-  tags = {
-    service = "security_reports_frontend"
-  }
-}
-
 module "sandbox_aws_nuke" {
   source = "../modules//sandbox_lambda_docker_pipeline"
 
