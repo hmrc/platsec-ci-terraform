@@ -102,24 +102,24 @@ module "cloudtrail_events_monitor" {
 }
 
 module "platsec_scanner" {
-  source = "../modules//lambda_docker_pipeline"
+  source = "../modules//docker_pipeline"
 
   pipeline_name = "platsec-scanner"
   src_repo      = "platsec-scanner"
-  github_token  = data.aws_secretsmanager_secret_version.github_token.secret_string
 
-  lambda_function_name = "platsec_scanner_lambda"
-  ecr_arn              = module.platsec_scanner_repository.arn
-  ecr_url              = module.platsec_scanner_repository.url
+  ecr_url = module.platsec_scanner_repository.url
+  ecr_arn = module.platsec_scanner_repository.arn
 
-  accounts                 = local.accounts
-  codeconnection_arn       = data.aws_codestarconnections_connection.this.arn
-  sns_topic_arn            = local.ci_alerts_sns_topic_arn
-  sns_kms_key_arn          = local.ci_alerts_sns_topic_kms_arn
-  access_log_bucket_id     = local.access_log_bucket_id
-  admin_roles              = local.tf_admin_roles
-  vpc_config               = local.vpc_config
-  agent_security_group_ids = local.agent_security_group_ids
+  accounts                        = local.accounts
+  codeconnection_arn              = data.aws_codestarconnections_connection.this.arn
+  github_token                    = data.aws_secretsmanager_secret_version.github_token.secret_string
+  sns_topic_arn                   = local.ci_alerts_sns_topic_arn
+  access_log_bucket_id            = local.access_log_bucket_id
+  admin_roles                     = local.tf_admin_roles
+  vpc_config                      = local.vpc_config
+  agent_security_group_ids        = local.agent_security_group_ids
+  build_timeout_in_minutes        = 15
+  upload_image_timeout_in_minutes = 10
 
   tags = {
     service = "platsec_scanner"
@@ -448,9 +448,8 @@ module "prowler_scanner" {
   pipeline_name = "prowler-scanner"
   src_repo      = "prowler-scanner"
 
-  lambda_function_name = "prowler-scanner-lambda"
-  ecr_url              = module.prowler_scanner_repository.url
-  ecr_arn              = module.prowler_scanner_repository.arn
+  ecr_url = module.prowler_scanner_repository.url
+  ecr_arn = module.prowler_scanner_repository.arn
 
   accounts                        = local.accounts
   codeconnection_arn              = data.aws_codestarconnections_connection.this.arn
