@@ -7,6 +7,7 @@ provider "aws" {
       region      = "eu-west-2"
       environment = "bootstrap"
       service     = "bootstrap"
+      source      = "https://github.com/hmrc/platsec-ci-terraform"
     }
   }
 }
