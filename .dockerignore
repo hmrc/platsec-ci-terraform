@@ -1,0 +1,9 @@
+.editorconfig
+.git/
+.gitignore
+.pre-commit-config.yaml
+.terraform.d/
+**/*/terraform.d/
+LICENSE
+README.md
+repository.yaml

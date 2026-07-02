@@ -3,7 +3,7 @@ provider "aws" {
 
   default_tags {
     tags = {
-      repository  = "${local.repo}"
+      source      = "${local.repo}"
       team        = "platsec"
       region      = "eu-west-2"
       environment = "bootstrap"
@@ -24,7 +24,7 @@ provider "aws" {
 
   default_tags {
     tags = {
-      repository  = "${local.repo}"
+      source      = "${local.repo}"
       team        = "platsec"
       region      = "us-east-1"
       environment = "bootstrap"
