@@ -27,6 +27,7 @@ data "aws_iam_policy_document" "cloudwatch" {
       "kms:ScheduleKeyDeletion",
       "kms:ScheduleKeyDeletionPendingWindowInDays",
       "kms:ScheduleKeyRotation",
+      "kms:TagResource",
       "kms:UpdateKeyDescription",
       "kms:UpdateAlias"
     ]
