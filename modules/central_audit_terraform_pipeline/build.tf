@@ -11,8 +11,11 @@ module "apply_step" {
   step_name          = "${module.common.pipeline_name}-apply-${each.key}"
   timeout_in_minutes = var.test_timeout_in_minutes
 
-  s3_bucket_arn       = module.common.bucket_arn
-  policy_arns         = [module.common.policy_build_core_arn, aws_iam_policy.secretsmanager.arn]
+  s3_bucket_arn = module.common.bucket_arn
+  policy_arns = concat(
+    [module.common.policy_build_core_arn, aws_iam_policy.secretsmanager.arn],
+    length(var.ecr_push_repository_arns) == 0 ? [] : [aws_iam_policy.ecr_push[0].arn],
+  )
   step_assume_roles   = each.value
   build_spec_contents = templatefile("${path.module}/buildspecs/apply.yaml.tpl", { target = each.key })
 

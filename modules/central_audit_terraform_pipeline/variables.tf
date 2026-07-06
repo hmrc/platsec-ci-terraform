@@ -70,3 +70,9 @@ variable "tags" {
   description = "A map of key, value pairs to be added to resources as tags"
   default     = {}
 }
+
+variable "ecr_push_repository_arns" {
+  type        = list(string)
+  description = "ECR repository ARNs the apply step is allowed to push images to"
+  default     = []
+}
