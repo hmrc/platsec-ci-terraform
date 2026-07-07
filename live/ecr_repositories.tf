@@ -76,6 +76,17 @@ module "cloudtrail_events_monitor_repository" {
   }
 }
 
+module "vpc_flow_logs_splunk_lambda_repository" {
+  source = "../modules//ecr_repository"
+
+  repository_name            = "vpc-flow-logs-splunk-lambda"
+  allow_read_account_id_list = local.all_platsec_account_ids
+
+  tags = {
+    service = "vpc-flow-logs-splunk-lambda"
+  }
+}
+
 
 module "compliance_alerting_repository" {
   source = "../modules//ecr_repository"

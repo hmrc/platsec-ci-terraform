@@ -412,6 +412,10 @@ module "central_account_terraform_pipeline" {
     },
   ]
 
+  ecr_push_repository_arns = [
+    module.vpc_flow_logs_splunk_lambda_repository.arn,
+  ]
+
   tags = {
     service = "central_account_terraform_pipeline"
   }
