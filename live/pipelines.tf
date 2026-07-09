@@ -536,7 +536,7 @@ module "n8n" {
   branch        = "main"
 
   task_name    = "n8n"
-  service_name = "n8n-service"
+  service_name = "n8n_service"
   cluster_name = "n8n"
   ecr_arn      = module.n8n_repository.arn
   ecr_url      = module.n8n_repository.url
@@ -552,6 +552,6 @@ module "n8n" {
   agent_security_group_ids = local.agent_security_group_ids
 
   tags = {
-    service = "n8n_corretto"
+    service = "n8n_service"
   }
 }
