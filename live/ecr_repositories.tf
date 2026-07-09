@@ -194,6 +194,6 @@ module "n8n_repository" {
   allow_read_account_id_list = local.all_platsec_account_ids
 
   tags = {
-    service = "platsec_n8n_service"
+    service = "platsec_n8n"
   }
 }

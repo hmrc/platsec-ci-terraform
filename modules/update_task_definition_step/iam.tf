@@ -52,7 +52,10 @@ resource "aws_iam_role" "deploy" {
 }
 
 resource "aws_iam_role_policy_attachment" "managed_policy" {
-  for_each   = toset(concat([var.build_core_policy_arn], [aws_iam_policy.deploy.arn]))
+  for_each = {
+    build_core = var.build_core_policy_arn
+    deploy     = aws_iam_policy.deploy.arn
+  }
   role       = aws_iam_role.deploy.name
   policy_arn = each.value
 }
