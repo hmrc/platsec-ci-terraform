@@ -190,10 +190,10 @@ module "vault_policy_applier_repository" {
 module "n8n_repository" {
   source = "../modules//ecr_repository"
 
-  repository_name            = "n8n-repository"
+  repository_name            = "platsec-n8n"
   allow_read_account_id_list = local.all_platsec_account_ids
 
   tags = {
-    service = "n8n_repository"
+    service = "platsec_n8n_service"
   }
 }

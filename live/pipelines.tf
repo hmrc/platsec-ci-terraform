@@ -532,11 +532,11 @@ module "n8n" {
   source = "../modules//ecs_task_pipeline"
 
   pipeline_name = "n8n"
-  src_repo      = "n8n-repository"
+  src_repo      = "n8n"
   branch        = "main"
 
   task_name    = "n8n"
-  service_name = "n8n_service"
+  service_name = "n8n-service"
   cluster_name = "n8n"
   ecr_arn      = module.n8n_repository.arn
   ecr_url      = module.n8n_repository.url
@@ -552,6 +552,6 @@ module "n8n" {
   agent_security_group_ids = local.agent_security_group_ids
 
   tags = {
-    service = "n8n_service"
+    service = "platsec_n8n_service"
   }
 }
