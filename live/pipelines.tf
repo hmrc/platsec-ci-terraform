@@ -527,3 +527,31 @@ module "security_hub_alert_processor" {
     service = "security_hub_alert_processor"
   }
 }
+
+module "n8n" {
+  source = "../modules//ecs_task_pipeline"
+
+  pipeline_name = "n8n"
+  src_repo      = "n8n-repository"
+  branch        = "main"
+
+  task_name    = "n8n"
+  service_name = "n8n-service"
+  cluster_name = "n8n"
+  ecr_arn      = module.n8n_repository.arn
+  ecr_url      = module.n8n_repository.url
+
+  accounts                 = local.accounts
+  codeconnection_arn       = data.aws_codestarconnections_connection.this.arn
+  github_token             = data.aws_secretsmanager_secret_version.github_token.secret_string
+  sns_topic_arn            = local.ci_alerts_sns_topic_arn
+  sns_kms_key_arn          = local.ci_alerts_sns_topic_kms_arn
+  access_log_bucket_id     = local.access_log_bucket_id
+  admin_roles              = local.tf_admin_roles
+  vpc_config               = local.vpc_config
+  agent_security_group_ids = local.agent_security_group_ids
+
+  tags = {
+    service = "n8n_corretto"
+  }
+}
