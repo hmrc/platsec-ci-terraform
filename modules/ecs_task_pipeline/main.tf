@@ -19,4 +19,5 @@ module "common" {
   sns_kms_key_arn      = var.sns_kms_key_arn
   access_log_bucket_id = var.access_log_bucket_id
   admin_roles          = var.admin_roles
+  tags                 = var.tags
 }
