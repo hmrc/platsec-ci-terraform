@@ -1,0 +1,40 @@
+version: 0.2
+
+env:
+  shell: bash
+
+phases:
+  pre_build:
+    commands:
+      - |
+        STS="$( \
+          aws sts assume-role \
+          --role-arn "${DEPLOYMENT_ROLE_ARN}" \
+          --role-session-name "${CODEBUILD_INITIATOR#*/}-${CODEBUILD_BUILD_NUMBER}" \
+          --query "Credentials" \
+          )"
+      - aws configure set profile.update-batch.aws_access_key_id "$(jq -r '.AccessKeyId' <<<"${STS}")"
+      - aws configure set profile.update-batch.aws_secret_access_key "$(jq -r '.SecretAccessKey' <<<"${STS}")"
+      - aws configure set profile.update-batch.aws_session_token "$(jq -r '.SessionToken' <<<"${STS}")"
+  build:
+    commands:
+      - export NEW_IMAGE="${ECR_URL}:${IMAGE_TAG}"
+      - |
+        export CURRENT_JOB_DEF=$(aws batch describe-job-definitions --profile update-batch \
+          --job-definition-name "${JOB_DEFINITION_NAME}" --status ACTIVE \
+          --query 'sort_by(jobDefinitions, &revision)[-1]')
+      - |
+        export NEW_JOB_DEF=$(jq \
+          --arg image "${NEW_IMAGE}" \
+          '{
+            jobDefinitionName: .jobDefinitionName,
+            type: .type,
+            parameters: .parameters,
+            containerProperties: (.containerProperties | .image = $image),
+            retryStrategy: .retryStrategy,
+            timeout: .timeout,
+            platformCapabilities: .platformCapabilities,
+            propagateTags: .propagateTags,
+            tags: .tags
+          } | with_entries(select(.value != null))' <<<"${CURRENT_JOB_DEF}")
+      - aws batch register-job-definition --profile update-batch --cli-input-json "${NEW_JOB_DEF}"
