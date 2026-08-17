@@ -107,9 +107,9 @@ module "platsec_scanner" {
   pipeline_name = "platsec-scanner"
   src_repo      = "platsec-scanner"
 
-  ecr_url              = module.platsec_scanner_repository.url
-  ecr_arn              = module.platsec_scanner_repository.arn
-  job_definition_name  = "platsec-scanner-jd"
+  ecr_url             = module.platsec_scanner_repository.url
+  ecr_arn             = module.platsec_scanner_repository.arn
+  job_definition_name = "platsec-scanner-jd"
 
   accounts                 = local.accounts
   codeconnection_arn       = data.aws_codestarconnections_connection.this.arn

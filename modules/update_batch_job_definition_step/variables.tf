@@ -28,7 +28,7 @@ variable "ecr_url" {
 
 variable "job_definition_name" {
   type        = string
-  description = "The Batch job definition family name (not a revision-pinned ARN)"
+  description = "The Batch job definition family name already deployed in platsec-terraform"
 }
 
 variable "deployment_role_arn" {
