@@ -102,24 +102,23 @@ module "cloudtrail_events_monitor" {
 }
 
 module "platsec_scanner" {
-  source = "../modules//docker_pipeline"
+  source = "../modules//batch_task_pipeline"
 
   pipeline_name = "platsec-scanner"
   src_repo      = "platsec-scanner"
 
-  ecr_url = module.platsec_scanner_repository.url
-  ecr_arn = module.platsec_scanner_repository.arn
+  ecr_url             = module.platsec_scanner_repository.url
+  ecr_arn             = module.platsec_scanner_repository.arn
+  job_definition_name = "platsec-scanner-jd"
 
-  accounts                        = local.accounts
-  codeconnection_arn              = data.aws_codestarconnections_connection.this.arn
-  github_token                    = data.aws_secretsmanager_secret_version.github_token.secret_string
-  sns_topic_arn                   = local.ci_alerts_sns_topic_arn
-  access_log_bucket_id            = local.access_log_bucket_id
-  admin_roles                     = local.tf_admin_roles
-  vpc_config                      = local.vpc_config
-  agent_security_group_ids        = local.agent_security_group_ids
-  build_timeout_in_minutes        = 15
-  upload_image_timeout_in_minutes = 10
+  accounts                 = local.accounts
+  codeconnection_arn       = data.aws_codestarconnections_connection.this.arn
+  github_token             = data.aws_secretsmanager_secret_version.github_token.secret_string
+  sns_topic_arn            = local.ci_alerts_sns_topic_arn
+  access_log_bucket_id     = local.access_log_bucket_id
+  admin_roles              = local.tf_admin_roles
+  vpc_config               = local.vpc_config
+  agent_security_group_ids = local.agent_security_group_ids
 
   tags = {
     service = "platsec_scanner"
@@ -447,24 +446,23 @@ module "aws_users_manager" {
 }
 
 module "prowler_scanner" {
-  source = "../modules//docker_pipeline"
+  source = "../modules//batch_task_pipeline"
 
   pipeline_name = "prowler-scanner"
   src_repo      = "prowler-scanner"
 
-  ecr_url = module.prowler_scanner_repository.url
-  ecr_arn = module.prowler_scanner_repository.arn
+  ecr_url             = module.prowler_scanner_repository.url
+  ecr_arn             = module.prowler_scanner_repository.arn
+  job_definition_name = "batch-prowler-scanner-jd"
 
-  accounts                        = local.accounts
-  codeconnection_arn              = data.aws_codestarconnections_connection.this.arn
-  github_token                    = data.aws_secretsmanager_secret_version.github_token.secret_string
-  sns_topic_arn                   = local.ci_alerts_sns_topic_arn
-  access_log_bucket_id            = local.access_log_bucket_id
-  admin_roles                     = local.tf_admin_roles
-  vpc_config                      = local.vpc_config
-  agent_security_group_ids        = local.agent_security_group_ids
-  build_timeout_in_minutes        = 15
-  upload_image_timeout_in_minutes = 10
+  accounts                 = local.accounts
+  codeconnection_arn       = data.aws_codestarconnections_connection.this.arn
+  github_token             = data.aws_secretsmanager_secret_version.github_token.secret_string
+  sns_topic_arn            = local.ci_alerts_sns_topic_arn
+  access_log_bucket_id     = local.access_log_bucket_id
+  admin_roles              = local.tf_admin_roles
+  vpc_config               = local.vpc_config
+  agent_security_group_ids = local.agent_security_group_ids
 
   tags = {
     service = "prowler-scanner"
