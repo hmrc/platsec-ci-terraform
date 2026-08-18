@@ -119,6 +119,22 @@ resource "aws_vpc_endpoint" "ecs" {
   }, var.tags)
 }
 
+resource "aws_vpc_endpoint" "batch" {
+  vpc_id            = module.vpc.vpc_id
+  service_name      = "com.amazonaws.${data.aws_region.current.region}.batch"
+  vpc_endpoint_type = "Interface"
+
+  security_group_ids = [
+    aws_security_group.aws_interface_endpoints.id,
+  ]
+  subnet_ids          = module.vpc.private_subnets
+  private_dns_enabled = true
+
+  tags = merge({
+    Name : "${local.vpc_name}-batch"
+  }, var.tags)
+}
+
 # S3 for downloading source code
 resource "aws_vpc_endpoint" "s3" {
   vpc_id       = module.vpc.vpc_id
