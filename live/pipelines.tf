@@ -117,6 +117,7 @@ module "platsec_scanner" {
   codeconnection_arn       = data.aws_codestarconnections_connection.this.arn
   github_token             = data.aws_secretsmanager_secret_version.github_token.secret_string
   sns_topic_arn            = local.ci_alerts_sns_topic_arn
+  sns_kms_key_arn          = local.ci_alerts_sns_topic_kms_arn
   access_log_bucket_id     = local.access_log_bucket_id
   admin_roles              = local.tf_admin_roles
   vpc_config               = local.vpc_config
@@ -463,6 +464,7 @@ module "prowler_scanner" {
   codeconnection_arn       = data.aws_codestarconnections_connection.this.arn
   github_token             = data.aws_secretsmanager_secret_version.github_token.secret_string
   sns_topic_arn            = local.ci_alerts_sns_topic_arn
+  sns_kms_key_arn          = local.ci_alerts_sns_topic_kms_arn
   access_log_bucket_id     = local.access_log_bucket_id
   admin_roles              = local.tf_admin_roles
   vpc_config               = local.vpc_config
