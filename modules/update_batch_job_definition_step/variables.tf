@@ -39,6 +39,11 @@ variable "deployment_role_arn" {
   }
 }
 
+variable "timeout_in_minutes" {
+  type    = number
+  default = 5
+}
+
 variable "tags" {
   type        = map(string)
   description = "A map of key, value pairs to be added to resources as tags"

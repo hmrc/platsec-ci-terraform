@@ -42,6 +42,7 @@ module "batch_deployment_development" {
   deployment_role_arn   = var.accounts.development.role_arns["batch-job-update"]
   ecr_url               = var.ecr_url
   job_definition_name   = var.job_definition_name
+  timeout_in_minutes    = var.deploy_timeout_in_minutes
 
   vpc_config               = var.vpc_config
   agent_security_group_ids = [var.agent_security_group_ids.service_endpoints]
@@ -57,6 +58,7 @@ module "batch_deployment_production" {
   deployment_role_arn   = var.accounts.production.role_arns["batch-job-update"]
   ecr_url               = var.ecr_url
   job_definition_name   = var.job_definition_name
+  timeout_in_minutes    = var.deploy_timeout_in_minutes
 
   vpc_config               = var.vpc_config
   agent_security_group_ids = [var.agent_security_group_ids.service_endpoints]
