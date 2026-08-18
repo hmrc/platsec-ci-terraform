@@ -1,8 +1,9 @@
 module "build_artifact_step" {
   source = "../build_artifact_step"
 
-  docker_required = true
-  step_name       = "${module.common.pipeline_name}-build"
+  docker_required    = true
+  step_name          = "${module.common.pipeline_name}-build"
+  timeout_in_minutes = var.build_timeout_in_minutes
 
   s3_bucket_arn            = module.common.bucket_arn
   vpc_config               = var.vpc_config

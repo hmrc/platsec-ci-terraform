@@ -33,6 +33,11 @@ variable "job_definition_name" {
   description = "The Batch job definition family name (not a revision-pinned ARN)"
 }
 
+variable "build_timeout_in_minutes" {
+  type    = number
+  default = 10
+}
+
 variable "target_region" {
   type        = string
   default     = "eu-west-2"
