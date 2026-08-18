@@ -38,6 +38,11 @@ variable "build_timeout_in_minutes" {
   default = 10
 }
 
+variable "deploy_timeout_in_minutes" {
+  type    = number
+  default = 5
+}
+
 variable "target_region" {
   type        = string
   default     = "eu-west-2"
