@@ -37,4 +37,6 @@ phases:
             propagateTags: .propagateTags,
             tags: .tags
           } | with_entries(select(.value != null))' <<<"${CURRENT_JOB_DEF}")
-      - aws batch register-job-definition --profile update-batch --cli-input-json "${NEW_JOB_DEF}"
+      - |
+        NEW_REVISION=$(aws batch register-job-definition --profile update-batch --cli-input-json "${NEW_JOB_DEF}")
+      - echo "Deployed ${JOB_DEFINITION_NAME} revision $(jq -r '.revision' <<<"${NEW_REVISION}") with image ${NEW_IMAGE}"
