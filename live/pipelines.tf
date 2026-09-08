@@ -1,29 +1,3 @@
-module "aws_scanner" {
-  source = "../modules//lambda_docker_pipeline"
-
-  pipeline_name = "aws-scanner"
-  src_repo      = "platsec-aws-scanner"
-  branch        = "main"
-
-  lambda_function_name = "platsec_aws_scanner_lambda"
-  ecr_arn              = module.aws_scanner_repository.arn
-  ecr_url              = module.aws_scanner_repository.url
-
-  accounts                 = local.accounts
-  codeconnection_arn       = data.aws_codestarconnections_connection.this.arn
-  github_token             = data.aws_secretsmanager_secret_version.github_token.secret_string
-  sns_topic_arn            = local.ci_alerts_sns_topic_arn
-  sns_kms_key_arn          = local.ci_alerts_sns_topic_kms_arn
-  access_log_bucket_id     = local.access_log_bucket_id
-  admin_roles              = local.tf_admin_roles
-  vpc_config               = local.vpc_config
-  agent_security_group_ids = local.agent_security_group_ids
-
-  tags = {
-    service = "aws_scanner"
-  }
-}
-
 module "compliance_alerting" {
   source = "../modules//lambda_docker_pipeline"
 
