@@ -14,6 +14,11 @@ locals {
   )
 
   slack_v2_api_key_consumer_planner_role_arns = formatlist("arn:aws:iam::%s:role/RoleTerraformPlanner", local.slack_v2_api_key_consumer_account_ids)
+
+  slack_v2_api_key_consumer_terraform_role_arns = concat(
+    formatlist("arn:aws:iam::%s:role/RoleTerraformApplier", local.slack_v2_api_key_consumer_account_ids),
+    formatlist("arn:aws:iam::%s:role/RoleTerraformPlanner", local.slack_v2_api_key_consumer_account_ids)
+  )
 }
 
 module "slack_v2_api_key_kms_policy" {
@@ -75,7 +80,6 @@ data "aws_iam_policy_document" "slack_v2_api_key" {
     actions = [
       "secretsmanager:GetSecretValue",
       "secretsmanager:DescribeSecret",
-      "secretsmanager:GetResourcePolicy",
     ]
 
     resources = ["*"]
@@ -88,7 +92,7 @@ data "aws_iam_policy_document" "slack_v2_api_key" {
   }
 
   statement {
-    sid    = "AllowCrossAccountPlannerDescribe"
+    sid    = "AllowCrossAccountTerraformDescribe"
     effect = "Allow"
 
     principals {
@@ -106,7 +110,7 @@ data "aws_iam_policy_document" "slack_v2_api_key" {
     condition {
       test     = "ArnEquals"
       variable = "aws:PrincipalArn"
-      values   = local.slack_v2_api_key_consumer_planner_role_arns
+      values   = local.slack_v2_api_key_consumer_terraform_role_arns
     }
   }
 
