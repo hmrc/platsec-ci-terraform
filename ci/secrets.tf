@@ -26,6 +26,8 @@ module "slack_v2_api_key_kms_policy" {
     ]
   )
 
+  describe_roles = formatlist("arn:aws:iam::%s:role/RoleTerraformPlanner", local.slack_v2_api_key_consumer_account_ids)
+
   write_roles = [
     local.terraform_applier_role,
     "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleSecurityEngineer",
