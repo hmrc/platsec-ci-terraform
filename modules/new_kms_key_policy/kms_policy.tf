@@ -6,10 +6,7 @@ locals {
     ["RoleTerraformApplier", "RoleTerraformPlanner", "RoleSecurityEngineer", "RoleKmsAdministrator", "RoleProwlerScanner"]
   )
 
-  describers = var.read_roles != null ? var.read_roles : formatlist(
-    "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/%s",
-    ["RoleTerraformApplier", "RoleTerraformPlanner", "RoleSecurityEngineer", "RoleKmsAdministrator", "RoleProwlerScanner"]
-  )
+  describers = var.describe_roles != null ? var.describe_roles : []
 
   writers = var.write_roles != null ? var.write_roles : formatlist(
     "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/%s",
@@ -25,7 +22,9 @@ locals {
 
   write_services = var.write_services
 
-  all_roles = distinct(concat(local.admins, local.writers, local.readers, local.describers))
+  read_write_admin_roles = distinct(concat(local.admins, local.writers, local.readers))
+
+  all_roles = distinct(concat(local.read_write_admin_roles, local.describers))
 }
 
 data "aws_caller_identity" "current" {}
@@ -251,7 +250,35 @@ data "aws_iam_policy_document" "kms" {
     condition {
       test     = "StringLike"
       variable = "aws:PrincipalArn"
-      values   = local.all_roles
+      values   = local.read_write_admin_roles
+    }
+  }
+
+  dynamic "statement" {
+    for_each = length(local.describers) > 0 ? [1] : []
+    content {
+      sid    = "AllowDescribeAccessForUsers"
+      effect = "Allow"
+
+      principals {
+        type        = "AWS"
+        identifiers = ["*"]
+      }
+
+      actions = [
+        "kms:Describe*",
+        "kms:GetKeyPolicy",
+        "kms:GetKeyRotationStatus",
+        "kms:List*",
+      ]
+
+      resources = ["*"]
+
+      condition {
+        test     = "StringLike"
+        variable = "aws:PrincipalArn"
+        values   = local.describers
+      }
     }
   }
 }
