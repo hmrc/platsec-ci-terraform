@@ -12,6 +12,8 @@ locals {
     formatlist("arn:aws:iam::%s:role/cloudtrail-events-monitor-lambda-lambda", local.slack_v2_api_key_consumer_account_ids),
     formatlist("arn:aws:iam::%s:role/RoleTerraformApplier", local.slack_v2_api_key_consumer_account_ids)
   )
+
+  slack_v2_api_key_consumer_planner_role_arns = formatlist("arn:aws:iam::%s:role/RoleTerraformPlanner", local.slack_v2_api_key_consumer_account_ids)
 }
 
 module "slack_v2_api_key_kms_policy" {
@@ -26,7 +28,7 @@ module "slack_v2_api_key_kms_policy" {
     ]
   )
 
-  describe_roles = formatlist("arn:aws:iam::%s:role/RoleTerraformPlanner", local.slack_v2_api_key_consumer_account_ids)
+  describe_roles = local.slack_v2_api_key_consumer_planner_role_arns
 
   write_roles = [
     local.terraform_applier_role,
@@ -73,6 +75,7 @@ data "aws_iam_policy_document" "slack_v2_api_key" {
     actions = [
       "secretsmanager:GetSecretValue",
       "secretsmanager:DescribeSecret",
+      "secretsmanager:GetResourcePolicy",
     ]
 
     resources = ["*"]
@@ -81,6 +84,29 @@ data "aws_iam_policy_document" "slack_v2_api_key" {
       test     = "ArnEquals"
       variable = "aws:PrincipalArn"
       values   = local.slack_v2_api_key_consumer_role_arns
+    }
+  }
+
+  statement {
+    sid    = "AllowCrossAccountPlannerDescribe"
+    effect = "Allow"
+
+    principals {
+      type        = "AWS"
+      identifiers = local.slack_v2_api_key_consumer_account_ids
+    }
+
+    actions = [
+      "secretsmanager:DescribeSecret",
+      "secretsmanager:GetResourcePolicy",
+    ]
+
+    resources = ["*"]
+
+    condition {
+      test     = "ArnEquals"
+      variable = "aws:PrincipalArn"
+      values   = local.slack_v2_api_key_consumer_planner_role_arns
     }
   }
 
