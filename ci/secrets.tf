@@ -28,7 +28,7 @@ locals {
     nonsensitive(data.aws_secretsmanager_secret_version.production_account_id.secret_string),
   ]
 
-  # Cross access IAM role ARNs for the external GitHub token consumers
+  # Cross-account IAM role ARNs for the external GitHub token.
   development_platsec_scanner_role_arn = "arn:aws:iam::${local.external_github_token_consumer_account_ids[0]}:role/platsec-scanner-jer-*"
   production_platsec_scanner_role_arn  = "arn:aws:iam::${local.external_github_token_consumer_account_ids[1]}:role/platsec-scanner-jer-*"
 
@@ -37,10 +37,25 @@ locals {
     local.production_platsec_scanner_role_arn,
   ]
 
-  external_github_token_consumer_terraform_role_arns = concat(
-    formatlist("arn:aws:iam::%s:role/RoleTerraformApplier", local.external_github_token_consumer_account_ids),
-    formatlist("arn:aws:iam::%s:role/RoleTerraformPlanner", local.external_github_token_consumer_account_ids),
+  # Roles allowed to retrieve and describe the secret.
+  external_github_token_consumer_read_role_arns = concat(
     local.external_github_token_consumer_role_arns,
+    formatlist(
+      "arn:aws:iam::%s:role/RoleTerraformApplier",
+      local.external_github_token_consumer_account_ids
+    ),
+  )
+
+  # Roles allowed to inspect the secret policy and metadata.
+  external_github_token_consumer_terraform_role_arns = concat(
+    formatlist(
+      "arn:aws:iam::%s:role/RoleTerraformApplier",
+      local.external_github_token_consumer_account_ids
+    ),
+    formatlist(
+      "arn:aws:iam::%s:role/RoleTerraformPlanner",
+      local.external_github_token_consumer_account_ids
+    ),
   )
 }
 
