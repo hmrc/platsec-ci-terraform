@@ -84,7 +84,7 @@ data "aws_iam_policy_document" "slack_v2_api_key" {
     resources = ["*"]
 
     condition {
-      test     = "ArnEquals"
+      test     = "ArnLike"
       variable = "aws:PrincipalArn"
       values   = local.slack_v2_api_key_consumer_role_arns
     }
