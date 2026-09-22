@@ -173,7 +173,7 @@ data "aws_iam_policy_document" "external_github_token" {
     resources = ["*"]
 
     condition {
-      test     = "ArnEquals"
+      test     = "ArnLike"
       variable = "aws:PrincipalArn"
       values   = local.external_github_token_consumer_role_arns
     }
