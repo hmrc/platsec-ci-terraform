@@ -19,7 +19,7 @@ module "apply_step" {
 
   s3_bucket_arn = module.common.bucket_arn
   policy_arns = concat(
-    [module.common.policy_build_core_arn, aws_iam_policy.secretsmanager.arn],
+    [module.common.policy_build_core_arn],
     local.ecr_push_policy_arns,
   )
   step_assume_roles   = each.value

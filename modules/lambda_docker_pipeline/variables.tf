@@ -20,10 +20,6 @@ variable "src_repo" {
   type = string
 }
 
-variable "github_token" {
-  type = string
-}
-
 variable "lambda_function_name" {
   type = string
 }

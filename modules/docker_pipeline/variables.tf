@@ -20,10 +20,6 @@ variable "src_repo" {
   type = string
 }
 
-variable "github_token" {
-  type = string
-}
-
 variable "ecr_url" {
   type = string
 }

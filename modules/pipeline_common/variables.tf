@@ -11,10 +11,6 @@ variable "src_repo" {
   type = string
 }
 
-variable "github_token" {
-  type = string
-}
-
 variable "vpc_config" {
   type = object({
     private_subnet_ids  = list(string),
@@ -44,13 +40,9 @@ variable "admin_roles" {
   default     = []
 }
 
-###
-# Presume a codeconnection is present to simplify the config for now
-###
 variable "codeconnection_arn" {
   type        = string
-  description = "(Optional) The aws_codestarconnections_connection ARN."
-  default     = ""
+  description = "The aws_codestarconnections_connection ARN."
 }
 
 variable "tags" {

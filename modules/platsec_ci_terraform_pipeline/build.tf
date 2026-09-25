@@ -11,7 +11,7 @@ module "apply_step" {
   timeout_in_minutes = var.step_timeout_in_minutes
 
   s3_bucket_arn       = module.common.bucket_arn
-  policy_arns         = [module.common.policy_build_core_arn, aws_iam_policy.secretsmanager.arn]
+  policy_arns         = [module.common.policy_build_core_arn]
   step_assume_roles   = each.value
   build_spec_contents = templatefile("${path.module}/buildspecs/apply.yaml.tpl", { target = each.key })
 
