@@ -86,7 +86,12 @@ module "pagerduty_live_services_key_kms_policy" {
     ]
   )
 
-  describe_roles = local.pagerduty_live_services_key_consumer_terraform_role_arns
+  describe_roles = concat(
+    local.pagerduty_live_services_key_consumer_terraform_role_arns,
+    [
+      "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleProwlerScanner"
+    ]
+  )
 
   write_roles = [
     local.terraform_applier_role,
@@ -124,7 +129,12 @@ module "pagerduty_lab_services_key_kms_policy" {
     ]
   )
 
-  describe_roles = local.pagerduty_lab_services_key_consumer_terraform_role_arns
+  describe_roles = concat(
+    local.pagerduty_lab_services_key_consumer_terraform_role_arns,
+    [
+      "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleProwlerScanner"
+    ]
+  )
 
   write_roles = [
     local.terraform_applier_role,
