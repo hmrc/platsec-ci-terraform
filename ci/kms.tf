@@ -74,3 +74,79 @@ resource "aws_kms_alias" "external_github_token" {
   name          = "alias/service_accounts_external_github_token"
   target_key_id = aws_kms_key.external_github_token.id
 }
+
+module "pagerduty_live_service_key_kms_policy" {
+  source = "../modules/kms_key_policy"
+
+  read_roles = concat(
+    local.pagerduty_live_service_key_consumer_read_role_arns,
+    [
+      local.terraform_planner_role,
+      "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleSecurityEngineer",
+    ]
+  )
+
+  describe_roles = local.pagerduty_live_service_key_consumer_terraform_role_arns
+
+  write_roles = [
+    local.terraform_applier_role,
+    "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleSecurityEngineer",
+  ]
+
+  admin_roles = [
+    local.terraform_applier_role,
+    "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleKmsAdministrator",
+  ]
+}
+
+resource "aws_kms_key" "pagerduty_live_service_key" {
+  description                        = "Encrypts the shared pagerduty_live_service_key secret"
+  bypass_policy_lockout_safety_check = false
+  deletion_window_in_days            = 30
+  enable_key_rotation                = true
+  rotation_period_in_days            = 90
+  policy                             = module.pagerduty_live_service_key_kms_policy.policy_document_json
+}
+
+resource "aws_kms_alias" "pagerduty_live_service_key" {
+  name          = "alias/service_accounts_pagerduty_live_service_key"
+  target_key_id = aws_kms_key.pagerduty_live_service_key.id
+}
+
+module "pagerduty_labs_service_key_kms_policy" {
+  source = "../modules/kms_key_policy"
+
+  read_roles = concat(
+    local.pagerduty_labs_service_key_consumer_read_role_arns,
+    [
+      local.terraform_planner_role,
+      "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleSecurityEngineer",
+    ]
+  )
+
+  describe_roles = local.pagerduty_labs_service_key_consumer_terraform_role_arns
+
+  write_roles = [
+    local.terraform_applier_role,
+    "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleSecurityEngineer",
+  ]
+
+  admin_roles = [
+    local.terraform_applier_role,
+    "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleKmsAdministrator",
+  ]
+}
+
+resource "aws_kms_key" "pagerduty_labs_service_key" {
+  description                        = "Encrypts the shared ${local.pagerduty_labs_service_key_secret_name} secret"
+  bypass_policy_lockout_safety_check = false
+  deletion_window_in_days            = 30
+  enable_key_rotation                = true
+  rotation_period_in_days            = 90
+  policy                             = module.pagerduty_labs_service_key_kms_policy.policy_document_json
+}
+
+resource "aws_kms_alias" "pagerduty_labs_service_key" {
+  name          = "alias/service_accounts_pagerduty_labs_service_key"
+  target_key_id = aws_kms_key.pagerduty_labs_service_key.id
+}
