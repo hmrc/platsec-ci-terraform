@@ -20,10 +20,6 @@ variable "src_repo" {
   type = string
 }
 
-variable "github_token" {
-  type = string
-}
-
 variable "target_region" {
   type        = string
   default     = "eu-west-2"
