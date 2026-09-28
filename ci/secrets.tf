@@ -74,6 +74,7 @@ locals {
     nonsensitive(data.aws_secretsmanager_secret_version.development_account_id.secret_string),
     nonsensitive(data.aws_secretsmanager_secret_version.sandbox_account_id.secret_string),
     nonsensitive(data.aws_secretsmanager_secret_version.central_audit_development_account_id.secret_string),
+    nonsensitive(data.aws_secretsmanager_secret_version.central_audit_production_account_id.secret_string),
   ]
 
   pagerduty_live_services_key_consumer_applier_role_arns = formatlist("arn:aws:iam::%s:role/RoleTerraformApplier", local.pagerduty_live_services_key_consumer_account_ids)
