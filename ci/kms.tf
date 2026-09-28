@@ -10,7 +10,12 @@ module "slack_v2_api_key_kms_policy" {
     ]
   )
 
-  describe_roles = local.slack_v2_api_key_consumer_planner_role_arns
+  describe_roles = concat(
+    local.slack_v2_api_key_consumer_planner_role_arns,
+    [
+      "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleProwlerScanner"
+    ]
+  )
 
   write_roles = [
     local.terraform_applier_role,
@@ -48,7 +53,12 @@ module "external_github_token_kms_policy" {
     ]
   )
 
-  describe_roles = local.external_github_token_consumer_terraform_role_arns
+  describe_roles = concat(
+    local.external_github_token_consumer_terraform_role_arns,
+    [
+      "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleProwlerScanner"
+    ]
+  )
 
   write_roles = [
     local.terraform_applier_role,
