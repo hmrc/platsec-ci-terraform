@@ -20,3 +20,9 @@ variable "tags" {
   description = "A map of key, value pairs to be added to resources as tags"
   default     = {}
 }
+
+variable "grant_current_provisioner_admin_access" {
+  type        = bool
+  description = "Whether to automatically grant the IAM role currently running Terraform admin access to the bucket, to avoid accidental self-lockout. Set to false if the role running plan (e.g. a read-only planner role) should never gain admin access."
+  default     = false
+}

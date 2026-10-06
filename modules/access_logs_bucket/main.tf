@@ -1,7 +1,11 @@
 locals {
   current_provisioner_role = data.aws_iam_session_context.current.issuer_arn
 
-  admins  = sort(distinct(concat(var.admin_roles, [local.current_provisioner_role])))
+  # Whoever is currently running Terraform (plan or apply) is automatically treated as an admin
+  # of this bucket/KMS key, so you can never accidentally lock yourself out
+  current_provisioner_admin_roles = var.grant_current_provisioner_admin_access ? [local.current_provisioner_role] : []
+
+  admins  = sort(distinct(concat(var.admin_roles, local.current_provisioner_admin_roles)))
   readers = sort(distinct(concat(var.read_roles, ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleSecurityEngineer"])))
 }
 
