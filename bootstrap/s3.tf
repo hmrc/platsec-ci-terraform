@@ -38,7 +38,7 @@ module "access_logs" {
 
 module "state_bucket" {
   source        = "hmrc/s3-bucket-standard/aws"
-  version       = "3.3.0"
+  version       = "3.3.1"
   bucket_name   = local.tf_state_bucket_name
   force_destroy = false
 
@@ -51,12 +51,13 @@ module "state_bucket" {
   data_expiry      = "forever-config-only"
   data_sensitivity = "high"
 
-  log_bucket_id = module.access_logs.bucket_id
+  log_bucket_id                          = module.access_logs.bucket_id
+  grant_current_provisioner_admin_access = false
 }
 
 module "cf_templates_bucket" {
   source        = "hmrc/s3-bucket-standard/aws"
-  version       = "3.3.0"
+  version       = "3.3.1"
   bucket_name   = "cf-templates-1a94pgui3v5ft-eu-west-2"
   force_destroy = false
 
@@ -69,7 +70,8 @@ module "cf_templates_bucket" {
   data_expiry      = "90-days"
   data_sensitivity = "low"
 
-  log_bucket_id = module.access_logs.bucket_id
+  log_bucket_id                          = module.access_logs.bucket_id
+  grant_current_provisioner_admin_access = false
 }
 
 resource "aws_s3_account_public_access_block" "this" {
