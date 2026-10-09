@@ -28,6 +28,11 @@ resource "aws_codebuild_project" "deploy" {
     }
 
     environment_variable {
+      name  = "SOURCE_TAG"
+      value = data.aws_default_tags.current.tags["source"]
+    }
+
+    environment_variable {
       name  = "DEPLOYMENT_ROLE_ARN"
       value = var.deployment_role_arn
     }

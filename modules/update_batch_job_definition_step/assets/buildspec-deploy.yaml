@@ -26,6 +26,7 @@ phases:
       - |
         export NEW_JOB_DEF=$(jq \
           --arg image "${NEW_IMAGE}" \
+          --arg source "${SOURCE_TAG}" \
           '{
             jobDefinitionName: .jobDefinitionName,
             type: .type,
@@ -35,7 +36,8 @@ phases:
             timeout: .timeout,
             platformCapabilities: .platformCapabilities,
             propagateTags: .propagateTags,
-            tags: .tags
+            tags: ((.tags // {}) | if ((.source // "") | test("\\S"))
+              then . else . + {source: $source} end)
           } | with_entries(select(.value != null))' <<<"${CURRENT_JOB_DEF}")
       - |
         NEW_REVISION=$(aws batch register-job-definition --profile update-batch --cli-input-json "${NEW_JOB_DEF}")
