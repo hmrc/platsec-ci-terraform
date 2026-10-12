@@ -95,6 +95,7 @@ module "platsec_scanner" {
 
   tags = {
     service = "platsec_scanner"
+    source  = local.source
   }
 }
 
@@ -430,6 +431,7 @@ module "prowler_scanner" {
 
   tags = {
     service = "prowler-scanner"
+    source  = local.source
   }
 }
 

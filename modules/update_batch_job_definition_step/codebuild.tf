@@ -29,7 +29,7 @@ resource "aws_codebuild_project" "deploy" {
 
     environment_variable {
       name  = "SOURCE_TAG"
-      value = data.aws_default_tags.current.tags["source"]
+      value = var.tags["source"]
     }
 
     environment_variable {

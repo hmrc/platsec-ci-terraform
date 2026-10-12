@@ -15,7 +15,7 @@ provider "aws" {
       team        = "platsec"
       region      = "eu-west-2"
       environment = "live"
-      source      = "https://github.com/hmrc/platsec-ci-terraform"
+      source      = local.source
     }
   }
 }
