@@ -514,3 +514,64 @@ module "n8n" {
     service = "platsec_n8n"
   }
 }
+
+module "aws_grant_user_access" {
+  source = "../modules//lambda_docker_pipeline"
+
+  pipeline_name = "aws-grant-user-access"
+  src_repo      = "aws-grant-user-access"
+
+  lambda_function_name = "grant-user-access"
+  ecr_url              = module.aws_grant_user_access_repository.url
+  ecr_arn              = module.aws_grant_user_access_repository.arn
+
+  accounts = {
+    sandbox     = local.accounts.sandbox
+    development = local.accounts.development
+    production  = local.accounts.auth
+  }
+
+  codeconnection_arn       = data.aws_codestarconnections_connection.this.arn
+  sns_topic_arn            = local.ci_alerts_sns_topic_arn
+  sns_kms_key_arn          = local.ci_alerts_sns_topic_kms_arn
+  access_log_bucket_id     = local.access_log_bucket_id
+  admin_roles              = local.tf_admin_roles
+  vpc_config               = local.vpc_config
+  agent_security_group_ids = local.agent_security_group_ids
+
+  tags = {
+    service = "aws_grant_user_access"
+  }
+}
+
+module "aws_grant_user_access_terraform_pipeline" {
+  source = "../modules//platsec_terraform_pipeline"
+
+  pipeline_name = "aws-grant-user-access-terraform"
+  src_repo      = "aws-grant-user-access"
+
+  step_assume_roles = [
+    {
+      development = {
+        TERRAFORM_APPLIER_ROLE_ARN = local.accounts.development.role_arns["terraform-applier"]
+      }
+    },
+    {
+      production = {
+        TERRAFORM_APPLIER_ROLE_ARN = local.accounts.auth.role_arns["terraform-applier"]
+      }
+    },
+  ]
+
+  codeconnection_arn       = data.aws_codestarconnections_connection.this.arn
+  sns_topic_arn            = local.ci_alerts_sns_topic_arn
+  sns_kms_key_arn          = local.ci_alerts_sns_topic_kms_arn
+  access_log_bucket_id     = local.access_log_bucket_id
+  admin_roles              = local.tf_admin_roles
+  vpc_config               = local.vpc_config
+  agent_security_group_ids = local.agent_security_group_ids
+
+  tags = {
+    service = "aws_grant_user_access"
+  }
+}

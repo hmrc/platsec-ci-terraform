@@ -32,6 +32,14 @@ locals {
         role_arns : { for role, secret in data.aws_secretsmanager_secret_version.central_audit_development_role_arn : role => nonsensitive(secret.secret_string) }
       }
     }
+
+    "auth" : {
+      live : {
+        id : nonsensitive(tonumber(data.aws_secretsmanager_secret_version.auth_account_id.secret_string))
+        role_arns : { for role, secret in data.aws_secretsmanager_secret_version.auth_role_arn : role => nonsensitive(secret.secret_string) }
+      }
+    }
+
   }
 
   accounts = {
@@ -57,6 +65,11 @@ locals {
     central_audit_development : {
       id : nonsensitive(tonumber(data.aws_secretsmanager_secret_version.central_audit_development_account_id.secret_string))
       role_arns : { for role, secret in data.aws_secretsmanager_secret_version.central_audit_development_role_arn : role => nonsensitive(secret.secret_string) }
+    }
+
+    auth : {
+      id : nonsensitive(tonumber(data.aws_secretsmanager_secret_version.auth_account_id.secret_string))
+      role_arns : { for role, secret in data.aws_secretsmanager_secret_version.auth_role_arn : role => nonsensitive(secret.secret_string) }
     }
   }
   all_platsec_account_ids = [for account in values(local.accounts) : account.id]
