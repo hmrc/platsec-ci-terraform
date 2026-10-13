@@ -1,4 +1,5 @@
 locals {
+  source               = "https://github.com/hmrc/platsec-ci-terraform"
   environment          = "live"
   state_bucket         = "platsec-ci20210713082841419000000002"
   step_roles           = toset(["lambda-deploy", "ecs-task-update", "batch-job-update", "terraform-applier", "terraform-planner"])
@@ -91,4 +92,3 @@ module "label" {
   stage     = local.environment
   name      = "platsec-ci"
 }
-
