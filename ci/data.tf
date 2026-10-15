@@ -28,3 +28,7 @@ data "aws_secretsmanager_secret_version" "central_audit_production_account_id" {
 data "aws_secretsmanager_secret_version" "s3_access_logs_bucket_name" {
   secret_id = "/terraform/platsec-ci-logging-bucket-name"
 }
+
+data "aws_secretsmanager_secret_version" "auth_account_id" {
+  secret_id = "auth-account-id"
+}

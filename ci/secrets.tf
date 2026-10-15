@@ -6,11 +6,13 @@ locals {
     nonsensitive(data.aws_secretsmanager_secret_version.sandbox_account_id.secret_string),
     nonsensitive(data.aws_secretsmanager_secret_version.development_account_id.secret_string),
     nonsensitive(data.aws_secretsmanager_secret_version.production_account_id.secret_string),
+    nonsensitive(data.aws_secretsmanager_secret_version.auth_account_id.secret_string),
   ]
 
   slack_v2_api_key_consumer_role_arns = concat(
     formatlist("arn:aws:iam::%s:role/cloudtrail-events-monitor-lambda-lambda", local.slack_v2_api_key_consumer_account_ids),
-    formatlist("arn:aws:iam::%s:role/RoleTerraformApplier", local.slack_v2_api_key_consumer_account_ids)
+    formatlist("arn:aws:iam::%s:role/RoleTerraformApplier", local.slack_v2_api_key_consumer_account_ids),
+    formatlist("arn:aws:iam::%s:role/grant-user-accessac995255c6e7e150c6aa04ebbe", local.slack_v2_api_key_consumer_account_ids),
   )
 
   slack_v2_api_key_consumer_planner_role_arns = formatlist("arn:aws:iam::%s:role/RoleTerraformPlanner", local.slack_v2_api_key_consumer_account_ids)
