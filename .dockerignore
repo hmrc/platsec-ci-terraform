@@ -7,3 +7,5 @@
 LICENSE
 README.md
 repository.yaml
+**/*/.terraform.d
+**/*/.terraform
