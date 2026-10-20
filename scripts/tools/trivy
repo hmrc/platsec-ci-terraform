@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+root=$(git rev-parse --show-toplevel)
+source "$root/scripts/check-tools.sh"
+prefix=$(git rev-parse --show-prefix)
+args=()
+for arg in "$@"; do
+    if [[ "$arg" == "$PWD" ]]; then
+        arg="/src/$prefix"
+    fi
+    args+=("$arg")
+done
+exec docker run --rm --volume "$root:/src:ro" --workdir "/src/$prefix" \
+    --env TRIVY_FORMAT=json \
+    "$TRIVY_IMAGE" "${args[@]}"

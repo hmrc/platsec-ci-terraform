@@ -57,6 +57,9 @@ resource "aws_lambda_function" "docker" {
 
 ## Running locally
 
+Install the shared commit/push checks using the
+[pre-commit setup and rollout guide](docs/pre-commit.md). This checks run in PR builds and before deployment, including blocking HIGH/CRITICAL IaC scans.
+
 This repository has the following terraform components:
 
 * `bootstrap`: for bootstrapping terraform state management resources. It should be run locally only.

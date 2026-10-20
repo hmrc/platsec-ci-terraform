@@ -4,9 +4,14 @@ env:
   shell: bash
 
 phases:
+  install:
+    commands:
+      - source scripts/check-tools.sh
+      - pip3 install "pre-commit==$PRE_COMMIT_VERSION"
+      - bash scripts/install-terraform.sh /usr/local/bin
   build:
     commands:
-      - make style-checks
+      - bash scripts/check-ci.sh
       - scripts/run.sh validate bootstrap
       - scripts/run.sh validate ci
       - scripts/run.sh validate live
