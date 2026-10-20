@@ -2,7 +2,6 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
-# Older inline CodeBuild buildspecs enter here without an install phase.
 if [[ -n "${CODEBUILD_BUILD_ID:-}" ]]; then
     source scripts/check-tools.sh
     export PATH="/usr/local/bin:$PATH"
