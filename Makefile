@@ -7,8 +7,6 @@ SHELL = /bin/bash
 
 export AWS_PROFILE = platsec-ci-RoleTerraformPlanner
 
-REMARK_LINT_VERSION = 0.3.5
-
 ifneq (, $(strip $(shell command -v aws-vault)))
 	AWS_PROFILE_CMD := aws-vault exec $${AWS_PROFILE} --
 endif
@@ -38,7 +36,8 @@ terraform:
 		.
 
 .PHONY: style-checks
-style-checks: fmt-check md-check
+style-checks:
+	@bash scripts/check-ci.sh
 
 # Format all terraform files
 .PHONY: fmt
@@ -47,17 +46,18 @@ fmt: terraform
 
 # Check if all files are formatted
 .PHONY: fmt-check
-fmt-check: terraform
-	@$(TF) fmt -recursive -check .
+fmt-check:
+	@bash scripts/check-ci.sh terraform_fmt
 
 .PHONY: md-check
 md-check:
-	@docker run --pull missing --rm -i -v $(PWD):/lint/input:ro ghcr.io/zemanlx/remark-lint:${REMARK_LINT_VERSION} --frail .
+	@bash scripts/check-ci.sh markdown
 
 # Update (to best of tools ability) md linter findings
 .PHONY: md-fix
 md-fix:
-	@docker run --pull missing --rm -i -v $(PWD):/lint/input:rw ghcr.io/zemanlx/remark-lint:${REMARK_LINT_VERSION} . -o
+	@source scripts/check-tools.sh
+	@docker run --rm --network none -v "$(PWD):/lint/input:rw" "$${MARKDOWN_IMAGE}" . -o
 
 .PHONY: validate
 validate: validate-bootstrap validate-ci validate-live

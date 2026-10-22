@@ -6,3 +6,6 @@ FROM hashicorp/terraform:${TF_BASE_TAG}
 # │ /usr/bin/git exited with 128: fatal: detected dubious ownership in
 # │ repository at
 RUN echo -e "[safe]\n\tdirectory = *" > /etc/gitconfig
+
+RUN addgroup -g 1000 terraform && adduser -D -u 1000 -G terraform terraform
+USER terraform

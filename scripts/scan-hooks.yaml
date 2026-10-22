@@ -1,0 +1,50 @@
+minimum_pre_commit_version: "4.7.0"
+exclude: (^|/)(\.terraform|\.terraform\.d|\.external_modules)/|\.tfstate(?:\..*)?$|\.tfplan$
+repos:
+  - repo: https://github.com/antonbabenko/pre-commit-terraform
+    rev: v1.109.2
+    hooks:
+      - id: terraform_tflint
+        verbose: true
+        pass_filenames: false
+        always_run: true
+        args:
+          - --hook-config=--tool-version=0.64.0
+          - --hook-config=--parallelism-limit=1
+          - --args=--recursive
+          - --args=--format=json
+          - --args=--disable-rule=terraform_required_providers
+          - --args=--disable-rule=terraform_required_version
+          # Run once from the root; recursive JSON paths are repository-relative.
+          - .pre-commit-config.yaml
+      - id: terraform_checkov
+        verbose: true
+        language: python
+        additional_dependencies: [checkov==3.3.29]
+        entry: env PYTHONWARNINGS=ignore LOG_LEVEL=ERROR checkov --directory .
+        pass_filenames: false
+        always_run: true
+        args:
+          - --framework=terraform
+          - --output=json
+          - --quiet
+          - --compact
+          - --skip-download
+          - --skip-path=(^|/)(\.terraform|\.terraform\.d|\.external_modules)/
+      - id: terraform_trivy
+        verbose: true
+        pass_filenames: false
+        always_run: true
+        args:
+          - --args=--exit-code=0
+          - --hook-config=--parallelism-limit=1
+          - --args=--severity=HIGH,CRITICAL
+          - --args=--quiet
+          - --args=--skip-check-update
+          - --args=--skip-version-check
+          - --args=--disable-telemetry
+          - --args=--tf-exclude-downloaded-modules
+          - --args=--skip-dirs=**/.terraform
+          - --args=--skip-dirs=**/.terraform.d
+          - --args=--skip-dirs=**/.external_modules
+          - .pre-commit-config.yaml

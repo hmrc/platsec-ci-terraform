@@ -1,0 +1,447 @@
+tool	count	file	rule	subject	severity	context
+tflint	1	bootstrap/data.tf	terraform_unused_declarations	"data ""aws_region"" ""current"" is declared but not used"	warning	dc25859b48f51675db5018158e3df0411a8ec2bd25725f80abfc0267ddf7a619
+tflint	1	ci/data.tf	terraform_unused_declarations	"data ""aws_secretsmanager_secret_version"" ""s3_access_logs_bucket_name"" is declared but not used"	warning	fedd2678930f443611c8ccac6865bee2ac69d495e095aef826aeb25c5b03ec23
+tflint	1	ci/external_github_secret.tf	terraform_unused_declarations	local.external_github_token_consumer_read_role_arns is declared but not used	warning	54f2f07054d1b0181c92c70bb16f4f6e5da870fa61140bf3fb9099c774fee371
+tflint	2	ci/providers.tf	terraform_deprecated_interpolation	Interpolation-only expressions are deprecated in Terraform v0.12.14	warning	9e07d8735c45dca04762121323b85bb824922eb01a07753ed6185323e3edf910
+tflint	1	ci/providers.tf	terraform_unused_declarations	"provider ""aws"" with alias ""us_east_1"" is declared but not used"	warning	bc661125c09b1fd365eaabb6b90870191c7621d8d65803c7864281319dcd75e9
+tflint	1	live/providers.tf	terraform_unused_declarations	"provider ""aws"" with alias ""no-default-tags"" is declared but not used"	warning	bc661125c09b1fd365eaabb6b90870191c7621d8d65803c7864281319dcd75e9
+tflint	1	modules/batch_task_pipeline/variables.tf	terraform_unused_declarations	"variable ""target_region"" is declared but not used"	warning	601e4808cb8546d0428f3b822f2a1af257958a275f4e7115f6229dfb5aa1922f
+tflint	1	modules/build_artifact_step/iam.tf	terraform_unused_declarations	"data ""aws_region"" ""current"" is declared but not used"	warning	dc25859b48f51675db5018158e3df0411a8ec2bd25725f80abfc0267ddf7a619
+tflint	1	modules/build_artifact_step/variables.tf	terraform_typed_variables	`timeout_in_minutes` variable has no type	warning	b4d02b9e93840e5cd786b9c4d708b8fb5b1c557eeb13d479ec5c29865005650b
+tflint	1	modules/central_audit_terraform_pipeline/iam.tf	terraform_unused_declarations	"data ""aws_region"" ""current"" is declared but not used"	warning	dc25859b48f51675db5018158e3df0411a8ec2bd25725f80abfc0267ddf7a619
+tflint	1	modules/central_audit_terraform_pipeline/variables.tf	terraform_typed_variables	`test_timeout_in_minutes` variable has no type	warning	a4e76d1acfbd48704701749b24950c1f9728646075eaac5c6b09b6faae58c51b
+tflint	1	modules/codebuild/variables.tf	terraform_unused_declarations	"variable ""src_branch"" is declared but not used"	warning	419ea56516877a9f6182733cf0d29aeeaca548c974ee99f8b9f5a515091382b1
+tflint	1	modules/docker_pipeline/main.tf	terraform_unused_declarations	local.prefix is declared but not used	warning	f3f7e32d09ef213f4fcd4ae7cb3bae0cd7cbce6a1fcad349cf63bf2e84d0a943
+tflint	1	modules/docker_pipeline/variables.tf	terraform_unused_declarations	"variable ""accounts"" is declared but not used"	warning	663aa07828d6d20c2df17410c599d315231388683c245b63d86852f4d486d008
+tflint	1	modules/docker_pipeline/variables.tf	terraform_unused_declarations	"variable ""target_region"" is declared but not used"	warning	601e4808cb8546d0428f3b822f2a1af257958a275f4e7115f6229dfb5aa1922f
+tflint	1	modules/ecr_repository/variables.tf	terraform_typed_variables	`repository_name` variable has no type	warning	7eb7613b406f5df203b96be7f5feb1a98f39bf7643a15d68209c303fcd3282ad
+tflint	1	modules/ecs_task_pipeline/variables.tf	terraform_unused_declarations	"variable ""target_region"" is declared but not used"	warning	601e4808cb8546d0428f3b822f2a1af257958a275f4e7115f6229dfb5aa1922f
+tflint	1	modules/git_tag_step/variables.tf	terraform_typed_variables	`use_release_version_explicitly` variable has no type	warning	e2a1a7e37d7d7bfd3f1184a8410df5c136337066521afbb568c713ebb5188912
+tflint	2	modules/networking-new/service_endpoint_connector/main.tf	terraform_deprecated_index	List items should be accessed using square brackets	warning	12aca9f6a2a2ddb9a3117dac9db02c9dcbb4ba174233222d77e5de770c5343da
+tflint	2	modules/networking-new/service_endpoint_connector/main.tf	terraform_deprecated_lookup	Lookup with 2 arguments is deprecated	warning	540c2532e61344515c9e315fe132a46416b08f4ebb60690cd8516e6cb9386102
+tflint	2	modules/networking-new/service_endpoint_connector/main.tf	terraform_deprecated_lookup	Lookup with 2 arguments is deprecated	warning	ce8bcad9bb60588dcec61c682ddc0b0a7784d4f8d43cae6f3a83fa59e62c5e93
+tflint	1	modules/networking-new/service_endpoint_connector/outputs.tf	terraform_deprecated_index	List items should be accessed using square brackets	warning	12aca9f6a2a2ddb9a3117dac9db02c9dcbb4ba174233222d77e5de770c5343da
+tflint	1	modules/networking-new/service_endpoint_connector/variables.tf	terraform_typed_variables	`endpoint_subdomain_prefix` variable has no type	warning	212b40b2ae361e4432d76f54a110c0ccbbb5683943b6db6f53738a3987f58fb0
+tflint	1	modules/networking-new/service_endpoint_connector/variables.tf	terraform_typed_variables	`security_group_name` variable has no type	warning	711de34139592b9ca7e1b182bb2f3498bc8b918c0c6be148ff574e5783c89d49
+tflint	1	modules/networking-new/service_endpoint_connector/variables.tf	terraform_typed_variables	`service_name` variable has no type	warning	84ac8cfac15dc5c62f4c17714a6544a1dcefc7caa5f65afe552519f32276e7c5
+tflint	1	modules/networking-new/service_endpoint_connector/variables.tf	terraform_typed_variables	`top_level_domain` variable has no type	warning	4b6d623d7c9a0dfb75801354f86f94dc6097aef3cb61d37dd71a0f653fba15bd
+tflint	1	modules/networking-new/service_endpoint_connector/variables.tf	terraform_typed_variables	`vpc_id` variable has no type	warning	c3b156f7930b4eb0d5c0779ce86a7e3397c14200b7b2320e1c25fd1fb7177157
+tflint	1	modules/new_kms_key_policy/kms_policy.tf	terraform_unused_declarations	local.all_roles is declared but not used	warning	4412183fe0fd258b4ed4267256c5560ad5d78017cdbc7fccb1badc6f55200149
+tflint	1	modules/pipeline_common/main.tf	terraform_unused_declarations	local.build_id is declared but not used	warning	0723ba931af132cd2d77b5b07e4e9afa49dd3a3225cd1400d3cc80b8a2f3a3bb
+tflint	1	modules/platsec_ci_terraform_pipeline/data.tf	terraform_unused_declarations	"data ""aws_caller_identity"" ""current"" is declared but not used"	warning	0070dd7402fca121f70bb10c023a347716ddcf8e0c1bcdcb6cd0fab1363cf3bb
+tflint	1	modules/platsec_ci_terraform_pipeline/data.tf	terraform_unused_declarations	"data ""aws_region"" ""current"" is declared but not used"	warning	dc25859b48f51675db5018158e3df0411a8ec2bd25725f80abfc0267ddf7a619
+tflint	1	modules/platsec_ci_terraform_pipeline/variables.tf	terraform_typed_variables	`step_timeout_in_minutes` variable has no type	warning	ae2ae1ce37c841ad9853bfe95659bed8dfe764c38b847ae47406b845cbd764ba
+tflint	1	modules/platsec_terraform_pipeline/variables.tf	terraform_typed_variables	`test_timeout_in_minutes` variable has no type	warning	a4e76d1acfbd48704701749b24950c1f9728646075eaac5c6b09b6faae58c51b
+tflint	1	modules/pull_request_builder/variables.tf	terraform_typed_variables	`timeout_in_minutes` variable has no type	warning	b4d02b9e93840e5cd786b9c4d708b8fb5b1c557eeb13d479ec5c29865005650b
+tflint	1	modules/pull_request_builder/variables.tf	terraform_unused_declarations	"variable ""transition_to_glacier_days"" is declared but not used"	warning	83eed9d6256dc6241883a1a7c593633d731a76f231d5e58080357f0a6f645609
+tflint	1	modules/renovatebot_build/variables.tf	terraform_unused_declarations	"variable ""access_log_bucket_id"" is declared but not used"	warning	9fb89d0d4c452296b1235f220cc76cfb5d052fcc53e2f9abbfeaae82cd7db13e
+tflint	1	modules/renovatebot_build/variables.tf	terraform_unused_declarations	"variable ""accounts"" is declared but not used"	warning	663aa07828d6d20c2df17410c599d315231388683c245b63d86852f4d486d008
+tflint	2	modules/service_endpoint_connector/main.tf	terraform_deprecated_index	List items should be accessed using square brackets	warning	12aca9f6a2a2ddb9a3117dac9db02c9dcbb4ba174233222d77e5de770c5343da
+tflint	2	modules/service_endpoint_connector/main.tf	terraform_deprecated_lookup	Lookup with 2 arguments is deprecated	warning	540c2532e61344515c9e315fe132a46416b08f4ebb60690cd8516e6cb9386102
+tflint	2	modules/service_endpoint_connector/main.tf	terraform_deprecated_lookup	Lookup with 2 arguments is deprecated	warning	ce8bcad9bb60588dcec61c682ddc0b0a7784d4f8d43cae6f3a83fa59e62c5e93
+tflint	1	modules/service_endpoint_connector/outputs.tf	terraform_deprecated_index	List items should be accessed using square brackets	warning	12aca9f6a2a2ddb9a3117dac9db02c9dcbb4ba174233222d77e5de770c5343da
+tflint	1	modules/service_endpoint_connector/variables.tf	terraform_typed_variables	`endpoint_subdomain_prefix` variable has no type	warning	212b40b2ae361e4432d76f54a110c0ccbbb5683943b6db6f53738a3987f58fb0
+tflint	1	modules/service_endpoint_connector/variables.tf	terraform_typed_variables	`security_group_name` variable has no type	warning	711de34139592b9ca7e1b182bb2f3498bc8b918c0c6be148ff574e5783c89d49
+tflint	1	modules/service_endpoint_connector/variables.tf	terraform_typed_variables	`service_name` variable has no type	warning	84ac8cfac15dc5c62f4c17714a6544a1dcefc7caa5f65afe552519f32276e7c5
+tflint	1	modules/service_endpoint_connector/variables.tf	terraform_typed_variables	`top_level_domain` variable has no type	warning	4b6d623d7c9a0dfb75801354f86f94dc6097aef3cb61d37dd71a0f653fba15bd
+tflint	1	modules/service_endpoint_connector/variables.tf	terraform_typed_variables	`vpc_id` variable has no type	warning	c3b156f7930b4eb0d5c0779ce86a7e3397c14200b7b2320e1c25fd1fb7177157
+tflint	1	modules/terraform_module_pipeline/variables.tf	terraform_typed_variables	`test_timeout_in_minutes` variable has no type	warning	a4e76d1acfbd48704701749b24950c1f9728646075eaac5c6b09b6faae58c51b
+tflint	1	modules/terraform_module_pipeline/variables.tf	terraform_unused_declarations	"variable ""target_region"" is declared but not used"	warning	601e4808cb8546d0428f3b822f2a1af257958a275f4e7115f6229dfb5aa1922f
+tflint	1	modules/terraform_pr_builder/variables.tf	terraform_unused_declarations	"variable ""environment_variables"" is declared but not used"	warning	e9785deae2f8af4561c3663d984f097f89d742931592253788c027240e3f3552
+tflint	1	modules/terraform_pr_builder/variables.tf	terraform_unused_declarations	"variable ""src_branch"" is declared but not used"	warning	419ea56516877a9f6182733cf0d29aeeaca548c974ee99f8b9f5a515091382b1
+tflint	1	modules/terraform_pr_builder/variables.tf	terraform_unused_declarations	"variable ""src_org"" is declared but not used"	warning	34da59178584c39c886dae8f4a7b09ca9deb9b92ea4ed976df4074da3f6c3bb3
+tflint	1	modules/terraform_pr_builder/variables.tf	terraform_unused_declarations	"variable ""src_type"" is declared but not used"	warning	f277ea2d19b2bc08c3bf33ce78fe0f54d1601c2309f3d3ac196763fa95780025
+tflint	1	modules/terraform_step/variables.tf	terraform_typed_variables	`timeout_in_minutes` variable has no type	warning	b4d02b9e93840e5cd786b9c4d708b8fb5b1c557eeb13d479ec5c29865005650b
+trivy	1	modules/access_logs_bucket/main.tf	AVD-AWS-0132	module.access_logs	HIGH	
+trivy	1	modules/alerting_sns_topics/sns.tf	AVD-AWS-0095	aws_sns_topic.sns_topic	HIGH	
+trivy	2	modules/networking-new/ci_security_group.tf	aws-vpc-no-public-egress-sgr	module.networking	CRITICAL	
+trivy	1	modules/networking/ci_security_group.tf	AVD-AWS-0107	aws_security_group.aws_interface_endpoints	HIGH	
+trivy	2	modules/networking/ci_security_group.tf	aws-vpc-no-public-egress-sgr	aws_security_group.ci_agent_to_internet	CRITICAL	
+checkov	1	bootstrap/github_credentials.tf	CKV2_AWS_57	aws_secretsmanager_secret.github_api_token		
+checkov	1	bootstrap/github_credentials.tf	CKV2_AWS_57	aws_secretsmanager_secret.github_api_user		
+checkov	1	bootstrap/gpg_private_key.tf	CKV2_AWS_57	aws_secretsmanager_secret.psbuildmdtp_gpg_private_key		
+checkov	1	bootstrap/s3.tf	CKV_TF_1	cf_templates_bucket		
+checkov	1	bootstrap/s3.tf	CKV_TF_1	state_bucket		
+checkov	1	ci/external_github_secret.tf	CKV2_AWS_57	aws_secretsmanager_secret.external_github_token		
+checkov	1	ci/pagerduty_secret.tf	CKV2_AWS_57	aws_secretsmanager_secret.pagerduty_lab_services_key		
+checkov	1	ci/pagerduty_secret.tf	CKV2_AWS_57	aws_secretsmanager_secret.pagerduty_live_services_key		
+checkov	1	ci/slack_api_secret.tf	CKV2_AWS_57	aws_secretsmanager_secret.slack_v2_api_key		
+checkov	1	live/main.tf	CKV_TF_1	label		
+checkov	1	modules/access_logs_bucket/main.tf	CKV2_AWS_62	module.access_logs.aws_s3_bucket.access_logs		
+checkov	1	modules/access_logs_bucket/main.tf	CKV_AWS_144	module.access_logs.aws_s3_bucket.access_logs		
+checkov	1	modules/access_logs_bucket/main.tf	CKV_AWS_145	module.access_logs.aws_s3_bucket.access_logs		
+checkov	1	modules/access_logs_bucket/main.tf	CKV_AWS_18	module.access_logs.aws_s3_bucket.access_logs		
+checkov	1	modules/alerting_sns_topics/sns.tf	CKV_AWS_26	aws_sns_topic.sns_topic		
+checkov	1	modules/build_artifact_step/build.tf	CKV_AWS_147	module.aws_grant_user_access.module.build_artifact_step.aws_codebuild_project.build (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/build_artifact_step/build.tf	CKV_AWS_147	module.aws_users_manager.module.build_artifact_step.aws_codebuild_project.build (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/build_artifact_step/build.tf	CKV_AWS_147	module.bitwarden_manager.module.build_artifact_step.aws_codebuild_project.build (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/build_artifact_step/build.tf	CKV_AWS_147	module.build_artifact_step.aws_codebuild_project.build (caller: modules/docker_pipeline/build.tf)		
+checkov	1	modules/build_artifact_step/build.tf	CKV_AWS_147	module.cloudtrail_events_monitor.module.build_artifact_step.aws_codebuild_project.build (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/build_artifact_step/build.tf	CKV_AWS_147	module.compliance_alerting.module.build_artifact_step.aws_codebuild_project.build (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/build_artifact_step/build.tf	CKV_AWS_147	module.github_admin_report.module.build_artifact_step.aws_codebuild_project.build (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/build_artifact_step/build.tf	CKV_AWS_147	module.github_webhook_report.module.build_artifact_step.aws_codebuild_project.build (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/build_artifact_step/build.tf	CKV_AWS_147	module.monitor_aws_iam.module.build_artifact_step.aws_codebuild_project.build (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/build_artifact_step/build.tf	CKV_AWS_147	module.n8n.module.build_artifact_step.aws_codebuild_project.build (caller: modules/ecs_task_pipeline/build.tf)		
+checkov	1	modules/build_artifact_step/build.tf	CKV_AWS_147	module.platsec_scanner.module.build_artifact_step.aws_codebuild_project.build (caller: modules/batch_task_pipeline/build.tf)		
+checkov	1	modules/build_artifact_step/build.tf	CKV_AWS_147	module.prowler_scan_enqueuer.module.build_artifact_step.aws_codebuild_project.build (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/build_artifact_step/build.tf	CKV_AWS_147	module.prowler_scanner.module.build_artifact_step.aws_codebuild_project.build (caller: modules/batch_task_pipeline/build.tf)		
+checkov	1	modules/build_artifact_step/build.tf	CKV_AWS_147	module.sandbox_aws_nuke.module.build_artifact_step.aws_codebuild_project.build (caller: modules/sandbox_lambda_docker_pipeline/build.tf)		
+checkov	1	modules/build_artifact_step/build.tf	CKV_AWS_147	module.sandbox_compliance_alerting.module.build_artifact_step.aws_codebuild_project.build (caller: modules/sandbox_lambda_docker_pipeline/build.tf)		
+checkov	1	modules/build_artifact_step/build.tf	CKV_AWS_147	module.security_hub_alert_processor.module.build_artifact_step.aws_codebuild_project.build (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/build_artifact_step/build.tf	CKV_AWS_147	module.tf-s3-bucket-core.module.build_artifact_step.aws_codebuild_project.build (caller: modules/terraform_module_pipeline/build.tf)		
+checkov	1	modules/build_artifact_step/build.tf	CKV_AWS_147	module.tf-s3-bucket-standard.module.build_artifact_step.aws_codebuild_project.build (caller: modules/terraform_module_pipeline/build.tf)		
+checkov	1	modules/build_artifact_step/build.tf	CKV_AWS_147	module.vault_policy_applier_corretto.module.build_artifact_step.aws_codebuild_project.build (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/build_artifact_step/build.tf	CKV_AWS_316	module.aws_grant_user_access.module.build_artifact_step.aws_codebuild_project.build (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/build_artifact_step/build.tf	CKV_AWS_316	module.aws_users_manager.module.build_artifact_step.aws_codebuild_project.build (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/build_artifact_step/build.tf	CKV_AWS_316	module.bitwarden_manager.module.build_artifact_step.aws_codebuild_project.build (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/build_artifact_step/build.tf	CKV_AWS_316	module.build_artifact_step.aws_codebuild_project.build (caller: modules/docker_pipeline/build.tf)		
+checkov	1	modules/build_artifact_step/build.tf	CKV_AWS_316	module.cloudtrail_events_monitor.module.build_artifact_step.aws_codebuild_project.build (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/build_artifact_step/build.tf	CKV_AWS_316	module.compliance_alerting.module.build_artifact_step.aws_codebuild_project.build (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/build_artifact_step/build.tf	CKV_AWS_316	module.github_admin_report.module.build_artifact_step.aws_codebuild_project.build (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/build_artifact_step/build.tf	CKV_AWS_316	module.github_webhook_report.module.build_artifact_step.aws_codebuild_project.build (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/build_artifact_step/build.tf	CKV_AWS_316	module.monitor_aws_iam.module.build_artifact_step.aws_codebuild_project.build (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/build_artifact_step/build.tf	CKV_AWS_316	module.n8n.module.build_artifact_step.aws_codebuild_project.build (caller: modules/ecs_task_pipeline/build.tf)		
+checkov	1	modules/build_artifact_step/build.tf	CKV_AWS_316	module.platsec_scanner.module.build_artifact_step.aws_codebuild_project.build (caller: modules/batch_task_pipeline/build.tf)		
+checkov	1	modules/build_artifact_step/build.tf	CKV_AWS_316	module.prowler_scan_enqueuer.module.build_artifact_step.aws_codebuild_project.build (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/build_artifact_step/build.tf	CKV_AWS_316	module.prowler_scanner.module.build_artifact_step.aws_codebuild_project.build (caller: modules/batch_task_pipeline/build.tf)		
+checkov	1	modules/build_artifact_step/build.tf	CKV_AWS_316	module.sandbox_aws_nuke.module.build_artifact_step.aws_codebuild_project.build (caller: modules/sandbox_lambda_docker_pipeline/build.tf)		
+checkov	1	modules/build_artifact_step/build.tf	CKV_AWS_316	module.sandbox_compliance_alerting.module.build_artifact_step.aws_codebuild_project.build (caller: modules/sandbox_lambda_docker_pipeline/build.tf)		
+checkov	1	modules/build_artifact_step/build.tf	CKV_AWS_316	module.security_hub_alert_processor.module.build_artifact_step.aws_codebuild_project.build (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/build_artifact_step/build.tf	CKV_AWS_316	module.tf-s3-bucket-core.module.build_artifact_step.aws_codebuild_project.build (caller: modules/terraform_module_pipeline/build.tf)		
+checkov	1	modules/build_artifact_step/build.tf	CKV_AWS_316	module.tf-s3-bucket-standard.module.build_artifact_step.aws_codebuild_project.build (caller: modules/terraform_module_pipeline/build.tf)		
+checkov	1	modules/build_artifact_step/build.tf	CKV_AWS_316	module.vault_policy_applier_corretto.module.build_artifact_step.aws_codebuild_project.build (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/build_timestamp_step/codebuild.tf	CKV_AWS_147	module.aws_grant_user_access.module.build_timestamp_step.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/build_timestamp_step/codebuild.tf	CKV_AWS_147	module.aws_grant_user_access_terraform_pipeline.module.build_timestamp_step.aws_codebuild_project.deploy (caller: modules/platsec_terraform_pipeline/build.tf)		
+checkov	1	modules/build_timestamp_step/codebuild.tf	CKV_AWS_147	module.aws_users_manager.module.build_timestamp_step.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/build_timestamp_step/codebuild.tf	CKV_AWS_147	module.bitwarden_manager.module.build_timestamp_step.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/build_timestamp_step/codebuild.tf	CKV_AWS_147	module.build_timestamp_step.aws_codebuild_project.deploy (caller: modules/docker_pipeline/build.tf)		
+checkov	1	modules/build_timestamp_step/codebuild.tf	CKV_AWS_147	module.cloudtrail_events_monitor.module.build_timestamp_step.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/build_timestamp_step/codebuild.tf	CKV_AWS_147	module.compliance_alerting.module.build_timestamp_step.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/build_timestamp_step/codebuild.tf	CKV_AWS_147	module.github_admin_report.module.build_timestamp_step.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/build_timestamp_step/codebuild.tf	CKV_AWS_147	module.github_webhook_report.module.build_timestamp_step.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/build_timestamp_step/codebuild.tf	CKV_AWS_147	module.monitor_aws_iam.module.build_timestamp_step.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/build_timestamp_step/codebuild.tf	CKV_AWS_147	module.n8n.module.build_timestamp_step.aws_codebuild_project.deploy (caller: modules/ecs_task_pipeline/build.tf)		
+checkov	1	modules/build_timestamp_step/codebuild.tf	CKV_AWS_147	module.pipeline.module.build_timestamp_step.aws_codebuild_project.deploy (caller: modules/platsec_ci_terraform_pipeline/build.tf)		
+checkov	1	modules/build_timestamp_step/codebuild.tf	CKV_AWS_147	module.platsec-terraform-pipeline.module.build_timestamp_step.aws_codebuild_project.deploy (caller: modules/platsec_terraform_pipeline/build.tf)		
+checkov	1	modules/build_timestamp_step/codebuild.tf	CKV_AWS_147	module.platsec_scanner.module.build_timestamp_step.aws_codebuild_project.deploy (caller: modules/batch_task_pipeline/build.tf)		
+checkov	1	modules/build_timestamp_step/codebuild.tf	CKV_AWS_147	module.prowler_scan_enqueuer.module.build_timestamp_step.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/build_timestamp_step/codebuild.tf	CKV_AWS_147	module.prowler_scanner.module.build_timestamp_step.aws_codebuild_project.deploy (caller: modules/batch_task_pipeline/build.tf)		
+checkov	1	modules/build_timestamp_step/codebuild.tf	CKV_AWS_147	module.sandbox_aws_nuke.module.build_timestamp_step.aws_codebuild_project.deploy (caller: modules/sandbox_lambda_docker_pipeline/build.tf)		
+checkov	1	modules/build_timestamp_step/codebuild.tf	CKV_AWS_147	module.sandbox_compliance_alerting.module.build_timestamp_step.aws_codebuild_project.deploy (caller: modules/sandbox_lambda_docker_pipeline/build.tf)		
+checkov	1	modules/build_timestamp_step/codebuild.tf	CKV_AWS_147	module.security_hub_alert_processor.module.build_timestamp_step.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/build_timestamp_step/codebuild.tf	CKV_AWS_147	module.vault_policy_applier_corretto.module.build_timestamp_step.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/build_timestamp_step/codebuild.tf	CKV_AWS_316	module.aws_grant_user_access.module.build_timestamp_step.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/build_timestamp_step/codebuild.tf	CKV_AWS_316	module.aws_grant_user_access_terraform_pipeline.module.build_timestamp_step.aws_codebuild_project.deploy (caller: modules/platsec_terraform_pipeline/build.tf)		
+checkov	1	modules/build_timestamp_step/codebuild.tf	CKV_AWS_316	module.aws_users_manager.module.build_timestamp_step.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/build_timestamp_step/codebuild.tf	CKV_AWS_316	module.bitwarden_manager.module.build_timestamp_step.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/build_timestamp_step/codebuild.tf	CKV_AWS_316	module.build_timestamp_step.aws_codebuild_project.deploy (caller: modules/docker_pipeline/build.tf)		
+checkov	1	modules/build_timestamp_step/codebuild.tf	CKV_AWS_316	module.cloudtrail_events_monitor.module.build_timestamp_step.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/build_timestamp_step/codebuild.tf	CKV_AWS_316	module.compliance_alerting.module.build_timestamp_step.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/build_timestamp_step/codebuild.tf	CKV_AWS_316	module.github_admin_report.module.build_timestamp_step.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/build_timestamp_step/codebuild.tf	CKV_AWS_316	module.github_webhook_report.module.build_timestamp_step.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/build_timestamp_step/codebuild.tf	CKV_AWS_316	module.monitor_aws_iam.module.build_timestamp_step.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/build_timestamp_step/codebuild.tf	CKV_AWS_316	module.n8n.module.build_timestamp_step.aws_codebuild_project.deploy (caller: modules/ecs_task_pipeline/build.tf)		
+checkov	1	modules/build_timestamp_step/codebuild.tf	CKV_AWS_316	module.pipeline.module.build_timestamp_step.aws_codebuild_project.deploy (caller: modules/platsec_ci_terraform_pipeline/build.tf)		
+checkov	1	modules/build_timestamp_step/codebuild.tf	CKV_AWS_316	module.platsec-terraform-pipeline.module.build_timestamp_step.aws_codebuild_project.deploy (caller: modules/platsec_terraform_pipeline/build.tf)		
+checkov	1	modules/build_timestamp_step/codebuild.tf	CKV_AWS_316	module.platsec_scanner.module.build_timestamp_step.aws_codebuild_project.deploy (caller: modules/batch_task_pipeline/build.tf)		
+checkov	1	modules/build_timestamp_step/codebuild.tf	CKV_AWS_316	module.prowler_scan_enqueuer.module.build_timestamp_step.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/build_timestamp_step/codebuild.tf	CKV_AWS_316	module.prowler_scanner.module.build_timestamp_step.aws_codebuild_project.deploy (caller: modules/batch_task_pipeline/build.tf)		
+checkov	1	modules/build_timestamp_step/codebuild.tf	CKV_AWS_316	module.sandbox_aws_nuke.module.build_timestamp_step.aws_codebuild_project.deploy (caller: modules/sandbox_lambda_docker_pipeline/build.tf)		
+checkov	1	modules/build_timestamp_step/codebuild.tf	CKV_AWS_316	module.sandbox_compliance_alerting.module.build_timestamp_step.aws_codebuild_project.deploy (caller: modules/sandbox_lambda_docker_pipeline/build.tf)		
+checkov	1	modules/build_timestamp_step/codebuild.tf	CKV_AWS_316	module.security_hub_alert_processor.module.build_timestamp_step.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/build_timestamp_step/codebuild.tf	CKV_AWS_316	module.vault_policy_applier_corretto.module.build_timestamp_step.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/codebuild/codebuild.tf	CKV_AWS_316	module.aws_grant_user_access_pr_jobs.module.pr_lint.aws_codebuild_project.build (caller: modules/terraform_pr_builder/codebuild.tf)		
+checkov	1	modules/codebuild/codebuild.tf	CKV_AWS_316	"module.aws_grant_user_access_pr_jobs.module.pr_plan[""development""].aws_codebuild_project.build (caller: modules/terraform_pr_builder/codebuild.tf)"		
+checkov	1	modules/codebuild/codebuild.tf	CKV_AWS_316	"module.aws_grant_user_access_pr_jobs.module.pr_plan[""production""].aws_codebuild_project.build (caller: modules/terraform_pr_builder/codebuild.tf)"		
+checkov	1	modules/codebuild/codebuild.tf	CKV_AWS_316	module.central_audit_pr_jobs.module.pr_lint.aws_codebuild_project.build (caller: modules/terraform_pr_builder/codebuild.tf)		
+checkov	1	modules/codebuild/codebuild.tf	CKV_AWS_316	"module.central_audit_pr_jobs.module.pr_plan[""development""].aws_codebuild_project.build (caller: modules/terraform_pr_builder/codebuild.tf)"		
+checkov	1	modules/codebuild/codebuild.tf	CKV_AWS_316	"module.central_audit_pr_jobs.module.pr_plan[""production""].aws_codebuild_project.build (caller: modules/terraform_pr_builder/codebuild.tf)"		
+checkov	1	modules/codebuild/codebuild.tf	CKV_AWS_316	module.platsec_terraform_pr_jobs.module.pr_lint.aws_codebuild_project.build (caller: modules/terraform_pr_builder/codebuild.tf)		
+checkov	1	modules/codebuild/codebuild.tf	CKV_AWS_316	"module.platsec_terraform_pr_jobs.module.pr_plan[""development""].aws_codebuild_project.build (caller: modules/terraform_pr_builder/codebuild.tf)"		
+checkov	1	modules/codebuild/codebuild.tf	CKV_AWS_316	"module.platsec_terraform_pr_jobs.module.pr_plan[""production""].aws_codebuild_project.build (caller: modules/terraform_pr_builder/codebuild.tf)"		
+checkov	1	modules/codebuild/iam.tf	CKV_AWS_111	module.aws_grant_user_access_pr_jobs.module.pr_lint.aws_iam_policy_document.build (caller: modules/terraform_pr_builder/codebuild.tf)		
+checkov	1	modules/codebuild/iam.tf	CKV_AWS_111	"module.aws_grant_user_access_pr_jobs.module.pr_plan[""development""].aws_iam_policy_document.build (caller: modules/terraform_pr_builder/codebuild.tf)"		
+checkov	1	modules/codebuild/iam.tf	CKV_AWS_111	"module.aws_grant_user_access_pr_jobs.module.pr_plan[""production""].aws_iam_policy_document.build (caller: modules/terraform_pr_builder/codebuild.tf)"		
+checkov	1	modules/codebuild/iam.tf	CKV_AWS_111	module.central_audit_pr_jobs.module.pr_lint.aws_iam_policy_document.build (caller: modules/terraform_pr_builder/codebuild.tf)		
+checkov	1	modules/codebuild/iam.tf	CKV_AWS_111	"module.central_audit_pr_jobs.module.pr_plan[""development""].aws_iam_policy_document.build (caller: modules/terraform_pr_builder/codebuild.tf)"		
+checkov	1	modules/codebuild/iam.tf	CKV_AWS_111	"module.central_audit_pr_jobs.module.pr_plan[""production""].aws_iam_policy_document.build (caller: modules/terraform_pr_builder/codebuild.tf)"		
+checkov	1	modules/codebuild/iam.tf	CKV_AWS_111	module.platsec_terraform_pr_jobs.module.pr_lint.aws_iam_policy_document.build (caller: modules/terraform_pr_builder/codebuild.tf)		
+checkov	1	modules/codebuild/iam.tf	CKV_AWS_111	"module.platsec_terraform_pr_jobs.module.pr_plan[""development""].aws_iam_policy_document.build (caller: modules/terraform_pr_builder/codebuild.tf)"		
+checkov	1	modules/codebuild/iam.tf	CKV_AWS_111	"module.platsec_terraform_pr_jobs.module.pr_plan[""production""].aws_iam_policy_document.build (caller: modules/terraform_pr_builder/codebuild.tf)"		
+checkov	1	modules/codebuild/iam.tf	CKV_AWS_356	module.aws_grant_user_access_pr_jobs.module.pr_lint.aws_iam_policy_document.build (caller: modules/terraform_pr_builder/codebuild.tf)		
+checkov	1	modules/codebuild/iam.tf	CKV_AWS_356	"module.aws_grant_user_access_pr_jobs.module.pr_plan[""development""].aws_iam_policy_document.build (caller: modules/terraform_pr_builder/codebuild.tf)"		
+checkov	1	modules/codebuild/iam.tf	CKV_AWS_356	"module.aws_grant_user_access_pr_jobs.module.pr_plan[""production""].aws_iam_policy_document.build (caller: modules/terraform_pr_builder/codebuild.tf)"		
+checkov	1	modules/codebuild/iam.tf	CKV_AWS_356	module.central_audit_pr_jobs.module.pr_lint.aws_iam_policy_document.build (caller: modules/terraform_pr_builder/codebuild.tf)		
+checkov	1	modules/codebuild/iam.tf	CKV_AWS_356	"module.central_audit_pr_jobs.module.pr_plan[""development""].aws_iam_policy_document.build (caller: modules/terraform_pr_builder/codebuild.tf)"		
+checkov	1	modules/codebuild/iam.tf	CKV_AWS_356	"module.central_audit_pr_jobs.module.pr_plan[""production""].aws_iam_policy_document.build (caller: modules/terraform_pr_builder/codebuild.tf)"		
+checkov	1	modules/codebuild/iam.tf	CKV_AWS_356	module.platsec_terraform_pr_jobs.module.pr_lint.aws_iam_policy_document.build (caller: modules/terraform_pr_builder/codebuild.tf)		
+checkov	1	modules/codebuild/iam.tf	CKV_AWS_356	"module.platsec_terraform_pr_jobs.module.pr_plan[""development""].aws_iam_policy_document.build (caller: modules/terraform_pr_builder/codebuild.tf)"		
+checkov	1	modules/codebuild/iam.tf	CKV_AWS_356	"module.platsec_terraform_pr_jobs.module.pr_plan[""production""].aws_iam_policy_document.build (caller: modules/terraform_pr_builder/codebuild.tf)"		
+checkov	1	modules/docker_deployment_step/codebuild.tf	CKV_AWS_147	module.aws_grant_user_access.module.docker_deployment_development.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/docker_deployment_step/codebuild.tf	CKV_AWS_147	module.aws_grant_user_access.module.docker_deployment_production.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/docker_deployment_step/codebuild.tf	CKV_AWS_147	module.aws_users_manager.module.docker_deployment_development.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/docker_deployment_step/codebuild.tf	CKV_AWS_147	module.aws_users_manager.module.docker_deployment_production.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/docker_deployment_step/codebuild.tf	CKV_AWS_147	module.bitwarden_manager.module.docker_deployment_development.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/docker_deployment_step/codebuild.tf	CKV_AWS_147	module.bitwarden_manager.module.docker_deployment_production.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/docker_deployment_step/codebuild.tf	CKV_AWS_147	module.cloudtrail_events_monitor.module.docker_deployment_development.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/docker_deployment_step/codebuild.tf	CKV_AWS_147	module.cloudtrail_events_monitor.module.docker_deployment_production.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/docker_deployment_step/codebuild.tf	CKV_AWS_147	module.compliance_alerting.module.docker_deployment_development.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/docker_deployment_step/codebuild.tf	CKV_AWS_147	module.compliance_alerting.module.docker_deployment_production.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/docker_deployment_step/codebuild.tf	CKV_AWS_147	module.github_admin_report.module.docker_deployment_development.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/docker_deployment_step/codebuild.tf	CKV_AWS_147	module.github_admin_report.module.docker_deployment_production.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/docker_deployment_step/codebuild.tf	CKV_AWS_147	module.github_webhook_report.module.docker_deployment_development.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/docker_deployment_step/codebuild.tf	CKV_AWS_147	module.github_webhook_report.module.docker_deployment_production.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/docker_deployment_step/codebuild.tf	CKV_AWS_147	module.monitor_aws_iam.module.docker_deployment_development.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/docker_deployment_step/codebuild.tf	CKV_AWS_147	module.monitor_aws_iam.module.docker_deployment_production.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/docker_deployment_step/codebuild.tf	CKV_AWS_147	module.prowler_scan_enqueuer.module.docker_deployment_development.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/docker_deployment_step/codebuild.tf	CKV_AWS_147	module.prowler_scan_enqueuer.module.docker_deployment_production.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/docker_deployment_step/codebuild.tf	CKV_AWS_147	module.sandbox_aws_nuke.module.docker_deployment_sandbox.aws_codebuild_project.deploy (caller: modules/sandbox_lambda_docker_pipeline/build.tf)		
+checkov	1	modules/docker_deployment_step/codebuild.tf	CKV_AWS_147	module.sandbox_compliance_alerting.module.docker_deployment_sandbox.aws_codebuild_project.deploy (caller: modules/sandbox_lambda_docker_pipeline/build.tf)		
+checkov	1	modules/docker_deployment_step/codebuild.tf	CKV_AWS_147	module.security_hub_alert_processor.module.docker_deployment_development.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/docker_deployment_step/codebuild.tf	CKV_AWS_147	module.security_hub_alert_processor.module.docker_deployment_production.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/docker_deployment_step/codebuild.tf	CKV_AWS_147	module.vault_policy_applier_corretto.module.docker_deployment_development.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/docker_deployment_step/codebuild.tf	CKV_AWS_147	module.vault_policy_applier_corretto.module.docker_deployment_production.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/docker_deployment_step/codebuild.tf	CKV_AWS_316	module.aws_grant_user_access.module.docker_deployment_development.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/docker_deployment_step/codebuild.tf	CKV_AWS_316	module.aws_grant_user_access.module.docker_deployment_production.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/docker_deployment_step/codebuild.tf	CKV_AWS_316	module.aws_users_manager.module.docker_deployment_development.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/docker_deployment_step/codebuild.tf	CKV_AWS_316	module.aws_users_manager.module.docker_deployment_production.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/docker_deployment_step/codebuild.tf	CKV_AWS_316	module.bitwarden_manager.module.docker_deployment_development.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/docker_deployment_step/codebuild.tf	CKV_AWS_316	module.bitwarden_manager.module.docker_deployment_production.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/docker_deployment_step/codebuild.tf	CKV_AWS_316	module.cloudtrail_events_monitor.module.docker_deployment_development.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/docker_deployment_step/codebuild.tf	CKV_AWS_316	module.cloudtrail_events_monitor.module.docker_deployment_production.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/docker_deployment_step/codebuild.tf	CKV_AWS_316	module.compliance_alerting.module.docker_deployment_development.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/docker_deployment_step/codebuild.tf	CKV_AWS_316	module.compliance_alerting.module.docker_deployment_production.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/docker_deployment_step/codebuild.tf	CKV_AWS_316	module.github_admin_report.module.docker_deployment_development.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/docker_deployment_step/codebuild.tf	CKV_AWS_316	module.github_admin_report.module.docker_deployment_production.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/docker_deployment_step/codebuild.tf	CKV_AWS_316	module.github_webhook_report.module.docker_deployment_development.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/docker_deployment_step/codebuild.tf	CKV_AWS_316	module.github_webhook_report.module.docker_deployment_production.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/docker_deployment_step/codebuild.tf	CKV_AWS_316	module.monitor_aws_iam.module.docker_deployment_development.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/docker_deployment_step/codebuild.tf	CKV_AWS_316	module.monitor_aws_iam.module.docker_deployment_production.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/docker_deployment_step/codebuild.tf	CKV_AWS_316	module.prowler_scan_enqueuer.module.docker_deployment_development.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/docker_deployment_step/codebuild.tf	CKV_AWS_316	module.prowler_scan_enqueuer.module.docker_deployment_production.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/docker_deployment_step/codebuild.tf	CKV_AWS_316	module.sandbox_aws_nuke.module.docker_deployment_sandbox.aws_codebuild_project.deploy (caller: modules/sandbox_lambda_docker_pipeline/build.tf)		
+checkov	1	modules/docker_deployment_step/codebuild.tf	CKV_AWS_316	module.sandbox_compliance_alerting.module.docker_deployment_sandbox.aws_codebuild_project.deploy (caller: modules/sandbox_lambda_docker_pipeline/build.tf)		
+checkov	1	modules/docker_deployment_step/codebuild.tf	CKV_AWS_316	module.security_hub_alert_processor.module.docker_deployment_development.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/docker_deployment_step/codebuild.tf	CKV_AWS_316	module.security_hub_alert_processor.module.docker_deployment_production.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/docker_deployment_step/codebuild.tf	CKV_AWS_316	module.vault_policy_applier_corretto.module.docker_deployment_development.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/docker_deployment_step/codebuild.tf	CKV_AWS_316	module.vault_policy_applier_corretto.module.docker_deployment_production.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/ecr_repository/main.tf	CKV_AWS_136	module.aws_grant_user_access_repository.aws_ecr_repository.ecr_repository (caller: live/ecr_repositories.tf)		
+checkov	1	modules/ecr_repository/main.tf	CKV_AWS_136	module.aws_users_manager_repository.aws_ecr_repository.ecr_repository (caller: live/ecr_repositories.tf)		
+checkov	1	modules/ecr_repository/main.tf	CKV_AWS_136	module.bitwarden_manager_repository.aws_ecr_repository.ecr_repository (caller: live/ecr_repositories.tf)		
+checkov	1	modules/ecr_repository/main.tf	CKV_AWS_136	module.cloudtrail_events_monitor_repository.aws_ecr_repository.ecr_repository (caller: live/ecr_repositories.tf)		
+checkov	1	modules/ecr_repository/main.tf	CKV_AWS_136	module.compliance_alerting_repository.aws_ecr_repository.ecr_repository (caller: live/ecr_repositories.tf)		
+checkov	1	modules/ecr_repository/main.tf	CKV_AWS_136	module.github_admin_report_repository.aws_ecr_repository.ecr_repository (caller: live/ecr_repositories.tf)		
+checkov	1	modules/ecr_repository/main.tf	CKV_AWS_136	module.github_webhook_report_repository.aws_ecr_repository.ecr_repository (caller: live/ecr_repositories.tf)		
+checkov	1	modules/ecr_repository/main.tf	CKV_AWS_136	module.go_nuke_repository.aws_ecr_repository.ecr_repository (caller: live/ecr_repositories.tf)		
+checkov	1	modules/ecr_repository/main.tf	CKV_AWS_136	module.monitor_aws_iam_repository.aws_ecr_repository.ecr_repository (caller: live/ecr_repositories.tf)		
+checkov	1	modules/ecr_repository/main.tf	CKV_AWS_136	module.n8n_repository.aws_ecr_repository.ecr_repository (caller: live/ecr_repositories.tf)		
+checkov	1	modules/ecr_repository/main.tf	CKV_AWS_136	module.platsec_scanner_repository.aws_ecr_repository.ecr_repository (caller: live/ecr_repositories.tf)		
+checkov	1	modules/ecr_repository/main.tf	CKV_AWS_136	module.prowler_scan_enqueuer_repository.aws_ecr_repository.ecr_repository (caller: live/ecr_repositories.tf)		
+checkov	1	modules/ecr_repository/main.tf	CKV_AWS_136	module.prowler_scanner_batch_repository.aws_ecr_repository.ecr_repository (caller: live/ecr_repositories.tf)		
+checkov	1	modules/ecr_repository/main.tf	CKV_AWS_136	module.prowler_scanner_repository.aws_ecr_repository.ecr_repository (caller: live/ecr_repositories.tf)		
+checkov	1	modules/ecr_repository/main.tf	CKV_AWS_136	module.security_hub_alert_processor_repository.aws_ecr_repository.ecr_repository (caller: live/ecr_repositories.tf)		
+checkov	1	modules/ecr_repository/main.tf	CKV_AWS_136	module.security_reports_frontend_repository.aws_ecr_repository.ecr_repository (caller: live/ecr_repositories.tf)		
+checkov	1	modules/ecr_repository/main.tf	CKV_AWS_136	module.vault_policy_applier_repository.aws_ecr_repository.ecr_repository (caller: live/ecr_repositories.tf)		
+checkov	1	modules/ecr_repository/main.tf	CKV_AWS_136	module.vpc_flow_logs_splunk_lambda_repository.aws_ecr_repository.ecr_repository (caller: live/ecr_repositories.tf)		
+checkov	1	modules/git_tag_step/codebuild.tf	CKV_AWS_147	module.tf-s3-bucket-core.module.git_tag_step.aws_codebuild_project.git_tag (caller: modules/terraform_module_pipeline/build.tf)		
+checkov	1	modules/git_tag_step/codebuild.tf	CKV_AWS_147	module.tf-s3-bucket-standard.module.git_tag_step.aws_codebuild_project.git_tag (caller: modules/terraform_module_pipeline/build.tf)		
+checkov	1	modules/git_tag_step/codebuild.tf	CKV_AWS_316	module.tf-s3-bucket-core.module.git_tag_step.aws_codebuild_project.git_tag (caller: modules/terraform_module_pipeline/build.tf)		
+checkov	1	modules/git_tag_step/codebuild.tf	CKV_AWS_316	module.tf-s3-bucket-standard.module.git_tag_step.aws_codebuild_project.git_tag (caller: modules/terraform_module_pipeline/build.tf)		
+checkov	1	modules/git_version_step/codebuild.tf	CKV_AWS_147	module.tf-s3-bucket-core.module.git_version_step.aws_codebuild_project.git_version (caller: modules/terraform_module_pipeline/build.tf)		
+checkov	1	modules/git_version_step/codebuild.tf	CKV_AWS_147	module.tf-s3-bucket-standard.module.git_version_step.aws_codebuild_project.git_version (caller: modules/terraform_module_pipeline/build.tf)		
+checkov	1	modules/git_version_step/codebuild.tf	CKV_AWS_316	module.tf-s3-bucket-core.module.git_version_step.aws_codebuild_project.git_version (caller: modules/terraform_module_pipeline/build.tf)		
+checkov	1	modules/git_version_step/codebuild.tf	CKV_AWS_316	module.tf-s3-bucket-standard.module.git_version_step.aws_codebuild_project.git_version (caller: modules/terraform_module_pipeline/build.tf)		
+checkov	1	modules/networking-new/ci_security_group.tf	CKV2_AWS_5	module.networking.aws_security_group.ci_agent_to_internet		
+checkov	1	modules/networking-new/ci_security_group.tf	CKV_AWS_23	module.networking.aws_security_group.aws_interface_endpoints (caller: ci/networking.tf)		
+checkov	1	modules/networking-new/ci_security_group.tf	CKV_AWS_23	module.networking.aws_security_group.ci_agent_to_endpoints (caller: ci/networking.tf)		
+checkov	1	modules/networking-new/ci_security_group.tf	CKV_AWS_23	module.networking.aws_security_group.ci_agent_to_internet (caller: ci/networking.tf)		
+checkov	1	modules/networking-new/main.tf	CKV_TF_1	module.networking.label (caller: ci/networking.tf)		
+checkov	1	modules/networking-new/vpc.tf	CKV_TF_1	module.networking.vpc (caller: ci/networking.tf)		
+checkov	1	modules/networking/ci_security_group.tf	CKV2_AWS_5	aws_security_group.ci_agent_to_internet		
+checkov	1	modules/networking/ci_security_group.tf	CKV_AWS_23	aws_security_group.aws_interface_endpoints		
+checkov	1	modules/networking/ci_security_group.tf	CKV_AWS_23	aws_security_group.ci_agent_to_endpoints		
+checkov	1	modules/networking/ci_security_group.tf	CKV_AWS_23	aws_security_group.ci_agent_to_internet		
+checkov	1	modules/networking/ci_security_group.tf	CKV_AWS_24	aws_security_group.aws_interface_endpoints		
+checkov	1	modules/networking/ci_security_group.tf	CKV_AWS_25	aws_security_group.aws_interface_endpoints		
+checkov	1	modules/networking/ci_security_group.tf	CKV_AWS_260	aws_security_group.aws_interface_endpoints		
+checkov	1	modules/networking/ci_security_group.tf	CKV_AWS_277	aws_security_group.aws_interface_endpoints		
+checkov	1	modules/networking/vpc.tf	CKV_TF_1	vpc		
+checkov	1	modules/pipeline_common/iam.tf	CKV_AWS_111	module.aws_grant_user_access.module.common.aws_iam_policy_document.build_core (caller: modules/lambda_docker_pipeline/main.tf)		
+checkov	1	modules/pipeline_common/iam.tf	CKV_AWS_111	module.aws_grant_user_access_terraform_pipeline.module.common.aws_iam_policy_document.build_core (caller: modules/platsec_terraform_pipeline/main.tf)		
+checkov	1	modules/pipeline_common/iam.tf	CKV_AWS_111	module.aws_users_manager.module.common.aws_iam_policy_document.build_core (caller: modules/lambda_docker_pipeline/main.tf)		
+checkov	1	modules/pipeline_common/iam.tf	CKV_AWS_111	module.bitwarden_manager.module.common.aws_iam_policy_document.build_core (caller: modules/lambda_docker_pipeline/main.tf)		
+checkov	1	modules/pipeline_common/iam.tf	CKV_AWS_111	module.central_account_terraform_pipeline.module.common.aws_iam_policy_document.build_core (caller: modules/central_audit_terraform_pipeline/main.tf)		
+checkov	1	modules/pipeline_common/iam.tf	CKV_AWS_111	module.cloudtrail_events_monitor.module.common.aws_iam_policy_document.build_core (caller: modules/lambda_docker_pipeline/main.tf)		
+checkov	1	modules/pipeline_common/iam.tf	CKV_AWS_111	module.common.aws_iam_policy_document.build_core (caller: modules/docker_pipeline/main.tf)		
+checkov	1	modules/pipeline_common/iam.tf	CKV_AWS_111	module.compliance_alerting.module.common.aws_iam_policy_document.build_core (caller: modules/lambda_docker_pipeline/main.tf)		
+checkov	1	modules/pipeline_common/iam.tf	CKV_AWS_111	module.github_admin_report.module.common.aws_iam_policy_document.build_core (caller: modules/lambda_docker_pipeline/main.tf)		
+checkov	1	modules/pipeline_common/iam.tf	CKV_AWS_111	module.github_webhook_report.module.common.aws_iam_policy_document.build_core (caller: modules/lambda_docker_pipeline/main.tf)		
+checkov	1	modules/pipeline_common/iam.tf	CKV_AWS_111	module.monitor_aws_iam.module.common.aws_iam_policy_document.build_core (caller: modules/lambda_docker_pipeline/main.tf)		
+checkov	1	modules/pipeline_common/iam.tf	CKV_AWS_111	module.n8n.module.common.aws_iam_policy_document.build_core (caller: modules/ecs_task_pipeline/main.tf)		
+checkov	1	modules/pipeline_common/iam.tf	CKV_AWS_111	module.pipeline.module.common.aws_iam_policy_document.build_core (caller: modules/platsec_ci_terraform_pipeline/main.tf)		
+checkov	1	modules/pipeline_common/iam.tf	CKV_AWS_111	module.platsec-terraform-pipeline.module.common.aws_iam_policy_document.build_core (caller: modules/platsec_terraform_pipeline/main.tf)		
+checkov	1	modules/pipeline_common/iam.tf	CKV_AWS_111	module.platsec_scanner.module.common.aws_iam_policy_document.build_core (caller: modules/batch_task_pipeline/main.tf)		
+checkov	1	modules/pipeline_common/iam.tf	CKV_AWS_111	module.prowler_scan_enqueuer.module.common.aws_iam_policy_document.build_core (caller: modules/lambda_docker_pipeline/main.tf)		
+checkov	1	modules/pipeline_common/iam.tf	CKV_AWS_111	module.prowler_scanner.module.common.aws_iam_policy_document.build_core (caller: modules/batch_task_pipeline/main.tf)		
+checkov	1	modules/pipeline_common/iam.tf	CKV_AWS_111	module.sandbox_aws_nuke.module.common.aws_iam_policy_document.build_core (caller: modules/sandbox_lambda_docker_pipeline/main.tf)		
+checkov	1	modules/pipeline_common/iam.tf	CKV_AWS_111	module.sandbox_compliance_alerting.module.common.aws_iam_policy_document.build_core (caller: modules/sandbox_lambda_docker_pipeline/main.tf)		
+checkov	1	modules/pipeline_common/iam.tf	CKV_AWS_111	module.security_hub_alert_processor.module.common.aws_iam_policy_document.build_core (caller: modules/lambda_docker_pipeline/main.tf)		
+checkov	1	modules/pipeline_common/iam.tf	CKV_AWS_111	module.tf-s3-bucket-core.module.common.aws_iam_policy_document.build_core (caller: modules/terraform_module_pipeline/main.tf)		
+checkov	1	modules/pipeline_common/iam.tf	CKV_AWS_111	module.tf-s3-bucket-standard.module.common.aws_iam_policy_document.build_core (caller: modules/terraform_module_pipeline/main.tf)		
+checkov	1	modules/pipeline_common/iam.tf	CKV_AWS_111	module.vault_policy_applier_corretto.module.common.aws_iam_policy_document.build_core (caller: modules/lambda_docker_pipeline/main.tf)		
+checkov	1	modules/pipeline_common/iam.tf	CKV_AWS_356	module.aws_grant_user_access.module.common.aws_iam_policy_document.build_core (caller: modules/lambda_docker_pipeline/main.tf)		
+checkov	1	modules/pipeline_common/iam.tf	CKV_AWS_356	module.aws_grant_user_access_terraform_pipeline.module.common.aws_iam_policy_document.build_core (caller: modules/platsec_terraform_pipeline/main.tf)		
+checkov	1	modules/pipeline_common/iam.tf	CKV_AWS_356	module.aws_users_manager.module.common.aws_iam_policy_document.build_core (caller: modules/lambda_docker_pipeline/main.tf)		
+checkov	1	modules/pipeline_common/iam.tf	CKV_AWS_356	module.bitwarden_manager.module.common.aws_iam_policy_document.build_core (caller: modules/lambda_docker_pipeline/main.tf)		
+checkov	1	modules/pipeline_common/iam.tf	CKV_AWS_356	module.central_account_terraform_pipeline.module.common.aws_iam_policy_document.build_core (caller: modules/central_audit_terraform_pipeline/main.tf)		
+checkov	1	modules/pipeline_common/iam.tf	CKV_AWS_356	module.cloudtrail_events_monitor.module.common.aws_iam_policy_document.build_core (caller: modules/lambda_docker_pipeline/main.tf)		
+checkov	1	modules/pipeline_common/iam.tf	CKV_AWS_356	module.common.aws_iam_policy_document.build_core (caller: modules/docker_pipeline/main.tf)		
+checkov	1	modules/pipeline_common/iam.tf	CKV_AWS_356	module.compliance_alerting.module.common.aws_iam_policy_document.build_core (caller: modules/lambda_docker_pipeline/main.tf)		
+checkov	1	modules/pipeline_common/iam.tf	CKV_AWS_356	module.github_admin_report.module.common.aws_iam_policy_document.build_core (caller: modules/lambda_docker_pipeline/main.tf)		
+checkov	1	modules/pipeline_common/iam.tf	CKV_AWS_356	module.github_webhook_report.module.common.aws_iam_policy_document.build_core (caller: modules/lambda_docker_pipeline/main.tf)		
+checkov	1	modules/pipeline_common/iam.tf	CKV_AWS_356	module.monitor_aws_iam.module.common.aws_iam_policy_document.build_core (caller: modules/lambda_docker_pipeline/main.tf)		
+checkov	1	modules/pipeline_common/iam.tf	CKV_AWS_356	module.n8n.module.common.aws_iam_policy_document.build_core (caller: modules/ecs_task_pipeline/main.tf)		
+checkov	1	modules/pipeline_common/iam.tf	CKV_AWS_356	module.pipeline.module.common.aws_iam_policy_document.build_core (caller: modules/platsec_ci_terraform_pipeline/main.tf)		
+checkov	1	modules/pipeline_common/iam.tf	CKV_AWS_356	module.platsec-terraform-pipeline.module.common.aws_iam_policy_document.build_core (caller: modules/platsec_terraform_pipeline/main.tf)		
+checkov	1	modules/pipeline_common/iam.tf	CKV_AWS_356	module.platsec_scanner.module.common.aws_iam_policy_document.build_core (caller: modules/batch_task_pipeline/main.tf)		
+checkov	1	modules/pipeline_common/iam.tf	CKV_AWS_356	module.prowler_scan_enqueuer.module.common.aws_iam_policy_document.build_core (caller: modules/lambda_docker_pipeline/main.tf)		
+checkov	1	modules/pipeline_common/iam.tf	CKV_AWS_356	module.prowler_scanner.module.common.aws_iam_policy_document.build_core (caller: modules/batch_task_pipeline/main.tf)		
+checkov	1	modules/pipeline_common/iam.tf	CKV_AWS_356	module.sandbox_aws_nuke.module.common.aws_iam_policy_document.build_core (caller: modules/sandbox_lambda_docker_pipeline/main.tf)		
+checkov	1	modules/pipeline_common/iam.tf	CKV_AWS_356	module.sandbox_compliance_alerting.module.common.aws_iam_policy_document.build_core (caller: modules/sandbox_lambda_docker_pipeline/main.tf)		
+checkov	1	modules/pipeline_common/iam.tf	CKV_AWS_356	module.security_hub_alert_processor.module.common.aws_iam_policy_document.build_core (caller: modules/lambda_docker_pipeline/main.tf)		
+checkov	1	modules/pipeline_common/iam.tf	CKV_AWS_356	module.tf-s3-bucket-core.module.common.aws_iam_policy_document.build_core (caller: modules/terraform_module_pipeline/main.tf)		
+checkov	1	modules/pipeline_common/iam.tf	CKV_AWS_356	module.tf-s3-bucket-standard.module.common.aws_iam_policy_document.build_core (caller: modules/terraform_module_pipeline/main.tf)		
+checkov	1	modules/pipeline_common/iam.tf	CKV_AWS_356	module.vault_policy_applier_corretto.module.common.aws_iam_policy_document.build_core (caller: modules/lambda_docker_pipeline/main.tf)		
+checkov	1	modules/pipeline_common/s3.tf	CKV_TF_1	module.aws_grant_user_access.module.common.codepipeline_bucket (caller: modules/lambda_docker_pipeline/main.tf)		
+checkov	1	modules/pipeline_common/s3.tf	CKV_TF_1	module.aws_grant_user_access_terraform_pipeline.module.common.codepipeline_bucket (caller: modules/platsec_terraform_pipeline/main.tf)		
+checkov	1	modules/pipeline_common/s3.tf	CKV_TF_1	module.aws_users_manager.module.common.codepipeline_bucket (caller: modules/lambda_docker_pipeline/main.tf)		
+checkov	1	modules/pipeline_common/s3.tf	CKV_TF_1	module.bitwarden_manager.module.common.codepipeline_bucket (caller: modules/lambda_docker_pipeline/main.tf)		
+checkov	1	modules/pipeline_common/s3.tf	CKV_TF_1	module.central_account_terraform_pipeline.module.common.codepipeline_bucket (caller: modules/central_audit_terraform_pipeline/main.tf)		
+checkov	1	modules/pipeline_common/s3.tf	CKV_TF_1	module.cloudtrail_events_monitor.module.common.codepipeline_bucket (caller: modules/lambda_docker_pipeline/main.tf)		
+checkov	1	modules/pipeline_common/s3.tf	CKV_TF_1	module.common.codepipeline_bucket (caller: modules/docker_pipeline/main.tf)		
+checkov	1	modules/pipeline_common/s3.tf	CKV_TF_1	module.compliance_alerting.module.common.codepipeline_bucket (caller: modules/lambda_docker_pipeline/main.tf)		
+checkov	1	modules/pipeline_common/s3.tf	CKV_TF_1	module.github_admin_report.module.common.codepipeline_bucket (caller: modules/lambda_docker_pipeline/main.tf)		
+checkov	1	modules/pipeline_common/s3.tf	CKV_TF_1	module.github_webhook_report.module.common.codepipeline_bucket (caller: modules/lambda_docker_pipeline/main.tf)		
+checkov	1	modules/pipeline_common/s3.tf	CKV_TF_1	module.monitor_aws_iam.module.common.codepipeline_bucket (caller: modules/lambda_docker_pipeline/main.tf)		
+checkov	1	modules/pipeline_common/s3.tf	CKV_TF_1	module.n8n.module.common.codepipeline_bucket (caller: modules/ecs_task_pipeline/main.tf)		
+checkov	1	modules/pipeline_common/s3.tf	CKV_TF_1	module.pipeline.module.common.codepipeline_bucket (caller: modules/platsec_ci_terraform_pipeline/main.tf)		
+checkov	1	modules/pipeline_common/s3.tf	CKV_TF_1	module.platsec-terraform-pipeline.module.common.codepipeline_bucket (caller: modules/platsec_terraform_pipeline/main.tf)		
+checkov	1	modules/pipeline_common/s3.tf	CKV_TF_1	module.platsec_scanner.module.common.codepipeline_bucket (caller: modules/batch_task_pipeline/main.tf)		
+checkov	1	modules/pipeline_common/s3.tf	CKV_TF_1	module.prowler_scan_enqueuer.module.common.codepipeline_bucket (caller: modules/lambda_docker_pipeline/main.tf)		
+checkov	1	modules/pipeline_common/s3.tf	CKV_TF_1	module.prowler_scanner.module.common.codepipeline_bucket (caller: modules/batch_task_pipeline/main.tf)		
+checkov	1	modules/pipeline_common/s3.tf	CKV_TF_1	module.sandbox_aws_nuke.module.common.codepipeline_bucket (caller: modules/sandbox_lambda_docker_pipeline/main.tf)		
+checkov	1	modules/pipeline_common/s3.tf	CKV_TF_1	module.sandbox_compliance_alerting.module.common.codepipeline_bucket (caller: modules/sandbox_lambda_docker_pipeline/main.tf)		
+checkov	1	modules/pipeline_common/s3.tf	CKV_TF_1	module.security_hub_alert_processor.module.common.codepipeline_bucket (caller: modules/lambda_docker_pipeline/main.tf)		
+checkov	1	modules/pipeline_common/s3.tf	CKV_TF_1	module.tf-s3-bucket-core.module.common.codepipeline_bucket (caller: modules/terraform_module_pipeline/main.tf)		
+checkov	1	modules/pipeline_common/s3.tf	CKV_TF_1	module.tf-s3-bucket-standard.module.common.codepipeline_bucket (caller: modules/terraform_module_pipeline/main.tf)		
+checkov	1	modules/pipeline_common/s3.tf	CKV_TF_1	module.vault_policy_applier_corretto.module.common.codepipeline_bucket (caller: modules/lambda_docker_pipeline/main.tf)		
+checkov	1	modules/pull_request_builder/codebuild.tf	CKV_AWS_316	module.aws_grant_user_access_pr_builder.aws_codebuild_project.build (caller: live/pull_request_builder.tf)		
+checkov	1	modules/pull_request_builder/codebuild.tf	CKV_AWS_316	module.aws_users_manager_pr_builder.aws_codebuild_project.build (caller: live/pull_request_builder.tf)		
+checkov	1	modules/pull_request_builder/codebuild.tf	CKV_AWS_316	module.bitwarden_manager_pr_builder.aws_codebuild_project.build (caller: live/pull_request_builder.tf)		
+checkov	1	modules/pull_request_builder/codebuild.tf	CKV_AWS_316	module.cloudtrail_events_monitor_pr_builder.aws_codebuild_project.build (caller: live/pull_request_builder.tf)		
+checkov	1	modules/pull_request_builder/codebuild.tf	CKV_AWS_316	module.compliance_alerting_pr_builder.aws_codebuild_project.build (caller: live/pull_request_builder.tf)		
+checkov	1	modules/pull_request_builder/codebuild.tf	CKV_AWS_316	module.monitor_aws_iam_pr_builder.aws_codebuild_project.build (caller: live/pull_request_builder.tf)		
+checkov	1	modules/pull_request_builder/codebuild.tf	CKV_AWS_316	module.platsec_catalogue_pr_builder.aws_codebuild_project.build (caller: live/pull_request_builder.tf)		
+checkov	1	modules/pull_request_builder/codebuild.tf	CKV_AWS_316	module.platsec_scanner_pr_builder.aws_codebuild_project.build (caller: live/pull_request_builder.tf)		
+checkov	1	modules/pull_request_builder/codebuild.tf	CKV_AWS_316	module.policyexplorer_pr_builder.aws_codebuild_project.build (caller: live/pull_request_builder.tf)		
+checkov	1	modules/pull_request_builder/codebuild.tf	CKV_AWS_316	module.prowler_scan_enqueuer_pr_builder.aws_codebuild_project.build (caller: live/pull_request_builder.tf)		
+checkov	1	modules/pull_request_builder/codebuild.tf	CKV_AWS_316	module.prowler_scanner_pr_builder.aws_codebuild_project.build (caller: live/pull_request_builder.tf)		
+checkov	1	modules/pull_request_builder/codebuild.tf	CKV_AWS_316	module.pull_request_builder.aws_codebuild_project.build (caller: ci/pull_request_builder.tf)		
+checkov	1	modules/pull_request_builder/codebuild.tf	CKV_AWS_316	module.security_hub_alert_processor_pr_builder.aws_codebuild_project.build (caller: live/pull_request_builder.tf)		
+checkov	1	modules/pull_request_builder/codebuild.tf	CKV_AWS_316	module.vault_policy_applier_pr_builder.aws_codebuild_project.build (caller: live/pull_request_builder.tf)		
+checkov	1	modules/pull_request_builder/iam.tf	CKV_AWS_111	module.aws_grant_user_access_pr_builder.aws_iam_policy_document.build_core (caller: live/pull_request_builder.tf)		
+checkov	1	modules/pull_request_builder/iam.tf	CKV_AWS_111	module.aws_users_manager_pr_builder.aws_iam_policy_document.build_core (caller: live/pull_request_builder.tf)		
+checkov	1	modules/pull_request_builder/iam.tf	CKV_AWS_111	module.bitwarden_manager_pr_builder.aws_iam_policy_document.build_core (caller: live/pull_request_builder.tf)		
+checkov	1	modules/pull_request_builder/iam.tf	CKV_AWS_111	module.cloudtrail_events_monitor_pr_builder.aws_iam_policy_document.build_core (caller: live/pull_request_builder.tf)		
+checkov	1	modules/pull_request_builder/iam.tf	CKV_AWS_111	module.compliance_alerting_pr_builder.aws_iam_policy_document.build_core (caller: live/pull_request_builder.tf)		
+checkov	1	modules/pull_request_builder/iam.tf	CKV_AWS_111	module.monitor_aws_iam_pr_builder.aws_iam_policy_document.build_core (caller: live/pull_request_builder.tf)		
+checkov	1	modules/pull_request_builder/iam.tf	CKV_AWS_111	module.platsec_catalogue_pr_builder.aws_iam_policy_document.build_core (caller: live/pull_request_builder.tf)		
+checkov	1	modules/pull_request_builder/iam.tf	CKV_AWS_111	module.platsec_scanner_pr_builder.aws_iam_policy_document.build_core (caller: live/pull_request_builder.tf)		
+checkov	1	modules/pull_request_builder/iam.tf	CKV_AWS_111	module.policyexplorer_pr_builder.aws_iam_policy_document.build_core (caller: live/pull_request_builder.tf)		
+checkov	1	modules/pull_request_builder/iam.tf	CKV_AWS_111	module.prowler_scan_enqueuer_pr_builder.aws_iam_policy_document.build_core (caller: live/pull_request_builder.tf)		
+checkov	1	modules/pull_request_builder/iam.tf	CKV_AWS_111	module.prowler_scanner_pr_builder.aws_iam_policy_document.build_core (caller: live/pull_request_builder.tf)		
+checkov	1	modules/pull_request_builder/iam.tf	CKV_AWS_111	module.pull_request_builder.aws_iam_policy_document.build_core (caller: ci/pull_request_builder.tf)		
+checkov	1	modules/pull_request_builder/iam.tf	CKV_AWS_111	module.security_hub_alert_processor_pr_builder.aws_iam_policy_document.build_core (caller: live/pull_request_builder.tf)		
+checkov	1	modules/pull_request_builder/iam.tf	CKV_AWS_111	module.vault_policy_applier_pr_builder.aws_iam_policy_document.build_core (caller: live/pull_request_builder.tf)		
+checkov	1	modules/pull_request_builder/iam.tf	CKV_AWS_356	module.aws_grant_user_access_pr_builder.aws_iam_policy_document.build_core (caller: live/pull_request_builder.tf)		
+checkov	1	modules/pull_request_builder/iam.tf	CKV_AWS_356	module.aws_users_manager_pr_builder.aws_iam_policy_document.build_core (caller: live/pull_request_builder.tf)		
+checkov	1	modules/pull_request_builder/iam.tf	CKV_AWS_356	module.bitwarden_manager_pr_builder.aws_iam_policy_document.build_core (caller: live/pull_request_builder.tf)		
+checkov	1	modules/pull_request_builder/iam.tf	CKV_AWS_356	module.cloudtrail_events_monitor_pr_builder.aws_iam_policy_document.build_core (caller: live/pull_request_builder.tf)		
+checkov	1	modules/pull_request_builder/iam.tf	CKV_AWS_356	module.compliance_alerting_pr_builder.aws_iam_policy_document.build_core (caller: live/pull_request_builder.tf)		
+checkov	1	modules/pull_request_builder/iam.tf	CKV_AWS_356	module.monitor_aws_iam_pr_builder.aws_iam_policy_document.build_core (caller: live/pull_request_builder.tf)		
+checkov	1	modules/pull_request_builder/iam.tf	CKV_AWS_356	module.platsec_catalogue_pr_builder.aws_iam_policy_document.build_core (caller: live/pull_request_builder.tf)		
+checkov	1	modules/pull_request_builder/iam.tf	CKV_AWS_356	module.platsec_scanner_pr_builder.aws_iam_policy_document.build_core (caller: live/pull_request_builder.tf)		
+checkov	1	modules/pull_request_builder/iam.tf	CKV_AWS_356	module.policyexplorer_pr_builder.aws_iam_policy_document.build_core (caller: live/pull_request_builder.tf)		
+checkov	1	modules/pull_request_builder/iam.tf	CKV_AWS_356	module.prowler_scan_enqueuer_pr_builder.aws_iam_policy_document.build_core (caller: live/pull_request_builder.tf)		
+checkov	1	modules/pull_request_builder/iam.tf	CKV_AWS_356	module.prowler_scanner_pr_builder.aws_iam_policy_document.build_core (caller: live/pull_request_builder.tf)		
+checkov	1	modules/pull_request_builder/iam.tf	CKV_AWS_356	module.pull_request_builder.aws_iam_policy_document.build_core (caller: ci/pull_request_builder.tf)		
+checkov	1	modules/pull_request_builder/iam.tf	CKV_AWS_356	module.security_hub_alert_processor_pr_builder.aws_iam_policy_document.build_core (caller: live/pull_request_builder.tf)		
+checkov	1	modules/pull_request_builder/iam.tf	CKV_AWS_356	module.vault_policy_applier_pr_builder.aws_iam_policy_document.build_core (caller: live/pull_request_builder.tf)		
+checkov	1	modules/renovatebot_build/iam.tf	CKV_AWS_111	module.renovatebot.aws_iam_policy_document.codebuild_policy (caller: live/pipelines.tf)		
+checkov	1	modules/renovatebot_build/iam.tf	CKV_AWS_356	module.renovatebot.aws_iam_policy_document.codebuild_policy (caller: live/pipelines.tf)		
+checkov	1	modules/sns_topic/kms.tf	CKV_AWS_109	module.ci_alerts_sns_topic.aws_iam_policy_document.sns_topic_encryption_key_default (caller: ci/sns.tf)		
+checkov	1	modules/sns_topic/kms.tf	CKV_AWS_111	module.ci_alerts_sns_topic.aws_iam_policy_document.sns_topic_encryption_key_default (caller: ci/sns.tf)		
+checkov	1	modules/sns_topic/kms.tf	CKV_AWS_356	module.ci_alerts_sns_topic.aws_iam_policy_document.sns_topic_encryption_key_default (caller: ci/sns.tf)		
+checkov	1	modules/sns_topic/kms.tf	CKV_AWS_7	module.ci_alerts_sns_topic.aws_kms_key.sns (caller: ci/sns.tf)		
+checkov	1	modules/terraform_step/codebuild.tf	CKV_AWS_147	module.aws_grant_user_access_terraform_pipeline.module.apply_step.aws_codebuild_project.build (caller: modules/platsec_terraform_pipeline/build.tf)		
+checkov	1	modules/terraform_step/codebuild.tf	CKV_AWS_147	module.central_account_terraform_pipeline.module.apply_step.aws_codebuild_project.build (caller: modules/central_audit_terraform_pipeline/build.tf)		
+checkov	1	modules/terraform_step/codebuild.tf	CKV_AWS_147	module.pipeline.module.apply_step.aws_codebuild_project.build (caller: modules/platsec_ci_terraform_pipeline/build.tf)		
+checkov	1	modules/terraform_step/codebuild.tf	CKV_AWS_147	module.platsec-terraform-pipeline.module.apply_step.aws_codebuild_project.build (caller: modules/platsec_terraform_pipeline/build.tf)		
+checkov	1	modules/terraform_step/codebuild.tf	CKV_AWS_316	module.aws_grant_user_access_terraform_pipeline.module.apply_step.aws_codebuild_project.build (caller: modules/platsec_terraform_pipeline/build.tf)		
+checkov	1	modules/terraform_step/codebuild.tf	CKV_AWS_316	module.central_account_terraform_pipeline.module.apply_step.aws_codebuild_project.build (caller: modules/central_audit_terraform_pipeline/build.tf)		
+checkov	1	modules/terraform_step/codebuild.tf	CKV_AWS_316	module.pipeline.module.apply_step.aws_codebuild_project.build (caller: modules/platsec_ci_terraform_pipeline/build.tf)		
+checkov	1	modules/terraform_step/codebuild.tf	CKV_AWS_316	module.platsec-terraform-pipeline.module.apply_step.aws_codebuild_project.build (caller: modules/platsec_terraform_pipeline/build.tf)		
+checkov	1	modules/terraform_step/iam.tf	CKV_AWS_111	module.aws_grant_user_access_terraform_pipeline.module.apply_step.aws_iam_policy_document.build_core (caller: modules/platsec_terraform_pipeline/build.tf)		
+checkov	1	modules/terraform_step/iam.tf	CKV_AWS_111	module.central_account_terraform_pipeline.module.apply_step.aws_iam_policy_document.build_core (caller: modules/central_audit_terraform_pipeline/build.tf)		
+checkov	1	modules/terraform_step/iam.tf	CKV_AWS_111	module.pipeline.module.apply_step.aws_iam_policy_document.build_core (caller: modules/platsec_ci_terraform_pipeline/build.tf)		
+checkov	1	modules/terraform_step/iam.tf	CKV_AWS_111	module.platsec-terraform-pipeline.module.apply_step.aws_iam_policy_document.build_core (caller: modules/platsec_terraform_pipeline/build.tf)		
+checkov	1	modules/terraform_step/iam.tf	CKV_AWS_356	module.aws_grant_user_access_terraform_pipeline.module.apply_step.aws_iam_policy_document.build_core (caller: modules/platsec_terraform_pipeline/build.tf)		
+checkov	1	modules/terraform_step/iam.tf	CKV_AWS_356	module.central_account_terraform_pipeline.module.apply_step.aws_iam_policy_document.build_core (caller: modules/central_audit_terraform_pipeline/build.tf)		
+checkov	1	modules/terraform_step/iam.tf	CKV_AWS_356	module.pipeline.module.apply_step.aws_iam_policy_document.build_core (caller: modules/platsec_ci_terraform_pipeline/build.tf)		
+checkov	1	modules/terraform_step/iam.tf	CKV_AWS_356	module.platsec-terraform-pipeline.module.apply_step.aws_iam_policy_document.build_core (caller: modules/platsec_terraform_pipeline/build.tf)		
+checkov	1	modules/update_batch_job_definition_step/codebuild.tf	CKV_AWS_147	module.platsec_scanner.module.batch_deployment_development.aws_codebuild_project.deploy (caller: modules/batch_task_pipeline/build.tf)		
+checkov	1	modules/update_batch_job_definition_step/codebuild.tf	CKV_AWS_147	module.platsec_scanner.module.batch_deployment_production.aws_codebuild_project.deploy (caller: modules/batch_task_pipeline/build.tf)		
+checkov	1	modules/update_batch_job_definition_step/codebuild.tf	CKV_AWS_147	module.prowler_scanner.module.batch_deployment_development.aws_codebuild_project.deploy (caller: modules/batch_task_pipeline/build.tf)		
+checkov	1	modules/update_batch_job_definition_step/codebuild.tf	CKV_AWS_147	module.prowler_scanner.module.batch_deployment_production.aws_codebuild_project.deploy (caller: modules/batch_task_pipeline/build.tf)		
+checkov	1	modules/update_batch_job_definition_step/codebuild.tf	CKV_AWS_316	module.platsec_scanner.module.batch_deployment_development.aws_codebuild_project.deploy (caller: modules/batch_task_pipeline/build.tf)		
+checkov	1	modules/update_batch_job_definition_step/codebuild.tf	CKV_AWS_316	module.platsec_scanner.module.batch_deployment_production.aws_codebuild_project.deploy (caller: modules/batch_task_pipeline/build.tf)		
+checkov	1	modules/update_batch_job_definition_step/codebuild.tf	CKV_AWS_316	module.prowler_scanner.module.batch_deployment_development.aws_codebuild_project.deploy (caller: modules/batch_task_pipeline/build.tf)		
+checkov	1	modules/update_batch_job_definition_step/codebuild.tf	CKV_AWS_316	module.prowler_scanner.module.batch_deployment_production.aws_codebuild_project.deploy (caller: modules/batch_task_pipeline/build.tf)		
+checkov	1	modules/update_task_definition_step/codebuild.tf	CKV_AWS_147	module.n8n.module.docker_deployment_development.aws_codebuild_project.deploy (caller: modules/ecs_task_pipeline/build.tf)		
+checkov	1	modules/update_task_definition_step/codebuild.tf	CKV_AWS_147	module.n8n.module.docker_deployment_production.aws_codebuild_project.deploy (caller: modules/ecs_task_pipeline/build.tf)		
+checkov	1	modules/update_task_definition_step/codebuild.tf	CKV_AWS_316	module.n8n.module.docker_deployment_development.aws_codebuild_project.deploy (caller: modules/ecs_task_pipeline/build.tf)		
+checkov	1	modules/update_task_definition_step/codebuild.tf	CKV_AWS_316	module.n8n.module.docker_deployment_production.aws_codebuild_project.deploy (caller: modules/ecs_task_pipeline/build.tf)		
+checkov	1	modules/upload_to_ci_ecr_step/codebuild.tf	CKV_AWS_147	module.aws_grant_user_access.module.upload_to_ecr_step.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/upload_to_ci_ecr_step/codebuild.tf	CKV_AWS_147	module.aws_users_manager.module.upload_to_ecr_step.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/upload_to_ci_ecr_step/codebuild.tf	CKV_AWS_147	module.bitwarden_manager.module.upload_to_ecr_step.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/upload_to_ci_ecr_step/codebuild.tf	CKV_AWS_147	module.cloudtrail_events_monitor.module.upload_to_ecr_step.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/upload_to_ci_ecr_step/codebuild.tf	CKV_AWS_147	module.compliance_alerting.module.upload_to_ecr_step.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/upload_to_ci_ecr_step/codebuild.tf	CKV_AWS_147	module.github_admin_report.module.upload_to_ecr_step.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/upload_to_ci_ecr_step/codebuild.tf	CKV_AWS_147	module.github_webhook_report.module.upload_to_ecr_step.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/upload_to_ci_ecr_step/codebuild.tf	CKV_AWS_147	module.monitor_aws_iam.module.upload_to_ecr_step.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/upload_to_ci_ecr_step/codebuild.tf	CKV_AWS_147	module.n8n.module.upload_to_ecr.aws_codebuild_project.deploy (caller: modules/ecs_task_pipeline/build.tf)		
+checkov	1	modules/upload_to_ci_ecr_step/codebuild.tf	CKV_AWS_147	module.platsec_scanner.module.upload_to_ecr.aws_codebuild_project.deploy (caller: modules/batch_task_pipeline/build.tf)		
+checkov	1	modules/upload_to_ci_ecr_step/codebuild.tf	CKV_AWS_147	module.prowler_scan_enqueuer.module.upload_to_ecr_step.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/upload_to_ci_ecr_step/codebuild.tf	CKV_AWS_147	module.prowler_scanner.module.upload_to_ecr.aws_codebuild_project.deploy (caller: modules/batch_task_pipeline/build.tf)		
+checkov	1	modules/upload_to_ci_ecr_step/codebuild.tf	CKV_AWS_147	module.sandbox_aws_nuke.module.upload_to_ecr.aws_codebuild_project.deploy (caller: modules/sandbox_lambda_docker_pipeline/build.tf)		
+checkov	1	modules/upload_to_ci_ecr_step/codebuild.tf	CKV_AWS_147	module.sandbox_compliance_alerting.module.upload_to_ecr.aws_codebuild_project.deploy (caller: modules/sandbox_lambda_docker_pipeline/build.tf)		
+checkov	1	modules/upload_to_ci_ecr_step/codebuild.tf	CKV_AWS_147	module.security_hub_alert_processor.module.upload_to_ecr_step.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/upload_to_ci_ecr_step/codebuild.tf	CKV_AWS_147	module.upload_to_ecr_step.aws_codebuild_project.deploy (caller: modules/docker_pipeline/build.tf)		
+checkov	1	modules/upload_to_ci_ecr_step/codebuild.tf	CKV_AWS_147	module.vault_policy_applier_corretto.module.upload_to_ecr_step.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/upload_to_ci_ecr_step/codebuild.tf	CKV_AWS_316	module.aws_grant_user_access.module.upload_to_ecr_step.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/upload_to_ci_ecr_step/codebuild.tf	CKV_AWS_316	module.aws_users_manager.module.upload_to_ecr_step.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/upload_to_ci_ecr_step/codebuild.tf	CKV_AWS_316	module.bitwarden_manager.module.upload_to_ecr_step.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/upload_to_ci_ecr_step/codebuild.tf	CKV_AWS_316	module.cloudtrail_events_monitor.module.upload_to_ecr_step.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/upload_to_ci_ecr_step/codebuild.tf	CKV_AWS_316	module.compliance_alerting.module.upload_to_ecr_step.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/upload_to_ci_ecr_step/codebuild.tf	CKV_AWS_316	module.github_admin_report.module.upload_to_ecr_step.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/upload_to_ci_ecr_step/codebuild.tf	CKV_AWS_316	module.github_webhook_report.module.upload_to_ecr_step.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/upload_to_ci_ecr_step/codebuild.tf	CKV_AWS_316	module.monitor_aws_iam.module.upload_to_ecr_step.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/upload_to_ci_ecr_step/codebuild.tf	CKV_AWS_316	module.n8n.module.upload_to_ecr.aws_codebuild_project.deploy (caller: modules/ecs_task_pipeline/build.tf)		
+checkov	1	modules/upload_to_ci_ecr_step/codebuild.tf	CKV_AWS_316	module.platsec_scanner.module.upload_to_ecr.aws_codebuild_project.deploy (caller: modules/batch_task_pipeline/build.tf)		
+checkov	1	modules/upload_to_ci_ecr_step/codebuild.tf	CKV_AWS_316	module.prowler_scan_enqueuer.module.upload_to_ecr_step.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/upload_to_ci_ecr_step/codebuild.tf	CKV_AWS_316	module.prowler_scanner.module.upload_to_ecr.aws_codebuild_project.deploy (caller: modules/batch_task_pipeline/build.tf)		
+checkov	1	modules/upload_to_ci_ecr_step/codebuild.tf	CKV_AWS_316	module.sandbox_aws_nuke.module.upload_to_ecr.aws_codebuild_project.deploy (caller: modules/sandbox_lambda_docker_pipeline/build.tf)		
+checkov	1	modules/upload_to_ci_ecr_step/codebuild.tf	CKV_AWS_316	module.sandbox_compliance_alerting.module.upload_to_ecr.aws_codebuild_project.deploy (caller: modules/sandbox_lambda_docker_pipeline/build.tf)		
+checkov	1	modules/upload_to_ci_ecr_step/codebuild.tf	CKV_AWS_316	module.security_hub_alert_processor.module.upload_to_ecr_step.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		
+checkov	1	modules/upload_to_ci_ecr_step/codebuild.tf	CKV_AWS_316	module.upload_to_ecr_step.aws_codebuild_project.deploy (caller: modules/docker_pipeline/build.tf)		
+checkov	1	modules/upload_to_ci_ecr_step/codebuild.tf	CKV_AWS_316	module.vault_policy_applier_corretto.module.upload_to_ecr_step.aws_codebuild_project.deploy (caller: modules/lambda_docker_pipeline/build.tf)		

@@ -1,9 +1,62 @@
-repos:   
+minimum_pre_commit_version: "4.7.0"
+default_install_hook_types: [pre-commit, pre-push]
+default_stages: [pre-commit, pre-push]
+exclude: (^|/)(\.terraform|\.terraform\.d|\.external_modules)/|\.tfstate(?:\..*)?$|\.tfplan$
+repos:
+  - repo: https://github.com/antonbabenko/pre-commit-terraform
+    rev: v1.109.2
+    hooks:
+      - id: terraform_fmt
+        args:
+          - --args=-check
+          - --args=-diff
+      - id: terraform_validate
+        pass_filenames: false
+        always_run: true
+        args:
+          - --tf-init-args=-backend=false
+          - --tf-init-args=-lockfile=readonly
+          - --hook-config=--parallelism-ci-cpu-cores=1
+          - --hook-config=--parallelism-limit=1
+          - bootstrap/providers.tf
+          - ci/providers.tf
+          - live/providers.tf
   - repo: local
-    hooks:       
+    hooks:
+      - id: terraform_tflint
+        name: Terraform TFLint (new findings)
+        entry: python3 scripts/check_baseline.py tflint
+        language: system
+        pass_filenames: false
+        always_run: true
+        verbose: true
+      - id: terraform_checkov
+        name: Terraform Checkov (new findings)
+        entry: python3 scripts/check_baseline.py checkov
+        language: system
+        pass_filenames: false
+        always_run: true
+        verbose: true
+      - id: terraform_trivy
+        name: Terraform Trivy (HIGH and CRITICAL, new findings)
+        verbose: true
+        entry: python3 scripts/check_baseline.py trivy
+        language: system
+        pass_filenames: false
+        always_run: true
+      - id: markdown
+        name: Markdown lint
+        entry: bash scripts/check.sh markdown
+        language: system
+        types: [markdown]
       - id: trufflehog
         name: TruffleHog
-        description: Detect secrets in your data.
-        entry: bash -c 'trufflehog --no-update git file://. --since-commit HEAD --results=verified,unknown --fail'
+        entry: bash scripts/check.sh trufflehog
         language: system
-        stages: ["pre-commit", "pre-push"]
+        pass_filenames: false
+        always_run: true
+      - id: shellcheck
+        name: ShellCheck
+        entry: bash scripts/check.sh shellcheck
+        language: system
+        types: [shell]

@@ -1,76 +1,60 @@
-### Pre-commit and TruffleHog Setup Guide
+# Shared local and CI checks
+Terraform formatting, validation, TFLint, Checkov, Markdown lint,
+ShellCheck, offline TruffleHog secret detection, and Trivy IaC checks.
 
-This guide explains how to set up and run TruffleHog v3 with pre-commit on your local machine.
+Trivy (HIGH and CRITICAL), TFLint, and Checkov reject new findings while accepting
+the reviewed legacy findings in `.checks-baseline.txt`. 
+The same policy runs locally, in Git hooks, and in the pipeline. Formatting, Terraform validation,
+Markdown lint, ShellCheck, and TruffleHog remain fully blocking. 
 
-1. Installing TruffleHog locally
-   \[TruffleHog]: https://github.com/trufflesecurity/trufflehog
-
-> Note: You need to make sure you're running TruffleHog v3.
-> Older versions (v2 or below) will not work with the pre-commit hook and may produce errors.
-
+## Developer setup
+Install Docker, Git, and Python 3.11 or newer. Start Docker before running checks
 ```bash
-trufflehog --version
-# Should show: TruffleHog 3.x.x
+uv tool install --upgrade pre-commit==4.7.0
+bash scripts/pre-commit.sh install --install-hooks
 ```
 
-2. Install pre-commit
-   Install pre-commit using your preferred method:
+Terraform formatting uses `terraform_fmt` from
+`antonbabenko/pre-commit-terraform`, pinned in `.pre-commit-config.yaml`.
 
-* Homebrew:
-
-```bash
-brew install pre-commit
-```
-
-* pip / pipx:
+To install that version locally without replacing a system installation:
 
 ```bash
-pip install pre-commit
+bash scripts/install-terraform.sh "$HOME/.local/bin"
+export PATH="$HOME/.local/bin:$PATH"
 ```
+The same repository also supplies `terraform_validate`,
+`terraform_tflint`, `terraform_trivy`, and `terraform_checkov`.
 
-3. Enable the Hooks
-   Run this once in the repo root to activate both commit and push hooks:
+The three baseline hooks all call scripts/check_baseline.py, which then runs scripts/pre-commit.sh. That script uses the upstream checks defined in scripts/scan-hooks.yaml. This also sets up the Docker-based Trivy launcher automatically,
+
+The tool compares machine-readable Trivy results with the baseline. The output shows the accepted legacy counts and details of any new findings.
+
 
 ```bash
-pre-commit install --hook-type pre-commit --hook-type pre-push
+pre-commit run terraform_trivy --all-files
 ```
-
-4. Run the TruffleHog Check
-
-* To scan all files
 
 ```bash
-pre-commit run trufflehog --all-files
+# Bash script which runs all the below checks at once
+bash scripts/check-ci.sh
+
+# Individual checks
+bash scripts/pre-commit.sh run terraform_fmt --all-files
+bash scripts/pre-commit.sh run terraform_validate --all-files
+bash scripts/pre-commit.sh run terraform_tflint --all-files
+bash scripts/pre-commit.sh run terraform_trivy --all-files
+bash scripts/pre-commit.sh run terraform_checkov --all-files
+bash scripts/pre-commit.sh run markdown --all-files
+bash scripts/pre-commit.sh run trufflehog --all-files
+bash scripts/pre-commit.sh run shellcheck --all-files
 ```
 
-* To scan only staged changes
+## CI and enforcement
 
-```bash
-pre-commit run trufflehog
-```
-
-* To get output in json format
-
-```bash
-trufflehog filesystem . --json
-```
-
-> Note: TruffleHog scan must pass before you can commit or push your changes.
-> This ensures that secrets are not accidentally added to the repository.
-
-### What to Do if the Scan Fails
-
-If TruffleHog detects secrets:
-
-1. Do not commit or push the changes.
-
-2. Review the JSON output to identify the file(s) and reason for detection.
-
-3. Remove or redact the secrets from your code or configuration.
-
-4. If the secret is legitimate and safe to ignore, discuss it with your team before allowing it.
-   You can follow the official TruffleHog documentation for guidance on using the --allow flag to
-   ignore specific files or patterns, creating custom rules to exclude certain secrets, or
-   adding `# trufflehog:ignore` comments directly in code to bypass detection.
-
-5. Re-run the scan to ensure no other secrets are detected before committing or pushing.
+The repository-specific PR buildspec installs the pinned runner and Terraform,
+then invokes
+`bash scripts/check-ci.sh` before validation/planning. The deployment buildspec
+does the same before each apply, before assuming the deployment role.
+The same new-findings-only policy applies in both buildspecs; no pipeline-wide failure
+suppression is used.
