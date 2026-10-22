@@ -87,7 +87,7 @@ apply: apply-ci apply-live
 .PHONY: apply-%
 apply-ci: export AWS_PROFILE := platsec-ci-RoleTerraformApplier
 apply-live: export AWS_PROFILE := platsec-ci-RoleTerraformApplier
-apply-%: fmt-check
+apply-%: fmt-check terraform
 	@cd ./$*
 	@rm -f .terraform/terraform.tfstate
 	@$(AWS_PROFILE_CMD) $(TF) init
@@ -107,7 +107,7 @@ plan-bootstrap: fmt
 
 .PHONY: apply-bootstrap
 apply-bootstrap: export AWS_PROFILE := platsec-ci-RoleTerraformApplier
-apply-bootstrap: fmt-check
+apply-bootstrap: fmt-check terraform
 	@cd ./bootstrap
 	@rm -f .terraform/terraform.tfstate
 	@$(AWS_PROFILE_CMD) $(TF) init
