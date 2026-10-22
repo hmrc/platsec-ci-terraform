@@ -38,7 +38,7 @@ module "access_logs" {
 
 module "state_bucket" {
   source        = "hmrc/s3-bucket-standard/aws"
-  version       = "3.3.1"
+  version       = "3.3.2"
   bucket_name   = local.tf_state_bucket_name
   force_destroy = false
 
@@ -57,7 +57,7 @@ module "state_bucket" {
 
 module "cf_templates_bucket" {
   source        = "hmrc/s3-bucket-standard/aws"
-  version       = "3.3.1"
+  version       = "3.3.2"
   bucket_name   = "cf-templates-1a94pgui3v5ft-eu-west-2"
   force_destroy = false
 
