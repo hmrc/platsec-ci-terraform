@@ -8,6 +8,7 @@ This folder contains the config for platsec-ci-terraform CI/CD pipeline
 make plan-ci
 ```
 
+
 ## Apply
 
 ```bash
