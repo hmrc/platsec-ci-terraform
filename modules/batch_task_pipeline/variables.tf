@@ -7,6 +7,12 @@ variable "pipeline_name" {
   type = string
 }
 
+variable "require_production_approval" {
+  type        = bool
+  description = "Whether manual approval is required before production deployment"
+  default     = true
+}
+
 variable "src_org" {
   type    = string
   default = "hmrc"

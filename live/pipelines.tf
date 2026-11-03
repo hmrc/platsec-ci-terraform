@@ -414,11 +414,12 @@ module "prowler_scanner" {
   pipeline_name = "prowler-scanner"
   src_repo      = "prowler-scanner"
 
-  ecr_url                   = module.prowler_scanner_repository.url
-  ecr_arn                   = module.prowler_scanner_repository.arn
-  job_definition_name       = "batch-prowler-scanner-jd"
-  build_timeout_in_minutes  = 20
-  deploy_timeout_in_minutes = 10
+  ecr_url                     = module.prowler_scanner_repository.url
+  ecr_arn                     = module.prowler_scanner_repository.arn
+  job_definition_name         = "batch-prowler-scanner-jd"
+  build_timeout_in_minutes    = 20
+  deploy_timeout_in_minutes   = 10
+  require_production_approval = false
 
   accounts                 = local.accounts
   codeconnection_arn       = data.aws_codestarconnections_connection.this.arn
