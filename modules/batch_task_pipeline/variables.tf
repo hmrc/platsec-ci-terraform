@@ -108,3 +108,9 @@ variable "tags" {
   description = "A map of key, value pairs to be added to resources as tags"
   default     = {}
 }
+
+variable "require_production_approval" {
+  type        = bool
+  description = "Whether manual approval is required before production deployment"
+  default     = true
+}

@@ -119,20 +119,24 @@ resource "aws_codepipeline" "codepipeline" {
     }
   }
 
-  stage {
-    name = "Approve_Production"
+  dynamic "stage" {
+    for_each = var.require_production_approval ? [1] : []
 
-    action {
-      name     = "Approve_Production"
-      category = "Approval"
-      owner    = "AWS"
-      provider = "Manual"
-      version  = "1"
+    content {
+      name = "Approve_Production"
 
-      configuration = {
-        NotificationArn : var.sns_topic_arn,
-        ExternalEntityLink : "https://github.com/${var.src_org}/${var.src_repo}/commit/#{SourceVariables.CommitId}"
-        CustomData : "#{SourceVariables.CommitMessage}"
+      action {
+        name     = "Approve_Production"
+        category = "Approval"
+        owner    = "AWS"
+        provider = "Manual"
+        version  = "1"
+
+        configuration = {
+          NotificationArn : var.sns_topic_arn,
+          ExternalEntityLink : "https://github.com/${var.src_org}/${var.src_repo}/commit/#{SourceVariables.CommitId}"
+          CustomData : "#{SourceVariables.CommitMessage}"
+        }
       }
     }
   }
