@@ -168,6 +168,7 @@ module "n8n_repository" {
 
   repository_name            = "platsec-n8n"
   allow_read_account_id_list = local.all_platsec_account_ids
+  image_tag_mutability       = "MUTABLE"
 
   tags = {
     service = "platsec_n8n"
