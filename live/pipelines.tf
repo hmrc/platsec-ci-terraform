@@ -1,29 +1,3 @@
-module "compliance_alerting" {
-  source = "../modules//lambda_docker_pipeline"
-
-  pipeline_name = "compliance-alerting"
-  src_repo      = "platsec-compliance-alerting"
-  branch        = "main"
-
-
-  lambda_function_name = "platsec_compliance_alerting_lambda"
-  ecr_arn              = module.compliance_alerting_repository.arn
-  ecr_url              = module.compliance_alerting_repository.url
-
-  accounts                 = local.accounts
-  codeconnection_arn       = data.aws_codestarconnections_connection.this.arn
-  sns_topic_arn            = local.ci_alerts_sns_topic_arn
-  sns_kms_key_arn          = local.ci_alerts_sns_topic_kms_arn
-  access_log_bucket_id     = local.access_log_bucket_id
-  admin_roles              = local.tf_admin_roles
-  vpc_config               = local.vpc_config
-  agent_security_group_ids = local.agent_security_group_ids
-
-  tags = {
-    service = "compliance_alerting"
-  }
-}
-
 module "bitwarden_manager" {
   source = "../modules//lambda_docker_pipeline"
 
@@ -240,30 +214,6 @@ module "sandbox_aws_nuke" {
 
   tags = {
     service = "sandbox_aws_nuke"
-  }
-}
-
-module "sandbox_compliance_alerting" {
-  source = "../modules//sandbox_lambda_docker_pipeline"
-
-  pipeline_name = "sandbox-compliance-alerting"
-  src_repo      = "platsec-compliance-alerting"
-  branch        = "sandbox"
-
-  lambda_function_name = "platsec_compliance_alerting_lambda"
-  ecr_arn              = module.compliance_alerting_repository.arn
-  ecr_url              = module.compliance_alerting_repository.url
-
-  accounts                 = local.accounts
-  codeconnection_arn       = data.aws_codestarconnections_connection.this.arn
-  sns_topic_arn            = local.ci_alerts_sns_topic_arn
-  access_log_bucket_id     = local.access_log_bucket_id
-  admin_roles              = local.tf_admin_roles
-  vpc_config               = local.vpc_config
-  agent_security_group_ids = local.agent_security_group_ids
-
-  tags = {
-    service = "sandbox_compliance_alerting"
   }
 }
 

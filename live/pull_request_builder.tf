@@ -131,25 +131,6 @@ module "cloudtrail_events_monitor_pr_builder" {
   }
 }
 
-module "compliance_alerting_pr_builder" {
-
-  source = "../modules//pull_request_builder"
-
-  codeconnection_arn   = data.aws_codestarconnections_connection.this.arn
-  src_repo             = "platsec-compliance-alerting"
-  buildspec            = "compliance-alerting.yaml"
-  docker_required      = true
-  project_name         = "compliance-alerting-pr-builder"
-  project_assume_roles = {}
-
-  vpc_config               = local.vpc_config
-  agent_security_group_ids = local.agent_security_group_ids
-
-  tags = {
-    service = "compliance-alerting"
-  }
-}
-
 module "platsec_scanner_pr_builder" {
 
   source = "../modules//pull_request_builder"
