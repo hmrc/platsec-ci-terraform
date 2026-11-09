@@ -75,18 +75,6 @@ module "vpc_flow_logs_splunk_lambda_repository" {
   }
 }
 
-
-module "compliance_alerting_repository" {
-  source = "../modules//ecr_repository"
-
-  repository_name            = "compliance-alerting"
-  allow_read_account_id_list = local.all_platsec_account_ids
-
-  tags = {
-    service = "compliance_alerting"
-  }
-}
-
 module "github_admin_report_repository" {
   source = "../modules//ecr_repository"
 
