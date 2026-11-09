@@ -243,6 +243,7 @@ checkov	1	modules/ecr_repository/main.tf	CKV_AWS_136	module.security_hub_alert_p
 checkov	1	modules/ecr_repository/main.tf	CKV_AWS_136	module.security_reports_frontend_repository.aws_ecr_repository.ecr_repository (caller: live/ecr_repositories.tf)		
 checkov	1	modules/ecr_repository/main.tf	CKV_AWS_136	module.vault_policy_applier_repository.aws_ecr_repository.ecr_repository (caller: live/ecr_repositories.tf)		
 checkov	1	modules/ecr_repository/main.tf	CKV_AWS_136	module.vpc_flow_logs_splunk_lambda_repository.aws_ecr_repository.ecr_repository (caller: live/ecr_repositories.tf)		
+checkov	1	modules/ecr_repository/main.tf	CKV_AWS_51	module.n8n_repository.aws_ecr_repository.ecr_repository (caller: live/ecr_repositories.tf)		
 checkov	1	modules/git_tag_step/codebuild.tf	CKV_AWS_147	module.tf-s3-bucket-core.module.git_tag_step.aws_codebuild_project.git_tag (caller: modules/terraform_module_pipeline/build.tf)		
 checkov	1	modules/git_tag_step/codebuild.tf	CKV_AWS_147	module.tf-s3-bucket-standard.module.git_tag_step.aws_codebuild_project.git_tag (caller: modules/terraform_module_pipeline/build.tf)		
 checkov	1	modules/git_tag_step/codebuild.tf	CKV_AWS_316	module.tf-s3-bucket-core.module.git_tag_step.aws_codebuild_project.git_tag (caller: modules/terraform_module_pipeline/build.tf)		
