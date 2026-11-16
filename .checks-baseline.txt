@@ -63,6 +63,7 @@ checkov	1	bootstrap/gpg_private_key.tf	CKV2_AWS_57	aws_secretsmanager_secret.psb
 checkov	1	bootstrap/s3.tf	CKV_TF_1	cf_templates_bucket		
 checkov	1	bootstrap/s3.tf	CKV_TF_1	state_bucket		
 checkov	1	ci/external_github_secret.tf	CKV2_AWS_57	aws_secretsmanager_secret.external_github_token		
+checkov	1	ci/github_admin_tool_token_secret.tf	CKV2_AWS_57	aws_secretsmanager_secret.github_admin_tool_token		
 checkov	1	ci/pagerduty_secret.tf	CKV2_AWS_57	aws_secretsmanager_secret.pagerduty_lab_services_key		
 checkov	1	ci/pagerduty_secret.tf	CKV2_AWS_57	aws_secretsmanager_secret.pagerduty_live_services_key		
 checkov	1	ci/slack_api_secret.tf	CKV2_AWS_57	aws_secretsmanager_secret.slack_v2_api_key		
