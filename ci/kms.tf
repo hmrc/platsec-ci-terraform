@@ -170,3 +170,46 @@ resource "aws_kms_alias" "pagerduty_lab_services_key" {
   name          = "alias/service_accounts_pagerduty_lab_services_key"
   target_key_id = aws_kms_key.pagerduty_lab_services_key.id
 }
+
+module "github_admin_tool_token_kms_policy" {
+  source = "../modules/kms_key_policy"
+
+  read_roles = concat(
+    local.github_admin_tool_token_consumer_role_arns,
+    [
+      local.terraform_planner_role,
+      "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleSecurityEngineer",
+    ]
+  )
+
+  describe_roles = concat(
+    local.github_admin_tool_token_consumer_terraform_role_arns,
+    [
+      "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleProwlerScanner"
+    ]
+  )
+
+  write_roles = [
+    local.terraform_applier_role,
+    "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleSecurityEngineer",
+  ]
+
+  admin_roles = [
+    local.terraform_applier_role,
+    "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/RoleKmsAdministrator",
+  ]
+}
+
+resource "aws_kms_key" "github_admin_tool_token" {
+  description                        = "Encrypts the shared github_admin_tool_token secret"
+  bypass_policy_lockout_safety_check = false
+  deletion_window_in_days            = 30
+  enable_key_rotation                = true
+  rotation_period_in_days            = 90
+  policy                             = module.github_admin_tool_token_kms_policy.policy_document_json
+}
+
+resource "aws_kms_alias" "github_admin_tool_token" {
+  name          = "alias/github-admin-tool-token"
+  target_key_id = aws_kms_key.github_admin_tool_token.id
+}
